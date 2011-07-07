@@ -1,0 +1,14 @@
+# Ignore build related files
+doc
+pkg/*.gem
+
+# Ignore common crap
+.DS_Store
+Thumbs.db
+
+# Ignore all log files
+log/database/dev/*.log
+log/database/live/*.log
+
+# Keep those funky gitkeep files
+!.gitkeep

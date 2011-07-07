@@ -1,0 +1,4 @@
+module <%= classname %>
+  #:nodoc:
+  Version = '0.1'
+end
