@@ -39,6 +39,7 @@ autocmd! FileType textile  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandt
 autocmd! FileType markdown setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType rst      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType vim      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 autocmd! FileType perl     setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 autocmd! FileType php      setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
@@ -51,4 +52,11 @@ let NERDTreeShowBookmarks = 0
 match Todo /\s\+$/
 
 " Removes all trailing whitespace
-:command! Trim %s/\s\+$//g
+function! Trim()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//eg
+  call cursor(l, c)
+:endfunction
+
+autocmd! BufWritePre * :call Trim()
