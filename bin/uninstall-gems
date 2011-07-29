@@ -1,0 +1,12 @@
+#!/usr/bin/env ruby
+ignore = ['rubygems-update', 'bundler']
+gems   = `gem list --local --no-versions`.gsub('*** LOCAL GEMS ***', '').strip
+gems   = gems.split("\n")
+
+puts "Uninstalling #{gems.size} gems"
+
+gems.each do |gem|
+  if !ignore.include?(gem)
+    puts `gem uninstall #{gem} -a -x -I 2>&1`
+  end
+end
