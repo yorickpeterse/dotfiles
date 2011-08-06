@@ -40,6 +40,8 @@ puts "Uninstalling #{gems.size} gems"
 
 gems.each do |gem|
   if !ignore.include?(gem)
-    puts `gem uninstall #{gem} -a -x -I 2>&1` if @options[:verbose] === true
+    output = `gem uninstall #{gem} -a -x -I 2>&1`
+
+    puts output if @options[:verbose] === true
   end
 end
