@@ -1,6 +1,10 @@
 require File.expand_path('../lib/<%= name %>', __FILE__)
 
-task_dir = File.expand_path('../task', __FILE__)
+module <%= classname %>
+  Gemspec = Gem::Specification::load(File.expand_path('../<%= name %>.gemspec', __FILE__))
+end
+
+task_dir = File.expand_path('../lib/<%= name %>/task', __FILE__)
 
 Dir.glob("#{task_dir}/*.rake").each do |f|
   import(f)
