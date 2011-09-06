@@ -1,55 +1,33 @@
-require 'find'
-
+# Task group used for building various elements such as the Gem and the
+# documentation.
 namespace :build do
-
   desc 'Builds the documentation using YARD'
   task :doc do
-    gem_path = File.expand_path('../../', __FILE__)
+    gem_path = File.expand_path('../../../../', __FILE__)
     command  = "yard doc #{gem_path}/lib -m markdown -M rdiscount -o #{gem_path}/doc "
-    command += "-r #{gem_path}/README.md --private --protected "
-    command += "--files #{gem_path}/LICENSE"
+    command += "-r #{gem_path}/README.md --private --protected"
 
     sh(command)
   end
 
-  desc 'Builds a new Gem and installs it'
+  desc 'Builds a new Gem'
   task :gem do
-    gem_path = File.expand_path('../../', __FILE__)
+    gem_path     = File.expand_path('../../../../', __FILE__)
+    gemspec_path = File.join(
+      gem_path,
+      "#{<%= classname %>::Gemspec.name}-#{<%= classname %>::Gemspec.version.version}.gem"
+    )
+
+    pkg_path = File.join(
+      gem_path,
+      'pkg',
+      "#{<%= classname %>::Gemspec.name}-#{<%= classname %>::Gemspec.version.version}.gem"
+    )
 
     # Build and install the gem
-    sh("gem build #{gem_path}/<%= name %>.gemspec")
-    sh("mv #{gem_path}/<%= name %>-#{<%= classname %>::Version}.gem #{gem_path}/pkg")
-    sh("gem install #{gem_path}/pkg/<%= name %>-#{<%= classname %>::Version}.gem")
+    sh('gem', 'build'     , File.join(gem_path, '<%= name %>.gemspec'))
+    sh('mv' , gemspec_path, pkg_path)
+    sh('gem', 'install'   , pkg_path)
   end
+end # namespace :build
 
-  desc 'Builds the MANIFEST file'
-  task :manifest do
-    gem_path     = File.expand_path('../../', __FILE__)
-    ignore_exts  = ['.gem', '.gemspec', '.swp']
-    ignore_files = ['.DS_Store', '.gitignore']
-    ignore_dirs  = ['.git', '.yardoc', 'spec', 'pkg', 'doc']
-    files        = ''
-    
-    Find.find(gem_path) do |f|
-      f[gem_path] = ''
-      f.gsub!(/^\//, '')
-
-      # Ignore directories
-      if !File.directory?(f) and !ignore_exts.include?(File.extname(f)) and !ignore_files.include?(File.basename(f))
-        files += "#{f}\n"
-      else
-        Find.prune if ignore_dirs.include?(f)
-      end
-    end
-    
-    # Time to write the MANIFEST file
-    begin
-      handle = File.open 'MANIFEST', 'w'
-      handle.write files.strip
-      puts "The MANIFEST file has been updated."
-    rescue
-      abort "The MANIFEST file could not be written."
-    end
-  end
-
-end

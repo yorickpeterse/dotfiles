@@ -51,7 +51,7 @@ end
 #
 # @author Yorick Peterse
 # @param  [Hash] attributes A hash containing all the attributes to set and
-# their values.
+#  their values.
 # @return [Class]
 #
 def stub(attributes)

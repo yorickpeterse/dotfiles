@@ -28,6 +28,10 @@ filetype plugin indent on
 syntax on
 color autumn
 
+" Enable Pathogen
+runtime bundle/pathogen/autoload/pathogen.vim
+call pathogen#infect()
+
 " Set a few filetypes for some uncommon extendsions
 autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
@@ -35,6 +39,7 @@ autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 
 " Special indentation settings for PHP and HTML
 autocmd! FileType ruby     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType lua      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType textile  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType markdown setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType rst      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab

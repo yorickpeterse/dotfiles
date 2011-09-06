@@ -6,9 +6,9 @@ pkg/*.gem
 .DS_Store
 Thumbs.db
 
-# Ignore all log files
-log/database/dev/*.log
-log/database/live/*.log
+# Ignore all configuration files
+config/config.rb
+config/database.rb
 
 # Keep those funky gitkeep files
 !.gitkeep
