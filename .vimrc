@@ -18,15 +18,22 @@ set secure
 " Font settings
 set guifont=Consolas:h14
 
+filetype plugin indent on
+syntax on
+color autumn
+
 " Indentation settings
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
 set expandtab
 
-filetype plugin indent on
-syntax on
-color autumn
+" Customize various key settings and commands.
+let mapleader             = ','
+let maplocalleader        = '\'
+let g:user_zen_leader_key = '<c-e>'
+let g:user_zen_settings   = {'indentation' : '    '}
+let NERDTreeShowBookmarks = 0
 
 " Enable Pathogen
 runtime bundle/pathogen/autoload/pathogen.vim
@@ -36,6 +43,7 @@ call pathogen#infect()
 autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
+autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
 
 " Special indentation settings for PHP and HTML
 autocmd! FileType ruby     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
@@ -48,10 +56,6 @@ autocmd! FileType vim      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandt
 
 autocmd! FileType perl     setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 autocmd! FileType php      setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
-
-let g:user_zen_leader_key = '<c-e>'
-let g:user_zen_settings   = {'indentation' : '    '}
-let NERDTreeShowBookmarks = 0
 
 " Show trailing whitespace
 match Todo /\s\+$/
