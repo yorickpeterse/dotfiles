@@ -28,6 +28,3 @@
 [submodule ".vim/bundle/tlib"]
 	path = .vim/bundle/tlib
 	url = https://github.com/tomtom/tlib_vim.git
-[submodule ".vim/bundle/snipmate_snippets"]
-	path = .vim/bundle/snipmate_snippets
-	url = git://github.com/honza/snipmate-snippets.git
