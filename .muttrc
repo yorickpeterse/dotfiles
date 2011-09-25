@@ -1,0 +1,85 @@
+# General Email settings
+set sort              = 'threads'
+set sort_aux          = 'reverse-last-date-received'
+set pager_index_lines = 7
+set pager_context     = 1
+set mail_check        = 60
+set certificate_file  = '~/.mutt/certificates'
+set net_inc           = 5
+set narrow_tree       = yes
+set delete            = 'ask-yes'
+set read_inc          = 100
+set charset           = 'utf-8'
+set send_charset      = 'utf-8'
+set markers           = no
+
+auto_view text/html
+
+unset imap_passive
+unset record
+
+# Cache settings
+set header_cache     = '~/.mutt/cache/headers'
+set message_cachedir = '~/.mutt/cache/bodies'
+
+# General Email settings
+set realname  = 'Yorick Peterse'
+set mbox_type = 'Maildir'
+set folder    = '~/Mail'
+
+set envelope_from
+
+# General IMAP settings
+set imap_keepalive = 360
+set imap_idle      = yes
+set ssl_starttls   = yes
+
+set imap_check_subscribed
+
+# GPG settings
+source '~/.mutt/gpg'
+
+# Load all the mailboxes from offline-imap
+source '~/.mutt/mailboxes'
+
+# Various hooks
+# Collapses all threaded Emails.
+folder-hook . exec collapse-all
+
+# Load all Email accounts.
+folder-hook 'yorickpeterse@gmail.com' \
+    source '~/.mutt/accounts/yorickpeterse@gmail.com'
+
+folder-hook 'yorick@isset.nl' \
+    source '~/.mutt/accounts/yorick@isset.nl'
+
+# Key bindings
+bind index \CG imap-fetch-mail
+
+# Colors, nicked from squeeks.
+color header brightblue   default "^date:"
+color header green        default "^cc"
+color header brightblue   default "^organi[sz]ation"
+color header brightblue   default "^x-newsreader"
+color header brightblue   default "^x-mailing-list"
+color header brightblue   default "^posted-to"
+color header brightblue   default "^message-id"
+color header cyan         default "^user-agent"
+color header cyan         default "^x-mailer"
+color header green        default "^To:"
+color header brightyellow default "^subject"
+color header red          default "^From:"
+
+# Highlight different Email statuses.
+color index blue    default "~D"
+color index yellow  default "~N"
+color index yellow  default "~O"
+color index green   default "~S"
+color index red     default "~F"
+color index cyan    default "~T"
+
+color status white blue
+
+color signature  red     default
+color tilde      red     default
+color attachment magenta default

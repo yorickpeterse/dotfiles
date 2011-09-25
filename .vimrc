@@ -6,6 +6,7 @@ set number
 set backspace=indent,eol,start
 set omnifunc=syntaxcomplete#Complete
 set nowrap
+set backupskip=/tmp/*,/private/tmp/*
 
 " Printer options
 set printoptions=number:n
