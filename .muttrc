@@ -23,9 +23,7 @@ set header_cache     = '~/.mutt/cache/headers'
 set message_cachedir = '~/.mutt/cache/bodies'
 
 # General Email settings
-set realname  = 'Yorick Peterse'
-set mbox_type = 'Maildir'
-set folder    = '~/Mail'
+set realname = 'Yorick Peterse'
 
 set envelope_from
 
@@ -39,19 +37,12 @@ set imap_check_subscribed
 # GPG settings
 source '~/.mutt/gpg'
 
-# Load all the mailboxes from offline-imap
-source '~/.mutt/mailboxes'
-
 # Various hooks
 # Collapses all threaded Emails.
 folder-hook . exec collapse-all
 
 # Load all Email accounts.
-folder-hook 'yorickpeterse@gmail.com' \
-    source '~/.mutt/accounts/yorickpeterse@gmail.com'
-
-folder-hook 'yorick@isset.nl' \
-    source '~/.mutt/accounts/yorick@isset.nl'
+source 'cat ~/.mutt/accounts/*|'
 
 # Key bindings
 bind index \CG imap-fetch-mail
