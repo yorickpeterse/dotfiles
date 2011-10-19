@@ -6,13 +6,13 @@ set pager_context     = 1
 set mail_check        = 60
 set certificate_file  = '~/.mutt/certificates'
 set net_inc           = 5
-set narrow_tree       = yes
 set delete            = 'ask-yes'
 set read_inc          = 100
 set charset           = 'utf-8'
 set send_charset      = 'utf-8'
 set markers           = no
 
+alternative_order text/plain text/html
 auto_view text/html
 
 unset imap_passive
@@ -44,8 +44,10 @@ folder-hook . exec collapse-all
 # Load all Email accounts.
 source 'cat ~/.mutt/accounts/*|'
 
-# Key bindings
-bind index \CG imap-fetch-mail
+# Key bindings and macros
+macro index \CG imap-fetch-mail
+macro index <f2> '<change-folder>imaps://imap.gmail.com<enter>'
+macro index <f3> '<change-folder>imap://mail.isset.nl<enter>'
 
 # Colors, nicked from squeeks.
 color header brightblue   default "^date:"

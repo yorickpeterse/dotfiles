@@ -1,33 +1,42 @@
-# Task group used for building various elements such as the Gem and the
-# documentation.
 namespace :build do
   desc 'Builds the documentation using YARD'
   task :doc do
-    gem_path = File.expand_path('../../../../', __FILE__)
-    command  = "yard doc #{gem_path}/lib -m markdown -M rdiscount -o #{gem_path}/doc "
-    command += "-r #{gem_path}/README.md --private --protected"
+    root = File.expand_path('../../', __FILE__)
+    Dir.chdir(root)
 
-    sh(command)
+    sh('yard doc')
   end
 
   desc 'Builds a new Gem'
   task :gem do
-    gem_path     = File.expand_path('../../../../', __FILE__)
-    gemspec_path = File.join(
-      gem_path,
-      "#{<%= classname %>::Gemspec.name}-#{<%= classname %>::Gemspec.version.version}.gem"
-    )
-
-    pkg_path = File.join(
-      gem_path,
-      'pkg',
-      "#{<%= classname %>::Gemspec.name}-#{<%= classname %>::Gemspec.version.version}.gem"
-    )
+    root = File.expand_path('../../../../', __FILE__)
+    name = "#{<%= classname %>::Gemspec.name}-#{<%= classname %>::Gemspec.version.version}.gem"
+    path = File.join(root, name)
+    pkg  = File.join(root, 'pkg', name)
 
     # Build and install the gem
-    sh('gem', 'build'     , File.join(gem_path, '<%= name %>.gemspec'))
-    sh('mv' , gemspec_path, pkg_path)
-    sh('gem', 'install'   , pkg_path)
+    sh('gem', 'build', File.join(root, '<%= name %>.gemspec'))
+    sh('mv' , path, pkg)
+    sh('gem', 'install', pkg)
   end
-end # namespace :build
+
+  # Stolen from Ramaze
+  desc 'Builds a list of all the people that have contributed'
+  task :authors do
+    authors = Hash.new(0)
+
+    `git shortlog -nse`.scan(/(\d+)\s(.+)\s<(.*)>$/) do |count, name, email|
+      authors[[name, email]] += count.to_i
+    end
+
+    File.open('AUTHORS', 'w+') do |io|
+      io.puts "Following persons have contributed to Zen."
+      io.puts '(Sorted by number of submitted patches, then alphabetically)'
+      io.puts ''
+      authors.sort_by { |(n,e),c| [-c, n.downcase] }.each do |(name, email), count|
+        io.puts("%6d %s <%s>" % [count, name, email])
+      end
+    end
+  end
+end
 
