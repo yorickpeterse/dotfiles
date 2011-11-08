@@ -16,8 +16,13 @@ set printoptions=header:0
 set exrc
 set secure
 
-" Font settings
-set guifont=Consolas:h14
+" Font settings. I use Droid Sans Mono on Linux based systems and Consolas on
+" others (Inconsolata doesn't render too well on Linux based OS').
+if has('gui_gtk2')
+  set guifont=Droid\ Sans\ Mono\ 10
+else
+  set guifont=Consolas:h14
+endif
 
 filetype plugin indent on
 syntax on
@@ -36,6 +41,12 @@ let g:user_zen_leader_key = '<c-e>'
 let g:user_zen_settings   = {'indentation' : '    '}
 let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
+
+" Share the OS' clipboard with Vim.
+set clipboard=unnamed
+
+" Toggle paste mode
+set pastetoggle=<F2>
 
 " Enable Pathogen
 runtime bundle/pathogen/autoload/pathogen.vim
