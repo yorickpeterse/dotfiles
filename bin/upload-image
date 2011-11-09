@@ -1,0 +1,35 @@
+#!/usr/bin/env ruby
+
+require 'net/http'
+require 'net/scp'
+require 'uri'
+
+unless ARGV[0]
+  abort 'You need to specify a file'
+end
+
+unless File.exist?(ARGV[0])
+  abort 'The specified file does not exist'
+end
+
+file     = ARGV[0]
+basename = File.basename(file)
+url      = URI.encode(ENV['IMAGE_URL'] + basename)
+service  = URI.parse("http://is.gd/create.php?format=simple&url=#{url}")
+
+# Use xclip or pbcopy?
+clip = `which xclip`.strip.empty? ? 'pbcopy' : 'xclip'
+
+Net::SCP.upload!(ENV['IMAGE_HOST'], ENV['IMAGE_USER'], file, ENV['IMAGE_PATH'])
+
+Net::HTTP.start(service.host) do |http|
+  status, response = http.get(service.request_uri)
+
+  if status.code.to_i == 200
+    `echo #{response.strip} | #{clip}`
+    puts 'The image has been uploaded and copied to your clipboard'
+  else
+    abort 'Something went wrong with uploading the image: got HTTP status ' \
+      "code #{status.code} instead of 200"
+  end
+end
