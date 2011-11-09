@@ -16,10 +16,10 @@ set printoptions=header:0
 set exrc
 set secure
 
-" Font settings. I use Droid Sans Mono on Linux based systems and Consolas on
+" Font settings. I use Monaco on Linux based systems and Consolas on
 " others (Inconsolata doesn't render too well on Linux based OS').
 if has('gui_gtk2')
-  set guifont=Droid\ Sans\ Mono\ 10
+  set guifont=Monaco\ 10
 else
   set guifont=Consolas:h14
 endif
@@ -57,18 +57,18 @@ autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
+autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 
 " Special indentation settings for PHP and HTML
 autocmd! FileType ruby     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType lua      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType textile  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType markdown setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType rst      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType vim      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
-autocmd! FileType perl     setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
-autocmd! FileType php      setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+" Use actual tabs instead of spaces for Perl and PHP.
+autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
+autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 
 " Show trailing whitespace
 match Todo /\s\+$/
