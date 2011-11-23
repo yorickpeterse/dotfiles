@@ -42,7 +42,7 @@ echo 'Submitting to is.gd...'
 api_response=`curl -s "$is_gd$img_url"`
 
 if [[ ! `echo $api_response | grep 'error: please' -i` ]]; then
-  `echo $api_response | $clip`
+  echo $api_response | $clip
   echo "The short URL ($api_response) has been copied to your clipboard"
 else
   echo "The URL could not be retrieved from is.gd: $api_response"
