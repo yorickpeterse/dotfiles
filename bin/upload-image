@@ -1,35 +1,49 @@
-#!/usr/bin/env ruby
+#!/usr/bin/env bash
 
-require 'net/http'
-require 'net/scp'
-require 'uri'
+if [[ -z $1 ]]; then
+  echo 'You need to specify an image to upload'
+  exit 1
+fi
 
-unless ARGV[0]
-  abort 'You need to specify a file'
-end
+if [[ ! -e $1 ]]; then
+  echo 'The specified file does not exist'
+  exit 1
+fi
 
-unless File.exist?(ARGV[0])
-  abort 'The specified file does not exist'
-end
+echo 'Preparing file...'
 
-file     = ARGV[0]
-basename = File.basename(file)
-url      = URI.encode(ENV['IMAGE_URL'] + basename)
-service  = URI.parse("http://is.gd/create.php?format=simple&url=#{url}")
+is_gd='http://is.gd/create.php?format=simple&url='
+img_url=`basename "$1"`
+lower_name=`perl -e "my \\$str = lc '$img_url'; \
+  \\$str =~ s/\s+/_/g; \
+  \\$str =~ s/-/_/g; \
+  \\$str =~ s/_{2,}/_/g; \
+  print \\$str";`
 
-# Use xclip or pbcopy?
-clip = `which xclip`.strip.empty? ? 'pbcopy' : 'xclip'
+# Build the URL to use for the is.gd API
+img_url=`perl -e "use URI::Escape; print lc uri_escape(\"$lower_name\");"`
+img_url="$IMAGE_URL$img_url"
 
-Net::SCP.upload!(ENV['IMAGE_HOST'], ENV['IMAGE_USER'], file, ENV['IMAGE_PATH'])
+# Determine what clipboard app to use
+if [[ `type -P xclip` ]]; then
+  clip='xclip -selection clipboard'
+else
+  clip='pbcopy'
+fi
 
-Net::HTTP.start(service.host) do |http|
-  status, response = http.get(service.request_uri)
+# Upload the image
+echo 'Uploading image...'
 
-  if status.code.to_i == 200
-    `echo #{response.strip} | #{clip}`
-    puts 'The image has been uploaded and copied to your clipboard'
-  else
-    abort 'Something went wrong with uploading the image: got HTTP status ' \
-      "code #{status.code} instead of 200"
-  end
-end
+`scp -q "$1" $IMAGE_USER@$IMAGE_HOST:$IMAGE_PATH$lower_name`
+
+# Submit it to is.gd
+echo 'Submitting to is.gd...'
+
+api_response=`curl -s "$is_gd$img_url"`
+
+if [[ ! `echo $api_response | grep 'error: please' -i` ]]; then
+  `echo $api_response | $clip`
+  echo "The short URL ($api_response) has been copied to your clipboard"
+else
+  echo "The URL could not be retrieved from is.gd: $api_response"
+fi
