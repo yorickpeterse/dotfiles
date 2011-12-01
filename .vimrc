@@ -58,6 +58,7 @@ autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
+autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 
 " Special indentation settings for PHP and HTML
 autocmd! FileType ruby     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab

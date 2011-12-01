@@ -1,0 +1,8 @@
+Zen::Language::Translation.add do |trans|
+  trans.language = '${1:language}'
+  trans.name     = '${2:name}'
+
+  trans.translate do |t|
+    t['${3:key}'] = '${4:value}'
+  end
+end
