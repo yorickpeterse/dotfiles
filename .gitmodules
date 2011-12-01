@@ -34,9 +34,6 @@
 [submodule ".vim/bundle/taglist"]
 	path = .vim/bundle/taglist
 	url = git://github.com/vim-scripts/taglist.vim.git
-[submodule ".vim/bundle/markdown_preview"]
-	path = .vim/bundle/markdown_preview
-	url = git://github.com/mkitt/markdown-preview.vim.git
 [submodule ".vim/bundle/vim_puppet"]
 	path = .vim/bundle/vim_puppet
 	url = git://github.com/rodjek/vim-puppet.git
