@@ -11,6 +11,7 @@ vim:
 	@git submodule update
 	@ln -s ./.vim ~/.vim
 	@ln -s ./.vimrc ~/.vimrc
+	@ln -s ./.gvimrc ~/.gvimrc
 
 tmux:
 	@cp ./.tmux.conf ~/.tmux.conf
