@@ -26,12 +26,12 @@ Icon?
 # this will prevent those gay directories from appearing in the Git repos
 .svn
 
-# Comitting all those silly YARD files is annoying as it usually results in HUGE commits
-# This ignores all meta files (which usually take up most of the commit space).
+# Comitting all those silly YARD files is annoying as it usually results in HUGE
+# commits This ignores all meta files (which usually take up most of the commit
+# space).
 .yardoc
 
-# .bak files are commonly used for local backups when trying out something new. It has
-# been a while since I last used those files (in the pre-git days) but it's good to ignore
-# them anyway.
+# .bak files are commonly used for local backups when trying out something new.
+# It has been a while since I last used those files (in the pre-git days) but
+# it's good to ignore them anyway.
 *.bak
-
