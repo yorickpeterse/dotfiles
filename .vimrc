@@ -60,12 +60,8 @@ autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 
-" Special indentation settings for PHP and HTML
-autocmd! FileType ruby     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType textile  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType markdown setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType yaml     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType vim      setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 " Use actual tabs instead of spaces for Perl and PHP.
 autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
