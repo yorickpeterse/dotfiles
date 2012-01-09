@@ -2,7 +2,7 @@ help:
 	@echo "Commands"
 	@echo
 	@echo "vim    # Sets up Vim"
-	@echo "tmux   # Copies the .tmux.conf file to Â~/"
+	@echo "tmux   # Copies the .tmux.conf file to ~/"
 	@echo "git    # Sets the global .gitignore"
 	@echo "mutt   # Creates all the files and folders for Mutt"
 
