@@ -11,6 +11,7 @@ set read_inc          = 100
 set charset           = 'utf-8'
 set send_charset      = 'utf-8'
 set markers           = no
+set editor            = 'gvim -f'
 
 alternative_order text/plain text/html
 auto_view text/html

@@ -4,6 +4,6 @@ source /home/yorickpeterse/.bashrc
 notify-send "Duply Backup" \
     "Duply will now create a backup of your home directory"
 
-duply home backup now 2>&1 > /dev/null
+duply home backup now
 
 notify-send "Duply Backup" "Finished backing up your home directory"

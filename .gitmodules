@@ -1,9 +1,6 @@
 [submodule ".vim/bundle/delimitmate"]
 	path = .vim/bundle/delimitmate
 	url = git://github.com/Raimondi/delimitMate.git
-[submodule ".vim/bundle/fugitive"]
-	path = .vim/bundle/fugitive
-	url = git://github.com/tpope/vim-fugitive.git
 [submodule ".vim/bundle/nerdtree"]
 	path = .vim/bundle/nerdtree
 	url = git://github.com/scrooloose/nerdtree.git
@@ -16,9 +13,6 @@
 [submodule ".vim/bundle/threesome"]
 	path = .vim/bundle/threesome
 	url = git://github.com/sjl/threesome.vim.git
-[submodule ".vim/bundle/vimball"]
-	path = .vim/bundle/vimball
-	url = git://github.com/vim-scripts/Vimball.git
 [submodule ".vim/bundle/zencoding"]
 	path = .vim/bundle/zencoding
 	url = git://github.com/mattn/zencoding-vim.git
@@ -34,6 +28,3 @@
 [submodule ".vim/bundle/taglist"]
 	path = .vim/bundle/taglist
 	url = git://github.com/vim-scripts/taglist.vim.git
-[submodule ".vim/bundle/vim_puppet"]
-	path = .vim/bundle/vim_puppet
-	url = git://github.com/YorickPeterse/vim-puppet.git
