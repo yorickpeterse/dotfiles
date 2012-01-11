@@ -7,6 +7,8 @@ set backspace=indent,eol,start
 set omnifunc=syntaxcomplete#Complete
 set nowrap
 set backupskip=/tmp/*,/private/tmp/*
+set clipboard=unnamed
+set pastetoggle=<F2>
 
 " Printer options
 set printoptions=number:n
@@ -42,15 +44,28 @@ let g:user_zen_settings   = {'indentation' : '    '}
 let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
 
-" Share the OS' clipboard with Vim.
-set clipboard=unnamed
-
-" Toggle paste mode
-set pastetoggle=<F2>
-
 " Enable Pathogen
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
+
+" Show trailing whitespace
+match Todo /\s\+$/
+
+function! Trim()
+  let l = line(".")
+  let c = col(".")
+  %s/\s\+$//eg
+  call cursor(l, c)
+:endfunction
+
+function! Email()
+  set ft=mail
+  set colorcolumn=72
+  set textwidth=72
+:endfunction
+
+" Automatically strip trailing whitespace.
+autocmd! BufWritePre * :call Trim()
 
 " Set a few filetypes for some uncommon extendsions
 autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
@@ -67,15 +82,5 @@ autocmd! FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 
-" Show trailing whitespace
-match Todo /\s\+$/
-
-" Removes all trailing whitespace
-function! Trim()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//eg
-  call cursor(l, c)
-:endfunction
-
-autocmd! BufWritePre * :call Trim()
+" Custom key bindings
+map <F3> :call Email()<CR><Esc>
