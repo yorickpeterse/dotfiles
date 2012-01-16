@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-
-echo "Creating SSH tunnel to yorickpeterse.com"
-ssh -CND 8888 yorickpeterse@yorickpeterse.com

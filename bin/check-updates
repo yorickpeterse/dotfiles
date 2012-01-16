@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-sudo pacman -Sy
-
-aarchup -t 600
