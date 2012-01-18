@@ -4,7 +4,6 @@ help:
 	@echo "vim    # Sets up Vim"
 	@echo "tmux   # Copies the .tmux.conf file to ~/"
 	@echo "git    # Sets the global .gitignore"
-	@echo "mutt   # Creates all the files and folders for Mutt"
 
 vim:
 	@git submodule init
@@ -19,8 +18,3 @@ tmux:
 git:
 	@cp .gitignore_global ${HOME}/.gitignore_global
 	@git config --global core.excludesfile ${HOME}/.gitignore_global
-
-mutt:
-	@mkdir -p ${HOME}/.mutt/cache/headers/
-	@mkdir ${HOME}/.mutt/cache/bodies/
-	@mkdir ${HOME}/.mutt/accounts/
