@@ -1,4 +1,4 @@
-" Autumn is a color scheme based on, how original, the colors of the autumn 
+" Autumn is a color scheme based on, how original, the colors of the autumn
 " (along with some added flavors). The original color scheme was developed
 " for Komodo Edit/IDE by Yorick Peterse (that's me!) and ported to Vim by
 " the following two chaps:
@@ -6,8 +6,8 @@
 "  * Kenneth Love
 "  * Chris Jones
 "
-" For more information go to this theme's Github page, which can be found here: 
-" https://github.com/YorickPeterse/Autumn.vim 
+" For more information go to this theme's Github page, which can be found here:
+" https://github.com/YorickPeterse/Autumn.vim
 "
 " Author:   Yorick Peterse
 " Credits:  Kenneth Love and Chris Jones, they originally ported this theme to Vim.
