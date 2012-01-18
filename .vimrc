@@ -1,6 +1,5 @@
 " General settings
 set nocompatible
-set colorcolumn=80
 set textwidth=80
 set number
 set backspace=indent,eol,start
@@ -10,6 +9,11 @@ set backupskip=/tmp/*,/private/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
 
+" colorcolumn doesn't work on slightly older versions of Vim.
+if version >= 703
+  set colorcolumn=80
+endif
+
 " Printer options
 set printoptions=number:n
 set printoptions=header:0
@@ -17,6 +21,16 @@ set printoptions=header:0
 " Allow per directory .vimrc files
 set exrc
 set secure
+
+" Enable Pathogen
+runtime bundle/pathogen/autoload/pathogen.vim
+call pathogen#infect()
+
+" Settings for Syntastic.
+set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_stl_format    = '[%E{Errors: %e, line %fe}%B{ | }'
+let g:syntastic_stl_format   .= '%W{Warnings: %w, line %fw}]'
 
 " Font settings. I use Monaco on Linux based systems and Consolas on
 " others (Inconsolata doesn't render too well on Linux based OS').
@@ -44,10 +58,6 @@ let g:user_zen_settings   = {'indentation' : '    '}
 let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
 
-" Enable Pathogen
-runtime bundle/pathogen/autoload/pathogen.vim
-call pathogen#infect()
-
 " Show trailing whitespace
 match Todo /\s\+$/
 
@@ -58,6 +68,8 @@ function! Trim()
   call cursor(l, c)
 :endfunction
 
+" Function that switches Vim into "Email" mode allowing me to write nicely
+" aligned Emails in Vim.
 function! Email()
   set ft=mail
   set colorcolumn=72
@@ -77,6 +89,7 @@ autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 
 autocmd! FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType vim  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 " Use actual tabs instead of spaces for Perl and PHP.
 autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
@@ -84,3 +97,4 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 
 " Custom key bindings
 map <F3> :call Email()<CR><Esc>
+map <F4> :Errors<CR><Esc>
