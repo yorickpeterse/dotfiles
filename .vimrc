@@ -8,6 +8,7 @@ set nowrap
 set backupskip=/tmp/*,/private/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
+set mouse=a
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
