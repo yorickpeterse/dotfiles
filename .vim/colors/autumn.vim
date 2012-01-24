@@ -93,20 +93,20 @@ hi Error        guifg=#ffffff guibg=#EB5D49 ctermfg=15  ctermbg=167  gui=none
 hi Directory    guifg=#7895B7 guibg=NONE    ctermfg=103 ctermbg=none gui=none
 
 " Commong syntax elements.
-hi Comment    guifg=#6B6B6B ctermfg=242 gui=none
-hi Todo       guifg=#cccccc ctermfg=252 gui=none
-hi Boolean    guifg=#EB5D49 ctermfg=167 gui=none
-hi String     guifg=#92AF72 ctermfg=107 gui=none
-hi Identifier guifg=#F3F2CC ctermfg=230 gui=none
-hi Function   guifg=#CBC983 ctermfg=186 gui=none
-hi Type       guifg=#eb5d49 ctermfg=167 gui=none
-hi Statement  guifg=#EB5D49 ctermfg=167 gui=none
-hi Keyword    guifg=#EB5D49 ctermfg=167 gui=none
-hi Constant   guifg=#F3F2CC ctermfg=230 gui=none
-hi Number     guifg=#B3EBBF ctermfg=151 gui=none
-hi PreProc    guifg=#faf4c6 ctermfg=230 gui=none
-hi Operator   guifg=#ffffff ctermfg=15  gui=none
-hi Special    guifg=#ffffff ctermfg=15  gui=none
+hi Comment    guifg=#6B6B6B gui=none ctermfg=242
+hi Todo       guifg=#cccccc gui=none ctermfg=252 guibg=NONE
+hi Boolean    guifg=#EB5D49 gui=none ctermfg=167
+hi String     guifg=#92AF72 gui=none ctermfg=107
+hi Identifier guifg=#F3F2CC gui=none ctermfg=230
+hi Function   guifg=#CBC983 gui=none ctermfg=186
+hi Type       guifg=#eb5d49 gui=none ctermfg=167
+hi Statement  guifg=#EB5D49 gui=none ctermfg=167
+hi Keyword    guifg=#EB5D49 gui=none ctermfg=167
+hi Constant   guifg=#F3F2CC gui=none ctermfg=230
+hi Number     guifg=#B3EBBF gui=none ctermfg=151
+hi PreProc    guifg=#faf4c6 gui=none ctermfg=230
+hi Operator   guifg=#ffffff gui=none ctermfg=15
+hi Special    guifg=#ffffff gui=none ctermfg=15
 
 " Ruby
 hi rubySymbol           guifg=#E8A75C guibg=NONE ctermfg=179
