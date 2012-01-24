@@ -37,10 +37,10 @@
 " * Python
 " * Javascript
 "
-" Other languages such as Java or more obscure ones such as Rust. As long as
-" there's a proper syntax highlighting plugin for the language this color scheme
-" should be able to handle it just fine. However, if this isn't the case feel
-" free to submit patches using Github.
+" Other languages such as Java or more obscure ones such as Rust are also
+" supported. As long as there's a proper syntax highlighting plugin for the
+" language this color scheme should be able to handle it just fine. However, if
+" this isn't the case feel free to submit patches using Github.
 "
 " Once installed you can activate it by running ``:color autumn`` in a Vim
 " session.
