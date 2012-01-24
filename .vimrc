@@ -60,7 +60,7 @@ let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
 
 " Show trailing whitespace
-match Todo /\s\+$/
+match Visual /\s\+$/
 
 function! Trim()
   let l = line(".")
