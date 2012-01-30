@@ -8,6 +8,7 @@ set nowrap
 set backupskip=/tmp/*,/private/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
+set mouse=a
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
@@ -58,9 +59,6 @@ let g:user_zen_settings   = {'indentation' : '    '}
 let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
 
-" Show trailing whitespace
-match Todo /\s\+$/
-
 function! Trim()
   let l = line(".")
   let c = col(".")
@@ -92,6 +90,7 @@ autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
+autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
 
 autocmd! FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
