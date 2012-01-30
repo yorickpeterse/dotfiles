@@ -76,6 +76,12 @@ function! Email()
   set textwidth=72
 :endfunction
 
+" Switches Vim back to normal mode.
+function! Normal()
+  set colorcolumn=80
+  set textwidth=80
+:endfunction
+
 " Automatically strip trailing whitespace.
 autocmd! BufWritePre * :call Trim()
 
@@ -97,4 +103,5 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 
 " Custom key bindings
 map <F3> :call Email()<CR><Esc>
-map <F4> :Errors<CR><Esc>
+map <F4> :call Normal()<CR><Esc>
+map <F5> :Errors<CR><Esc>
