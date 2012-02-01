@@ -1,1 +1,1 @@
-rvm use --create 1.9.2@<%= name %>
+rvm use --create 1.9.3@<%= name %>

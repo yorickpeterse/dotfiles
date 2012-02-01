@@ -2,9 +2,8 @@
 doc
 pkg/*.gem
 
-# Ignore common crap
+# Ignore common dotfiles
 .DS_Store
 Thumbs.db
 
-# Keep those funky gitkeep files
 !.gitkeep

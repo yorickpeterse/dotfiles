@@ -1,8 +1,7 @@
 require 'bacon'
 require 'stringio'
-require File.expand_path('../bacon/color_output', __FILE__)
 
-Bacon.extend(Bacon::ColorOutput)
+Bacon.extend(Bacon::TapOutput)
 Bacon.summary_on_exit
 
 ##

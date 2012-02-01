@@ -1,5 +1,5 @@
 namespace :build do
-  desc 'Builds the documentation using YARD'
+  desc 'Builds the documentation'
   task :doc do
     root = File.expand_path('../../', __FILE__)
     Dir.chdir(root)
@@ -21,7 +21,7 @@ namespace :build do
   end
 
   # Stolen from Ramaze
-  desc 'Builds a list of all the people that have contributed'
+  desc 'Build a list of contributors'
   task :authors do
     authors = Hash.new(0)
 

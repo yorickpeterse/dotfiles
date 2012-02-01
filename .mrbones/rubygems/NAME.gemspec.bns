@@ -5,7 +5,7 @@ path = File.expand_path('../', __FILE__)
 Gem::Specification.new do |s|
   s.name        = '<%= name %>'
   s.version     = <%= classname %>::Version
-  s.date        = '<%= Time.new.strftime('%d-%m-%Y') %>'
+  s.date        = '<%= Time.new.strftime('%Y-%m-%d') %>'
   s.authors     = ['Yorick Peterse']
   s.email       = 'yorickpeterse@gmail.com'
   s.summary     = ''
