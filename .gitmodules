@@ -31,3 +31,6 @@
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
+[submodule ".vim/bundle/autumn"]
+	path = .vim/bundle/autumn
+	url = git://github.com/YorickPeterse/Autumn.vim.git
