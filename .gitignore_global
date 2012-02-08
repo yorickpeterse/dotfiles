@@ -3,6 +3,7 @@
 
 # Ignore project specific Vim config files
 .vimrc
+*.swo
 
 # Ignore those silly swap files left over by Vim
 *.swp
