@@ -1,11 +1,7 @@
-require File.expand_path('../lib/<%= name %>', __FILE__)
+require 'rubygems/package_task'
 
-module <%= classname %>
-  Gemspec = Gem::Specification::load(File.expand_path('../<%= name %>.gemspec', __FILE__))
-end
+Gem::PackageTask.new(Gem::Specification.load('<%= name %>.gemspec'))
 
-task_dir = File.expand_path('../lib/<%= name %>/task', __FILE__)
-
-Dir.glob("#{task_dir}/*.rake").each do |f|
-  import(f)
+Dir['../task/*.rake'].each do |task|
+  import task
 end

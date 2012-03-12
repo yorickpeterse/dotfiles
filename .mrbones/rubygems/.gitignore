@@ -2,8 +2,4 @@
 doc
 pkg/*.gem
 
-# Ignore common dotfiles
-.DS_Store
-Thumbs.db
-
 !.gitkeep
