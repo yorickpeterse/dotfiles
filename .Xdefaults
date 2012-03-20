@@ -1,0 +1,5 @@
+! Font settings
+Xft.dpi:       92
+Xft.antialias: true
+Xft.hinting:   true
+Xfc.hintstyle: hintslight
