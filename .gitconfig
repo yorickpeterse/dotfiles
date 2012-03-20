@@ -1,0 +1,25 @@
+[user]
+	name  = Yorick Peterse
+	email = yorickpeterse@gmail.com
+
+[diff]
+	color = always
+
+[branch]
+	color = always
+
+[core]
+	autocrlf     = input
+	filemode     = false
+	excludesfile = /home/yorickpeterse/.gitignore_global
+	ignorecase   = false
+	editor       = gvim -f
+
+[merge]
+	tool = meld
+
+[github]
+	user = yorickpeterse
+
+[color]
+	ui = true

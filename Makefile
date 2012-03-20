@@ -1,3 +1,9 @@
+default:
+	@make vim
+	@make tmux
+	@make git
+	@make xorg
+
 help:
 	@echo "Commands"
 	@echo
@@ -17,4 +23,7 @@ tmux:
 
 git:
 	@cp .gitignore_global ${HOME}/.gitignore_global
-	@git config --global core.excludesfile ${HOME}/.gitignore_global
+	@cp .gitconfig ${HOME}/.gitconfig
+
+xorg:
+	@cp .Xdefaults ${HOME}/.Xdefaults
