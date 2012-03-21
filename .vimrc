@@ -33,10 +33,9 @@ let g:syntastic_auto_loc_list = 0
 let g:syntastic_stl_format    = '[%E{Errors: %e, line %fe}%B{ | }'
 let g:syntastic_stl_format   .= '%W{Warnings: %w, line %fw}]'
 
-" Font settings. I use Monaco on Linux based systems and Consolas on
-" others (Inconsolata doesn't render too well on Linux based OS').
+" Font settings.
 if has('gui_gtk2')
-  set guifont=Monaco\ 10
+  set guifont=Inconsolata\ Medium\ 11
 else
   set guifont=Consolas:h14
 endif
