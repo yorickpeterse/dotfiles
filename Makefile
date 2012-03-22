@@ -2,7 +2,7 @@ default:
 	@make vim
 	@make tmux
 	@make git
-	@make xorg
+	@make fonts
 
 help:
 	@echo "Commands"
