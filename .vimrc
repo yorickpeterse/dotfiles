@@ -104,3 +104,12 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 map <F3> :call Email()<CR><Esc>
 map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
+
+" Load a host specific .vimrc. This allows this generic .vimrc file to be
+" re-used across the various machines that I use while still being able to set
+" host specific configuration options.
+"
+" The name .hvimrc is derived from "host specific .vimrc".
+if filereadable(expand('~/.hvimrc'))
+  source ~/.hvimrc
+endif
