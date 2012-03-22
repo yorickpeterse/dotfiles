@@ -10,7 +10,7 @@ help:
 	@echo "vim    # Sets up Vim"
 	@echo "tmux   # Copies the .tmux.conf file to ~/"
 	@echo "git    # Sets the global .gitignore"
-	@echo "xorg   # Configures fonts and the like for X11"
+	@echo "fonts  # Configures X11 to properly render fonts"
 
 vim:
 	@git submodule init
@@ -26,5 +26,6 @@ git:
 	@cp .gitignore_global ${HOME}/.gitignore_global
 	@cp .gitconfig ${HOME}/.gitconfig
 
-xorg:
+fonts:
 	@cp .Xdefaults ${HOME}/.Xdefaults
+	@cp .fonts.conf ${HOME}/.fonts.conf
