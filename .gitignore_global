@@ -1,38 +1,20 @@
 # These settings can be applied using the following command:
 # $ git config --global core.excludesfile ~/.gitignore_global
 
-# Ignore project specific Vim config files
+# Generic files that don't have to be tracked by Git.
+*.log
+
+# Vim specific files.
 .vimrc
 *.swo
-
-# Ignore those silly swap files left over by Vim
 *.swp
-
-# Ignore all tag files
 tags
 
-# OS specific crap
+# OS specific files.
 .DS_Store
 Thumbs.db
 Icon?
 
-# Ignore all Komodo stuff for old projects
-.komodotools
-*.komodoproject
-
-# Ignore netbeans directories (don't really use Netbeans though)
-.netbeans
-
-# Although we no longer use SVN at work and I personally don't use it myself
-# this will prevent those gay directories from appearing in the Git repos
-.svn
-
-# Comitting all those silly YARD files is annoying as it usually results in HUGE
-# commits This ignores all meta files (which usually take up most of the commit
-# space).
+# Ruby specific files.
 .yardoc
-
-# .bak files are commonly used for local backups when trying out something new.
-# It has been a while since I last used those files (in the pre-git days) but
-# it's good to ignore them anyway.
-*.bak
+*.gem
