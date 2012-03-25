@@ -1,0 +1,139 @@
+#!/usr/bin/env ruby
+
+require 'shebang'
+
+##
+# tile is a simple tool that makes it easy to tile windows without having to
+# install more complex window managers such as Awesome.
+#
+# ## Requirements
+#
+# * wmctrl
+# * xdotool
+# * an EWHM and NetM compatible window manager (e.g. xfwm4)
+#
+# @since 25-03-2012
+#
+class Default < Shebang::Command
+  command :default
+  banner  'Tiles windows using wmctrl'
+  usage   '$ tile [COMMAND] [OPTIONS]'
+
+  help 'Commands', "full    Sets the window width/height to the maximum\n" \
+    "  left    Align and tile the current window to the left\n" \
+    "  right   Align and tile the current window to the right"
+
+  o :h, :help, 'Shows this help message', :method => :help
+  o :s, :steps, 'The amount of steps to use for increasing window widths',
+    :type => Integer, :default => 4
+
+  ##
+  # Shows the help message.
+  #
+  # @since 25-03-2012
+  #
+  def index
+    help
+  end
+
+  ##
+  # Sets the width and height of the currently active window to the maximum
+  # values.
+  #
+  # @since 25-03-2012
+  #
+  def full
+    size = screen_size
+
+    `wmctrl -r :ACTIVE: -b add,maximized_horz,maximized_vert`
+  end
+
+  ##
+  # Moves the window to the top left corner, gives it a maximum height and
+  # increases the width in steps of 4.
+  #
+  # @since 25-03-2012
+  #
+  def left
+    screen    = screen_size
+    window    = window_size
+    inc       = screen[:x] / option(:s)
+    height    = screen[:y] - 25
+    new_width = (window[:x] + inc) - 5
+
+    if new_width <= screen[:x]
+      resize_window(0, 25, new_width, height)
+    else
+      resize_window(0, 25, inc, height)
+    end
+  end
+
+  ##
+  # Similar to Default#left but instead aligns the window to the right.
+  #
+  # @since 25-03-2012
+  #
+  def right
+    screen    = screen_size
+    window    = window_size
+    inc       = screen[:x] / option(:s)
+    height    = screen[:y] - 25
+    new_width = (window[:x] + inc) - 5
+
+    if new_width <= screen[:x]
+      resize_window(screen[:x] - new_width - 10, 25, new_width, height)
+    else
+      resize_window(screen[:x] - inc - 10, 25, inc, height)
+    end
+  end
+
+  private
+
+  ##
+  # Gets the maximum dimensions of the current screen. The return value is a
+  # hash with the keys :x and :y.
+  #
+  # @since  25-03-2012
+  # @return [Hash]
+  #
+  def screen_size
+    output = `wmctrl -d | grep '*'`.strip.split(/\s+/)[8].split('x')
+
+    return {
+      :x => output[0].to_i,
+      :y => output[1].to_i
+    }
+  end
+
+  ##
+  # Returns the dimensions of the currently active window.
+  #
+  # @since  25-03-2012
+  # @return [Hash]
+  #
+  def window_size
+    output = `xdotool getwindowgeometry $(xdotool getactivewindow) \
+      | grep -i geometry`.strip.split(/\s+/)[1].split('x')
+
+    return {
+      :x => output[0].to_i,
+      :y => output[1].to_i
+    }
+  end
+
+  ##
+  # Resizes the currently active window.
+  #
+  # @since 25-03-2012
+  # @param [Fixnum] x The Y position of the window.
+  # @param [Fixnum] y The X position of the window.
+  # @param [Fixnum] width The new width of the window.
+  # @param [Fixnum] height The new height of the window.
+  #
+  def resize_window(x, y, width, height)
+    `wmctrl -r :ACTIVE: -b remove,maximized_horz,maximized_vert`
+    `wmctrl -r :ACTIVE: -e 0,#{x},#{y},#{width},#{height}`
+  end
+end
+
+Shebang.run
