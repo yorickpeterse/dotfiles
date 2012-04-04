@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# Shows a list of all the Wifi channels sorted by channel number.
+sudo iwlist wlan0 scan | grep -o -P 'Channel:\d+' | \
+    awk '{split($1, a, ":"); print a[2]}' | sort -n
