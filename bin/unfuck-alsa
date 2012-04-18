@@ -50,6 +50,4 @@ kill_procs_using_sound()
 	return 0
 }
 
-# Reload the sound module and restart Alsa
-modprobe snd_hda_intel
-rc.d restart alsa
+kill_procs_using_sound
