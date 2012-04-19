@@ -3,6 +3,7 @@ default:
 	@make tmux
 	@make git
 	@make fonts
+	@make pry
 
 help:
 	@echo "Commands"
@@ -11,6 +12,7 @@ help:
 	@echo "tmux   # Copies the .tmux.conf file to ~/"
 	@echo "git    # Sets the global .gitignore"
 	@echo "fonts  # Configures X11 to properly render fonts"
+	@echo "pry    # Creates the configuration files for Pry"
 
 vim:
 	@git submodule init
@@ -29,3 +31,6 @@ git:
 fonts:
 	@cp .Xdefaults ${HOME}/.Xdefaults
 	@cp .fonts.conf ${HOME}/.fonts.conf
+
+pry:
+	@ln -s ${PWD}/.pryrc ${HOME}/.pryrc
