@@ -1,0 +1,76 @@
+#!/usr/bin/env ruby
+
+require 'shebang'
+require 'tempfile'
+
+class Default < Shebang::Command
+  command :default
+
+  banner 'Creates and manages applications on remote servers.'
+  usage  '$ create-application [PATH] [OPTIONS]'
+
+  o :h, :help, 'Shows this help message',
+    :method => :help
+
+  GIT_SETUP = 'git init; git config --add receive.denycurrentbranch false;'
+
+  GIT_HOOK = <<-HOOK.strip
+#!/usr/bin/env bash
+
+cd ..
+
+echo 'Resetting the Git repository'
+
+env -i `which git` reset --hard
+
+if [[ -f deploy_hook ]]; then
+    echo 'Running custom deploy hook'
+
+    source ./deploy_hook
+else
+    echo './deploy_hook does not exist'
+fi
+  HOOK
+
+
+  def index(args = [])
+    help if args.length != 2
+
+    host      = args[0]
+    path      = args[1]
+    hook_path = File.join(path, '.git/hooks/post-receive')
+
+    output = run("ssh #{host} 'mkdir -p #{path}'")
+
+    if output =~ /could not resolve/i
+      abort "Failed to connect to the host: #{output}"
+    end
+
+    run("ssh #{host} 'cd #{path}; #{GIT_SETUP}'")
+
+    handle = Tempfile.new('create-application')
+
+    handle.write(GIT_HOOK)
+    handle.rewind
+
+    output = run("scp #{handle.path} #{host}:#{hook_path}")
+
+    handle.close
+
+    if output =~ /no such file/i
+      abort output
+    end
+
+    run("ssh #{host} 'chmod +x #{hook_path}'")
+  end
+
+  private
+
+  def run(command)
+    puts command
+
+    return `#{command} 2>&1`.strip
+  end
+end
+
+Shebang.run
