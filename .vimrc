@@ -1,6 +1,6 @@
 " General settings
 set nocompatible
-set textwidth=80
+set textwidth=79
 set number
 set backspace=indent,eol,start
 set omnifunc=syntaxcomplete#Complete
@@ -12,7 +12,7 @@ set mouse=a
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
-  set colorcolumn=80
+  set colorcolumn=79
 endif
 
 " Printer options
