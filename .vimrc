@@ -81,6 +81,13 @@ function! Normal()
   set textwidth=80
 :endfunction
 
+" Converts the file encoding to UTF-8. Using iconv for this doesn't always
+" work, Vim for some reason does (it's magic!).
+function! ConvertEncoding()
+  set fileencoding=utf-8
+  write
+:endfunction
+
 " Automatically strip trailing whitespace.
 autocmd! BufWritePre * :call Trim()
 
@@ -105,6 +112,7 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 map <F3> :call Email()<CR><Esc>
 map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
+map <F6> :call ConvertEncoding()<CR><Esc>
 
 " Load a host specific .vimrc. This allows this generic .vimrc file to be
 " re-used across the various machines that I use while still being able to set
