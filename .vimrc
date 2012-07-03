@@ -37,6 +37,9 @@ let g:syntastic_c_compiler_options  = ' -Wextra -Wall -pedantic'
 let g:syntastic_c_compiler_options .= ' `pkg-config gtk+-3.0 --cflags`'
 let g:syntastic_c_remove_include_errors = 1
 
+" Ignore syntax checking for Shell scripts as this is currently broken.
+let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['sh']}
+
 " Font settings.
 if has('gui_gtk2')
   set guifont=Inconsolata\ Medium\ 11
