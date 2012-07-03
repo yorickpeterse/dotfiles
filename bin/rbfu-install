@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+# Lazy way of installing Ruby versions using rbfu and ruby-build.
+ruby-build $1 $HOME/.rbfu/rubies/$HOME
