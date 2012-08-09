@@ -34,3 +34,6 @@
 [submodule ".vim/bundle/autumn"]
 	path = .vim/bundle/autumn
 	url = git://github.com/YorickPeterse/Autumn.vim.git
+[submodule ".vim/bundle/tabular"]
+	path = .vim/bundle/tabular
+	url = git://github.com/godlygeek/tabular.git
