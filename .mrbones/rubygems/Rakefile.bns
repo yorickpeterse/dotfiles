@@ -1,7 +1,0 @@
-require 'rubygems/package_task'
-
-Gem::PackageTask.new(Gem::Specification.load('<%= name %>.gemspec'))
-
-Dir['../task/*.rake'].each do |task|
-  import task
-end

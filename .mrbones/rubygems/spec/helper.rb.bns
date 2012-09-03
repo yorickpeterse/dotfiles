@@ -1,2 +1,0 @@
-require File.expand_path('../../lib/<%= name %>', __FILE__)
-require File.expand_path('../../lib/<%= name %>/spec/helper', __FILE__)

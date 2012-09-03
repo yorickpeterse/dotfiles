@@ -1,9 +1,0 @@
-./lib/<%= name %>/**/*
--m markdown
--M rdiscount
--o ./doc
--r ./README.md
---private
---protected
--
-LICENSE
