@@ -10,9 +10,6 @@
 [submodule ".vim/bundle/tcomment"]
 	path = .vim/bundle/tcomment
 	url = git://github.com/vim-scripts/tComment.git
-[submodule ".vim/bundle/threesome"]
-	path = .vim/bundle/threesome
-	url = git://github.com/sjl/threesome.vim.git
 [submodule ".vim/bundle/zencoding"]
 	path = .vim/bundle/zencoding
 	url = git://github.com/mattn/zencoding-vim.git
@@ -25,9 +22,6 @@
 [submodule ".vim/bundle/vim_addon_mw_utils"]
 	path = .vim/bundle/vim_addon_mw_utils
 	url = git://github.com/MarcWeber/vim-addon-mw-utils.git
-[submodule ".vim/bundle/taglist"]
-	path = .vim/bundle/taglist
-	url = git://github.com/vim-scripts/taglist.vim.git
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
