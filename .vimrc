@@ -34,7 +34,6 @@ let g:syntastic_stl_format          = '[%E{Errors: %e, line %fe}%B{ | }'
 let g:syntastic_stl_format         .= '%W{Warnings: %w, line %fw}]'
 let g:syntastic_c_no_include_search = 1
 let g:syntastic_c_compiler_options  = ' -Wextra -Wall -pedantic'
-let g:syntastic_c_compiler_options .= ' `pkg-config gtk+-3.0 --cflags`'
 let g:syntastic_c_remove_include_errors = 1
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
@@ -65,7 +64,6 @@ let g:user_zen_settings   = {'indentation' : '    '}
 let g:snips_author        = 'Yorick Peterse'
 let NERDTreeShowBookmarks = 0
 let NERDTreeIgnore        = ['\.pyc$', '__pycache__']
-let Tlist_Sort_Type       = 'order'
 
 function! Trim()
   let l = line(".")
@@ -84,8 +82,8 @@ function! Email()
 
 " Switches Vim back to normal mode.
 function! Normal()
-  set colorcolumn=80
-  set textwidth=80
+  set colorcolumn=79
+  set textwidth=79
 :endfunction
 
 " Converts the file encoding to UTF-8. Using iconv for this doesn't always
@@ -102,7 +100,6 @@ autocmd! BufWritePre * :call Trim()
 autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
-autocmd! BufRead,BufNewFile Isolate  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
