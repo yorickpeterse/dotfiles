@@ -410,9 +410,9 @@ snippet h6#
 	<h6 id="${1}">${2}</h6>${3}
 snippet head
 	<head>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta charset="utf-8" />
 
-		<title>${1:`substitute(Filename('', 'Page Title'), '^.', '\u&', '')`}</title>${2}
+		<title>${1:title}</title>
 	</head>
 snippet header
 	<header>
@@ -733,7 +733,12 @@ snippet sup
 	<sup>${1}</sup>${2}
 snippet table
 	<table>
-		${1}
+		<thead>
+			${1}
+		</thead>
+		<tbody>
+			${2}
+		</tbody>
 	</table>
 snippet table.
 	<table class="${1}">
