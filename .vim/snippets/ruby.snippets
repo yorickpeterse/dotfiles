@@ -1,10 +1,19 @@
+##
+# Generic Ruby snippets.
+#
 snippet #! Inserts a Ruby shebang
 	#!/usr/bin/env ruby
 
+##
+# Snippets related to debugging Ruby code.
+#
 snippet ap_val Prints a value using Awesome Print
 	require 'awesome_print'; ap ${1:value}
 snippet pry_binding Inserts a Pry binding
 	require 'pry'; binding.pry
+##
+# Snippets specific to Zen projects.
+#
 snippet zen_translation Inserts a new Zen translation block
 	Zen::Language::Translation.add do |trans|
 	  trans.language = '${1:language}'
