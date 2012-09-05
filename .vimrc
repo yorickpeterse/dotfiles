@@ -128,13 +128,6 @@ function! Normal()
   set textwidth=79
 :endfunction
 
-" Converts the file encoding to UTF-8. Using iconv for this doesn't always
-" work, Vim for some reason does (it's magic!).
-function! ConvertEncoding()
-  set fileencoding=utf-8
-  write
-:endfunction
-
 " ============================================================================
 " HOOKS
 "
@@ -170,7 +163,6 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 map <F3> :call Email()<CR><Esc>
 map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
-map <F6> :call ConvertEncoding()<CR><Esc>
 
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
