@@ -23,7 +23,9 @@ snippet zen_translation Inserts a new Zen translation block
 		t['${3:key}'] = '${4:value}'
 	  end
 	end
+##
 # Snippets that make it easier to create classes, methods, etc.
+#
 snippet def Inserts a new method
 	##
 	# ${2:Description of this method.}
@@ -45,7 +47,9 @@ snippet module Inserts a new module
 	module ${1:name}
 	  ${3}
 	end # $1
-# Commonly used statements
+##
+# Snippets for various Ruby statements.
+#
 snippet do Inserts a do/end block
 	do
 	  ${1}
@@ -54,7 +58,9 @@ snippet if Inserts an if statement
 	if ${1:statement}
 	  ${2}
 	end
-# YARD tags
+##
+# Snippets for documenting code using YARD.
+#
 snippet @param Inserts a new YARDOC parameter tag
 	@param [${1:type}] ${2:name} ${3:description}
 snippet @return Inserts a new YARDOC return tag
