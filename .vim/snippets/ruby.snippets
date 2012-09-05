@@ -23,3 +23,39 @@ snippet zen_translation Inserts a new Zen translation block
 		t['${3:key}'] = '${4:value}'
 	  end
 	end
+# Snippets that make it easier to create classes, methods, etc.
+snippet def Inserts a new method
+	##
+	# ${2:Description of this method.}
+	#
+	def ${1:method_name}
+	  ${3}
+	end
+snippet class Inserts a new class
+	##
+	# ${2:Class description}
+	#
+	class ${1:name}
+	  ${3}
+	end # $1
+snippet module Inserts a new module
+	##
+	# ${2:Module description}
+	#
+	module ${1:name}
+	  ${3}
+	end # $1
+# Commonly used statements
+snippet do Inserts a do/end block
+	do
+	  ${1}
+	end
+snippet if Inserts an if statement
+	if ${1:statement}
+	  ${2}
+	end
+# YARD tags
+snippet @param Inserts a new YARDOC parameter tag
+	@param [${1:type}] ${2:name} ${3:description}
+snippet @return Inserts a new YARDOC return tag
+	@return [${1:type}]
