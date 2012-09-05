@@ -1,3 +1,13 @@
+##
+# Generic PHP/Codeigniter snippets.
+#
+snippet ci_open Inserts a Codeigniter style PHP opening tag
+	<?php if ( !defined('BASEPATH') ) exit('No direct script access');
+snippet redirect_referer Redirects the user to the HTTP referer URL
+	redirect($_SERVER['HTTP_REFERER']);
+##
+# Validation and debugging snippets for Codeigniter.
+#
 snippet ci_validation Inserts a Codeigniter form validation block
 	$this->message->set('error', validation_errors());
 	$this->session->set_flashdata('form_data', $_POST);
@@ -15,16 +25,31 @@ snippet ci_last_query Displays the last Codeigniter query
 	header('Content-Type: text/plain');
 	echo $this->db->last_query();
 	exit;
+##
+# Loading of Codeigniter libraries, views, etc.
+#
 snippet ci_lib Loads a Codeigniter library
 	$this->load->library('${1:name}');
 snippet ci_model Loads a Codeigniter model
 	$this->load->model('${1:name}');
 snippet ci_view Loads a Codeigniter view
 	$this->load->view('${1:view}', $view_data, TRUE);
-snippet ci_open Inserts a Codeigniter style PHP opening tag
-	<?php if ( !defined('BASEPATH') ) exit('No direct script access');
-snippet redirect_referer Redirects the user to the HTTP referer URL
-	redirect($_SERVER['HTTP_REFERER']);
+##
+# Snippets for defining methods, classes, etc.
+#
+snippet public_method Inserts a new public method
+	public function ${1:method_name}(${2:$parameters})
+	{
+		${3}
+	}
+snippet private_method Inserts a new private method
+	private function ${1:method_name}(${2:$parameters})
+	{
+		${3}
+	}
+##
+# Documentation related snippets.
+#
 snippet isset_doc Inserts a docblock with Isset copyrights
 	/**
 	 * ${1:Description}
@@ -33,3 +58,11 @@ snippet isset_doc Inserts a docblock with Isset copyrights
 	 * @link      http://isset.nl/
 	 * @copyright Isset Internet Professionals, `system('date +%Y')`
 	 */
+snippet /** Inserts a PHP doc block
+	/**
+	 * ${1:Description}
+	 *
+	 */
+	${2}
+snippet @param Inserts a PHP @param tag
+	@param ${1:type} ${2:name} ${3:description}
