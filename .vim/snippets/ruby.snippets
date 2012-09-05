@@ -1,18 +1,30 @@
-##
-# Generic Ruby snippets.
+# ============================================================================
+# RUBY SNIPPETS
+#
+# A collection of snippets for the Ruby programming language.
+#
+
+# ============================================================================
+# COMMANDLINE EXECUTABLES
+#
+# Snippets for dealing with commandline executables.
 #
 snippet #! Inserts a Ruby shebang
 	#!/usr/bin/env ruby
 
-##
-# Snippets related to debugging Ruby code.
+# ============================================================================
+# DEBUGGING
+#
+# Snippets that can be used to debug Ruby code.
 #
 snippet ap_val Prints a value using Awesome Print
 	require 'awesome_print'; ap ${1:value}
 snippet pry_binding Inserts a Pry binding
 	require 'pry'; binding.pry
-##
-# Snippets specific to Zen projects.
+# ============================================================================
+# ZEN
+#
+# Snippets for working with Zen projects.
 #
 snippet zen_translation Inserts a new Zen translation block
 	Zen::Language::Translation.add do |trans|
@@ -23,8 +35,10 @@ snippet zen_translation Inserts a new Zen translation block
 		t['${3:key}'] = '${4:value}'
 	  end
 	end
-##
-# Snippets that make it easier to create classes, methods, etc.
+# ============================================================================
+# LANGUAGE ELEMENTS
+#
+# Snippets for defining methods, classes, modules and so on.
 #
 snippet def Inserts a new method
 	##
@@ -47,8 +61,10 @@ snippet module Inserts a new module
 	module ${1:name}
 	  ${3}
 	end # $1
-##
-# Snippets for various Ruby statements.
+# ============================================================================
+# STATEMENTS
+#
+# Snippets for creating if statements, do/end blocks, etc.
 #
 snippet do Inserts a do/end block
 	do
@@ -58,7 +74,9 @@ snippet if Inserts an if statement
 	if ${1:statement}
 	  ${2}
 	end
-##
+# ============================================================================
+# DOCUMENTATION
+#
 # Snippets for documenting code using YARD.
 #
 snippet @param Inserts a new YARDOC parameter tag

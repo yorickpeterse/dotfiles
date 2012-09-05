@@ -1,12 +1,23 @@
-##
-# Generic PHP/Codeigniter snippets.
+# ============================================================================
+# PHP SNIPPETS
+#
+# Javascript snippets specific to projects for Isset Internet Professionals.
+#
+
+# ============================================================================
+# GENERAL CODEIGNITER SNIPPETS
+#
+# Various general snippets for working with Codeigniter projects.
 #
 snippet ci_open Inserts a Codeigniter style PHP opening tag
 	<?php if ( !defined('BASEPATH') ) exit('No direct script access');
 snippet redirect_referer Redirects the user to the HTTP referer URL
 	redirect($_SERVER['HTTP_REFERER']);
-##
-# Validation and debugging snippets for Codeigniter.
+# ============================================================================
+# CODEIGNITER DEBUGGING AND VALIDATION
+#
+# Snippets that make it easier to insert debugging code as well as form
+# validation related code.
 #
 snippet ci_validation Inserts a Codeigniter form validation block
 	$this->message->set('error', validation_errors());
@@ -25,8 +36,10 @@ snippet ci_last_query Displays the last Codeigniter query
 	header('Content-Type: text/plain');
 	echo $this->db->last_query();
 	exit;
-##
-# Loading of Codeigniter libraries, views, etc.
+# ============================================================================
+# LOADING CODEIGNITER RESOURCES
+#
+# Snippets that can be used to load Codeigniter libraries, models, etc.
 #
 snippet ci_lib Loads a Codeigniter library
 	$this->load->library('${1:name}');
@@ -34,8 +47,10 @@ snippet ci_model Loads a Codeigniter model
 	$this->load->model('${1:name}');
 snippet ci_view Loads a Codeigniter view
 	$this->load->view('${1:view}', $view_data, TRUE);
-##
-# Snippets for defining methods, classes, etc.
+# ============================================================================
+# LANGUAGE ELEMENTS
+#
+# Snippets for defining methods, classes and so on.
 #
 snippet public_method Inserts a new public method
 	public function ${1:method_name}(${2:$parameters})
@@ -47,9 +62,11 @@ snippet private_method Inserts a new private method
 	{
 		${3}
 	}
-##
-# Documentation related snippets.
+# ============================================================================
+# DOCUMENTATION
 #
+# Snippets for documenting code using PHP docblocks (or whatever they're called
+# these days).
 snippet isset_doc Inserts a docblock with Isset copyrights
 	/**
 	 * ${1:Description}

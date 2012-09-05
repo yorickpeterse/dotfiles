@@ -1,10 +1,13 @@
-# Global snippets
+# ============================================================================
+# GLOBAL SNIPPETS
+#
+# Various snippets that can be used regardless of the file type of a buffer.
 
-snippet date
+snippet date Inserts the current date in the format Y-m-d.
 	`strftime("%Y-%m-%d")`
-snippet ddate
+snippet ddate Inserts the current date in a human readable format.
 	`strftime("%B %d, %Y")`
-snippet lorem
+snippet lorem Inserts dummy text.
 	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
 	tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
 	veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
@@ -12,7 +15,7 @@ snippet lorem
 	velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaeca
 	cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
 	est laborum.
-snippet mit_license
+snippet mit_license Inserts a copy of the MIT license.
 	Copyright (c) `strftime('%Y')`, Yorick Peterse
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -32,3 +35,7 @@ snippet mit_license
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 	THE SOFTWARE.
+snippet #= Inserts a Vim style line separator using a # as a prefix.
+	# ============================================================================
+snippet "= Inserts a Vim style line separator using a " as a prefix.
+	" ============================================================================
