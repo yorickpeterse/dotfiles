@@ -50,7 +50,6 @@ set secure
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
-set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
 " Syntastic settings.
 let g:syntastic_auto_loc_list       = 0
@@ -59,6 +58,8 @@ let g:syntastic_stl_format         .= '%W{Warnings: %w, line %fw}]'
 let g:syntastic_c_no_include_search = 1
 let g:syntastic_c_compiler_options  = ' -Wextra -Wall -pedantic'
 let g:syntastic_c_remove_include_errors = 1
+
+set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
 let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['sh']}
