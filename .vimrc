@@ -50,7 +50,6 @@ set secure
 runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
-
 " Syntastic settings.
 let g:syntastic_auto_loc_list       = 0
 let g:syntastic_stl_format          = '[%E{Errors: %e, line %fe}%B{ | }'
