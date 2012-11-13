@@ -163,6 +163,7 @@ autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 map <F3> :call Email()<CR><Esc>
 map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
+map <F6> :NERDTreeToggle<CR><Esc>
 
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
