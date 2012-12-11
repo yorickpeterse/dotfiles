@@ -28,6 +28,8 @@ set backupskip=/tmp/*,/private/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
 set mouse=a
+set tabline=%f
+set guitablabel=%f
 
 " Printer settings
 set printoptions=number:n
