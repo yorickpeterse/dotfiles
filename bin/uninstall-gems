@@ -32,16 +32,14 @@ end
 option_parser.parse!
 
 # Remove all the gems
-ignore = ['rubygems-update', 'bundler']
+ignore = ['rubygems-update', 'bundler', 'jruby-parser', 'jruby-launcher']
 gems   = `gem list --local --no-versions`.gsub('*** LOCAL GEMS ***', '').strip
-gems   = gems.split("\n")
+gems   = gems.split("\n").reject { |g| ignore.include?(g) }
 
 puts "Uninstalling #{gems.size} gems"
 
-gems.each do |gem|
-  if !ignore.include?(gem)
-    output = `gem uninstall #{gem} -a -x -I 2>&1`
+output = `gem uninstall #{gems.join(' ')} -a -x -I 2>&1`
 
-    puts output if @options[:verbose] === true
-  end
+if @options[:verbose]
+  puts output
 end
