@@ -149,9 +149,10 @@ autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
-autocmd! FileType ruby setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType yaml setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType vim  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType ruby   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType vim    setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 " Use actual tabs instead of spaces for Perl and PHP.
 autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
