@@ -22,7 +22,7 @@ vim:
 	@ln -s ${PWD}/.gvimrc ${HOME}/.gvimrc
 
 tmux:
-	@cp ${PWD}/.tmux.conf ${HOME}/.tmux.conf
+	@ln -s ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 
 git:
 	@cp .gitignore_global ${HOME}/.gitignore_global
