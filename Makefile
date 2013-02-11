@@ -4,15 +4,17 @@ default:
 	@make git
 	@make fonts
 	@make pry
+	@make keybindings
 
 help:
 	@echo "Commands"
 	@echo
-	@echo "vim    # Sets up Vim"
-	@echo "tmux   # Copies the .tmux.conf file to ~/"
-	@echo "git    # Sets the global .gitignore"
-	@echo "fonts  # Configures X11 to properly render fonts"
-	@echo "pry    # Creates the configuration files for Pry"
+	@echo "vim         # Sets up Vim"
+	@echo "tmux        # Copies the .tmux.conf file to ~/"
+	@echo "git         # Sets the global .gitignore"
+	@echo "fonts       # Configures X11 to properly render fonts"
+	@echo "pry         # Creates the configuration files for Pry"
+	@echo "keybindings # Configures keybindings"
 
 vim:
 	@git submodule init
@@ -34,3 +36,7 @@ fonts:
 
 pry:
 	@ln -s ${PWD}/.pryrc ${HOME}/.pryrc
+
+keybindings:
+	@ln -s ${PWD}/.xmodmap ${HOME}/.xmodmap
+	@xmodmap ${HOME}/.xmodmap
