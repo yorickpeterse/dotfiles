@@ -38,5 +38,5 @@ pry:
 	@ln -s ${PWD}/.pryrc ${HOME}/.pryrc
 
 keybindings:
-	@ln -s ${PWD}/.xmodmap ${HOME}/.xmodmap
-	@xmodmap ${HOME}/.xmodmap
+	@ln -s ${PWD}/.Xmodmap ${HOME}/.Xmodmap
+	@xmodmap ${HOME}/.Xmodmap
