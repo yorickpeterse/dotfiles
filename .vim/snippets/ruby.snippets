@@ -21,20 +21,8 @@ snippet ap_val Prints a value using Awesome Print
 	require 'awesome_print'; ap ${1:value}
 snippet pry_binding Inserts a Pry binding
 	require 'pry'; binding.pry
-# ============================================================================
-# ZEN
-#
-# Snippets for working with Zen projects.
-#
-snippet zen_translation Inserts a new Zen translation block
-	Zen::Language::Translation.add do |trans|
-	  trans.language = '${1:language}'
-	  trans.name     = '${2:name}'
-
-	  trans.translate do |t|
-		t['${3:key}'] = '${4:value}'
-	  end
-	end
+snippet pry_daemon Inserts a Pry binding for daemons
+	STDIN.reopen('/dev/tty'); require 'pry'; binding.pry
 # ============================================================================
 # LANGUAGE ELEMENTS
 #
