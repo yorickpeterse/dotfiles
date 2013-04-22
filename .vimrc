@@ -61,7 +61,8 @@ let g:syntastic_c_no_include_search     = 1
 let g:syntastic_c_compiler_options      = ' -Wextra -Wall -pedantic -std=c++0x'
 let g:syntastic_c_remove_include_errors = 1
 
-let g:syntastic_cpp_compiler_options  = ' -Wextra -Wall -pedantic -std=c++0x'
+let g:syntastic_cpp_compiler_options   = ' -Wextra -Wall -pedantic -std=c++0x'
+let g:syntastic_javascript_jshint_conf = '/home/yorickpeterse/.jshint'
 
 set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
