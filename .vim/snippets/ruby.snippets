@@ -1,21 +1,8 @@
-# ============================================================================
-# RUBY SNIPPETS
-#
-# A collection of snippets for the Ruby programming language.
-#
-
-# ============================================================================
-# COMMANDLINE EXECUTABLES
-#
-# Snippets for dealing with commandline executables.
-#
+# Collection of various Ruby snippets.
 snippet #! Inserts a Ruby shebang
 	#!/usr/bin/env ruby
-
-# ============================================================================
-# DEBUGGING
 #
-# Snippets that can be used to debug Ruby code.
+# Debugging snippets.
 #
 snippet ap_val Prints a value using Awesome Print
 	require 'awesome_print'; ap ${1:value}
@@ -23,10 +10,8 @@ snippet pry_binding Inserts a Pry binding
 	require 'pry'; binding.pry
 snippet pry_daemon Inserts a Pry binding for daemons
 	STDIN.reopen('/dev/tty'); require 'pry'; binding.pry
-# ============================================================================
-# LANGUAGE ELEMENTS
 #
-# Snippets for defining methods, classes, modules and so on.
+# Language elements such as method definitions.
 #
 snippet def Inserts a new method
 	##
@@ -46,11 +31,6 @@ snippet module Inserts a new module
 	module ${1:name}
 	  ${2}
 	end # $1
-# ============================================================================
-# STATEMENTS
-#
-# Snippets for creating if statements, do/end blocks, etc.
-#
 snippet do Inserts a do/end block
 	do
 	  ${1}
@@ -59,10 +39,14 @@ snippet if Inserts an if statement
 	if ${1:statement}
 	  ${2}
 	end
-# ============================================================================
-# DOCUMENTATION
+snippet rlint-def Inserts a method definition for ruby-lint
+	klass.define_method('${1:name}') do |method|
+	  ${2}
+	end
+snippet rlint-arg Inserts a argument definition for ruby-lint
+	method.define_${1:}argument('${2:name}')${3}
 #
-# Snippets for documenting code using YARD.
+# Snippets for documentation.
 #
 snippet @param Inserts a new YARDOC parameter tag
 	@param [${1:type}] ${2:name} ${3:description}

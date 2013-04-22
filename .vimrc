@@ -151,6 +151,7 @@ autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
 autocmd! FileType ruby   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType eruby  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType haml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
