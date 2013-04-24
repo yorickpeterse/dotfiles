@@ -1,20 +1,21 @@
-default:
-	@make vim
-	@make tmux
-	@make git
-	@make fonts
-	@make pry
-	@make keybindings
+default_target: help
 
 help:
-	@echo "Commands"
-	@echo
+	@echo "all         # Sets up everything"
 	@echo "vim         # Sets up Vim"
 	@echo "tmux        # Copies the .tmux.conf file to ~/"
 	@echo "git         # Sets the global .gitignore"
 	@echo "fonts       # Configures X11 to properly render fonts"
 	@echo "pry         # Creates the configuration files for Pry"
 	@echo "keybindings # Configures keybindings"
+
+all:
+	@make vim
+	@make tmux
+	@make git
+	@make fonts
+	@make pry
+	@make keybindings
 
 vim:
 	@git submodule init
