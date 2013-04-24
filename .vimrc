@@ -43,6 +43,12 @@ let maplocalleader = '\'
 set exrc
 set secure
 
+" These settings are disabled to get some extra performance out of Vim when
+" dealing with large files.
+set nocursorcolumn
+set nocursorline
+
+
 " ============================================================================
 " PLUGIN SETTINGS
 "
