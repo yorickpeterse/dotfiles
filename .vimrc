@@ -24,7 +24,7 @@
 set nocompatible
 set backspace=indent,eol,start
 set omnifunc=syntaxcomplete#Complete
-set backupskip=/tmp/*,/private/tmp/*
+set backupskip=/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
 set mouse=a
@@ -48,7 +48,6 @@ set secure
 set nocursorcolumn
 set nocursorline
 
-
 " ============================================================================
 " PLUGIN SETTINGS
 "
@@ -59,9 +58,9 @@ runtime bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 
 " Syntastic settings.
-let g:syntastic_auto_loc_list       = 0
-let g:syntastic_stl_format          = '[%E{Errors: %e, line %fe}%B{ | }'
-let g:syntastic_stl_format         .= '%W{Warnings: %w, line %fw}]'
+let g:syntastic_auto_loc_list  = 0
+let g:syntastic_stl_format     = '[%E{Errors: %e, line %fe}%B{ | }'
+let g:syntastic_stl_format    .= '%W{Warnings: %w, line %fw}]'
 
 let g:syntastic_c_no_include_search     = 1
 let g:syntastic_c_compiler_options      = ' -Wextra -Wall -pedantic -std=c++0x'
@@ -99,8 +98,7 @@ filetype plugin indent on
 syntax on
 color autumn
 
-" colorcolumn doesn't work on slightly older versions of Vim (7.0.3 is commonly
-" used on Ubuntu machines).
+" colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
   set colorcolumn=79
 endif
@@ -165,10 +163,6 @@ autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType haml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType vim    setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-
-" Use actual tabs instead of spaces for Perl and PHP.
-autocmd! FileType perl setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
-autocmd! FileType php  setlocal shiftwidth=4 softtabstop=4 tabstop=4 noexpandtab
 
 " ============================================================================
 " KEY BINDINGS
