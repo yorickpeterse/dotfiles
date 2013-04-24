@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Dirty way of starting Thunderbird using a custom date format. In my case I
-# have LANG set to en_US but I want a different date format.
-LC_TIME='nl_NL' `which thunderbird`

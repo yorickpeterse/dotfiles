@@ -1,5 +1,5 @@
 !.vimrc
 .vim/.netrwhist
 
-bin/reattach-to-user-namespace
 bin/chromedriver
+bin/fan-control
