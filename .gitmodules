@@ -46,6 +46,3 @@
 [submodule ".vim/bundle/vim-ragel"]
 	path = .vim/bundle/vim-ragel
 	url = git://github.com/arsenerei/vim-ragel.git
-[submodule ".vim/bundle/vim-vala"]
-	path = .vim/bundle/vim-vala
-	url = git://github.com/mytoh/vim-vala.git
