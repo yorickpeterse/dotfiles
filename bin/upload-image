@@ -12,7 +12,6 @@ fi
 
 echo 'Preparing file...'
 
-is_gd='http://is.gd/create.php?format=simple&url='
 img_url=`basename "$1"`
 lower_name=`perl -e "my \\$str = lc '$img_url'; \
   \\$str =~ s/\s+/_/g; \
@@ -31,19 +30,9 @@ else
   clip='pbcopy'
 fi
 
-# Upload the image
 echo 'Uploading image...'
 
 `scp -q "$1" $IMAGE_USER@$IMAGE_HOST:$IMAGE_PATH$lower_name`
 
-# Submit it to is.gd
-echo 'Submitting to is.gd...'
-
-api_response=`curl -s "$is_gd$img_url"`
-
-if [[ ! `echo $api_response | grep 'error: please' -i` ]]; then
-  echo $api_response | $clip
-  echo "The short URL ($api_response) has been copied to your clipboard"
-else
-  echo "The URL could not be retrieved from is.gd: $api_response"
-fi
+echo $img_url | $clip
+echo "The image ($img_url) has been uploaded and copied to your clipboard"
