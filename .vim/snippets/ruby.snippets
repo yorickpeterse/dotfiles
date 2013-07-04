@@ -49,6 +49,23 @@ snippet concern Extends a module using a Concern
 	extend ActiveSupport::Concern
 snippet inc Inserts an include statement
 	include ${1:module}
+snippet gemspec Inserts a new Gem specification
+	require File.expand_path('../lib/${1:version path}', __FILE__)
+
+	Gem::Specification.new do |gem|
+	  gem.name        = '${2:name}'
+	  gem.version     = ${3:version}
+	  gem.authors     = ['${4:author}']
+	  gem.summary     = '${5:summary}'
+	  gem.description = gem.summary
+	  gem.has_rdoc    = 'yard'
+
+	  gem.required_ruby_version = '>= 1.9.2'
+
+	  gem.files       = \`git ls-files\`.split("\n").sort
+	  gem.executables = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+	  gem.test_files  = gem.files.grep(%r{^(test|spec|features)/})
+	end
 #
 # Snippets for documentation.
 #
