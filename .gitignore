@@ -1,5 +1,7 @@
 !.vimrc
 .vim/.netrwhist
+.vim/spell
 
 bin/chromedriver
 bin/fan-control
+bin/setup-laptop

@@ -72,7 +72,7 @@ let g:syntastic_javascript_jshint_conf = '/home/yorickpeterse/.jshint'
 set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
-let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['sh']}
+let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java']}
 
 " Zencoding settings.
 let g:user_zen_leader_key = '<c-e>'
@@ -83,7 +83,7 @@ let g:snips_author = 'Yorick Peterse'
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '__pycache__']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__']
 
 " ============================================================================
 " SYNTAX SETTINGS
@@ -158,7 +158,7 @@ autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
 autocmd! FileType ruby   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType eruby  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType eruby  setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType haml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
