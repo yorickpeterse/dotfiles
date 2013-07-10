@@ -94,6 +94,7 @@ let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__']
 set textwidth=79
 set nowrap
 set number
+set synmaxcol=256
 filetype plugin indent on
 syntax on
 color autumn
