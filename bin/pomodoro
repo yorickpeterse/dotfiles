@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+time=1500 # 25 minutes
+title="Pomodoro"
+icon=/home/yorickpeterse/Pictures/icons/tomato.png
+
+notify-send -i "$icon" "$title" "Starting a new Pomodoro timer"
+
+sleep $time
+
+notify-send -u critical -t 60000 -i "$icon" "$title" "Take a break you nerd!"
