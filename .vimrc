@@ -76,7 +76,9 @@ let g:syntastic_javascript_jshint_conf = '/home/yorickpeterse/.jshint'
 set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
-let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java']}
+let g:syntastic_mode_map = {
+  \ 'mode': 'passive',
+  \ 'active_filetypes': ['ruby', 'c', 'javascript', 'coffee']}
 
 " Zencoding settings.
 let g:user_zen_leader_key = '<c-e>'
