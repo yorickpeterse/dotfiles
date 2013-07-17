@@ -48,6 +48,10 @@ set secure
 set nocursorcolumn
 set nocursorline
 
+" I've disabled parens matching since it usually slows down drawing of
+" characters quite a bit and I hardly rely on it anyway.
+let loaded_matchparen = 1
+
 " ============================================================================
 " PLUGIN SETTINGS
 "
@@ -72,7 +76,9 @@ let g:syntastic_javascript_jshint_conf = '/home/yorickpeterse/.jshint'
 set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
-let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['sh']}
+let g:syntastic_mode_map = {
+  \ 'mode': 'passive',
+  \ 'active_filetypes': ['ruby', 'c', 'javascript', 'coffee']}
 
 " Zencoding settings.
 let g:user_zen_leader_key = '<c-e>'
@@ -83,7 +89,7 @@ let g:snips_author = 'Yorick Peterse'
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '__pycache__']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__']
 
 " ============================================================================
 " SYNTAX SETTINGS
@@ -94,6 +100,7 @@ let NERDTreeIgnore        = ['\.pyc$', '__pycache__']
 set textwidth=79
 set nowrap
 set number
+set synmaxcol=256
 filetype plugin indent on
 syntax on
 color autumn
@@ -158,7 +165,7 @@ autocmd! BufRead,BufNewFile *        match Visual /\s\+$/
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
 autocmd! FileType ruby   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType eruby  setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType eruby  setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType haml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
