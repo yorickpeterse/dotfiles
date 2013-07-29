@@ -169,12 +169,14 @@ autocmd InsertLeave * match Visual /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
-autocmd! FileType ruby   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType eruby  setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-autocmd! FileType coffee setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType haml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType yaml   setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType vim    setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType ruby       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType eruby      setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd! FileType css        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd! FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd! FileType coffee     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType haml       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType yaml       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType vim        setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
 
 " ============================================================================
 " KEY BINDINGS
