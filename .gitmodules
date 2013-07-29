@@ -46,3 +46,6 @@
 [submodule ".vim/bundle/vim-vala"]
 	path = .vim/bundle/vim-vala
 	url = git://github.com/tkztmk/vim-vala.git
+[submodule ".vim/bundle/ctrlp.vim"]
+	path = .vim/bundle/ctrlp.vim
+	url = git://github.com/kien/ctrlp.vim.git
