@@ -46,3 +46,6 @@
 [submodule ".vim/bundle/vim-vala"]
 	path = .vim/bundle/vim-vala
 	url = git://github.com/tkztmk/vim-vala.git
+[submodule ".vim/bundle/vim-slim"]
+	path = .vim/bundle/vim-slim
+	url = git://github.com/slim-template/vim-slim.git
