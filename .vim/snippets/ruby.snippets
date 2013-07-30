@@ -18,33 +18,33 @@ snippet def Inserts a new method
 	# ${2:Description of this method.}
 	#
 	def ${1:method_name}
-	  ${3}
+	  ${0}
 	end
 snippet class Inserts a new class
 	##
 	# ${2:Class description}
 	#
 	class ${1:name}
-	  ${3}
+	  ${0}
 	end # $1
 snippet module Inserts a new module
 	module ${1:name}
-	  ${2}
+	  ${0}
 	end # $1
 snippet do Inserts a do/end block
 	do
-	  ${1}
+	  ${0}
 	end
 snippet if Inserts an if statement
 	if ${1:statement}
-	  ${2}
+	  ${0}
 	end
 snippet rlint-def Inserts a method definition for ruby-lint
 	klass.define_method('${1:name}') do |method|
-	  ${2}
+	  ${0}
 	end
 snippet rlint-arg Inserts a argument definition for ruby-lint
-	method.define_${1:}argument('${2:name}')${3}
+	method.define_${1:}argument('${2:name}')${0}
 snippet concern Extends a module using a Concern
 	extend ActiveSupport::Concern
 snippet inc Inserts an include statement
