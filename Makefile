@@ -30,6 +30,7 @@ tmux:
 git:
 	@cp .gitignore_global ${HOME}/.gitignore_global
 	@cp .gitconfig ${HOME}/.gitconfig
+	@ln -s ${PWD}/.tigrc ${HOME}/.tigrc
 
 fonts:
 	@cp .Xdefaults ${HOME}/.Xdefaults
