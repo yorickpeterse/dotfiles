@@ -173,10 +173,7 @@ autocmd! FileType ruby       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expan
 autocmd! FileType eruby      setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType css        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
-autocmd! FileType coffee     setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType haml       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType yaml       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
-autocmd! FileType vim        setlocal shiftwidth=2 softtabstop=2 tabstop=2 expandtab
+autocmd! FileType c          setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 
 " ============================================================================
 " KEY BINDINGS
