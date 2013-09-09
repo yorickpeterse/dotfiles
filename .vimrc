@@ -78,7 +78,7 @@ set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 " Ignore syntax checking for Shell scripts as this is currently broken.
 let g:syntastic_mode_map = {
   \ 'mode': 'passive',
-  \ 'active_filetypes': ['ruby', 'c', 'javascript', 'coffee']}
+  \ 'active_filetypes': ['ruby', 'c', 'javascript', 'coffee', 'cpp']}
 
 " Zencoding settings.
 let g:user_zen_leader_key = '<c-e>'
