@@ -175,6 +175,7 @@ autocmd! FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4 expan
 autocmd! FileType c          setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType cpp        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType ragel      setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd! FileType sh         setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 
 " ============================================================================
 " KEY BINDINGS
