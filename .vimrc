@@ -173,6 +173,7 @@ autocmd! FileType ruby       setlocal shiftwidth=2 softtabstop=2 tabstop=2 expan
 autocmd! FileType css        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType javascript setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType c          setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
+autocmd! FileType d          setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType cpp        setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType ragel      setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
 autocmd! FileType sh         setlocal shiftwidth=4 softtabstop=4 tabstop=4 expandtab
