@@ -49,7 +49,7 @@ snippet concern Extends a module using a Concern
 	extend ActiveSupport::Concern
 snippet inc Inserts an include statement
 	include ${1:module}
-snippet gemspec Inserts a new Gem specification
+snippet olery_gemspec Inserts a new Olery Gem specification
 	require File.expand_path('../lib/${1:version path}', __FILE__)
 
 	Gem::Specification.new do |gem|
@@ -66,6 +66,30 @@ snippet gemspec Inserts a new Gem specification
 	  gem.executables = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
 	  gem.test_files  = gem.files.grep(%r{^(test|spec|features)/})
 	end
+#
+#
+snippet gemspec Inserts a new Gem specification
+	require File.expand_path('../lib/${1:name}/version', __FILE__)
+
+	Gem::Specification.new do |s|
+	  s.name        = '$1'
+	  s.version     = ${2:version}
+	  s.date        = Time.now.strftime('%Y-%m-%d')
+	  s.authors     = ['Yorick Peterse']
+	  s.email       = 'yorickpeterse@gmail.com'
+	  s.summary     = '${3:description}'
+	  s.homepage    = 'https://github.com/yorickpeterse/$1/'
+	  s.description = s.summary
+	  s.executables = []
+	  s.license     = 'MIT'
+
+	  s.files = File.read(File.expand_path('../MANIFEST', __FILE__)).split("\n")
+
+	  s.has_rdoc              = 'yard'
+	  s.required_ruby_version = '>= 1.9.3'
+	end
+#
+#
 snippet daemonkit_rollbar Configuration for Rollbar and daemon-kit
 	require 'rollbar'
 
