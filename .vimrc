@@ -103,7 +103,7 @@ set number
 set synmaxcol=256
 filetype plugin indent on
 syntax on
-color autumn
+color happy_hacking
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
@@ -143,6 +143,15 @@ function! Email()
 function! Normal()
   set colorcolumn=79
   set textwidth=79
+:endfunction
+
+" Shows the syntax group name of the element under the cursor. Taken from the
+" following Wiki page:
+" http://vim.wikia.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
+function! ShowSyntax()
+  :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
+  \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
+  \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
 :endfunction
 
 " ============================================================================
@@ -187,6 +196,7 @@ map <F3> :call Email()<CR><Esc>
 map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
+map <F10> :call ShowSyntax()<CR><Esc>
 
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
