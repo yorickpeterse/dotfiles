@@ -52,3 +52,6 @@
 [submodule ".vim/bundle/d.vim"]
 	path = .vim/bundle/d.vim
 	url = git@github.com:JesseKPhillips/d.vim.git
+[submodule ".vim/bundle/happy_hacking"]
+	path = .vim/bundle/happy_hacking
+	url = git@github.com:YorickPeterse/happy_hacking.vim.git
