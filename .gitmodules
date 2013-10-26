@@ -22,9 +22,6 @@
 [submodule ".vim/bundle/syntastic"]
 	path = .vim/bundle/syntastic
 	url = git://github.com/scrooloose/syntastic.git
-[submodule ".vim/bundle/autumn"]
-	path = .vim/bundle/autumn
-	url = git://github.com/YorickPeterse/Autumn.vim.git
 [submodule ".vim/bundle/tabular"]
 	path = .vim/bundle/tabular
 	url = git://github.com/godlygeek/tabular.git
@@ -40,18 +37,12 @@
 [submodule ".vim/bundle/vim-ragel"]
 	path = .vim/bundle/vim-ragel
 	url = git://github.com/arsenerei/vim-ragel.git
-[submodule ".vim/bundle/vim-vala"]
-	path = .vim/bundle/vim-vala
-	url = git://github.com/tkztmk/vim-vala.git
 [submodule ".vim/bundle/vim-slim"]
 	path = .vim/bundle/vim-slim
 	url = git://github.com/slim-template/vim-slim.git
 [submodule ".vim/bundle/ctrlp.vim"]
 	path = .vim/bundle/ctrlp.vim
 	url = git://github.com/kien/ctrlp.vim.git
-[submodule ".vim/bundle/d.vim"]
-	path = .vim/bundle/d.vim
-	url = git@github.com:JesseKPhillips/d.vim.git
 [submodule ".vim/bundle/happy_hacking"]
 	path = .vim/bundle/happy_hacking
 	url = git@github.com:YorickPeterse/happy_hacking.vim.git
