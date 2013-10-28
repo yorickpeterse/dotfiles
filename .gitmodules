@@ -46,3 +46,6 @@
 [submodule ".vim/bundle/happy_hacking"]
 	path = .vim/bundle/happy_hacking
 	url = git@github.com:YorickPeterse/happy_hacking.vim.git
+[submodule ".vim/bundle/vim-less"]
+	path = .vim/bundle/vim-less
+	url = git@github.com:groenewege/vim-less.git
