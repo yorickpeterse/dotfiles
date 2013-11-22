@@ -80,10 +80,6 @@ let g:syntastic_mode_map = {
   \ 'mode': 'passive',
   \ 'active_filetypes': ['ruby', 'c', 'javascript', 'coffee', 'cpp']}
 
-" Zencoding settings.
-let g:user_zen_leader_key = '<c-e>'
-let g:user_zen_settings   = {'indentation' : '    '}
-
 " snipMate settings.
 let g:snips_author = 'Yorick Peterse'
 
@@ -131,20 +127,6 @@ function! Trim()
   call cursor(l, c)
 :endfunction
 
-" Function that switches Vim into "Email" mode allowing me to write nicely
-" aligned Emails in Vim.
-function! Email()
-  set ft=mail
-  set colorcolumn=72
-  set textwidth=72
-:endfunction
-
-" Switches Vim back to normal mode.
-function! Normal()
-  set colorcolumn=79
-  set textwidth=79
-:endfunction
-
 " Shows the syntax group name of the element under the cursor. Taken from the
 " following Wiki page:
 " http://vim.wikia.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
@@ -165,7 +147,6 @@ function! ShowSyntax()
 autocmd! BufWritePre * :call Trim()
 
 " Set a few filetypes for some uncommon extendsions
-autocmd! BufRead,BufNewFile *.xhtml  set filetype=html
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
@@ -193,8 +174,6 @@ autocmd! FileType sh         setlocal sw=4 sts=4 ts=4 expandtab
 "
 " A collection of custom key bindings.
 "
-map <F3> :call Email()<CR><Esc>
-map <F4> :call Normal()<CR><Esc>
 map <F5> :Errors<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
 map <F10> :call ShowSyntax()<CR><Esc>
