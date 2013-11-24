@@ -1,25 +1,28 @@
 [user]
-	name  = Yorick Peterse
-	email = yorickpeterse@gmail.com
+  name  = Yorick Peterse
+  email = yorickpeterse@gmail.com
 
 [diff]
-	color = always
+  color = always
 
 [branch]
-	color = always
+  color = always
 
 [core]
-	autocrlf     = input
-	filemode     = false
-	excludesfile = /home/yorickpeterse/.gitignore_global
-	ignorecase   = false
-	editor       = gvim -f
-
-[merge]
-	tool = meld
+  autocrlf     = input
+  filemode     = false
+  excludesfile = /home/yorickpeterse/.gitignore_global
+  ignorecase   = false
+  editor       = gvim -f
 
 [github]
-	user = yorickpeterse
+  user = yorickpeterse
 
 [color]
-	ui = true
+  ui = true
+
+[mergetool "fugitive"]
+  cmd = gvim -f -c \"Gdiff\" \"$MERGED\"
+
+[merge]
+  tool = fugitive
