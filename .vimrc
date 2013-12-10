@@ -174,7 +174,7 @@ autocmd! FileType sh         setlocal sw=4 sts=4 ts=4 expandtab
 "
 " A collection of custom key bindings.
 "
-map <F5> :Errors<CR><Esc>
+map <F5> :SyntasticCheck<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
 map <F10> :call ShowSyntax()<CR><Esc>
 
