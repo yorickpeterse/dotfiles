@@ -107,9 +107,9 @@ if version >= 703
 endif
 
 " Indentation settings
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
+set shiftwidth=4
+set softtabstop=4
+set tabstop=4
 set expandtab
 
 " ============================================================================
@@ -159,15 +159,10 @@ autocmd InsertLeave * match Visual /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
 " Use 2 spaces per indentation level for Ruby, YAML and Vim script.
-autocmd! FileType ruby       setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType css        setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType scss       setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType javascript setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType c          setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType d          setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType cpp        setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType ragel      setlocal sw=4 sts=4 ts=4 expandtab
-autocmd! FileType sh         setlocal sw=4 sts=4 ts=4 expandtab
+autocmd! FileType ruby   setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType eruby  setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType yaml   setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
 
 " ============================================================================
 " KEY BINDINGS
