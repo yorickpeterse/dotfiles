@@ -78,7 +78,7 @@ set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
 " Ignore syntax checking for Shell scripts as this is currently broken.
 let g:syntastic_mode_map = {
   \ 'mode': 'passive',
-  \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp']}
+  \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp', 'rust']}
 
 " snipMate settings.
 let g:snips_author = 'Yorick Peterse'
