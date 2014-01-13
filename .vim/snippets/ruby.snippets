@@ -74,7 +74,6 @@ snippet gemspec Inserts a new Gem specification
 	Gem::Specification.new do |s|
 	  s.name        = '$1'
 	  s.version     = ${2:version}
-	  s.date        = Time.now.strftime('%Y-%m-%d')
 	  s.authors     = ['Yorick Peterse']
 	  s.email       = 'yorickpeterse@gmail.com'
 	  s.summary     = '${3:description}'
