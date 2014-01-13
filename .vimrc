@@ -87,6 +87,9 @@ let g:syntastic_mode_map = {
   \ 'mode': 'passive',
   \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp', 'rust']}
 
+" Eat your own dog food
+let g:syntastic_ruby_checkers = ['rubylint']
+
 " snipMate settings.
 let g:snips_author = 'Yorick Peterse'
 
