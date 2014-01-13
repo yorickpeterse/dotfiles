@@ -52,6 +52,13 @@ set nocursorline
 " characters quite a bit and I hardly rely on it anyway.
 let loaded_matchparen = 1
 
+" Use ag for the :grep command as well as for Ctrlp
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor
+
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+endif
+
 " ============================================================================
 " PLUGIN SETTINGS
 "
