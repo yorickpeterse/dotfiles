@@ -55,6 +55,3 @@
 [submodule ".vim/bundle/vim-fugitive"]
 	path = .vim/bundle/vim-fugitive
 	url = git@github.com:tpope/vim-fugitive.git
-[submodule ".vim/bundle/ag.vim"]
-	path = .vim/bundle/ag.vim
-	url = git@github.com:rking/ag.vim.git
