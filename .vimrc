@@ -90,8 +90,9 @@ let g:syntastic_mode_map = {
 " Eat your own dog food
 let g:syntastic_ruby_checkers = ['rubylint']
 
-" snipMate settings.
-let g:snips_author = 'Yorick Peterse'
+" UltiSnips settings.
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
