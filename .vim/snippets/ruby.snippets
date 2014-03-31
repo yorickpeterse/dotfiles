@@ -4,8 +4,6 @@ snippet #! Inserts a Ruby shebang
 #
 # Debugging snippets.
 #
-snippet ap_val Prints a value using Awesome Print
-	require 'awesome_print'; ap ${1:value}
 snippet pry_binding Inserts a Pry binding
 	require 'pry'; binding.pry
 snippet pry_daemon Inserts a Pry binding for daemons
@@ -39,16 +37,6 @@ snippet if Inserts an if statement
 	if ${1:statement}
 	  ${0}
 	end
-snippet rlint-def Inserts a method definition for ruby-lint
-	klass.define_method('${1:name}') do |method|
-	  ${0}
-	end
-snippet rlint-arg Inserts a argument definition for ruby-lint
-	method.define_${1:}argument('${2:name}')${0}
-snippet concern Extends a module using a Concern
-	extend ActiveSupport::Concern
-snippet inc Inserts an include statement
-	include ${1:module}
 snippet olery_gemspec Inserts a new Olery Gem specification
 	require File.expand_path('../lib/${1:version path}', __FILE__)
 
