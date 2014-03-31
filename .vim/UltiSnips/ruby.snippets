@@ -1,0 +1,112 @@
+# Collection of various Ruby snippets.
+
+snippet #! "Inserts a Ruby shebang"
+#!/usr/bin/env ruby
+endsnippet
+
+# Debugging snippets.
+
+snippet pry_binding "Inserts a Pry binding"
+require 'pry'; binding.pry
+endsnippet
+
+snippet pry_daemon "Inserts a Pry binding for daemons"
+STDIN.reopen('/dev/tty'); require 'pry'; binding.pry
+endsnippet
+
+# Language elements such as method definitions.
+
+snippet def "Inserts a new method"
+##
+# ${2:Description of this method.}
+#
+def ${1:method_name}
+  ${0}
+end
+endsnippet
+
+snippet class "Inserts a new class"
+##
+# ${2:Class description}
+#
+class ${1:name}
+  ${0}
+end # $1
+endsnippet
+
+snippet module "Inserts a new module"
+module ${1:name}
+  ${0}
+end # $1
+endsnippet
+
+snippet do "Inserts a do/end block"
+do
+  ${0}
+end
+endsnippet
+
+snippet if "Inserts an if statement"
+if ${1:statement}
+  ${0}
+end
+endsnippet
+
+snippet olery_gemspec "Inserts a new Olery Gem specification"
+require File.expand_path('../lib/${1:version path}', __FILE__)
+
+Gem::Specification.new do |gem|
+  gem.name        = '${2:name}'
+  gem.version     = ${3:version}
+  gem.authors     = ['${4:author}']
+  gem.summary     = '${5:summary}'
+  gem.description = gem.summary
+  gem.has_rdoc    = 'yard'
+
+  gem.required_ruby_version = '>= 1.9.3'
+
+  gem.files       = \`git ls-files\`.split("\n").sort
+  gem.executables = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
+  gem.test_files  = gem.files.grep(%r{^(test|spec|features)/})
+end
+endsnippet
+
+snippet gemspec "Inserts a new Gem specification"
+require File.expand_path('../lib/${1:name}/version', __FILE__)
+
+Gem::Specification.new do |s|
+  s.name        = '$1'
+  s.version     = ${2:version}
+  s.authors     = ['Yorick Peterse']
+  s.email       = 'yorickpeterse@gmail.com'
+  s.summary     = '${3:description}'
+  s.homepage    = 'https://github.com/yorickpeterse/$1/'
+  s.description = s.summary
+  s.executables = []
+  s.license     = 'MIT'
+
+  s.files = File.read(File.expand_path('../MANIFEST', __FILE__)).split("\n")
+
+  s.has_rdoc              = 'yard'
+  s.required_ruby_version = '>= 1.9.3'
+end
+endsnippet
+
+snippet daemonkit_rollbar "Configuration for Rollbar and daemon-kit"
+require 'rollbar'
+
+Rollbar.configure do |config|
+  config.access_token = '${1:api_key}'
+  config.enabled      = %w{production staging}.include?(DaemonKit.env)
+  config.environment  = DaemonKit.env
+end
+
+# Snippets for documentation.
+
+snippet @param "Inserts a new YARDOC parameter tag"
+@param [${1:type}] ${2:name} ${3:description}
+endsnippet
+
+snippet @return "Inserts a new YARDOC return tag"
+@return [${1:type}]
+endsnippet
