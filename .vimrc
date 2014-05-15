@@ -38,11 +38,6 @@ set printoptions=header:0
 let mapleader      = ','
 let maplocalleader = '\'
 
-" Allow per directory .vimrc files. These files can be used to set project
-" specific configuration options.
-set exrc
-set secure
-
 " These settings are disabled to get some extra performance out of Vim when
 " dealing with large files.
 set nocursorcolumn
@@ -128,7 +123,6 @@ set expandtab
 "
 " A collection of custom functions such as a function used for trimming
 " trailing whitespace or converting a file's encoding to UTF-8.
-"
 
 " Removes trailing whitespace from the current buffer.
 function! Trim()
@@ -138,26 +132,16 @@ function! Trim()
   call cursor(l, c)
 :endfunction
 
-" Shows the syntax group name of the element under the cursor. Taken from the
-" following Wiki page:
-" http://vim.wikia.com/wiki/Identify_the_syntax_highlighting_group_used_at_the_cursor
-function! ShowSyntax()
-  :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-  \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-  \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"
-:endfunction
-
 " ============================================================================
 " HOOKS
 "
 " Collection of various hooks that have to be executed when a certain filetype
 " is set or action is executed.
-"
 
 " Automatically strip trailing whitespace.
 autocmd! BufWritePre * :call Trim()
 
-" Set a few filetypes for some uncommon extendsions
+" Set a few filetypes for some uncommon extensions
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
 autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
