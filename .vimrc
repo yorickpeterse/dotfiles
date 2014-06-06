@@ -166,7 +166,6 @@ autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
 "
 map <F5> :SyntasticCheck<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
-map <F10> :call ShowSyntax()<CR><Esc>
 
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
