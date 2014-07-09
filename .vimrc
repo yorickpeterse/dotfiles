@@ -99,7 +99,7 @@ let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__']
 " Settings related to configuring the syntax features of Vim such as the text
 " width, what theme to use and so on.
 "
-set textwidth=79
+set textwidth=80
 set nowrap
 set number
 set synmaxcol=256
@@ -109,7 +109,7 @@ color happy_hacking
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
-  set colorcolumn=79
+  set colorcolumn=80
 endif
 
 " Indentation settings
