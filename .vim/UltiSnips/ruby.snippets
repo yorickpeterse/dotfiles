@@ -55,21 +55,23 @@ endsnippet
 snippet gemspec "Inserts a new Gem specification"
 require File.expand_path('../lib/${1:name}/version', __FILE__)
 
-Gem::Specification.new do |s|
-  s.name        = '$1'
-  s.version     = ${2:version}
-  s.authors     = ['Yorick Peterse']
-  s.email       = 'yorickpeterse@gmail.com'
-  s.summary     = '${3:description}'
-  s.homepage    = 'https://github.com/yorickpeterse/$1/'
-  s.description = s.summary
-  s.executables = []
-  s.license     = 'MIT'
+Gem::Specification.new do |gem|
+  gem.name        = '$1'
+  gem.version     = ${2:version}
+  gem.authors     = ['Yorick Peterse']
+  gem.email       = 'yorickpeterse@gmail.com'
+  gem.summary     = '${3:description}'
+  gem.homepage    = 'https://github.com/yorickpeterse/$1/'
+  gem.description = gem.summary
+  gem.executables = []
+  gem.license     = 'MIT'
 
-  s.files = File.read(File.expand_path('../MANIFEST', __FILE__)).split("\n")
+  gem.files = Dir.glob([
+    '${2}',${0}
+  ]).select { |file| File.file?(file) }
 
-  s.has_rdoc              = 'yard'
-  s.required_ruby_version = '>= 1.9.3'
+  gem.has_rdoc              = 'yard'
+  gem.required_ruby_version = '>= 1.9.3'
 end
 endsnippet
 
