@@ -5,3 +5,6 @@ remove Control = Control_L
 keysym Caps_Lock = Control_L
 
 add Control = Control_L
+
+! Map the compose key to the right alt key
+keycode 108 = Multi_key
