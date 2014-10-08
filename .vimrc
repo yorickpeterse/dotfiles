@@ -105,6 +105,7 @@ set textwidth=80
 set nowrap
 set number
 set synmaxcol=256
+set diffopt=filler,vertical
 filetype plugin indent on
 syntax on
 color happy_hacking
