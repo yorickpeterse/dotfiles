@@ -21,18 +21,11 @@ lower_name=`perl -e "my \\$str = lc '$img_url'; \
 
 # Build the URL to use for the is.gd API
 img_url=`perl -e "use URI::Escape; print lc uri_escape(\"$lower_name\");"`
-img_url="$IMAGE_URL$img_url"
-
-# Determine what clipboard app to use
-if [[ `type -P xclip` ]]; then
-  clip='xclip -selection clipboard'
-else
-  clip='pbcopy'
-fi
+img_url="http://downloads.yorickpeterse.com/images/$img_url"
 
 echo 'Uploading image...'
 
-`scp -q "$1" $IMAGE_USER@$IMAGE_HOST:$IMAGE_PATH$lower_name`
+aws s3 cp "$1" "s3://downloads.yorickpeterse.com/images/$lower_name"
 
-echo $img_url | $clip
+echo $img_url | xclip -selection clipboard
 echo "The image ($img_url) has been uploaded and copied to your clipboard"
