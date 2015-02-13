@@ -150,6 +150,7 @@ autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
 autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 autocmd! BufRead,BufNewFile *.rs     set filetype=rust
+autocmd! BufRead,BufNewFile *.rll    set filetype=rll
 
 " Taken from http://vim.wikia.com/wiki/Highlight_unwanted_spaces
 autocmd BufWinEnter * match Visual /\s\+$/
