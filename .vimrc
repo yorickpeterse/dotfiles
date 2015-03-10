@@ -172,6 +172,10 @@ autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
 map <F5> :SyntasticCheck<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
 
+" I press this combination so often by accident it's really annoying, I have no
+" need for it so go away.
+map K <nop>
+
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
 "
