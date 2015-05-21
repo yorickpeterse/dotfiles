@@ -25,7 +25,7 @@ img_url="http://downloads.yorickpeterse.com/images/$img_url"
 
 echo 'Uploading image...'
 
-aws s3 cp "$1" "s3://downloads.yorickpeterse.com/images/$lower_name"
+aws s3 cp "$1" "s3://downloads.yorickpeterse.com/images/$lower_name" --acl public-read
 
 echo $img_url | xclip -selection clipboard
 echo "The image ($img_url) has been uploaded and copied to your clipboard"
