@@ -1,6 +1,7 @@
 !.vimrc
 .vim/.netrwhist
 .vim/spell
+.vim/plugged
 
 bin/chromedriver
 bin/fan-control
