@@ -62,8 +62,30 @@ let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.(git|hg|svn|staging)$'}
 " Settings for various plugins such as Pathogen and Syntastic.
 "
 
-runtime bundle/pathogen/autoload/pathogen.vim
-call pathogen#infect()
+let g:plug_url_format = 'git@github.com:%s.git'
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'editorconfig/editorconfig-vim'
+Plug 'godlygeek/tabular'
+Plug 'kchmck/vim-coffee-script'
+Plug 'kien/ctrlp.vim'
+Plug 'MarcWeber/vim-addon-mw-utils'
+Plug 'noprompt/vim-yardoc'
+Plug 'pangloss/vim-javascript'
+Plug 'Raimondi/delimitMate'
+Plug 'rking/ag.vim'
+Plug 'rust-lang/rust.vim'
+Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/syntastic', {'on': 'SyntasticCheck'}
+Plug 'SirVer/ultisnips'
+Plug 'tomtom/tlib_vim'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-haml'
+Plug 'vim-scripts/tComment'
+Plug 'YorickPeterse/happy_hacking.vim'
+
+call plug#end()
 
 " Syntastic settings.
 let g:syntastic_auto_loc_list  = 0
@@ -74,10 +96,10 @@ let g:syntastic_c_check_header          = 0
 let g:syntastic_c_compiler_options      = ' -Wextra -Wall'
 let g:syntastic_c_remove_include_errors = 1
 
-let g:syntastic_cpp_compiler_options   = ' -Wextra -Wall -std=c++0x'
+let g:syntastic_cpp_compiler_options   = ' -Wextra -Wall -std=c++11'
 let g:syntastic_javascript_jshint_args = '--config /home/yorickpeterse/.jshint'
 
-set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{SyntasticStatuslineFlag()}%*
+set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}%*
 
 " Ignore syntax checking for Shell scripts as this is currently broken.
 let g:syntastic_mode_map = {
@@ -93,7 +115,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$']
 
 " ============================================================================
 " SYNTAX SETTINGS
@@ -163,6 +185,7 @@ autocmd! FileType ruby   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType eruby  setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType yaml   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType rust   setlocal tw=80
 
 " ============================================================================
 " KEY BINDINGS
