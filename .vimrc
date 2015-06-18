@@ -74,7 +74,7 @@ Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'noprompt/vim-yardoc'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
-Plug 'rking/ag.vim'
+Plug 'rking/ag.vim', {'on': 'Ag'}
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
 Plug 'scrooloose/syntastic', {'on': 'SyntasticCheck'}
