@@ -76,7 +76,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
 Plug 'rking/ag.vim', {'on': 'Ag'}
 Plug 'rust-lang/rust.vim'
-Plug 'scrooloose/nerdtree', {'on': 'NERDTreeToggle'}
+Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic', {'on': 'SyntasticCheck'}
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tlib_vim'
