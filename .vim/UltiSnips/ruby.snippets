@@ -21,7 +21,7 @@ snippet def "Inserts a new method"
 # ${2:Description of this method.}
 #
 def ${1:method_name}
-  ${0}
+	${0}
 end
 endsnippet
 
@@ -30,25 +30,31 @@ snippet class "Inserts a new class"
 # ${2:Class description}
 #
 class ${1:name}
-  ${0}
+	${0}
 end # $1
 endsnippet
 
 snippet module "Inserts a new module"
 module ${1:name}
-  ${0}
+	${0}
 end # $1
 endsnippet
 
 snippet do "Inserts a do/end block"
 do
-  ${0}
+	${0}
+end
+endsnippet
+
+snippet doa "Inserts a do/end block with arguments"
+do |${1}|
+	${0}
 end
 endsnippet
 
 snippet if "Inserts an if statement"
 if ${1:statement}
-  ${0}
+	${0}
 end
 endsnippet
 
@@ -56,28 +62,28 @@ snippet gemspec "Inserts a new Gem specification"
 require File.expand_path('../lib/${1:name}/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.name        = '$1'
-  gem.version     = ${2:version}
-  gem.authors     = ['Yorick Peterse']
-  gem.email       = 'yorickpeterse@gmail.com'
-  gem.summary     = '${3:description}'
-  gem.homepage    = 'https://github.com/yorickpeterse/$1/'
-  gem.description = gem.summary
-  gem.executables = []
-  gem.license     = 'MIT'
+	gem.name        = '$1'
+	gem.version     = ${2:version}
+	gem.authors     = ['Yorick Peterse']
+	gem.email       = 'yorickpeterse@gmail.com'
+	gem.summary     = '${3:description}'
+	gem.homepage    = 'https://github.com/yorickpeterse/$1/'
+	gem.description = gem.summary
+	gem.executables = []
+	gem.license     = 'MIT'
 
-  gem.files = Dir.glob([
-    '${2}',${0}
-  ]).select { |file| File.file?(file) }
+	gem.files = Dir.glob([
+		'${2}',${0}
+	]).select { |file| File.file?(file) }
 
-  gem.has_rdoc              = 'yard'
-  gem.required_ruby_version = '>= 1.9.3'
+	gem.has_rdoc              = 'yard'
+	gem.required_ruby_version = '>= 1.9.3'
 end
 endsnippet
 
 snippet gemspec_files "Inserts code for Gemspec files"
 ${1:gem}.files = Dir.glob([
-  '${2}',${0}
+	'${2}',${0}
 ]).select { |file| File.file?(file) }
 endsnippet
 
@@ -89,9 +95,9 @@ snippet daemonkit_rollbar "Configuration for Rollbar and daemon-kit"
 require 'rollbar'
 
 Rollbar.configure do |config|
-  config.access_token = '${1:api_key}'
-  config.enabled      = %w{production staging}.include?(DaemonKit.env)
-  config.environment  = DaemonKit.env
+	config.access_token = '${1:api_key}'
+	config.enabled      = %w{production staging}.include?(DaemonKit.env)
+	config.environment  = DaemonKit.env
 end
 endsnippet
 
@@ -107,11 +113,11 @@ endsnippet
 
 snippet rspec_syn "Enables the old RSpec syntax for RSpec 3"
 ${1:config}.expect_with :rspec do |c|
-  c.syntax = [:should, :expect]
+	c.syntax = [:should, :expect]
 end
 
 $1.mock_with :rspec do |c|
-  c.syntax = [:should, :expect]
+	c.syntax = [:should, :expect]
 end
 endsnippet
 
