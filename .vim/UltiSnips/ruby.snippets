@@ -58,6 +58,24 @@ if ${1:statement}
 end
 endsnippet
 
+snippet before "Inserts a before block"
+before do
+	${1}
+end${0}
+endsnippet
+
+snippet it "Inserts an RSpec it block"
+it '${1:description}' do
+	${0}
+end
+endsnippet
+
+snippet describe "Inserts an RSpec describe block"
+describe '${1:description}' do
+	${0}
+end
+endsnippet
+
 snippet gemspec "Inserts a new Gem specification"
 require File.expand_path('../lib/${1:name}/version', __FILE__)
 
