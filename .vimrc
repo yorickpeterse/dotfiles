@@ -199,6 +199,12 @@ map <F6> :NERDTreeToggle<CR><Esc>
 " need for it so go away.
 map K <nop>
 
+" Using the scroll wheel makes my shoulder cry out in pain.
+map <ScrollWheelUp> <nop>
+map <S-ScrollWheelUp> <nop>
+map <ScrollWheelDown> <nop>
+map <S-ScrollWheelDown> <nop>
+
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
 "
