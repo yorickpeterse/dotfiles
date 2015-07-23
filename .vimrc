@@ -204,6 +204,10 @@ map <ScrollWheelUp> <nop>
 map <S-ScrollWheelUp> <nop>
 map <ScrollWheelDown> <nop>
 map <S-ScrollWheelDown> <nop>
+map <ScrollWheelLeft> <nop>
+map <S-ScrollWheelLeft> <nop>
+map <ScrollWheelRight> <nop>
+map <S-ScrollWheelRight> <nop>
 
 " ============================================================================
 " HOST SPECIFIC CONFIGURATION
