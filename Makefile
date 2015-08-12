@@ -8,6 +8,7 @@ help:
 	@echo "fonts       # Configures X11 to properly render fonts"
 	@echo "pry         # Creates the configuration files for Pry"
 	@echo "keybindings # Configures keybindings"
+	@echo "fish        # Configures fish"
 
 all:
 	@make vim
@@ -18,8 +19,6 @@ all:
 	@make keybindings
 
 vim:
-	@git submodule init
-	@git submodule update
 	@ln -s ${PWD}/.vim ${HOME}/.vim
 	@ln -s ${PWD}/.vimrc ${HOME}/.vimrc
 	@ln -s ${PWD}/.gvimrc ${HOME}/.gvimrc
@@ -41,3 +40,6 @@ pry:
 keybindings:
 	@ln -s ${PWD}/.Xmodmap ${HOME}/.Xmodmap
 	@xmodmap ${HOME}/.Xmodmap
+
+fish:
+	@ln -s ${PWD}/.config/fish ${HOME}/.config/fish
