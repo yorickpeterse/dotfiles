@@ -84,6 +84,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-haml'
 Plug 'vim-scripts/tComment'
 Plug 'YorickPeterse/happy_hacking.vim'
+Plug 'dag/vim-fish'
 
 call plug#end()
 
