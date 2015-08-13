@@ -18,6 +18,8 @@ set fish_color_error red
 set fish_color_status red
 set fish_color_comment 9e9e9e
 set fish_color_operator normal
+set fish_color_redirection yellow
+set fish_color_end yellow
 set fish_color_search_match --background=333333
 set fish_color_valid_path
 set fish_color_match yellow
