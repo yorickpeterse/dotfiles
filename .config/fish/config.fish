@@ -23,7 +23,7 @@ set fish_color_end yellow
 set fish_color_search_match --background=333333
 set fish_color_valid_path
 set fish_color_match yellow
-set fish_color_autosuggestion normal
+set fish_color_autosuggestion $fish_color_comment
 
 set fish_pager_color_prefix yellow
 set fish_pager_color_progress yellow
