@@ -9,6 +9,9 @@ set -x EDITOR 'gvim -f'
 set -x PATH $PATH $HOME/bin
 
 set fish_greeting
+set fish_color_command normal
+set fish_color_param normal
+set fish_color_quote green
 set fish_color_cwd yellow
 set fish_color_cwd_root yellow
 set fish_color_error red
