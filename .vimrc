@@ -105,10 +105,7 @@ set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{exists('g:loaded_syntastic_plugin'
 " Ignore syntax checking for Shell scripts as this is currently broken.
 let g:syntastic_mode_map = {
   \ 'mode': 'passive',
-  \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp', 'rust']}
-
-" Eat your own dog food
-let g:syntastic_ruby_checkers = ['rubylint']
+  \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp', 'rust', 'ruby']}
 
 " UltiSnips settings.
 let g:UltiSnipsJumpForwardTrigger="<tab>"
