@@ -1,7 +1,6 @@
 set -x CHRUBY_ROOT /usr
 
 source /usr/share/chruby/chruby.fish
-source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
 set -x TERM 'screen-256color'
@@ -31,9 +30,4 @@ set fish_pager_color_completion normal
 set fish_pager_color_description $fish_color_comment
 
 chruby_reset
-
-if test -e $PWD/.ruby-version
-    chruby (cat $PWD/.ruby-version)
-else
-    chruby (cat $HOME/.ruby-version)
-end
+chruby (cat $HOME/.ruby-version)
