@@ -6,6 +6,7 @@ source $HOME/.config/fish/private.fish
 set -x TERM 'screen-256color'
 set -x EDITOR 'gvim -f'
 set -x PATH $PATH $HOME/bin
+set -x DISABLE_SPRING '1'
 
 set fish_greeting
 set fish_color_command normal
