@@ -9,6 +9,7 @@ help:
 	@echo "pry         # Creates the configuration files for Pry"
 	@echo "keybindings # Configures keybindings"
 	@echo "fish        # Configures fish"
+	@echo "gtk         # Sets up GTK"
 
 all:
 	@make vim
@@ -17,6 +18,7 @@ all:
 	@make fonts
 	@make pry
 	@make keybindings
+	@make gtk
 
 vim:
 	@ln -s ${PWD}/.vim ${HOME}/.vim
@@ -43,3 +45,6 @@ keybindings:
 
 fish:
 	@ln -s ${PWD}/.config/fish ${HOME}/.config/
+
+gtk:
+	@ln -s ${PWD}/.gtkrc-2.0 ${HOME}/.gtkrc-2.0
