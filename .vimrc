@@ -183,6 +183,7 @@ autocmd! FileType ruby   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType eruby  setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType yaml   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType haml   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType rust   setlocal tw=80
 
 " ============================================================================
