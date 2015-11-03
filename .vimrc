@@ -114,6 +114,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
 let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$']
+let NERDTreeWinSize       = 25
 
 " ============================================================================
 " SYNTAX SETTINGS
