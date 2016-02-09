@@ -6,7 +6,7 @@ source $HOME/.config/fish/private.fish
 
 set -x TERM 'screen-256color'
 set -x EDITOR 'gvim -f'
-set -x PATH $PATH $HOME/bin
+set -x PATH $PATH $HOME/bin $HOME/.cargo/bin
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
 
