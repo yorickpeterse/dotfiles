@@ -43,10 +43,6 @@ let maplocalleader = '\'
 set nocursorcolumn
 set nocursorline
 
-" I've disabled parens matching since it usually slows down drawing of
-" characters quite a bit and I hardly rely on it anyway.
-let loaded_matchparen = 1
-
 " Use ag for the :grep command as well as for Ctrlp
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor
