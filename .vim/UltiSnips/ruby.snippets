@@ -72,6 +72,12 @@ describe '${1:description}' do
 end
 endsnippet
 
+snippet context "Inserts an RSpec context block"
+context '${1:description}' do
+	${0}
+end
+endsnippet
+
 snippet gemspec "Inserts a new Gem specification"
 require File.expand_path('../lib/${1:name}/version', __FILE__)
 
