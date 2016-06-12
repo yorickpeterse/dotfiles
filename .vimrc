@@ -50,8 +50,6 @@ if executable('ag')
   let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
 endif
 
-let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.(git|hg|svn|staging)$'}
-
 " ============================================================================
 " PLUGIN SETTINGS
 "
@@ -84,6 +82,9 @@ Plug 'dag/vim-fish'
 
 call plug#end()
 
+" ctrl-p
+let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.(git|hg|svn|staging)$'}
+
 " Syntastic settings.
 let g:syntastic_auto_loc_list  = 0
 let g:syntastic_stl_format     = '[%E{Errors: %e, line %fe}%B{ | }'
@@ -111,6 +112,9 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let NERDTreeShowBookmarks = 0
 let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$']
 let NERDTreeWinSize       = 25
+
+" rust.vim
+let g:rustfmt_autosave = 1
 
 " ============================================================================
 " SYNTAX SETTINGS
