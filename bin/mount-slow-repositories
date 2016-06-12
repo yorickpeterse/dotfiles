@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+sudo tc qdisc del dev lo root
+sudo tc qdisc add dev lo root netem delay 2ms
+
+sshfs -o cache=no -f \
+    yorickpeterse@localhost:/home/yorickpeterse/Projects/gitlab/repositories \
+    /mnt/repositories
+
+sudo tc qdisc del dev lo root
