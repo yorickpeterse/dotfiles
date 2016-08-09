@@ -62,13 +62,10 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'
-Plug 'kchmck/vim-coffee-script'
 Plug 'kien/ctrlp.vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
-Plug 'noprompt/vim-yardoc'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
-Plug 'rking/ag.vim', {'on': 'Ag'}
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/syntastic', {'on': 'SyntasticCheck'}
