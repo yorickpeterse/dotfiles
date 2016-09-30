@@ -5,7 +5,7 @@ source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
 set -x TERM 'xterm-256color'
-set -x EDITOR 'gvim -f'
+set -x EDITOR 'nvim'
 set -x PATH $HOME/.cargo/bin $PATH $HOME/bin
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
