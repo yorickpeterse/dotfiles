@@ -9,6 +9,7 @@ set -x EDITOR 'gvim -f'
 set -x PATH $HOME/.cargo/bin $PATH $HOME/bin
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
+set -x NVIM_TUI_ENABLE_CURSOR_SHAPE 1
 
 set fish_greeting
 set fish_color_command normal
