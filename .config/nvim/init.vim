@@ -68,9 +68,9 @@ Plug 'kien/ctrlp.vim'
 Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
-Plug 'rust-lang/rust.vim'
+Plug 'rust-lang/rust.vim', {'commit': 'a4d6fb2ab526ccc93a6a321a2425a234f9f7665f'}
 Plug 'scrooloose/nerdtree'
-Plug 'scrooloose/syntastic', {'on': 'SyntasticCheck'}
+Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-fugitive'
@@ -78,31 +78,12 @@ Plug 'tpope/vim-haml'
 Plug 'vim-scripts/tComment'
 Plug 'YorickPeterse/happy_hacking.vim'
 Plug 'dag/vim-fish'
-Plug '~/.vim/plugged/aeon.vim'
+"Plug '~/.vim/plugged/aeon.vim'
 
 call plug#end()
 
 " ctrl-p
 let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.(git|hg|svn|staging)$'}
-
-" Syntastic settings.
-let g:syntastic_auto_loc_list  = 0
-let g:syntastic_stl_format     = '[%E{Errors: %e, line %fe}%B{ | }'
-let g:syntastic_stl_format    .= '%W{Warnings: %w, line %fw}]'
-
-let g:syntastic_c_check_header          = 0
-let g:syntastic_c_compiler_options      = ' -Wextra -Wall'
-let g:syntastic_c_remove_include_errors = 1
-
-let g:syntastic_cpp_compiler_options   = ' -Wextra -Wall -std=c++11'
-let g:syntastic_javascript_jshint_args = '--config /home/yorickpeterse/.jshint'
-
-set statusline=\ \"%t\"\ %y\ %m%#warningmsg#%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}%*
-
-" Ignore syntax checking for Shell scripts as this is currently broken.
-let g:syntastic_mode_map = {
-  \ 'mode': 'passive',
-  \ 'active_filetypes': ['c', 'javascript', 'coffee', 'cpp', 'rust', 'ruby']}
 
 " UltiSnips settings.
 let g:UltiSnipsJumpForwardTrigger="<tab>"
