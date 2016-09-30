@@ -18,3 +18,5 @@ Icon?
 # Ruby specific files.
 .yardoc
 *.gem
+
+.rspec-local
