@@ -32,6 +32,7 @@ set guitablabel=%f
 
 set nohlsearch
 set noincsearch
+set title
 
 " Printer settings
 set printoptions=number:n
