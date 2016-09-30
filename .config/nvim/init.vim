@@ -193,16 +193,3 @@ map <ScrollWheelLeft> <nop>
 map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
-
-" ============================================================================
-" HOST SPECIFIC CONFIGURATION
-"
-" Load a host specific .vimrc. This allows this generic .vimrc file to be
-" re-used across the various machines that I use while still being able to set
-" host specific configuration options.
-"
-" The name .hvimrc is derived from "host specific .vimrc".
-"
-if filereadable(expand('~/.hvimrc'))
-  source ~/.hvimrc
-endif
