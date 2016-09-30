@@ -21,7 +21,6 @@
 " what key combination to use for toggling the paste mode and various other
 " settings.
 "
-set nocompatible
 set backspace=indent,eol,start
 set omnifunc=syntaxcomplete#Complete
 set backupskip=/tmp/*
@@ -131,7 +130,6 @@ color happy_hacking
 
 " Enable true colors in terminals, even in Tmux
 set termguicolors
-set t_ut=
 
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
