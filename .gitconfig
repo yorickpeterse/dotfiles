@@ -1,28 +1,44 @@
 [user]
-  name  = Yorick Peterse
-  email = yorickpeterse@gmail.com
+    name  = Yorick Peterse
+    email = yorickpeterse@gmail.com
+    signingkey = EB691AC9
 
 [diff]
-  color = always
+    color = always
 
 [branch]
-  color = always
+    color = always
 
 [core]
-  autocrlf     = input
-  filemode     = false
-  excludesfile = /home/yorickpeterse/.gitignore_global
-  ignorecase   = false
-  editor       = gvim -f
+    autocrlf     = input
+    filemode     = false
+    excludesfile = /home/yorickpeterse/.gitignore_global
+    ignorecase   = false
+    editor       = nvim
 
 [github]
-  user = yorickpeterse
+    user = yorickpeterse
 
 [color]
-  ui = true
+    ui = true
 
 [mergetool "fugitive"]
-  cmd = gvim -f -c \"Gdiff\" \"$MERGED\"
+    cmd = nvim -c \"Gdiff\" \"$MERGED\"
 
 [merge]
-  tool = fugitive
+    tool = fugitive
+    prompt = false
+
+[alias]
+    today = log --since=\"1 day ago\" --author=\"Yorick Peterse\" --pretty=oneline
+
+[push]
+    default = simple
+
+[filter "lfs"]
+    smudge = git-lfs smudge %f
+    required = true
+    clean = git-lfs clean %f
+
+[commit]
+    gpgsign = true

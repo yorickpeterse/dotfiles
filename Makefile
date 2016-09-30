@@ -25,12 +25,12 @@ tmux:
 	@ln -s ${PWD}/.tmux.conf ${HOME}/.tmux.conf
 
 git:
-	@cp .gitignore_global ${HOME}/.gitignore_global
-	@cp .gitconfig ${HOME}/.gitconfig
+	@ln -s ${PWD}/.gitignore_global ${HOME}/.gitignore_global
+	@ln -s ${PWD}/.gitconfig ${HOME}/.gitconfig
 
 fonts:
-	@cp .Xdefaults ${HOME}/.Xdefaults
-	@cp .fonts.conf ${HOME}/.fonts.conf
+	@ln -s ${PWD}/.Xdefaults ${HOME}/.Xdefaults
+	@ln -s ${PWD}/.fonts.conf ${HOME}/.fonts.conf
 
 pry:
 	@ln -s ${PWD}/.pryrc ${HOME}/.pryrc
