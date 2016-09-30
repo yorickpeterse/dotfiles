@@ -2,28 +2,24 @@ default_target: help
 
 help:
 	@echo "all         # Sets up everything"
-	@echo "vim         # Sets up Vim"
+	@echo "nvim        # Sets up Neovim"
 	@echo "tmux        # Copies the .tmux.conf file to ~/"
 	@echo "git         # Sets the global .gitignore"
 	@echo "fonts       # Configures X11 to properly render fonts"
 	@echo "pry         # Creates the configuration files for Pry"
 	@echo "keybindings # Configures keybindings"
 	@echo "fish        # Configures fish"
-	@echo "gtk         # Sets up GTK"
 
 all:
-	@make vim
+	@make nvim
 	@make tmux
 	@make git
 	@make fonts
 	@make pry
 	@make keybindings
-	@make gtk
 
 vim:
-	@ln -s ${PWD}/.vim ${HOME}/.vim
-	@ln -s ${PWD}/.vimrc ${HOME}/.vimrc
-	@ln -s ${PWD}/.gvimrc ${HOME}/.gvimrc
+	@ln -s ${PWD}/.config/nvim ${HOME}/.config/nvim
 
 tmux:
 	@ln -s ${PWD}/.tmux.conf ${HOME}/.tmux.conf
@@ -45,6 +41,3 @@ keybindings:
 
 fish:
 	@ln -s ${PWD}/.config/fish ${HOME}/.config/
-
-gtk:
-	@ln -s ${PWD}/.gtkrc-2.0 ${HOME}/.gtkrc-2.0
