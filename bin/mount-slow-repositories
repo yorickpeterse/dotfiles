@@ -1,5 +1,6 @@
 #!/usr/bin/env fish
 
+sudo systemctl start sshd
 sudo tc qdisc del dev lo root
 sudo tc qdisc add dev lo root netem delay 2ms
 
@@ -8,3 +9,4 @@ sshfs -o cache=no -f \
     /mnt/repositories
 
 sudo tc qdisc del dev lo root
+sudo systemctl stop sshd
