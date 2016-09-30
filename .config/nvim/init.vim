@@ -148,6 +148,7 @@ function! Trim()
 
 " Automatically strip trailing whitespace.
 autocmd! BufWritePre * :call Trim()
+autocmd! BufWritePost * Neomake
 
 " Set a few filetypes for some uncommon extensions
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
