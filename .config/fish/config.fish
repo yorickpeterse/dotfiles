@@ -4,7 +4,7 @@ source /usr/share/chruby/chruby.fish
 source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
-set -x TERM 'screen-256color'
+set -x TERM 'xterm-256color'
 set -x EDITOR 'gvim -f'
 set -x PATH $HOME/.cargo/bin $PATH $HOME/bin
 set -x DISABLE_SPRING '1'
