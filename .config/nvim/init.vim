@@ -30,6 +30,9 @@ set mouse=a
 set tabline=%f
 set guitablabel=%f
 
+set nohlsearch
+set noincsearch
+
 " Printer settings
 set printoptions=number:n
 set printoptions=header:0
