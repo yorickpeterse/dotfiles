@@ -128,6 +128,10 @@ filetype plugin indent on
 syntax on
 color happy_hacking
 
+" Enable true colors in terminals, even in Tmux
+set termguicolors
+set t_ut=
+
 " colorcolumn doesn't work on slightly older versions of Vim.
 if version >= 703
   set colorcolumn=80
