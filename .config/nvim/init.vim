@@ -56,8 +56,6 @@ endif
 " ============================================================================
 " PLUGIN SETTINGS
 "
-" Settings for various plugins such as Pathogen and Syntastic.
-"
 
 let g:plug_url_format = 'git@github.com:%s.git'
 
@@ -66,20 +64,18 @@ call plug#begin('~/.vim/plugged')
 Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'
 Plug 'kien/ctrlp.vim'
-Plug 'MarcWeber/vim-addon-mw-utils'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
 Plug 'rust-lang/rust.vim', {'commit': 'a4d6fb2ab526ccc93a6a321a2425a234f9f7665f'}
 Plug 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
-Plug 'tomtom/tlib_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-haml'
-Plug 'vim-scripts/tComment'
-Plug 'YorickPeterse/happy_hacking.vim'
 Plug 'dag/vim-fish'
-"Plug '~/.vim/plugged/aeon.vim'
+Plug '~/.vim/plugged/aeon.vim'
+Plug 'YorickPeterse/happy_hacking.vim'
 
 call plug#end()
 
@@ -102,6 +98,7 @@ let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
 " rust.vim
+let g:rustfmt_fail_silently = 1
 let g:rustfmt_autosave = 1
 
 " ============================================================================
@@ -184,7 +181,6 @@ autocmd! FileType rust   setlocal tw=80
 "
 " A collection of custom key bindings.
 "
-map <F5> :SyntasticCheck<CR><Esc>
 map <F6> :NERDTreeToggle<CR><Esc>
 
 " I press this combination so often by accident it's really annoying, I have no
