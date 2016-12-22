@@ -100,6 +100,17 @@ let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:rustfmt_fail_silently = 1
 let g:rustfmt_autosave = 1
 
+" Use relative line numbers by default
+set rnu
+
+function! ToggleLineNumbers()
+    if &rnu
+        set nornu
+    else
+        set rnu
+    end
+endfunction!
+
 " ============================================================================
 " SYNTAX SETTINGS
 "
@@ -180,6 +191,7 @@ autocmd! FileType rust   setlocal tw=80
 "
 " A collection of custom key bindings.
 "
+nmap <leader>l :call ToggleLineNumbers()<CR>
 map <F6> :NERDTreeToggle<CR><Esc>
 
 " I press this combination so often by accident it's really annoying, I have no
