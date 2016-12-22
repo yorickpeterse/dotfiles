@@ -27,7 +27,6 @@ set backupskip=/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
 set mouse=a
-set tabline=%f
 set guitablabel=%f
 
 set nohlsearch
