@@ -65,7 +65,7 @@ Plug 'godlygeek/tabular'
 Plug 'kien/ctrlp.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
-Plug 'rust-lang/rust.vim', {'commit': 'a4d6fb2ab526ccc93a6a321a2425a234f9f7665f'}
+Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
@@ -87,14 +87,14 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental']
 let NERDTreeWinSize       = 25
 
 " Neomake
-let g:neomake_error_sign = {'text': 'X', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '!', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_error_sign = {'text': '❌', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '❗', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '●', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 
 " rust.vim
 let g:rustfmt_fail_silently = 1
