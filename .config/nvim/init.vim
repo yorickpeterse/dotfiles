@@ -100,17 +100,6 @@ let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:rustfmt_fail_silently = 1
 let g:rustfmt_autosave = 1
 
-" Use relative line numbers by default
-set rnu
-
-function! ToggleLineNumbers()
-    if &rnu
-        set nornu
-    else
-        set rnu
-    end
-endfunction!
-
 " ============================================================================
 " SYNTAX SETTINGS
 "
