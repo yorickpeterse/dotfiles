@@ -180,7 +180,6 @@ autocmd! FileType rust   setlocal tw=80
 "
 " A collection of custom key bindings.
 "
-nmap <leader>l :call ToggleLineNumbers()<CR>
 map <F6> :NERDTreeToggle<CR><Esc>
 
 " I press this combination so often by accident it's really annoying, I have no
