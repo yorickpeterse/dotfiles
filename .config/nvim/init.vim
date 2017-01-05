@@ -26,8 +26,10 @@ set omnifunc=syntaxcomplete#Complete
 set backupskip=/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
-set mouse=a
 set guitablabel=%f
+
+" Disable the mouse to force myself to not use it.
+set mouse=
 
 set nohlsearch
 set noincsearch
