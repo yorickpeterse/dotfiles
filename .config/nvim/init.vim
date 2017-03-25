@@ -102,6 +102,9 @@ let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:rustfmt_fail_silently = 1
 let g:rustfmt_autosave = 1
 
+" delimitMate
+let delimitMate_expand_cr = 1
+
 " ============================================================================
 " SYNTAX SETTINGS
 "
