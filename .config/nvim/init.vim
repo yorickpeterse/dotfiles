@@ -49,7 +49,7 @@ set nocursorcolumn
 set nocursorline
 
 if executable('rg')
-  set grepprg=rg\ --vimgrep
+    set grepprg=rg\ --vimgrep
 endif
 
 " ============================================================================
@@ -223,6 +223,10 @@ map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
+" FZF
 map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> "'})<CR>
 map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-reverse'})<CR>
 map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse'})<CR>
+
+" Neovim terminals
+tnoremap <C-[> <C-\><C-n>
