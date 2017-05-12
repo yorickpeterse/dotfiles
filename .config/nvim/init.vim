@@ -27,6 +27,7 @@ set backupskip=/tmp/*
 set clipboard=unnamed
 set pastetoggle=<F2>
 set guitablabel=%f
+set statusline=%f\ %w%m%r
 
 " Disable the mouse to force myself to not use it.
 set mouse=
@@ -47,11 +48,8 @@ let maplocalleader = '\'
 set nocursorcolumn
 set nocursorline
 
-" Use ag for the :grep command as well as for Ctrlp
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor
-
-  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+if executable('rg')
+  set grepprg=rg\ --vimgrep
 endif
 
 " ============================================================================
@@ -64,7 +62,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
 Plug 'rust-lang/rust.vim'
@@ -73,15 +70,14 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-haml'
 Plug 'dag/vim-fish'
-Plug '~/.vim/plugged/aeon.vim'
+Plug '~/.vim/plugged/inko.vim'
 Plug 'YorickPeterse/happy_hacking.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
+Plug 'junegunn/fzf.vim'
 
 call plug#end()
-
-" ctrl-p
-let g:ctrlp_custom_ignore = {'dir': '\v[\/]\.(git|hg|svn|staging)$'}
 
 " UltiSnips settings.
 let g:UltiSnipsJumpForwardTrigger="<tab>"
@@ -93,10 +89,10 @@ let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-i
 let NERDTreeWinSize       = 25
 
 " Neomake
-let g:neomake_error_sign = {'text': '❌', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '❗', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': '●', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_error_sign = {'text': 'X', 'texthl': 'NeomakeErrorSign'}
+let g:neomake_warning_sign = {'text': '!', 'texthl': 'NeomakeWarningSign'}
+let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
+let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
 
 " rust.vim
 let g:rustfmt_fail_silently = 1
@@ -104,6 +100,32 @@ let g:rustfmt_autosave = 1
 
 " delimitMate
 let delimitMate_expand_cr = 1
+
+" gutentags
+let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec']
+
+" FZF
+let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Notice'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'prompt':  ['fg', 'Comment'],
+  \ 'pointer': ['fg', 'Normal'],
+  \ 'marker':  ['fg', 'Normal'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
+
+function! s:fzf_statusline()
+  setlocal statusline=FZF
+endfunction
+
+autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
 " ============================================================================
 " SYNTAX SETTINGS
@@ -200,3 +222,7 @@ map <ScrollWheelLeft> <nop>
 map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
+
+map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> "'})<CR>
+map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-reverse'})<CR>
+map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse'})<CR>
