@@ -1,4 +1,10 @@
 function rg -d 'Runs ripgrep with custom colors'
-    command rg --colors 'match:bg:yellow' --colors 'match:fg:black' --colors 'match:style:nobold' --colors 'path:fg:green' --colors 'path:style:bold' --colors 'line:fg:cyan' $argv
+    command rg \
+        --colors 'match:fg:yellow' \
+        --colors 'match:style:bold' \
+        --colors 'path:fg:blue' \
+        --colors 'path:style:bold' \
+        --colors 'column:fg:cyan' \
+        --colors 'line:fg:cyan' $argv
 end
 
