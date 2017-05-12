@@ -2,7 +2,6 @@
 
 set input $argv[1]
 set output $argv[2]
-set width $argv[3]
 set palette /tmp/palette.png
 
 ffmpeg -y -i $input -vf fps=10,palettegen $palette
