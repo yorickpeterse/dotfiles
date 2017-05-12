@@ -4,10 +4,10 @@
     signingkey = EB691AC9
 
 [diff]
-    color = always
+    color = auto
 
 [branch]
-    color = always
+    color = auto
 
 [core]
     autocrlf     = input
