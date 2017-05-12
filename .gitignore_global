@@ -20,3 +20,4 @@ Icon?
 *.gem
 
 .rspec-local
+.*.rustfmt
