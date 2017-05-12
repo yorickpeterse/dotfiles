@@ -9,6 +9,8 @@
 *.swo
 *.swp
 tags
+tags.lock
+tags.temp
 
 # OS specific files.
 .DS_Store
