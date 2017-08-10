@@ -28,6 +28,7 @@ set clipboard=unnamed
 set pastetoggle=<F2>
 set guitablabel=%f
 set statusline=%f\ %w%m%r
+set splitright
 
 " Disable the mouse to force myself to not use it.
 set mouse=
@@ -60,7 +61,6 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'editorconfig/editorconfig-vim'
 Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
 Plug 'Raimondi/delimitMate'
@@ -126,6 +126,32 @@ function! s:fzf_statusline()
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
+
+" Tabline
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
+
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tab .': '
+    let s .= (bufname != '' ? fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
+
+    if bufmodified
+      let s .= '[+] '
+    endif
+  endfor
+
+  let s .= '%#TabLineFill#'
+  return s
+endfunction
+set tabline=%!Tabline()
 
 " ============================================================================
 " SYNTAX SETTINGS
@@ -229,4 +255,4 @@ map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-rev
 map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse'})<CR>
 
 " Neovim terminals
-tnoremap <C-[> <C-\><C-n>
+tnoremap <C-]> <C-\><C-n>
