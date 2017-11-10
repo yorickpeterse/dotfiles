@@ -1,14 +1,12 @@
 set -x CHRUBY_ROOT /usr
 
 source /usr/share/chruby/chruby.fish
-source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
 set -x EDITOR 'nvim'
 set -x PATH $HOME/.cargo/bin $PATH $HOME/bin
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
-set -x NVIM_TUI_ENABLE_CURSOR_SHAPE 1
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
 
 set fish_greeting
