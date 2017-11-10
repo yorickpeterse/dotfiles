@@ -6,7 +6,7 @@ end
 
 # Configuration
 
-Pry.config.theme = 'autumn'
+Pry.config.theme = 'happy_hacking'
 
 Pry.config.prompt = [
   # Regular prompt.
