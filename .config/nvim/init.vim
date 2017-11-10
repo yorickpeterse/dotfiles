@@ -107,6 +107,9 @@ let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec']
 " FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
+" Markdown settings
+let g:markdown_fenced_languages = ['ruby', 'rust']
+
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
   \ 'bg':      ['bg', 'Normal'],
@@ -255,4 +258,14 @@ map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-rev
 map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse'})<CR>
 
 " Neovim terminals
+
+" use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
+" instances to still use Control + [.
 tnoremap <C-]> <C-\><C-n>
+
+" Allow Control + b + {h,j,k,l} to navigate around buffers even when inside a
+" terminal, removing the need for exiting insert mode.
+tnoremap <C-b>h <C-\><C-n><C-w>hi
+tnoremap <C-b>j <C-\><C-n><C-w>ji
+tnoremap <C-b>k <C-\><C-n><C-w>ki
+tnoremap <C-b>l <C-\><C-n><C-w>li
