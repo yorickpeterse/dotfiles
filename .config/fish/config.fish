@@ -8,6 +8,7 @@ set -x PATH $HOME/.cargo/bin $PATH $HOME/bin
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
+set -x BUNDLE_DISABLE_VERSION_CHECK 1
 
 set fish_greeting
 set fish_color_command normal
