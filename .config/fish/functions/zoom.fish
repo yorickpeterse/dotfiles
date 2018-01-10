@@ -1,6 +1,6 @@
 function zoom
-    firejail \
+    env HOME=/opt/zoom/home firejail \
         --quiet \
         --profile=~/.config/firejail/zoom.profile \
-        --private=/opt/zoom/home /opt/zoom/ZoomLauncher
+        /opt/zoom/ZoomLauncher
 end
