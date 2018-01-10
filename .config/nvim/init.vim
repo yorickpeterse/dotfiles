@@ -72,7 +72,7 @@ Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
 Plug '~/.vim/plugged/inko.vim'
-Plug 'YorickPeterse/happy_hacking.vim'
+Plug 'git@gitlab.com:yorickpeterse/happy_hacking.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -88,11 +88,19 @@ let NERDTreeShowBookmarks = 0
 let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental']
 let NERDTreeWinSize       = 25
 
+" NERDCommenter settings
+let g:NERDSpaceDelims = 1
+let g:NERDDefaultAlign = 'left'
+let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
+
 " Neomake
 let g:neomake_error_sign = {'text': 'X', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '!', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+
+call neomake#configure#automake('w')
 
 " rust.vim
 let g:rustfmt_fail_silently = 1
@@ -108,7 +116,7 @@ let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec']
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
 " Markdown settings
-let g:markdown_fenced_languages = ['ruby', 'rust']
+let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko']
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
@@ -163,7 +171,9 @@ set tabline=%!Tabline()
 " width, what theme to use and so on.
 "
 set textwidth=80
+set colorcolumn=80
 set nowrap
+set lz
 set number
 set synmaxcol=256
 set diffopt=filler,vertical
@@ -173,11 +183,6 @@ color happy_hacking
 
 " Enable true colors in terminals, even in Tmux
 set termguicolors
-
-" colorcolumn doesn't work on slightly older versions of Vim.
-if version >= 703
-  set colorcolumn=80
-endif
 
 " Indentation settings
 set shiftwidth=4
@@ -197,7 +202,15 @@ function! Trim()
   let c = col(".")
   %s/\s\+$//eg
   call cursor(l, c)
-:endfunction
+endfunction
+
+function! s:openTerm(vertical)
+  let cmd = a:vertical ? 'vnew' : 'new'
+  exec cmd
+  term
+  setlocal nonumber nornu
+  startinsert
+endfunction
 
 " ============================================================================
 " HOOKS
@@ -207,7 +220,6 @@ function! Trim()
 
 " Automatically strip trailing whitespace.
 autocmd! BufWritePre * :call Trim()
-autocmd! BufWritePost * Neomake
 
 " Set a few filetypes for some uncommon extensions
 autocmd! BufRead,BufNewFile *.md     set filetype=markdown
@@ -269,3 +281,6 @@ tnoremap <C-b>h <C-\><C-n><C-w>hi
 tnoremap <C-b>j <C-\><C-n><C-w>ji
 tnoremap <C-b>k <C-\><C-n><C-w>ki
 tnoremap <C-b>l <C-\><C-n><C-w>li
+
+command! Term call s:openTerm(0)
+command! Vterm call s:openTerm(1)
