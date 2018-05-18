@@ -85,7 +85,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental', 'tags']
 let NERDTreeWinSize       = 25
 
 " NERDCommenter settings
@@ -94,11 +94,23 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 
 " Neomake
+
+" The default Rubocop maker doesn't use Bundler, resulting in it (potentially)
+" ignoring project specific Rubocop versions. To work around this we configure
+" Neomake to use a wrapper instead.
+let g:neomake_rubocop_bundler_maker = {
+    \ 'exe': 'rubocop_bundler',
+    \ 'args': ['--format', 'emacs', '--force-exclusion', '--display-cop-names'],
+    \ 'errorformat': '%f:%l:%c: %t: %m,%E%f:%l: %m',
+    \ 'postprocess': function('neomake#makers#ft#ruby#RubocopEntryProcess'),
+    \ 'output_stream': 'stdout',
+    \ }
+
 let g:neomake_error_sign = {'text': 'X', 'texthl': 'NeomakeErrorSign'}
 let g:neomake_warning_sign = {'text': '!', 'texthl': 'NeomakeWarningSign'}
 let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
 let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
-let g:neomake_ruby_enabled_makers = ['mri', 'rubocop']
+let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
 
 call neomake#configure#automake('w')
 
@@ -175,6 +187,7 @@ set colorcolumn=80
 set nowrap
 set lz
 set number
+set relativenumber
 set synmaxcol=256
 set diffopt=filler,vertical
 filetype plugin indent on

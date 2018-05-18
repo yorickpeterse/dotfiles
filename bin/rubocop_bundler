@@ -1,0 +1,11 @@
+#!/usr/bin/env fish
+
+if test -e Gemfile.lock
+    if test -e .ruby-version
+        chruby (cat .ruby-version)
+    end
+
+    bundle exec rubocop $argv
+else
+    rubocop $argv
+end
