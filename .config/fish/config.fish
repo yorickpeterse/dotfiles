@@ -1,6 +1,7 @@
 set -x CHRUBY_ROOT /usr
 
 source /usr/share/chruby/chruby.fish
+source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
 set -x EDITOR 'nvim'
@@ -9,6 +10,7 @@ set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
 set -x BUNDLE_DISABLE_VERSION_CHECK 1
+set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
 
 set fish_greeting
 set fish_color_command normal
