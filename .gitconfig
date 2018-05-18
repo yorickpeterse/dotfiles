@@ -15,6 +15,7 @@
     excludesfile = /home/yorickpeterse/.gitignore_global
     ignorecase   = false
     editor       = nvim
+    pager        = /usr/share/git/diff-highlight/diff-highlight | less -RS
 
 [github]
     user = yorickpeterse
