@@ -85,7 +85,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " NERDTree settings.
 let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental', 'tags']
+let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental', '^tags$']
 let NERDTreeWinSize       = 25
 
 " NERDCommenter settings
