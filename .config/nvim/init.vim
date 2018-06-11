@@ -29,6 +29,8 @@ set pastetoggle=<F2>
 set guitablabel=%f
 set statusline=%f\ %w%m%r
 set splitright
+set noshowcmd
+set noruler
 
 " Disable the mouse to force myself to not use it.
 set mouse=
@@ -122,7 +124,7 @@ let g:rustfmt_autosave = 1
 let delimitMate_expand_cr = 1
 
 " gutentags
-let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec']
+let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
 
 " FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
@@ -145,6 +147,8 @@ let g:fzf_colors =
   \ 'header':  ['fg', 'Comment'] }
 
 function! s:fzf_statusline()
+  setlocal nonumber
+  setlocal norelativenumber
   setlocal statusline=FZF
 endfunction
 

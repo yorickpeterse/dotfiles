@@ -1,0 +1,83 @@
+snippet object "Inserts an object definition"
+object ${1:name} {
+	$0
+}
+endsnippet
+
+snippet trait "Inserts a trait definition"
+trait ${1:name} {
+	$0
+}
+endsnippet
+
+snippet def "Inserts a method definition"
+def ${1:name} {
+	$0
+}
+endsnippet
+
+snippet def! "Inserts a method that will throw"
+def ${1:name} !! ${2:Error} {
+	$0
+}
+endsnippet
+
+snippet impl "Inserts an object implementation block"
+impl ${1:object} {
+	$0
+}
+endsnippet
+
+snippet do "Inserts a closure"
+do ($1) {
+	$0
+}
+endsnippet
+
+snippet lambda "Inserts a lambda"
+lambda ($1) {
+	$0
+}
+endsnippet
+
+snippet let "Inserts a let binding"
+let ${1:variable} = $2
+$3
+endsnippet
+
+snippet letm "Inserts a mutable let binding"
+let mut ${1:variable} = $2
+$3
+endsnippet
+
+snippet if "Inserts an if message"
+	.if true: {
+		$1
+	}, false: {
+		$2
+	}
+
+$0
+endsnippet
+
+snippet if_true "Inserts an if_true message"
+	.if_true {
+		$1
+	}
+
+$0
+endsnippet
+
+snippet if_false "Inserts an if_false message"
+	.if_false {
+		$1
+	}
+
+$0
+endsnippet
+
+snippet while "Inserts a while_true message"
+{ ${1:condition} }.while_true {
+	$0
+}
+endsnippet
