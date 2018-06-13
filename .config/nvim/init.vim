@@ -38,6 +38,7 @@ set mouse=
 set nohlsearch
 set noincsearch
 set title
+set inccommand=nosplit
 
 " Printer settings
 set printoptions=number:n
@@ -78,8 +79,21 @@ Plug 'git@gitlab.com:yorickpeterse/happy_hacking.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'sebastianmarkow/deoplete-rust'
+Plug 'ervandew/supertab'
 
 call plug#end()
+
+" Deoplete settings
+set completeopt=menu
+
+call deoplete#custom#option('ignore_sources', { '_': ['buffer', 'around', 'file', 'dictionary', 'tag'] })
+call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#sources#rust#racer_binary = '/home/yorickpeterse/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = '/home/yorickpeterse/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 " UltiSnips settings.
 let g:UltiSnipsJumpForwardTrigger="<tab>"
