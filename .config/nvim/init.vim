@@ -74,7 +74,7 @@ Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
-Plug '~/.vim/plugged/inko.vim'
+Plug 'git@gitlab.com:inko-lang/inko.vim.git'
 Plug 'git@gitlab.com:yorickpeterse/happy_hacking.vim.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
@@ -94,6 +94,12 @@ call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#rust#racer_binary = '/home/yorickpeterse/.cargo/bin/racer'
 let g:deoplete#sources#rust#rust_source_path = '/home/yorickpeterse/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+
+autocmd! FileType gitcommit
+    \ call deoplete#custom#buffer_option('auto_complete', v:false)
+
+autocmd! FileType markdown
+    \ call deoplete#custom#buffer_option('auto_complete', v:false)
 
 " UltiSnips settings.
 let g:UltiSnipsJumpForwardTrigger="<tab>"
