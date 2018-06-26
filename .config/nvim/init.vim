@@ -90,6 +90,7 @@ set completeopt=menu
 
 call deoplete#custom#option('ignore_sources', { '_': ['buffer', 'around', 'file', 'dictionary', 'tag'] })
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
+call deoplete#custom#option('num_processes', 2)
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#rust#racer_binary = '/home/yorickpeterse/.cargo/bin/racer'
@@ -128,10 +129,7 @@ let g:neomake_rubocop_bundler_maker = {
     \ 'output_stream': 'stdout',
     \ }
 
-let g:neomake_error_sign = {'text': 'X', 'texthl': 'NeomakeErrorSign'}
-let g:neomake_warning_sign = {'text': '!', 'texthl': 'NeomakeWarningSign'}
-let g:neomake_message_sign = {'text': '>', 'texthl': 'NeomakeMessageSign'}
-let g:neomake_info_sign = {'text': 'i', 'texthl': 'NeomakeInfoSign'}
+let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
 
 call neomake#configure#automake('w')
