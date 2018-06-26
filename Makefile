@@ -30,7 +30,8 @@ git:
 
 fonts:
 	@ln -s ${PWD}/.Xdefaults ${HOME}/.Xdefaults
-	@ln -s ${PWD}/.fonts.conf ${HOME}/.fonts.conf
+	@mkdir -p ${HOME}/.config/fontconfig
+	@ln -s ${PWD}/.fonts.conf ${HOME}/.config/fontconfig/fonts.conf
 
 pry:
 	@ln -s ${PWD}/.pryrc ${HOME}/.pryrc
