@@ -81,3 +81,34 @@ snippet while "Inserts a while_true message"
 	$0
 }
 endsnippet
+
+snippet tmod "Inserts code for writing unit tests"
+import std::test
+import std::test::assert
+
+test.group '${1:group name}', do (g) {
+	g.test '${2:test name}', {
+		$0
+	}
+}
+endsnippet
+
+snippet test "Inserts a test block"
+g.test '${1:Test name}', {
+	$0
+}
+endsnippet
+
+snippet tgroup "Insert a test group block"
+test.group '${1:Group name}', do (g) {
+	$0
+}
+endsnippet
+
+snippet aeq "Inserts an assert.equal call"
+try assert.equal(${1:given}, ${2:expected})
+endsnippet
+
+snippet aneq "Inserts an assert.not_equal call"
+try assert.not_equal(${1:given}, ${2:expected})
+endsnippet
