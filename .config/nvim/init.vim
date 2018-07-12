@@ -263,6 +263,7 @@ autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
 autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
 autocmd! BufRead,BufNewFile *.rs     set filetype=rust
 autocmd! BufRead,BufNewFile *.rll    set filetype=rll
+autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
 " Taken from http://vim.wikia.com/wiki/Highlight_unwanted_spaces
 autocmd BufWinEnter * match Visual /\s\+$/
@@ -276,6 +277,7 @@ autocmd! FileType eruby  setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType yaml   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType haml   setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType scss   setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType rust   setlocal tw=80
 
 " ============================================================================
