@@ -1,15 +1,7 @@
-cd ~/Projects/inko/inko/vm
+cd ~/Projects/inko/inko
 set titlestring=Inko
 
 tabnew +term
 setlocal nonumber nornu
-silent file VM
-
-cd ~/Projects/inko/inko/compiler
-new +term
-setlocal nonumber nornu
-silent file Compiler
+silent file Terminal
 tabprev
-
-cd ~/Projects/inko/inko
-NERDTreeToggle
