@@ -10,3 +10,5 @@ bin/setup-laptop
 .config/fish/fishd.*
 .config/fish/private.fish
 .config/fish/fish_history
+
+.config/nvim/spell
