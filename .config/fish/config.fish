@@ -13,12 +13,12 @@ set -x BUNDLE_DISABLE_VERSION_CHECK 1
 set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
 
 set fish_greeting
-set fish_color_command normal
+set fish_color_command red
 set fish_color_param normal
 set fish_color_quote green
 set fish_color_cwd yellow
 set fish_color_cwd_root yellow
-set fish_color_error red
+set fish_color_error red --bold
 set fish_color_status red
 set fish_color_comment 9e9e9e
 set fish_color_operator normal
