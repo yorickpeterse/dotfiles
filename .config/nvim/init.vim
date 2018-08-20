@@ -131,6 +131,7 @@ let g:neomake_rubocop_bundler_maker = {
 
 let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
+let g:neomake_clippy_rustup_has_nightly = 1
 
 call neomake#configure#automake('w')
 
