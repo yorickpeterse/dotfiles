@@ -82,6 +82,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'ervandew/supertab'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -93,8 +94,8 @@ call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#option('num_processes', 2)
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#rust#racer_binary = '/home/yorickpeterse/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path = '/home/yorickpeterse/.rustup/toolchains/nightly-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+let g:deoplete#sources#rust#racer_binary = '/usr/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = '/home/yorickpeterse/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
 
 autocmd! FileType gitcommit
     \ call deoplete#custom#buffer_option('auto_complete', v:false)
@@ -138,6 +139,7 @@ call neomake#configure#automake('w')
 " rust.vim
 let g:rustfmt_fail_silently = 1
 let g:rustfmt_autosave = 1
+let g:rustfmt_command = 'rustup run nightly rustfmt'
 
 " delimitMate
 let delimitMate_expand_cr = 1
@@ -164,6 +166,15 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Normal'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
+
+" VimWiki
+let g:vimwiki_list = [{
+    \ 'path': '~/Projects/vimwiki/main',
+    \ 'path_html': '~/Projects/vimwiki/main/html',
+    \ 'nested_syntaxes': {'ruby': 'ruby', 'inko': 'inko', 'bash': 'sh', 'fish': 'fish'},
+    \ 'template_path': '~/Projects/vimwiki/main/templates',
+    \ 'template_default': 'default'
+    \ }]
 
 function! s:fzf_statusline()
   setlocal nonumber
