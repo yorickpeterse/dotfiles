@@ -317,6 +317,17 @@ map <S-ScrollWheelRight> <nop>
 map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> "'})<CR>
 map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-reverse'})<CR>
 map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse'})<CR>
+map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --no-reverse'})<CR>
+
+command! -bang -nargs=* Rg
+    \ call fzf#vim#grep('rg --column --line-number --no-heading
+    \ --color=always --smart-case
+    \ --colors match:fg:yellow
+    \ --colors match:style:bold
+    \ --colors path:fg:blue
+    \ --colors path:style:bold
+    \ --colors column:fg:cyan
+    \ --colors line:fg:cyan '.shellescape(<q-args>), 1, <bang>0)
 
 " Neovim terminals
 
