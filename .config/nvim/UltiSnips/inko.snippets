@@ -86,21 +86,21 @@ snippet tmod "Inserts code for writing unit tests"
 import std::test
 import std::test::assert
 
-test.group '${1:group name}', do (g) {
-	g.test '${2:test name}', {
+test.group('${1:group name}') do (g) {
+	g.test('${2:test name}') {
 		$0
 	}
 }
 endsnippet
 
 snippet test "Inserts a test block"
-g.test '${1:Test name}', {
+g.test('${1:Test name}') {
 	$0
 }
 endsnippet
 
 snippet tgroup "Insert a test group block"
-test.group '${1:Group name}', do (g) {
+test.group('${1:Group name}') do (g) {
 	$0
 }
 endsnippet
