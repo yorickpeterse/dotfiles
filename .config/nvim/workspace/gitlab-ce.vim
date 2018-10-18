@@ -10,4 +10,3 @@ new +term
 setlocal nonumber nornu
 silent file Terminal
 tabprev
-NERDTreeToggle
