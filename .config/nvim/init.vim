@@ -82,7 +82,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'ervandew/supertab'
-Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -166,15 +165,6 @@ let g:fzf_colors =
   \ 'marker':  ['fg', 'Normal'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header':  ['fg', 'Comment'] }
-
-" VimWiki
-let g:vimwiki_list = [{
-    \ 'path': '~/Projects/vimwiki/main',
-    \ 'path_html': '~/Projects/vimwiki/main/html',
-    \ 'nested_syntaxes': {'ruby': 'ruby', 'inko': 'inko', 'bash': 'sh', 'fish': 'fish'},
-    \ 'template_path': '~/Projects/vimwiki/main/templates',
-    \ 'template_default': 'default'
-    \ }]
 
 function! s:fzf_statusline()
   setlocal nonumber
