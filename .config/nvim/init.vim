@@ -91,6 +91,8 @@ set completeopt=menu
 call deoplete#custom#option('ignore_sources', { '_': ['buffer', 'around', 'file', 'dictionary', 'tag'] })
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#option('num_processes', 2)
+call deoplete#custom#option('auto_complete_delay', 200)
+call deoplete#custom#option('auto_refresh_delay', 200)
 
 let g:deoplete#enable_at_startup = 1
 let g:deoplete#sources#rust#racer_binary = '/usr/bin/racer'
