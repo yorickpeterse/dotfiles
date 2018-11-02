@@ -213,7 +213,6 @@ set colorcolumn=80
 set nowrap
 set lz
 set number
-set relativenumber
 set synmaxcol=256
 set diffopt=filler,vertical
 filetype plugin indent on
