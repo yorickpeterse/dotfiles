@@ -36,7 +36,7 @@ set noruler
 set mouse=
 
 set nohlsearch
-set noincsearch
+set incsearch
 set title
 set inccommand=nosplit
 
