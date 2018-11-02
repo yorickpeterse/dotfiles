@@ -66,7 +66,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
