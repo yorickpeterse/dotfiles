@@ -31,6 +31,7 @@ set statusline=%f\ %w%m%r
 set splitright
 set noshowcmd
 set noruler
+set so=5
 
 " Disable the mouse to force myself to not use it.
 set mouse=
