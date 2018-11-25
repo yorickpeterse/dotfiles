@@ -247,7 +247,7 @@ function! s:openTerm(vertical)
   let cmd = a:vertical ? 'vnew' : 'new'
   exec cmd
   term
-  setlocal nonumber nornu
+  setlocal nonumber nornu so=0
   startinsert
 endfunction
 
