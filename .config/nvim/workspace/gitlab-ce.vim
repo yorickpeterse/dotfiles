@@ -7,6 +7,7 @@ silent file GDK
 
 cd ~/Projects/gitlab/gdk-ce/gitlab
 new +term
+res 50
 setlocal nonumber nornu
 silent file Terminal
 tabprev
