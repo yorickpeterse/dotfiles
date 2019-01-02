@@ -88,7 +88,7 @@ call plug#end()
 " Deoplete settings
 set completeopt=menu
 
-call deoplete#custom#option('ignore_sources', { '_': ['buffer', 'around', 'file', 'dictionary', 'tag'] })
+call deoplete#custom#option('ignore_sources', { '_': ['around', 'file', 'dictionary', 'tag'] })
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#option('num_processes', 2)
 call deoplete#custom#option('auto_complete_delay', 200)
