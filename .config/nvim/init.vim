@@ -152,7 +152,7 @@ let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'publi
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
 " Markdown settings
-let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko']
+let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko', 'yaml']
 
 let g:fzf_colors =
 \ { 'fg':      ['fg', 'Normal'],
