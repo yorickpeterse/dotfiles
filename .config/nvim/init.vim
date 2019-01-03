@@ -136,7 +136,9 @@ let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
 let g:neomake_clippy_rustup_has_nightly = 1
 let g:neomake_virtualtext_prefix='▶ '
 
-call neomake#configure#automake('w')
+" call neomake#configure#automake('w')
+" Temporary workaround for https://github.com/neomake/neomake/issues/2175
+autocmd! BufWritePost * Neomake
 
 " rust.vim
 let g:rustfmt_fail_silently = 1
