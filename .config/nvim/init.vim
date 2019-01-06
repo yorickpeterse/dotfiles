@@ -68,7 +68,6 @@ Plug 'godlygeek/tabular'
 Plug 'pangloss/vim-javascript'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
-Plug 'scrooloose/nerdtree'
 Plug 'scrooloose/nerdcommenter'
 Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
@@ -108,10 +107,14 @@ autocmd! FileType markdown
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-" NERDTree settings.
-let NERDTreeShowBookmarks = 0
-let NERDTreeIgnore        = ['\.pyc$', '\.pyo$', '__pycache__', '\.o$', 'rustc-incremental', '^tags$']
-let NERDTreeWinSize       = 25
+" netrw settings
+let g:netrw_liststyle = 3
+let g:netrw_banner = 0
+let g:netrw_browse_split = 4
+let g:netrw_winsize = 15
+let g:netrw_altv = 1
+let g:netrw_list_hide = netrw_gitignore#Hide()
+    \ . '^\.git,__pycache__,rustc-incremental,^tags$'
 
 " NERDCommenter settings
 let g:NERDSpaceDelims = 1
@@ -298,7 +301,7 @@ autocmd! FileType rust   setlocal tw=80
 "
 " A collection of custom key bindings.
 "
-map <F6> :NERDTreeToggle<CR><Esc>
+map <F6> :Lexplore<CR><Esc>
 
 " I press this combination so often by accident it's really annoying, I have no
 " need for it so go away.

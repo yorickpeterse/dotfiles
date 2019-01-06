@@ -12,3 +12,4 @@ bin/setup-laptop
 .config/fish/fish_history
 
 .config/nvim/spell
+.config/nvim/.netrwhist
