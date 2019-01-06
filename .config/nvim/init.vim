@@ -82,6 +82,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'ervandew/supertab'
+Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -134,16 +135,23 @@ let g:neomake_rubocop_bundler_maker = {
 let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
 let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
 let g:neomake_clippy_rustup_has_nightly = 1
+let g:neomake_virtualtext_current_error = 0
 let g:neomake_virtualtext_prefix='▶ '
 
 " call neomake#configure#automake('w')
 " Temporary workaround for https://github.com/neomake/neomake/issues/2175
 autocmd! BufWritePost * Neomake
 
-" rust.vim
-let g:rustfmt_fail_silently = 1
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = 'rustup run nightly rustfmt'
+" Neoformat
+let g:neoformat_rust_rustfmt = {
+    \ 'exe': 'rustup',
+    \ 'args': ['run', 'nightly', 'rustfmt'],
+    \ 'stdin': 1,
+    \ }
+
+let g:neoformat_enabled_rust = ['rustfmt']
+
+autocmd! BufWritePre *.rs Neoformat
 
 " delimitMate
 let delimitMate_expand_cr = 1
