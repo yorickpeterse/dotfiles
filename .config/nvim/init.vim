@@ -80,7 +80,6 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'ervandew/supertab'
-Plug 'sbdchd/neoformat'
 
 call plug#end()
 
@@ -143,16 +142,10 @@ let g:neomake_virtualtext_prefix='▶ '
 " Temporary workaround for https://github.com/neomake/neomake/issues/2175
 autocmd! BufWritePost * Neomake
 
-" Neoformat
-let g:neoformat_rust_rustfmt = {
-    \ 'exe': 'rustup',
-    \ 'args': ['run', 'nightly', 'rustfmt'],
-    \ 'stdin': 1,
-    \ }
-
-let g:neoformat_enabled_rust = ['rustfmt']
-
-autocmd! BufWritePre *.rs Neoformat
+" rust.vim
+let g:rustfmt_fail_silently = 1
+let g:rustfmt_autosave = 1
+let g:rustfmt_command = 'rustfmt'
 
 " delimitMate
 let delimitMate_expand_cr = 1
