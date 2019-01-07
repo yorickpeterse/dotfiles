@@ -109,11 +109,11 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " netrw settings
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
-let g:netrw_browse_split = 4
+let g:netrw_browse_split = 2
 let g:netrw_winsize = 15
 let g:netrw_altv = 1
 let g:netrw_list_hide = netrw_gitignore#Hide()
-    \ . '^\.git,__pycache__,rustc-incremental,^tags$'
+    \ . ',^\.git,__pycache__,rustc-incremental,^tags$'
 
 " NERDCommenter settings
 let g:NERDSpaceDelims = 1
