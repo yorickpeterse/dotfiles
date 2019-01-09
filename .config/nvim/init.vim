@@ -68,7 +68,6 @@ Plug 'pangloss/vim-javascript'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'neomake/neomake'
 Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
@@ -80,6 +79,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'sebastianmarkow/deoplete-rust'
 Plug 'ervandew/supertab'
+Plug 'w0rp/ale'
 
 call plug#end()
 
@@ -120,33 +120,13 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 
-" Neomake
-
-" The default Rubocop maker doesn't use Bundler, resulting in it (potentially)
-" ignoring project specific Rubocop versions. To work around this we configure
-" Neomake to use a wrapper instead.
-let g:neomake_rubocop_bundler_maker = {
-    \ 'exe': 'rubocop_bundler',
-    \ 'args': ['--format', 'emacs', '--force-exclusion', '--display-cop-names'],
-    \ 'errorformat': '%f:%l:%c: %t: %m,%E%f:%l: %m',
-    \ 'postprocess': function('neomake#makers#ft#ruby#RubocopEntryProcess'),
-    \ 'output_stream': 'stdout',
-    \ }
-
-let g:neomake_info_sign = {'text': '🛈', 'texthl': 'NeomakeInfoSign'}
-let g:neomake_ruby_enabled_makers = ['mri', 'rubocop_bundler']
-let g:neomake_clippy_rustup_has_nightly = 1
-let g:neomake_virtualtext_current_error = 0
-let g:neomake_virtualtext_prefix='▶ '
-
-" call neomake#configure#automake('w')
-" Temporary workaround for https://github.com/neomake/neomake/issues/2175
-autocmd! BufWritePost * Neomake
-
-" rust.vim
-let g:rustfmt_fail_silently = 1
-let g:rustfmt_autosave = 1
-let g:rustfmt_command = 'rustfmt'
+" ALE
+let g:ale_sign_error = '✖'
+let g:ale_sign_warning = '●'
+let g:ale_virtualtext_cursor = 0
+let g:ale_lint_on_enter = 1
+let g:ale_echo_msg_format = '[%linter%]: %s'
+let g:ale_fix_on_save = 1
 
 " delimitMate
 let delimitMate_expand_cr = 1
