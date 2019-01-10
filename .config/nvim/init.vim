@@ -162,6 +162,9 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
+" Supertab
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
 " Tabline
 function! Tabline()
   let s = ''
