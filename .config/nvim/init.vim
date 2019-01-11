@@ -64,7 +64,6 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.vim/plugged')
 
-Plug 'pangloss/vim-javascript'
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
