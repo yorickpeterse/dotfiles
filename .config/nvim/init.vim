@@ -118,8 +118,7 @@ let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_winsize = 15
 let g:netrw_altv = 1
-let g:netrw_list_hide = netrw_gitignore#Hide()
-    \ . ',^\.git,__pycache__,rustc-incremental,^tags$'
+let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
 
 autocmd FileType netrw setlocal bufhidden=delete
 
