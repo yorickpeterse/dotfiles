@@ -46,6 +46,7 @@ set colorcolumn=80
 set noruler
 set nowrap
 set number
+set relativenumber
 set synmaxcol=256
 set termguicolors
 set textwidth=80
