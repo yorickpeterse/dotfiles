@@ -1,0 +1,1 @@
+setlocal cole=2
