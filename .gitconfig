@@ -25,6 +25,7 @@
 
 [mergetool "fugitive"]
     cmd = nvim -c \"Gdiff\" \"$MERGED\"
+    keepBackup = false
 
 [merge]
     tool = fugitive
