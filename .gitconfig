@@ -25,19 +25,22 @@
 
 [mergetool "fugitive"]
     cmd = nvim -c \"Gdiff\" \"$MERGED\"
-    keepBackup = false
 
 [merge]
     tool = fugitive
     prompt = false
 
+[mergetool]
+    keepBackup = false
+
 [alias]
     today = log --since=\"1 day ago\" --author=\"Yorick Peterse\" --pretty=oneline
 
 [push]
-    default = simple
+    default = current
 
 [commit]
     gpgsign = true
+
 [protocol]
 	version = 2
