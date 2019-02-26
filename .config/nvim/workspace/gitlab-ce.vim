@@ -1,13 +1,13 @@
 cd ~/Projects/gitlab/gdk-ce
 set titlestring=GitLab\ CE
 
-tabnew +term
-setlocal nonumber nornu
+Tterm
+stopinsert
 silent file GDK
 
 cd ~/Projects/gitlab/gdk-ce/gitlab
-new +term
+Term
+stopinsert
 res 50
-setlocal nonumber nornu
 silent file Terminal
 tabprev

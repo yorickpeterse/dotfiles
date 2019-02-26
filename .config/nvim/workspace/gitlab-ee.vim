@@ -1,13 +1,17 @@
 cd ~/Projects/gitlab/gdk-ee
 set titlestring=GitLab\ EE
 
-tabnew +term
-setlocal nonumber nornu
+Tterm
+stopinsert
 silent file GDK
 
 cd ~/Projects/gitlab/gdk-ee/gitlab
-new +term
+Term
+stopinsert
 res 50
-setlocal nonumber nornu
 silent file Terminal
 tabprev
+
+" Highlights active tabs differently, making it easier to see if I'm working on
+" EE or CE.
+hi TabLineSel guibg=#7965a5 guifg=white gui=bold

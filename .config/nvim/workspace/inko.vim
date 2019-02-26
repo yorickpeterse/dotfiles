@@ -1,7 +1,8 @@
 cd ~/Projects/inko/inko
 set titlestring=Inko
 
-tabnew +term
+Tterm
+stopinsert
 setlocal nonumber nornu
 silent file Terminal
 tabprev
