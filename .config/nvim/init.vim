@@ -22,7 +22,7 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'sebastianmarkow/deoplete-rust'
+Plug 'racer-rust/vim-racer'
 Plug 'ervandew/supertab'
 Plug 'w0rp/ale'
 
@@ -96,15 +96,18 @@ let mapleader = ','
 let maplocalleader = '\'
 
 " Deoplete
-call deoplete#custom#option('ignore_sources', { '_': ['around', 'file', 'dictionary', 'tag'] })
+call deoplete#custom#option('ignore_sources', {
+    \ '_': ['around', 'file', 'dictionary', 'tag'],
+    \ 'rust': ['around', 'file', 'dictionary', 'tag', 'buffer']
+    \ })
+
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#option('num_processes', 2)
-call deoplete#custom#option('auto_refresh_delay', 100)
+call deoplete#custom#option('auto_refresh_delay', 200)
 call deoplete#custom#option('max_list', 100)
 
 let g:deoplete#enable_at_startup = 1
-let g:deoplete#sources#rust#racer_binary = '/usr/bin/racer'
-let g:deoplete#sources#rust#rust_source_path = '/home/yorickpeterse/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src'
+let g:racer_cmd = '/usr/bin/racer'
 
 autocmd! FileType gitcommit
     \ call deoplete#custom#buffer_option('auto_complete', v:false)
