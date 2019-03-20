@@ -103,6 +103,7 @@ call deoplete#custom#option('ignore_sources', {
 
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#option('num_processes', 2)
+call deoplete#custom#option('auto_complete_delay', 50)
 call deoplete#custom#option('auto_refresh_delay', 200)
 call deoplete#custom#option('max_list', 100)
 
