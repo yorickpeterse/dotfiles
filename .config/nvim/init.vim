@@ -114,6 +114,13 @@ let g:racer_cmd = '/usr/bin/racer'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
+" This disables UltiSnips' auto trigger feature, which can easily consume
+" between 10% and 20% of a CPU core when typing in insert mode.
+augroup ultisnips_no_auto_expansion
+  au!
+  au VimEnter * au! UltiSnips_AutoTrigger
+augroup END
+
 " netrw
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
