@@ -110,12 +110,6 @@ call deoplete#custom#option('max_list', 100)
 let g:deoplete#enable_at_startup = 1
 let g:racer_cmd = '/usr/bin/racer'
 
-autocmd! FileType gitcommit
-    \ call deoplete#custom#buffer_option('auto_complete', v:false)
-
-autocmd! FileType markdown
-    \ call deoplete#custom#buffer_option('auto_complete', v:false)
-
 " UltiSnips
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
