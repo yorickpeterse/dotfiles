@@ -1,0 +1,74 @@
+window:
+  dimensions:
+    columns: 0
+    lines: 0
+  padding:
+    x: 0
+    y: 0
+  dynamic_padding: false
+  decorations: full
+  start_maximized: false
+
+scrolling:
+  history: 0
+  multiplier: 3
+  faux_multiplier: 3
+  auto_scroll: false
+
+tabspaces: 4
+
+font:
+  normal:
+    family: Source Code Pro
+    style: Regular
+  bold:
+    family: Source Code Pro
+    style: Bold
+  italic:
+    family: Source Code Pro
+    style: Italic
+  size: 9.5
+  offset:
+    x: 0
+    y: 1
+  glyph_offset:
+    x: 0
+    y: 0
+  use_thin_strokes: false
+
+draw_bold_text_with_bright_colors: true
+
+colors:
+  primary:
+    background: '0x292929'
+    foreground: '0xF3F2CC'
+  cursor:
+    text: '0x000000'
+  selection:
+    text: '0xF3F2CC'
+    background: '0x525252'
+  normal:
+    black:   '0x000000'
+    red:     '0xEE6854'
+    green:   '0x8DAF67'
+    yellow:  '0xFAD566'
+    blue:    '0x81A2C7'
+    magenta: '0xF77EBD'
+    cyan:    '0xB3EBBF'
+    white:   '0xF3F2CC'
+  bright:
+    black:   '0x444444'
+    red:     '0xEE6854'
+    green:   '0x8DAF67'
+    yellow:  '0xFAD566'
+    blue:    '0x81A2C7'
+    magenta: '0xF77EBD'
+    cyan:    '0xB3EBBF'
+    white:   '0xF3F2CC'
+  indexed_colors: []
+
+cursor:
+  style: Block
+  unfocused_hollow: true
+
+live_config_reload: true
