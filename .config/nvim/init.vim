@@ -148,7 +148,15 @@ let g:ale_lint_on_text_changed = 0
 let delimitMate_expand_cr = 1
 
 " gutentags
-let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
+let g:gutentags_ctags_exclude = [
+    \ 'target',
+    \ 'tmp',
+    \ 'spec',
+    \ 'node_modules',
+    \ 'public',
+    \ '*.json',
+    \ '*.svg',
+    \ 'vendor' ]
 
 " Markdown
 let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko', 'yaml']
