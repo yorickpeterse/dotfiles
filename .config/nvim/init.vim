@@ -286,9 +286,7 @@ tnoremap <C-b>l <C-\><C-n><C-w>li
 
 function! s:openTerm(cmd)
   exec a:cmd
-
-  " For reasons unknown, the terminal always starts in $HOME since nvim 0.3.4-ish.
-  call termopen($SHELL . " -C 'cd " . getcwd() . "'")
+  term
   setlocal nonumber nornu
   startinsert
 endfunction
