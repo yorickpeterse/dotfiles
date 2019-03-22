@@ -9,7 +9,6 @@ help:
 	@echo "pry         # Creates the configuration files for Pry"
 	@echo "keybindings # Configures keybindings"
 	@echo "fish        # Configures fish"
-	@echo "alacritty   # Configures alacritty"
 
 all:
 	@make nvim
@@ -18,7 +17,6 @@ all:
 	@make fonts
 	@make pry
 	@make keybindings
-	@make alacritty
 
 vim:
 	@ln -s ${PWD}/.config/nvim ${HOME}/.config/nvim
@@ -44,6 +42,3 @@ keybindings:
 
 fish:
 	@ln -s ${PWD}/.config/fish ${HOME}/.config/
-
-alacritty:
-	@cp ${PWD}/.config/alacritty/alacritty.yml ${HOME}/.config/alacritty/alacritty.yml
