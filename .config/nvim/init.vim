@@ -52,6 +52,11 @@ set synmaxcol=256
 set termguicolors
 set textwidth=80
 
+" The NFA engine is rather slow, especially for large Ruby files. After testing
+" this extensively, I found that switching to the old engine can reduce input
+" latency by about 40%.
+set regexpengine=1
+
 filetype plugin indent on
 syntax on
 color happy_hacking
