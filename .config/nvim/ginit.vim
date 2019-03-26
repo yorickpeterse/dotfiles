@@ -4,6 +4,10 @@ if exists('g:GuiLoaded')
     GuiPopupmenu 0
     GuiLinespace 1
 
+    " Mouse settings, mostly so copy-pasting in :term buffers is a bit easier
+    set mouse=a
+    set mousemodel=popup
+
     " neovim-qt renders fonts slightly differently on my desktop, likely due to
     " different display dimensions.
     if hostname() == 'sharkie'

@@ -40,10 +40,7 @@ set pastetoggle=<F2>
 set splitright
 set title
 set pumheight=50
-
-" Mouse settings, mostly so copy-pasting in :term buffers is a bit easier
-set mouse=a
-set mousemodel=popup
+set mouse=
 
 " Syntax settings
 set colorcolumn=80
