@@ -34,13 +34,16 @@ set clipboard=unnamed
 set completeopt=menu
 set diffopt=filler,vertical
 set lz
-set mouse=
 set noshowcmd
 set omnifunc=syntaxcomplete#Complete
 set pastetoggle=<F2>
 set splitright
 set title
 set pumheight=50
+
+" Mouse settings, mostly so copy-pasting in :term buffers is a bit easier
+set mouse=a
+set mousemodel=popup
 
 " Syntax settings
 set colorcolumn=80
@@ -269,6 +272,7 @@ map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
 " NeoVim terminals
+set scrollback=1000
 
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.
