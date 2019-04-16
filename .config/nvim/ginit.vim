@@ -13,4 +13,5 @@ if exists('g:GuiLoaded')
     tnoremap <S-Space> <Space>
     tnoremap <C-Backspace> <Backspace>
     tnoremap <C-Space> <Space>
+    tnoremap <C-Enter> <Enter>
 endif
