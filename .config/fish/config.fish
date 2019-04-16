@@ -5,7 +5,7 @@ source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
 set -x EDITOR 'nvim'
-set -x PATH $HOME/.cargo/bin $PATH $HOME/bin $HOME/.local/share/ienv/bin
+set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ienv/bin $PATH
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
