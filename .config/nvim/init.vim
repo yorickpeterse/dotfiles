@@ -40,7 +40,7 @@ set omnifunc=syntaxcomplete#Complete
 set pastetoggle=<F2>
 set splitright
 set title
-set pumheight=50
+set pumheight=30
 set mouse=
 
 " Syntax settings
