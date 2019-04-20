@@ -25,6 +25,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'racer-rust/vim-racer'
 Plug 'ervandew/supertab'
 Plug 'w0rp/ale'
+Plug 'deoplete-plugins/deoplete-jedi'
 
 call plug#end()
 
