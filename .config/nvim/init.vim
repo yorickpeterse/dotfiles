@@ -33,7 +33,7 @@ set backupskip=/tmp/*
 set clipboard=unnamed
 set completeopt=menu
 set diffopt=filler,vertical
-set lz
+set nolz
 set noshowcmd
 set omnifunc=syntaxcomplete#Complete
 set pastetoggle=<F2>
