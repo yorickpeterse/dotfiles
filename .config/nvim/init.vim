@@ -23,7 +23,6 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'racer-rust/vim-racer'
-Plug 'ervandew/supertab'
 Plug 'w0rp/ale'
 Plug 'deoplete-plugins/deoplete-jedi'
 
@@ -33,6 +32,7 @@ set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
 set completeopt=menu
+set complete=.
 set diffopt=filler,vertical
 set nolz
 set noshowcmd
@@ -42,6 +42,7 @@ set splitright
 set title
 set pumheight=30
 set mouse=
+set shortmess+=c
 
 " Syntax settings
 set colorcolumn=80
@@ -111,8 +112,8 @@ call deoplete#custom#option('ignore_sources', {
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('_', 'dup', v:false)
 call deoplete#custom#option('num_processes', 2)
-call deoplete#custom#option('auto_complete_delay', 50)
-call deoplete#custom#option('auto_refresh_delay', 200)
+call deoplete#custom#option('auto_complete_delay', 100)
+call deoplete#custom#option('auto_refresh_delay', 100)
 call deoplete#custom#option('max_list', 100)
 
 " Disable marks for various sources
@@ -125,6 +126,7 @@ let g:deoplete#enable_at_startup = 1
 let g:racer_cmd = '/usr/bin/racer'
 
 " UltiSnips
+let g:UltiSnipsExpandTrigger = '<C-s>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
@@ -206,9 +208,6 @@ command! -bang -nargs=* Rg
     \ --colors path:style:bold
     \ --colors column:fg:cyan
     \ --colors line:fg:cyan '.shellescape(<q-args>), 1, <bang>0)
-
-" Supertab
-let g:SuperTabDefaultCompletionType = '<c-n>'
 
 " Tabline
 function! Tabline()
@@ -301,3 +300,17 @@ endfunction
 command! Term call s:openTerm('new')
 command! Vterm call s:openTerm('vnew')
 command! Tterm call s:openTerm('tabnew')
+
+" This allows cycling through popup menu results using tab, as well as
+" performing keyword completion if the menu is not visible.
+function! s:checkBackSpace() abort
+    let col = col('.') - 1
+    return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>checkBackSpace() ? "\<tab>" :
+    \ "\<C-n>"
+
+inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
