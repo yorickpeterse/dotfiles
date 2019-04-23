@@ -103,24 +103,24 @@ let mapleader = ','
 let maplocalleader = '\'
 
 " Deoplete
-call deoplete#custom#option('ignore_sources', {
-    \ '_': ['around', 'file', 'dictionary', 'tag'],
-    \ 'rust': ['around', 'file', 'dictionary', 'tag', 'buffer'],
-    \ 'python': ['around', 'file', 'dictionary', 'tag', 'buffer'],
+call deoplete#custom#option('sources', {
+    \ 'rust': ['racer', 'ultisnips'],
+    \ 'python': ['jedi', 'ultisnips'],
+    \ 'inko': ['buffer', 'ultisnips'],
     \ })
 
+call deoplete#custom#option('ignore_sources', {
+    \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer'],
+    \ })
+
+call deoplete#custom#source('_', 'sorters', ['sorter_word'])
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('_', 'dup', v:false)
 call deoplete#custom#option('num_processes', 2)
-call deoplete#custom#option('auto_complete_delay', 100)
+call deoplete#custom#option('auto_complete_delay', 50)
 call deoplete#custom#option('auto_refresh_delay', 100)
 call deoplete#custom#option('max_list', 100)
-
-" Disable marks for various sources
-call deoplete#custom#source('omni', 'mark', '')
-call deoplete#custom#source('buffer', 'mark', '')
-call deoplete#custom#source('racer', 'mark', '')
-call deoplete#custom#source('jedi', 'mark', '')
+call deoplete#custom#source('_', 'mark', '')
 
 let g:deoplete#enable_at_startup = 1
 let g:racer_cmd = '/usr/bin/racer'
@@ -311,6 +311,6 @@ endfunction
 inoremap <silent><expr> <tab>
     \ pumvisible() ? "\<C-n>" :
     \ <SID>checkBackSpace() ? "\<tab>" :
-    \ "\<C-n>"
+    \ "\<C-p>"
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
