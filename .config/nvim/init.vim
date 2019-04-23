@@ -103,14 +103,9 @@ let mapleader = ','
 let maplocalleader = '\'
 
 " Deoplete
-call deoplete#custom#option('sources', {
-    \ 'rust': ['racer', 'ultisnips'],
-    \ 'python': ['jedi', 'ultisnips'],
-    \ 'inko': ['buffer', 'ultisnips'],
-    \ })
-
 call deoplete#custom#option('ignore_sources', {
     \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer'],
+    \ 'inko': ['around', 'file', 'dictionary', 'tag'],
     \ })
 
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
