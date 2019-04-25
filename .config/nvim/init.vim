@@ -117,6 +117,10 @@ call deoplete#custom#option('auto_refresh_delay', 100)
 call deoplete#custom#option('max_list', 100)
 call deoplete#custom#source('_', 'mark', '')
 
+" This assigns "ultisnips" a higher rank than the buffer source, making it
+" easier to use snippets that have the same name as a keyword.
+call deoplete#custom#source('ultisnips', 'rank', 110)
+
 let g:deoplete#enable_at_startup = 1
 let g:racer_cmd = '/usr/bin/racer'
 
