@@ -42,38 +42,44 @@ endsnippet
 
 snippet let "Inserts a let binding"
 let ${1:variable} = $2
-$3
 endsnippet
 
 snippet letm "Inserts a mutable let binding"
 let mut ${1:variable} = $2
-$3
 endsnippet
 
 snippet if "Inserts an if message"
-	.if true: {
-		$1
-	}, false: {
-		$2
-	}$0
+.if true: {
+	$1
+}, false: {
+	$2
+}$0
 endsnippet
 
 snippet if_true "Inserts an if_true message"
-	.if_true {
-		$1
-	}$0
+.if_true {
+	$1
+}$0
 endsnippet
 
 snippet if_false "Inserts an if_false message"
-	.if_false {
-		$1
-	}$0
+.if_false {
+	$1
+}$0
 endsnippet
 
 snippet while "Inserts a while_true message"
 { ${1:condition} }.while_true {
 	$0
 }
+endsnippet
+
+snippet and "Inserts an and message"
+.and { $1 }$0
+endsnippet
+
+snippet or "Inserts an or message"
+.or { $1 }$0
 endsnippet
 
 snippet tmod "Inserts code for writing unit tests"
@@ -105,4 +111,16 @@ endsnippet
 
 snippet aneq "Inserts an assert.not_equal call"
 assert.not_equal(${1:given}, ${2:expected})
+endsnippet
+
+snippet apanic "Inserts an assert.panic call"
+assert.panic {
+	${0}
+}
+endsnippet
+
+snippet anpanic "Inserts an assert.no_panic call"
+assert.no_panic {
+	${0}
+}
 endsnippet
