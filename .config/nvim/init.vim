@@ -105,7 +105,6 @@ let maplocalleader = '\'
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
     \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer'],
-    \ 'inko': ['around', 'file', 'dictionary', 'tag'],
     \ })
 
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
