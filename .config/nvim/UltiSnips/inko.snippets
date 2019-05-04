@@ -48,7 +48,7 @@ snippet letm "Inserts a mutable let binding"
 let mut ${1:variable} = $2
 endsnippet
 
-snippet if "Inserts an if message"
+snippet .if "Inserts an if message" i
 .if true: {
 	$1
 }, false: {
@@ -56,13 +56,13 @@ snippet if "Inserts an if message"
 }$0
 endsnippet
 
-snippet if_true "Inserts an if_true message"
+snippet .if_true "Inserts an if_true message" i
 .if_true {
 	$1
 }$0
 endsnippet
 
-snippet if_false "Inserts an if_false message"
+snippet .if_false "Inserts an if_false message" i
 .if_false {
 	$1
 }$0
@@ -74,11 +74,11 @@ snippet while "Inserts a while_true message"
 }
 endsnippet
 
-snippet and "Inserts an and message"
+snippet .and "Inserts an and message" i
 .and { $1 }$0
 endsnippet
 
-snippet or "Inserts an or message"
+snippet .or "Inserts an or message" i
 .or { $1 }$0
 endsnippet
 
