@@ -292,7 +292,6 @@ tnoremap <C-b>l <C-\><C-n><C-w>li
 " Allow Control C and V for copying and pasting, mostly to make this easier in
 " Vim terminals.
 noremap <C-c> "+y
-noremap <C-v> "+p
 inoremap <C-v> <Esc>"+pa
 
 function! s:openTerm(cmd)
