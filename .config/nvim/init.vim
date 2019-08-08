@@ -23,7 +23,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'racer-rust/vim-racer'
-Plug 'w0rp/ale'
+Plug 'dense-analysis/ale'
 Plug 'deoplete-plugins/deoplete-jedi'
 
 call plug#end()
@@ -32,8 +32,8 @@ set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
 set completeopt=menu
-set complete=.
-set diffopt=filler,vertical
+set complete=.,b
+set diffopt=filler,vertical,internal,algorithm:histogram,indent-heuristic
 set nolz
 set noshowcmd
 set omnifunc=syntaxcomplete#Complete
@@ -104,7 +104,7 @@ let maplocalleader = '\'
 
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
-    \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer'],
+    \ '_': ['around', 'file', 'dictionary', 'tag'],
     \ })
 
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
@@ -115,6 +115,7 @@ call deoplete#custom#option('auto_complete_delay', 50)
 call deoplete#custom#option('auto_refresh_delay', 100)
 call deoplete#custom#option('max_list', 100)
 call deoplete#custom#source('_', 'mark', '')
+call deoplete#custom#source('_', 'matchers', ['matcher_head'])
 
 " This assigns "ultisnips" a higher rank than the buffer source, making it
 " easier to use snippets that have the same name as a keyword.
