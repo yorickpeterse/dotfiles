@@ -69,17 +69,15 @@ snippet .if_false "Inserts an if_false message" i
 endsnippet
 
 snippet bit "Inserts a binary if_true"
-${1:expression}
-	.if_true {
-		$0
-	}
+(${1:expression}).if_true {
+	$0
+}
 endsnippet
 
 snippet bif "Inserts a binary if_false"
-${1:expression}
-	.if_false {
-		$0
-	}
+(${1:expression}).if_false {
+	$0
+}
 endsnippet
 
 snippet while "Inserts a while_true message"
