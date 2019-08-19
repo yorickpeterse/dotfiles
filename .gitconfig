@@ -24,7 +24,7 @@
     ui = true
 
 [mergetool "fugitive"]
-    cmd = nvim -c \"Gdiff\" \"$MERGED\"
+    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
 
 [merge]
     tool = fugitive
