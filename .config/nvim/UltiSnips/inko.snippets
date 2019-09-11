@@ -49,11 +49,10 @@ let mut ${1:variable} = $2
 endsnippet
 
 snippet .if "Inserts an if message" i
-.if true: {
-	$1
-}, false: {
-	$2
-}$0
+.if(
+	true: { $1 },
+	false: { $2 }
+)$0
 endsnippet
 
 snippet .if_true "Inserts an if_true message" i
@@ -141,6 +140,13 @@ snippet imps "Imports a module from std"
 import std::${0:module}
 endsnippet
 
-snippet ary "Creates a new Array"
+snippet ary "Inserts a new Array"
 Array.new
+endsnippet
+
+snippet getter "Inserts a getter method"
+## ${3:Description}
+def ${1:name} -> ${2:Type} {
+	@$1
+}$0
 endsnippet
