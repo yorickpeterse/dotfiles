@@ -44,3 +44,6 @@
 
 [protocol]
 	version = 2
+
+[fetch]
+	prune = true
