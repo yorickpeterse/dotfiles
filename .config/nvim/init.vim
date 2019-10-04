@@ -34,7 +34,7 @@ set clipboard=unnamed
 set completeopt=menu
 set complete=.,b
 set diffopt=filler,vertical,internal,algorithm:histogram,indent-heuristic
-set nolz
+set lz
 set noshowcmd
 set omnifunc=syntaxcomplete#Complete
 set pastetoggle=<F2>
