@@ -177,30 +177,51 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
 let g:fzf_colors =
 \ { 'fg': ['fg', 'Normal'],
-  \ 'bg': ['bg', 'Normal'],
+  \ 'bg': ['bg', 'PMenu'],
   \ 'hl': ['fg', 'Comment'],
-  \ 'fg+': ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-  \ 'bg+': ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'fg+': ['fg', 'CursorLine'],
+  \ 'bg+': ['bg', 'PMenuSel'],
   \ 'hl+': ['fg', 'Notice'],
   \ 'info': ['fg', 'PreProc'],
-  \ 'prompt': ['fg', 'Comment'],
+  \ 'prompt': ['fg', 'Search'],
   \ 'pointer': ['fg', 'Normal'],
   \ 'marker': ['fg', 'Normal'],
   \ 'spinner': ['fg', 'Label'],
   \ 'header': ['fg', 'Comment'] }
 
+let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+
+function! FloatingFZF()
+  let buf = nvim_create_buf(v:false, v:true)
+  let height = float2nr(&lines * 0.5)
+  let width = float2nr(&columns * 0.6)
+  let horizontal = float2nr((&columns - width) / 2)
+  let vertical = float2nr((&lines - height) / 2)
+
+  let opts = {
+    \ 'relative': 'editor',
+    \ 'row': vertical,
+    \ 'col': horizontal,
+    \ 'width': width,
+    \ 'height': height
+    \ }
+
+  call nvim_open_win(buf, v:true, opts)
+endfunction
+
 function! s:fzf_statusline()
   setlocal nonumber
   setlocal norelativenumber
   setlocal statusline=FZF
+  silent file FZF
 endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
-map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --exact'})<CR>
-map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --no-reverse --no-sort --exact'})<CR>
-map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --no-reverse --exact'})<CR>
-map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --no-reverse --no-sort --exact'})<CR>
+map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact'})<CR>
+map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
+map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact'})<CR>
+map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
 
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep('rg --column --line-number --no-heading
