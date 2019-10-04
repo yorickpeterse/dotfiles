@@ -80,6 +80,7 @@ autocmd! FileType yaml setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType haml setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType scss setlocal sw=2 sts=2 ts=2 expandtab
+autocmd! FileType vim setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType rust setlocal tw=80
 
 " Searching
@@ -104,8 +105,8 @@ let maplocalleader = '\'
 
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
-    \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer', 'member'],
-    \ })
+  \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer', 'member'],
+  \ })
 
 call deoplete#custom#source('_', 'sorters', ['sorter_word'])
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
@@ -175,8 +176,8 @@ let g:fugitive_dynamic_colors = 0
 " FZF
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
-let g:fzf_colors =
-\ { 'fg': ['fg', 'Normal'],
+let g:fzf_colors = {
+  \ 'fg': ['fg', 'Normal'],
   \ 'bg': ['bg', 'PMenu'],
   \ 'hl': ['fg', 'Comment'],
   \ 'fg+': ['fg', 'CursorLine'],
@@ -188,7 +189,8 @@ let g:fzf_colors =
   \ 'pointer': ['fg', 'Normal'],
   \ 'marker': ['fg', 'Normal'],
   \ 'spinner': ['fg', 'Label'],
-  \ 'header': ['fg', 'Comment'] }
+  \ 'header': ['fg', 'Comment']
+  \ }
 
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
 
@@ -225,14 +227,14 @@ map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --
 map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
 
 command! -bang -nargs=* Rg
-    \ call fzf#vim#grep('rg --column --line-number --no-heading
-    \ --color=always --smart-case
-    \ --colors match:fg:yellow
-    \ --colors match:style:bold
-    \ --colors path:fg:blue
-    \ --colors path:style:bold
-    \ --colors column:fg:cyan
-    \ --colors line:fg:cyan '.shellescape(<q-args>), 1, <bang>0)
+  \ call fzf#vim#grep('rg --column --line-number --no-heading
+  \ --color=always --smart-case
+  \ --colors match:fg:yellow
+  \ --colors match:style:bold
+  \ --colors path:fg:blue
+  \ --colors path:style:bold
+  \ --colors column:fg:cyan
+  \ --colors line:fg:cyan '.shellescape(<q-args>), 1, <bang>0)
 
 " Tabline
 function! Tabline()
@@ -271,12 +273,12 @@ endfunction
 autocmd! BufWritePre * :call Trim()
 
 " File type detection
-autocmd! BufRead,BufNewFile *.md     set filetype=markdown
-autocmd! BufRead,BufNewFile Gemfile  set filetype=ruby
-autocmd! BufRead,BufNewFile *.rake   set filetype=ruby
-autocmd! BufRead,BufNewFile *.ru     set filetype=ruby
-autocmd! BufRead,BufNewFile *.rs     set filetype=rust
-autocmd! BufRead,BufNewFile *.rll    set filetype=rll
+autocmd! BufRead,BufNewFile *.md set filetype=markdown
+autocmd! BufRead,BufNewFile Gemfile set filetype=ruby
+autocmd! BufRead,BufNewFile *.rake set filetype=ruby
+autocmd! BufRead,BufNewFile *.ru set filetype=ruby
+autocmd! BufRead,BufNewFile *.rs set filetype=rust
+autocmd! BufRead,BufNewFile *.rll set filetype=rll
 autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
 " Highlight trailing whitespace
@@ -334,13 +336,13 @@ command! Tterm call s:openTerm('tabnew')
 " This allows cycling through popup menu results using tab, as well as
 " performing keyword completion if the menu is not visible.
 function! s:checkBackSpace() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
 inoremap <silent><expr> <tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>checkBackSpace() ? "\<tab>" :
-    \ "\<C-p>"
+  \ pumvisible() ? "\<C-n>" :
+  \ <SID>checkBackSpace() ? "\<tab>" :
+  \ "\<C-p>"
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
