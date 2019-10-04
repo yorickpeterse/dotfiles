@@ -183,6 +183,7 @@ let g:fzf_colors =
   \ 'bg+': ['bg', 'PMenuSel'],
   \ 'hl+': ['fg', 'Notice'],
   \ 'info': ['fg', 'PreProc'],
+  \ 'gutter': ['bg', 'PMenu'],
   \ 'prompt': ['fg', 'Search'],
   \ 'pointer': ['fg', 'Normal'],
   \ 'marker': ['fg', 'Normal'],
