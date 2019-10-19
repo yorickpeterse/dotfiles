@@ -115,6 +115,7 @@ call deoplete#custom#option('num_processes', 2)
 call deoplete#custom#option('auto_complete_delay', 80)
 call deoplete#custom#option('auto_refresh_delay', 100)
 call deoplete#custom#option('max_list', 100)
+call deoplete#custom#option('check_stderr', v:false)
 call deoplete#custom#source('_', 'mark', '')
 call deoplete#custom#source('_', 'matchers', ['matcher_head'])
 
