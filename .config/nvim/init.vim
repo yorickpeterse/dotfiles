@@ -344,6 +344,6 @@ endfunction
 inoremap <silent><expr> <tab>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>checkBackSpace() ? "\<tab>" :
-  \ "\<C-p>"
+  \ "\<C-n>"
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
