@@ -145,8 +145,13 @@ Array.new
 endsnippet
 
 snippet get "Inserts a getter method"
-# ${3:Description}
 def ${1:name} -> ${2:Type} {
 	@$1
+}$0
+endsnippet
+
+snippet set "Inserts a setter method"
+def ${1:name}=(value: ${2:Type}) -> $2 {
+	@$1 = value
 }$0
 endsnippet
