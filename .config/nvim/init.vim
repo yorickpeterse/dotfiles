@@ -194,6 +194,7 @@ let g:fzf_colors = {
   \ }
 
 let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+let g:fzf_preview_window = ''
 
 function! FloatingFZF()
   let buf = nvim_create_buf(v:false, v:true)
