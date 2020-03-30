@@ -223,9 +223,9 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>fzf_statusline()
 
-map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact -d "/" --nth "-2..-1" --margin 1,2'})<CR>
+map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact --margin 1,2'})<CR>
 map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact --margin 1,2'})<CR>
-map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact -d "/" --nth "-2..-1" --margin 1,2'})<CR>
+map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact --margin 1,2'})<CR>
 map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact --margin 1,2'})<CR>
 
 command! -bang -nargs=* Rg
