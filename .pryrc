@@ -1,22 +1,16 @@
-# Helper methods for configuring Pry.
-
-def Pry._prompt_name
-  return "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL}"
-end
-
-# Configuration
-
 Pry.config.theme = 'happy_hacking'
 
-Pry.config.prompt = [
+Pry.config.prompt = Pry::Prompt.new(
+  'custom',
+  'Custom Pry prompt',
+  [
   # Regular prompt.
   proc do |obj, nest_level, _|
-    "#{Pry._prompt_name} > "
+    "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL} > "
   end,
   # Wait prompt
   proc do |obj, nest_level, _|
-    "#{Pry._prompt_name} * "
+    "#{RUBY_VERSION}p#{RUBY_PATCHLEVEL} * "
   end
-]
-
-# vim: set ft=ruby:
+  ]
+)
