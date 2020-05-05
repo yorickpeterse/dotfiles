@@ -42,3 +42,7 @@ keybindings:
 
 fish:
 	@ln -s ${PWD}/.config/fish ${HOME}/.config/
+
+safeeyes:
+	@mkdir -p ${HOME}/.config/safeeyes
+	@ln -s ${PWD}/.config/safeeyes/safeeyes.json ${HOME}/.config/safeeyes/safeeyes.json
