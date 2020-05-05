@@ -8,7 +8,7 @@ let g:python_host_prog = '/usr/bin/python2'
 " Plugins, loaded first so other settings can depend on them being present.
 let g:plug_url_format = 'git@github.com:%s.git'
 
-call plug#begin('~/.vim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'

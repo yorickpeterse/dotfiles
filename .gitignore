@@ -1,16 +1,10 @@
-!.vimrc
-.vim/.netrwhist
-.vim/spell
-.vim/plugged
+dotfiles/.config/nvim/plugged
+dotfiles/bin/chromedriver
 
-bin/chromedriver
-bin/fan-control
-bin/setup-laptop
+dotfiles/.config/fish/fishd.*
+dotfiles/.config/fish/private.fish
+dotfiles/.config/fish/fish_history
+dotfiles/.config/fish/fish_variables
 
-.config/fish/fishd.*
-.config/fish/private.fish
-.config/fish/fish_history
-.config/fish/fish_variables
-
-.config/nvim/spell
-.config/nvim/.netrwhist
+dotfiles/.config/nvim/spell
+dotfiles/.config/nvim/.netrwhist
