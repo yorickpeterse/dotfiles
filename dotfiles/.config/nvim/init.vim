@@ -89,7 +89,7 @@ set incsearch
 set nohlsearch
 
 if executable('rg')
-    set grepprg=rg\ --vimgrep
+  set grepprg=rg\ --vimgrep
 endif
 
 " Printer settings
@@ -161,9 +161,6 @@ let g:ale_lint_on_enter = 1
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
-
-" delimitMate
-let delimitMate_expand_cr = 1
 
 " gutentags
 let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
@@ -275,11 +272,6 @@ endfunction
 autocmd! BufWritePre * :call Trim()
 
 " File type detection
-autocmd! BufRead,BufNewFile *.md set filetype=markdown
-autocmd! BufRead,BufNewFile Gemfile set filetype=ruby
-autocmd! BufRead,BufNewFile *.rake set filetype=ruby
-autocmd! BufRead,BufNewFile *.ru set filetype=ruby
-autocmd! BufRead,BufNewFile *.rs set filetype=rust
 autocmd! BufRead,BufNewFile *.rll set filetype=rll
 autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
