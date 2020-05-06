@@ -65,10 +65,10 @@
             "version": "0.0.3"
         },
         {
-            "enabled": false,
+            "enabled": true,
             "id": "smartpause",
             "settings": {
-                "idle_time": 5,
+                "idle_time": 120.0,
                 "interpret_idle_as_break": false,
                 "postpone_if_active": false
             },
