@@ -4,7 +4,7 @@
     "long_break_interval": 60,
     "long_breaks": [
         {
-            "name": "Stretch arms, shake hands, massage back with ball, drink water"
+            "name": "Massage back with ball, drink water, gently stretch arms"
         }
     ],
     "meta": {
@@ -68,14 +68,14 @@
             "enabled": true,
             "id": "smartpause",
             "settings": {
-                "idle_time": 120.0,
+                "idle_time": 300.0,
                 "interpret_idle_as_break": false,
                 "postpone_if_active": false
             },
             "version": "0.0.3"
         },
         {
-            "enabled": true,
+            "enabled": false,
             "id": "screensaver",
             "settings": {
                 "command": "",
@@ -84,7 +84,7 @@
             "version": "0.0.2"
         },
         {
-            "enabled": true,
+            "enabled": false,
             "id": "healthstats",
             "settings": {
                 "statistics_reset_interval": 24.0
@@ -104,7 +104,7 @@
     "short_break_interval": 20,
     "short_breaks": [
         {
-            "name": "Stretch arms, shake hands, look away"
+            "name": "Shake hands, look away, rotate shoulders"
         }
     ],
     "shortcut_disable_time": 2,
