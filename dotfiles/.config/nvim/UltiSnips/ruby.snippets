@@ -14,8 +14,6 @@ snippet pry_daemon "Inserts a Pry binding for daemons"
 STDIN.reopen('/dev/tty'); require 'pry'; binding.pry
 endsnippet
 
-# Language elements such as method definitions.
-
 snippet def "Inserts a new method"
 # ${2:Description of this method.}
 def ${1:method_name}
@@ -101,38 +99,12 @@ Gem::Specification.new do |gem|
 end
 endsnippet
 
-snippet gemspec_files "Inserts code for Gemspec files"
-${1:gem}.files = Dir.glob([
-	'${2}',${0}
-]).select { |file| File.file?(file) }
-endsnippet
-
-snippet gemspec_bins "Inserts code for Gemspec executables"
-${1:gem}.executables = Dir.glob('bin/*').map { |file| File.basename(file) }
-endsnippet
-
-# Snippets for documentation.
-
 snippet @param "Inserts a new YARDOC parameter tag"
 @param [${1:type}] ${2:name} ${3:description}
 endsnippet
 
 snippet @return "Inserts a new YARDOC return tag"
 @return [${1:type}]
-endsnippet
-
-snippet rspec_syn "Enables the old RSpec syntax for RSpec 3"
-${1:config}.expect_with :rspec do |c|
-	c.syntax = [:should, :expect]
-end
-
-$1.mock_with :rspec do |c|
-	c.syntax = [:should, :expect]
-end
-endsnippet
-
-snippet rspec_infer "Infer RSpec types from filepaths"
-config.infer_spec_type_from_file_location!
 endsnippet
 
 snippet fst "Adds a frozen string literal comment"
