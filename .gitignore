@@ -1,5 +1,6 @@
 dotfiles/.config/nvim/plugged
 dotfiles/bin/chromedriver
+dotfiles/bin/breaks
 
 dotfiles/.config/fish/fishd.*
 dotfiles/.config/fish/private.fish
