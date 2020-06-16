@@ -1,0 +1,8 @@
+set configversion 1.9
+set newtab about:blank
+set modeindicator false
+set theme default
+
+autocmd TabEnter .* unfocus
+
+" vim: set filetype=tridactyl
