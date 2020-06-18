@@ -98,7 +98,7 @@ set printoptions=header:0
 
 " Tab and status lines
 set guitablabel=%f
-set statusline=%f\ %w%m%r
+set statusline=%f\ %w%#StatusLineMarker#%m%*%#StatusLineMarker#%r%*
 
 let mapleader = ','
 let maplocalleader = '\'
