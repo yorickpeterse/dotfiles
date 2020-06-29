@@ -219,6 +219,7 @@ function! s:fzf_statusline()
   setlocal nonumber
   setlocal norelativenumber
   setlocal statusline=FZF
+  setlocal signcolumn=no
   silent file FZF
 endfunction
 
