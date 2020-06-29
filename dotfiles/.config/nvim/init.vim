@@ -44,6 +44,10 @@ set pumheight=30
 set mouse=
 set shortmess+=c
 
+" Always showing the sign column prevents the buffers from jumping around when
+" errors come and go.
+set signcolumn=yes
+
 " Syntax settings
 set colorcolumn=80
 set noruler
