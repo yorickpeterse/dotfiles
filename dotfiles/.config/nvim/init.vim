@@ -324,6 +324,7 @@ function! s:openTerm(cmd)
   exec a:cmd
   term
   setlocal nonumber nornu
+  setlocal signcolumn=no
   startinsert
 endfunction
 
