@@ -215,7 +215,7 @@ function! FloatingFZF()
   call nvim_open_win(buf, v:true, opts)
 endfunction
 
-function! s:fzf_statusline()
+function! s:FZFStatusLine()
   setlocal nonumber
   setlocal norelativenumber
   setlocal statusline=FZF
@@ -223,7 +223,7 @@ function! s:fzf_statusline()
   silent file FZF
 endfunction
 
-autocmd! User FzfStatusLine call <SID>fzf_statusline()
+autocmd! User FzfStatusLine call <SID>FZFStatusLine()
 
 map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact --margin 1,2'})<CR>
 map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact --margin 1,2'})<CR>
