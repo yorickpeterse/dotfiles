@@ -42,7 +42,7 @@ set splitright
 set title
 set pumheight=30
 set mouse=
-set shortmess+=c
+set shortmess=atOIc
 
 " Always showing the sign column prevents the buffers from jumping around when
 " errors come and go.
