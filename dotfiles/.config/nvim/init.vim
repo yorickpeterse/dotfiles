@@ -109,19 +109,18 @@ let maplocalleader = '\'
 
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
-  \ '_': ['around', 'file', 'dictionary', 'tag', 'buffer', 'member'],
+  \ '_': ['around', 'file', 'dictionary', 'tag'],
   \ })
 
-call deoplete#custom#source('_', 'sorters', ['sorter_word'])
+call deoplete#custom#source('_', 'sorters', ['sorter_rank'])
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('_', 'dup', v:false)
-call deoplete#custom#option('num_processes', 2)
-call deoplete#custom#option('auto_complete_delay', 80)
-call deoplete#custom#option('auto_refresh_delay', 100)
+call deoplete#custom#option('num_processes', 4)
+call deoplete#custom#option('auto_refresh_delay', 50)
 call deoplete#custom#option('max_list', 100)
 call deoplete#custom#option('check_stderr', v:false)
 call deoplete#custom#source('_', 'mark', '')
-call deoplete#custom#source('_', 'matchers', ['matcher_head'])
+call deoplete#custom#source('_', 'matchers', ['matcher_head', 'matcher_length'])
 
 " This assigns "ultisnips" a higher rank than the buffer source, making it
 " easier to use snippets that have the same name as a keyword.
@@ -343,6 +342,6 @@ endfunction
 inoremap <silent><expr> <tab>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>checkBackSpace() ? "\<tab>" :
-  \ "\<C-n>"
+  \ deoplete#manual_complete()
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
