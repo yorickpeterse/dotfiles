@@ -109,7 +109,7 @@ let maplocalleader = '\'
 
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
-  \ '_': ['around', 'file', 'dictionary', 'tag', 'member'],
+  \ '_': ['around', 'file', 'dictionary', 'tag', 'member', 'buffer'],
   \ })
 
 call deoplete#custom#source('_', 'sorters', ['sorter_rank'])
@@ -342,6 +342,6 @@ endfunction
 inoremap <silent><expr> <tab>
   \ pumvisible() ? "\<C-n>" :
   \ <SID>checkBackSpace() ? "\<tab>" :
-  \ deoplete#manual_complete()
+  \ "\<C-n>"
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
