@@ -12,11 +12,6 @@ tags
 tags.lock
 tags.temp
 
-# OS specific files.
-.DS_Store
-Thumbs.db
-Icon?
-
 # Ruby specific files.
 .yardoc
 *.gem
