@@ -17,7 +17,7 @@ Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
 Plug 'git@gitlab.com:inko-lang/inko.vim.git'
-Plug 'git@gitlab.com:yorickpeterse/happy_hacking.vim.git'
+Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
@@ -66,7 +66,7 @@ set regexpengine=1
 
 filetype plugin indent on
 syntax on
-color happy_hacking
+color paper
 
 " These settings are disabled to get some extra performance out of Vim when
 " dealing with large files.

@@ -1,5 +1,5 @@
 if exists('g:GuiLoaded')
-    GuiFont Source Code Pro:h7.5:l
+    GuiFont Source Code Pro:h7.5
     GuiTabline 0
     GuiPopupmenu 0
     GuiLinespace 1
