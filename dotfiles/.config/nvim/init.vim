@@ -183,8 +183,8 @@ let g:fzf_colors = {
   \ 'fg+': ['fg', 'Normal'],
   \ 'bg': ['bg', 'Normal'],
   \ 'bg+': ['bg', 'Cursor'],
-  \ 'hl': ['bg', 'Search'],
-  \ 'hl+': ['bg', 'Search'],
+  \ 'hl': ['fg', 'Search'],
+  \ 'hl+': ['fg', 'Search'],
   \ 'info': ['fg', 'Number'],
   \ 'gutter': ['bg', 'Normal'],
   \ 'prompt': ['fg', 'Normal'],
@@ -258,12 +258,14 @@ command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading
   \     --color=always --smart-case
+  \     --colors match:none
   \     --colors match:fg:yellow
   \     --colors match:style:bold
-  \     --colors path:fg:blue
+  \     --colors match:style:underline
+  \     --colors path:none
   \     --colors path:style:bold
-  \     --colors column:fg:cyan
-  \     --colors line:fg:cyan '.shellescape(<q-args>),
+  \     --colors column:none
+  \     --colors line:fg:blue '.shellescape(<q-args>),
   \   1,
   \   <bang>0
   \ )
