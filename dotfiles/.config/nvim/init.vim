@@ -215,20 +215,58 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>FZFStatusLine()
 
-map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact'})<CR>
-map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
-map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact'})<CR>
-map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(
+  \   <q-args>,
+  \   {'options': ['--prompt=>> ', '--reverse', '--exact']},
+  \   <bang>0
+  \ )
+
+command! -bang -nargs=* BTags
+  \ call fzf#vim#buffer_tags(
+  \   <q-args>,
+  \   {
+  \     'placeholder': '{2}:{3}',
+  \     'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact']
+  \   },
+  \   <bang>0
+  \ )
+
+command! -bar -bang -nargs=? -complete=buffer Buffers
+  \ call fzf#vim#buffers(
+  \   <q-args>,
+  \   {
+  \     'placeholder': '{1}',
+  \     'options': ['--prompt=>> ', '--reverse', '--exact']
+  \   },
+  \   <bang>0
+  \ )
+
+command! -bang -nargs=* BLines
+  \ call fzf#vim#buffer_lines(
+  \   <q-args>,
+  \   {'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact']},
+  \   <bang>0
+  \ )
+
+map <leader>f :silent Files<CR>
+map <leader>t :silent BTags<CR>
+map <leader>b :silent Buffers<CR>
+map <leader>l :silent BLines<CR>
 
 command! -bang -nargs=* Rg
-  \ call fzf#vim#grep('rg --column --line-number --no-heading
-  \ --color=always --smart-case
-  \ --colors match:fg:yellow
-  \ --colors match:style:bold
-  \ --colors path:fg:blue
-  \ --colors path:style:bold
-  \ --colors column:fg:cyan
-  \ --colors line:fg:cyan '.shellescape(<q-args>), 1, <bang>0)
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading
+  \     --color=always --smart-case
+  \     --colors match:fg:yellow
+  \     --colors match:style:bold
+  \     --colors path:fg:blue
+  \     --colors path:style:bold
+  \     --colors column:fg:cyan
+  \     --colors line:fg:cyan '.shellescape(<q-args>),
+  \   1,
+  \   <bang>0
+  \ )
 
 " Tabline
 function! Tabline()
