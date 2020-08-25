@@ -25,6 +25,7 @@ Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'racer-rust/vim-racer'
 Plug 'dense-analysis/ale'
 Plug 'deoplete-plugins/deoplete-jedi'
+Plug 'lifepillar/vim-colortemplate'
 
 call plug#end()
 
