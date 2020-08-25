@@ -180,40 +180,30 @@ let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
 let g:fzf_colors = {
   \ 'fg': ['fg', 'Normal'],
-  \ 'bg': ['bg', 'PMenu'],
-  \ 'hl': ['fg', 'Comment'],
-  \ 'fg+': ['fg', 'CursorLine'],
-  \ 'bg+': ['bg', 'PMenuSel'],
-  \ 'hl+': ['fg', 'Notice'],
-  \ 'info': ['fg', 'PreProc'],
-  \ 'gutter': ['bg', 'PMenu'],
-  \ 'prompt': ['fg', 'Search'],
+  \ 'fg+': ['fg', 'Normal'],
+  \ 'bg': ['bg', 'Normal'],
+  \ 'bg+': ['bg', 'Cursor'],
+  \ 'hl': ['bg', 'Search'],
+  \ 'hl+': ['bg', 'Search'],
+  \ 'info': ['fg', 'Number'],
+  \ 'gutter': ['bg', 'Normal'],
+  \ 'prompt': ['fg', 'Normal'],
   \ 'pointer': ['fg', 'Normal'],
   \ 'marker': ['fg', 'Normal'],
-  \ 'spinner': ['fg', 'Label'],
-  \ 'header': ['fg', 'Comment']
+  \ 'spinner': ['fg', 'Normal'],
+  \ 'header': ['fg', 'Comment'],
   \ }
 
-let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+let g:fzf_layout = {
+  \ 'window': {
+  \   'width': 0.7,
+  \   'height': 0.6,
+  \   'border': 'sharp',
+  \   'highlight': 'VertSplit'
+  \ }
+  \ }
+
 let g:fzf_preview_window = ''
-
-function! FloatingFZF()
-  let buf = nvim_create_buf(v:false, v:true)
-  let height = float2nr(&lines * 0.5)
-  let width = float2nr(&columns * 0.6)
-  let horizontal = float2nr((&columns - width) / 2)
-  let vertical = float2nr((&lines - height) / 2)
-
-  let opts = {
-    \ 'relative': 'editor',
-    \ 'row': vertical,
-    \ 'col': horizontal,
-    \ 'width': width,
-    \ 'height': height
-    \ }
-
-  call nvim_open_win(buf, v:true, opts)
-endfunction
 
 function! s:FZFStatusLine()
   setlocal nonumber
@@ -225,10 +215,10 @@ endfunction
 
 autocmd! User FzfStatusLine call <SID>FZFStatusLine()
 
-map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact --margin 1,2'})<CR>
-map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact --margin 1,2'})<CR>
-map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact --margin 1,2'})<CR>
-map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact --margin 1,2'})<CR>
+map <leader>f :call fzf#vim#files('.', {'options': '--prompt ">> " --reverse --exact'})<CR>
+map <leader>t :call fzf#vim#buffer_tags('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
+map <leader>b :call fzf#vim#buffers('', {'options': '--prompt ">> " --reverse --exact'})<CR>
+map <leader>l :call fzf#vim#buffer_lines('', {'options': '--prompt ">> " --reverse --no-sort --exact'})<CR>
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep('rg --column --line-number --no-heading
