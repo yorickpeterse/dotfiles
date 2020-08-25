@@ -11,12 +11,13 @@ set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
 set -x BUNDLE_DISABLE_VERSION_CHECK 1
 set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
+set -x LS_COLORS 'di=0;35:ln=1;34:ex=1;30'
 
 set fish_greeting
 set fish_color_command normal --bold
 set fish_color_param normal
 set fish_color_quote green
-set fish_color_cwd blue --bold
+set fish_color_cwd purple
 set fish_color_error red --bold
 set fish_color_status red
 set fish_color_comment 777777
