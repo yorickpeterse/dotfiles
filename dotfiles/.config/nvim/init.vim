@@ -120,7 +120,7 @@ call deoplete#custom#option('auto_refresh_delay', 50)
 call deoplete#custom#option('max_list', 100)
 call deoplete#custom#option('check_stderr', v:false)
 call deoplete#custom#source('_', 'mark', '')
-call deoplete#custom#source('_', 'matchers', ['matcher_head', 'matcher_length'])
+call deoplete#custom#source('_', 'matchers', ['matcher_head'])
 
 " This assigns "ultisnips" a higher rank than the buffer source, making it
 " easier to use snippets that have the same name as a keyword.
