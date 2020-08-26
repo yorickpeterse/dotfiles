@@ -1,4 +1,6 @@
-Pry.config.theme = 'happy_hacking'
+Pry.config.theme = 'paper'
+
+Pry.config.theme_options = { paint_key_as_symbol: true }
 
 Pry.config.prompt = Pry::Prompt.new(
   'custom',

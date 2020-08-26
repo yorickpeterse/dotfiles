@@ -9,3 +9,5 @@ dotfiles/.config/fish/fish_variables
 
 dotfiles/.config/nvim/spell
 dotfiles/.config/nvim/.netrwhist
+dotfiles/.pry/themes/*.prytheme.rb
+!dotfiles/.pry/themes/paper.prytheme.rb
