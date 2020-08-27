@@ -1,11 +1,11 @@
 " (Neo)Vim configuration
 
-" Setting the Python 2/3 executables before loading plugins speeds up starting
-" (Neo)Vim a bit.
+" Python settings {{{1
+" These are set before loading plugins to speeds up starting (Neo)Vim a bit.
 let g:python3_host_prog = '/usr/bin/python'
 let g:python_host_prog = '/usr/bin/python2'
 
-" Plugins, loaded first so other settings can depend on them being present.
+" Plugins {{{1
 let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.config/nvim/plugged')
@@ -29,6 +29,7 @@ Plug 'lifepillar/vim-colortemplate'
 
 call plug#end()
 
+" Generic settings {{{1
 set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
@@ -44,12 +45,7 @@ set title
 set pumheight=30
 set mouse=
 set shortmess=atOIc
-
-" Always showing the sign column prevents the buffers from jumping around when
-" errors come and go.
 set signcolumn=yes
-
-" Syntax settings
 set colorcolumn=80
 set noruler
 set nowrap
@@ -58,6 +54,21 @@ set relativenumber
 set synmaxcol=256
 set termguicolors
 set textwidth=80
+set guitablabel=%f
+set inccommand=nosplit
+set incsearch
+set nohlsearch
+set scrollback=1000
+
+if executable('rg')
+  set grepprg=rg\ --vimgrep
+endif
+
+set printoptions=number:n
+set printoptions=header:0
+
+let mapleader = ','
+let maplocalleader = '\'
 
 " The NFA engine is rather slow, especially for large Ruby files. After testing
 " this extensively, I found that switching to the old engine can reduce input
@@ -73,7 +84,7 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" Indentation
+" Indentation settings {{{1
 set expandtab
 set shiftwidth=4
 set softtabstop=4
@@ -88,50 +99,57 @@ autocmd! FileType scss setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType vim setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType rust setlocal tw=80
 
-" Searching
-set inccommand=nosplit
-set incsearch
-set nohlsearch
+" Tab and status lines {{{1
+function! Tabline()
+  let s = ''
+  for i in range(tabpagenr('$'))
+    let tab = i + 1
+    let winnr = tabpagewinnr(tab)
+    let buflist = tabpagebuflist(tab)
+    let bufnr = buflist[winnr - 1]
+    let bufname = bufname(bufnr)
+    let bufmodified = getbufvar(bufnr, "&mod")
 
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-endif
+    let s .= '%' . tab . 'T'
+    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
+    let s .= ' ' . tab .': '
+    let s .= (bufname != '' ? fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
 
-" Printer settings
-set printoptions=number:n
-set printoptions=header:0
+    if bufmodified
+      let s .= '[+] '
+    endif
+  endfor
 
-let mapleader = ','
-let maplocalleader = '\'
-
-" Tab and status lines
-set guitablabel=%f
+  let s .= '%#TabLineFill#'
+  return s
+endfunction
 
 function! AleStatusLine() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:errors = l:counts.error + l:counts.style_error
-    let l:warnings = l:counts.total - l:errors
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:errors = l:counts.error + l:counts.style_error
+  let l:warnings = l:counts.total - l:errors
 
-    if l:errors > 0 && l:warnings > 0
-      return printf('[%d errors, %d warnings]', errors, warnings)
-    end
+  if l:errors > 0 && l:warnings > 0
+    return printf('[%d errors, %d warnings]', errors, warnings)
+  end
 
-    if l:errors > 0
-      return printf('[%d errors]', errors)
-    end
+  if l:errors > 0
+    return printf('[%d errors]', errors)
+  end
 
-    if l:warnings > 0
-      return printf('[%d warnings]', warnings)
-    end
+  if l:warnings > 0
+    return printf('[%d warnings]', warnings)
+  end
 
-    return ''
+  return ''
 endfunction
+
+set tabline=%!Tabline()
+set statusline=%f\ %w%m%r%=%#AleStatusLine#%{AleStatusLine()}%*
 
 hi! AleStatusLine guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
 
-set statusline=%f\ %w%m%r%=%#AleStatusLine#%{AleStatusLine()}%*
-
-" Deoplete
+" Deoplete {{{1
 call deoplete#custom#option('ignore_sources', {
   \ '_': ['around', 'file', 'dictionary', 'tag', 'member', 'buffer'],
   \ })
@@ -153,7 +171,7 @@ call deoplete#custom#source('ultisnips', 'rank', 110)
 let g:deoplete#enable_at_startup = 1
 let g:racer_cmd = '/usr/bin/racer'
 
-" UltiSnips
+" UltiSnips {{{1
 let g:UltiSnipsExpandTrigger = '<C-s>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
@@ -165,7 +183,7 @@ augroup ultisnips_no_auto_expansion
   au VimEnter * au! UltiSnips_AutoTrigger
 augroup END
 
-" netrw
+" netrw {{{1
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
 let g:netrw_winsize = 15
@@ -174,12 +192,12 @@ let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
 
 autocmd FileType netrw setlocal bufhidden=delete
 
-" NERDCommenter
+" NERDCommenter {{{1
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 
-" ALE
+" ALE {{{1
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '●'
 let g:ale_virtualtext_cursor = 0
@@ -189,16 +207,16 @@ let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 
-" gutentags
+" gutentags {{{1
 let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
 
-" Markdown
+" Markdown {{{1
 let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko', 'yaml']
 
-" Fugitive
+" Fugitive {{{1
 let g:fugitive_dynamic_colors = 0
 
-" FZF
+" FZF {{{1
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
 
 let g:fzf_colors = {
@@ -272,11 +290,6 @@ command! -bang -nargs=* BLines
   \   <bang>0
   \ )
 
-map <leader>f :silent Files<CR>
-map <leader>t :silent BTags<CR>
-map <leader>b :silent Buffers<CR>
-map <leader>l :silent BLines<CR>
-
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading
@@ -293,33 +306,7 @@ command! -bang -nargs=* Rg
   \   <bang>0
   \ )
 
-" Tabline
-function! Tabline()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    let tab = i + 1
-    let winnr = tabpagewinnr(tab)
-    let buflist = tabpagebuflist(tab)
-    let bufnr = buflist[winnr - 1]
-    let bufname = bufname(bufnr)
-    let bufmodified = getbufvar(bufnr, "&mod")
-
-    let s .= '%' . tab . 'T'
-    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-    let s .= ' ' . tab .': '
-    let s .= (bufname != '' ? fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
-
-    if bufmodified
-      let s .= '[+] '
-    endif
-  endfor
-
-  let s .= '%#TabLineFill#'
-  return s
-endfunction
-set tabline=%!Tabline()
-
-" Automatically strip trailing whitespace.
+" Trailing whitespace {{{1
 function! Trim()
   let l = line(".")
   let c = col(".")
@@ -328,24 +315,22 @@ function! Trim()
 endfunction
 
 autocmd! BufWritePre * :call Trim()
+autocmd! BufWinEnter * match Visual /\s\+$/
+autocmd! InsertEnter * match Visual /\s\+\%#\@<!$/
+autocmd! InsertLeave * match Visual /\s\+$/
+autocmd! BufWinLeave * call clearmatches()
 
-" File type detection
+" File type detection {{{1
 autocmd! BufRead,BufNewFile *.rll set filetype=rll
 autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
-" Highlight trailing whitespace
-autocmd BufWinEnter * match Visual /\s\+$/
-autocmd InsertEnter * match Visual /\s\+\%#\@<!$/
-autocmd InsertLeave * match Visual /\s\+$/
-autocmd BufWinLeave * call clearmatches()
-
-" Key bindings
+" Mappings {{{1
+map <leader>f :silent Files<CR>
+map <leader>t :silent BTags<CR>
+map <leader>b :silent Buffers<CR>
+map <leader>l :silent BLines<CR>
 map <F6> :Lexplore<CR><Esc>
-
-" Disabled since I press it by accident way too often.
 map K <nop>
-
-" Disable the scroll wheel to force the use of Vim motions.
 map <ScrollWheelUp> <nop>
 map <S-ScrollWheelUp> <nop>
 map <ScrollWheelDown> <nop>
@@ -354,9 +339,6 @@ map <ScrollWheelLeft> <nop>
 map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
-
-" NeoVim terminals
-set scrollback=1000
 
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.
@@ -374,18 +356,6 @@ tnoremap <C-b>l <C-\><C-n><C-w>li
 noremap <C-c> "+y
 inoremap <C-v> <Esc>"+pa
 
-function! s:openTerm(cmd)
-  exec a:cmd
-  term
-  setlocal nonumber nornu
-  setlocal signcolumn=no
-  startinsert
-endfunction
-
-command! Term call s:openTerm('new')
-command! Vterm call s:openTerm('vnew')
-command! Tterm call s:openTerm('tabnew')
-
 " This allows cycling through popup menu results using tab, as well as
 " performing keyword completion if the menu is not visible.
 function! s:checkBackSpace() abort
@@ -399,3 +369,18 @@ inoremap <silent><expr> <tab>
   \ "\<C-n>"
 
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
+
+" Custom commands {{{1
+function! s:openTerm(cmd)
+  exec a:cmd
+  term
+  setlocal nonumber nornu
+  setlocal signcolumn=no
+  startinsert
+endfunction
+
+command! Term call s:openTerm('new')
+command! Vterm call s:openTerm('vnew')
+command! Tterm call s:openTerm('tabnew')
+
+" vim: fdm=marker
