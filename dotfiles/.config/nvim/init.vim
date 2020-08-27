@@ -101,12 +101,35 @@ endif
 set printoptions=number:n
 set printoptions=header:0
 
-" Tab and status lines
-set guitablabel=%f
-set statusline=%f\ %w%m%r
-
 let mapleader = ','
 let maplocalleader = '\'
+
+" Tab and status lines
+set guitablabel=%f
+
+function! AleStatusLine() abort
+    let l:counts = ale#statusline#Count(bufnr(''))
+    let l:errors = l:counts.error + l:counts.style_error
+    let l:warnings = l:counts.total - l:errors
+
+    if l:errors > 0 && l:warnings > 0
+      return printf('[%d errors, %d warnings]', errors, warnings)
+    end
+
+    if l:errors > 0
+      return printf('[%d errors]', errors)
+    end
+
+    if l:warnings > 0
+      return printf('[%d warnings]', warnings)
+    end
+
+    return ''
+endfunction
+
+hi! AleStatusLine guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
+
+set statusline=%f\ %w%m%r%=%#AleStatusLine#%{AleStatusLine()}%*
 
 " Deoplete
 call deoplete#custom#option('ignore_sources', {
