@@ -131,15 +131,15 @@ function! AleStatusLine() abort
 
   if l:errors > 0 && l:warnings > 0
     return printf('[%d errors, %d warnings]', errors, warnings)
-  end
+  endif
 
   if l:errors > 0
     return printf('[%d errors]', errors)
-  end
+  endif
 
   if l:warnings > 0
     return printf('[%d warnings]', warnings)
-  end
+  endif
 
   return ''
 endfunction
