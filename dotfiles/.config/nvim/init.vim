@@ -124,30 +124,37 @@ function! Tabline()
   return s
 endfunction
 
-function! AleStatusLine() abort
+set tabline=%!Tabline()
+
+function! AleWarnings() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:errors = l:counts.error + l:counts.style_error
   let l:warnings = l:counts.total - l:errors
 
-  if l:errors > 0 && l:warnings > 0
-    return printf('[%d errors, %d warnings]', errors, warnings)
-  endif
-
-  if l:errors > 0
-    return printf('[%d errors]', errors)
-  endif
-
   if l:warnings > 0
-    return printf('[%d warnings]', warnings)
+    return printf("\u2002W: %d\u2002", warnings)
   endif
 
   return ''
 endfunction
 
-set tabline=%!Tabline()
-set statusline=%f\ %w%m%r%=%#AleStatusLine#%{AleStatusLine()}%*
+function! AleErrors() abort
+  let l:counts = ale#statusline#Count(bufnr(''))
+  let l:errors = l:counts.error + l:counts.style_error
 
-hi! AleStatusLine guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
+  if l:errors > 0
+    return printf("\u2002E: %d\u2002", errors)
+  endif
+
+  return ''
+endfunction
+
+set statusline=%f\ %w%m%r%=
+set statusline+=%#AleStatusWarnings#%{AleWarnings()}%*
+set statusline+=%#AleStatusErrors#%{AleErrors()}%*
+
+hi! AleStatusWarnings guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
+hi! AleStatusErrors guifg=#ffffff guibg=#cc3e28 ctermfg=231 ctermbg=160
 
 " Deoplete {{{1
 call deoplete#custom#option('ignore_sources', {
