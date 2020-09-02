@@ -347,6 +347,11 @@ map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
+" Custom mappings for Fugitive
+map <leader>gs :vert bo Gstatus<CR>
+map <leader>gc :vert bo Gcommit<CR>
+map <leader>gd :Gdiff<CR>
+
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.
 tnoremap <C-]> <C-\><C-n>
