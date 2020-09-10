@@ -164,6 +164,7 @@ call deoplete#custom#option('ignore_sources', {
 call deoplete#custom#source('_', 'sorters', ['sorter_rank'])
 call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
 call deoplete#custom#source('_', 'dup', v:false)
+call deoplete#custom#source('_', 'max_menu_width', 100)
 call deoplete#custom#option('num_processes', 4)
 call deoplete#custom#option('auto_refresh_delay', 50)
 call deoplete#custom#option('max_list', 100)
