@@ -10,7 +10,7 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'jiangmiao/auto-pairs'
+Plug 'Krasjet/auto.pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
@@ -21,10 +21,9 @@ Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'racer-rust/vim-racer'
+Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neoclide/jsonc.vim'
 Plug 'dense-analysis/ale'
-Plug 'deoplete-plugins/deoplete-jedi'
 Plug 'lifepillar/vim-colortemplate'
 
 call plug#end()
@@ -156,29 +155,6 @@ set statusline+=%#AleStatusErrors#%{AleErrors()}%*
 hi! AleStatusWarnings guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
 hi! AleStatusErrors guifg=#ffffff guibg=#cc3e28 ctermfg=231 ctermbg=160
 
-" Deoplete {{{1
-call deoplete#custom#option('ignore_sources', {
-  \ '_': ['around', 'file', 'dictionary', 'tag', 'member', 'buffer'],
-  \ })
-
-call deoplete#custom#source('_', 'sorters', ['sorter_rank'])
-call deoplete#custom#source('_', 'disabled_syntaxes', ['Comment', 'String'])
-call deoplete#custom#source('_', 'dup', v:false)
-call deoplete#custom#source('_', 'max_menu_width', 100)
-call deoplete#custom#option('num_processes', 4)
-call deoplete#custom#option('auto_refresh_delay', 50)
-call deoplete#custom#option('max_list', 100)
-call deoplete#custom#option('check_stderr', v:false)
-call deoplete#custom#source('_', 'mark', '')
-call deoplete#custom#source('_', 'matchers', ['matcher_head'])
-
-" This assigns "ultisnips" a higher rank than the buffer source, making it
-" easier to use snippets that have the same name as a keyword.
-call deoplete#custom#source('ultisnips', 'rank', 110)
-
-let g:deoplete#enable_at_startup = 1
-let g:racer_cmd = '/usr/bin/racer'
-
 " UltiSnips {{{1
 let g:UltiSnipsExpandTrigger = '<C-s>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
@@ -206,6 +182,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 
 " ALE {{{1
+let g:ale_disable_lsp = 1
 let g:ale_sign_error = '✖'
 let g:ale_sign_warning = '●'
 let g:ale_virtualtext_cursor = 0
@@ -214,6 +191,29 @@ let g:ale_lint_on_enter = 1
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
+let g:ale_linters = {
+  \ 'rust': [],
+  \ 'ruby': ['ruby', 'rubocop'],
+  \ 'python': ['flake8'],
+  \ 'markdown': ['vale']
+  \ }
+
+let g:ale_python_flake8_auto_pipenv = 1
+
+" CoC
+let g:coc_enable_locationlist = 0
+
+" Use the location list for Coc, instead of its own (somewhat confusing to use)
+" location list system.
+autocmd! User CocLocationsChange call setloclist(0, g:coc_jump_locations) | lwindow
+
+let g:coc_global_extensions = [
+  \ "coc-json",
+  \ "coc-tsserver",
+  \ "coc-rust-analyzer",
+  \ "coc-ultisnips",
+  \ "coc-jedi"
+  \ ]
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
@@ -333,10 +333,10 @@ autocmd! BufRead,BufNewFile *.rll set filetype=rll
 autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
 " Mappings {{{1
-map <leader>f :silent Files<CR>
-map <leader>t :silent BTags<CR>
-map <leader>b :silent Buffers<CR>
-map <leader>l :silent BLines<CR>
+map <silent> <leader>f :Files<CR>
+map <silent> <leader>t :BTags<CR>
+map <silent> <leader>b :Buffers<CR>
+map <silent> <leader>l :BLines<CR>
 map <F6> :Lexplore<CR><Esc>
 map K <nop>
 map <ScrollWheelUp> <nop>
@@ -349,9 +349,13 @@ map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
 " Custom mappings for Fugitive
-map <leader>gs :vert bo Gstatus<CR>
-map <leader>gc :vert bo Gcommit<CR>
-map <leader>gd :Gdiff<CR>
+map <silent> <leader>gs :vert bo Gstatus<CR>
+map <silent> <leader>gc :vert bo Gcommit<CR>
+map <silent> <leader>gd :Gdiff<CR>
+
+" Mappings for CoC
+map <silent> <leader>h :call CocActionAsync('doHover')<CR>
+map <silent> <leader>r <Plug>(coc-rename)
 
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.

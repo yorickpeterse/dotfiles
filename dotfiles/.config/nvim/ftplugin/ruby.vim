@@ -1,4 +1,3 @@
-let b:ale_linters = ['ruby', 'rubocop']
 let b:ale_command_wrapper = 'ruby-exec'
 
 if !empty(findfile('Gemfile', expand('%:p:h') . ';'))

@@ -1,0 +1,42 @@
+{
+    // Display diagnostics using ALE, keeping the output consistent with
+    // whatever ALE itself may produce.
+    "diagnostic.displayByAle": true,
+
+    // Formatting is handled by ALE, as that also works for cases where a
+    // language server is not available.
+    "coc.preferences.formatOnType": false,
+    "coc.preferences.formatOnSaveFiletypes": [],
+    "coc.preferences.rootPatterns": ["Cargo.toml", "rustfmt.toml"],
+
+    "coc.source.file.enable": false,
+    "coc.source.buffer.enable": false,
+    "coc.source.around.enable": false,
+    "coc.source.ultisnips.disableSyntaxes": ["Comment", "String"],
+
+    // Disable the automatic documentation popups. These occupy quite a bit of
+    // space, and are not always needed.
+    "signature.enable": false,
+    "signature.floatMaxWidth": 100,
+
+    // Disable the documentation/details when selecting an entry from the
+    // completion popup. Most of the time this just adds noise.
+    "suggest.floatEnable": false,
+    "suggest.snippetIndicator": "",
+    "suggest.triggerCompletionWait": 100,
+
+    // This prevents rust-analyzer from producing diagnostics while typing.
+    "rust-analyzer.diagnostics.enable": false,
+    "rust-analyzer.inlayHints.chainingHints": false,
+    "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
+    "rust-analyzer.lruCapacity": 128,
+    "rust-analyzer.completion.postfix.enable": false,
+
+    "jedi.trace.server": "off",
+    "jedi.markupKindPreferred": "markdown",
+    "jedi.startupMessage": false,
+    "jedi.diagnostics.didChange": false,
+
+    "tsserver.formatOnType": false,
+    "tsserver.maxTsServerMemory": 512
+}
