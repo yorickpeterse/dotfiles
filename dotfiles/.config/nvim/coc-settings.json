@@ -24,6 +24,7 @@
     "suggest.floatEnable": false,
     "suggest.snippetIndicator": "",
     "suggest.triggerCompletionWait": 100,
+    "suggest.minTriggerInputLength": 3,
 
     // This prevents rust-analyzer from producing diagnostics while typing.
     "rust-analyzer.diagnostics.enable": false,
