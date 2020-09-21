@@ -83,9 +83,9 @@ Gem::Specification.new do |gem|
 	gem.name        = '$1'
 	gem.version     = ${2:version}
 	gem.authors     = ['Yorick Peterse']
-	gem.email       = 'yorickpeterse@gmail.com'
+	gem.email       = 'yorick@yorickpeterse.com'
 	gem.summary     = '${3:description}'
-	gem.homepage    = 'https://github.com/yorickpeterse/$1/'
+	gem.homepage    = 'https://gitlab.com/yorickpeterse/$1/'
 	gem.description = gem.summary
 	gem.executables = []
 	gem.license     = 'MPL-2.0'
@@ -93,9 +93,6 @@ Gem::Specification.new do |gem|
 	gem.files = Dir.glob([
 		'${2}',${0}
 	]).select { |file| File.file?(file) }
-
-	gem.has_rdoc              = 'yard'
-	gem.required_ruby_version = '>= 1.9.3'
 end
 endsnippet
 
