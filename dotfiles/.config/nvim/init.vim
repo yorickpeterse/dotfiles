@@ -359,6 +359,7 @@ map <silent> <leader>gd :Gdiff<CR>
 " Mappings for CoC
 map <silent> <leader>h :call CocActionAsync('doHover')<CR>
 map <silent> <leader>r <Plug>(coc-rename)
+map <silent> <leader>d <Plug>(coc-definition)
 
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.

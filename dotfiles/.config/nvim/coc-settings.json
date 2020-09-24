@@ -30,7 +30,7 @@
     "rust-analyzer.diagnostics.enable": false,
     "rust-analyzer.inlayHints.chainingHints": false,
     "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
-    "rust-analyzer.lruCapacity": 128,
+    "rust-analyzer.lruCapacity": 64,
     "rust-analyzer.completion.postfix.enable": false,
 
     "jedi.trace.server": "off",
