@@ -181,6 +181,9 @@ let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 
+" auto-pairs
+let g:AutoPairsOpenBalanceBlacklist = ['{']
+
 " ALE {{{1
 let g:ale_disable_lsp = 1
 let g:ale_sign_error = '✖'
