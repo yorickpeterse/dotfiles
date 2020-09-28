@@ -205,6 +205,8 @@ let g:ale_python_flake8_auto_pipenv = 1
 
 " CoC
 let g:coc_enable_locationlist = 0
+let g:coc_snippet_next = '<tab>'
+let g:coc_snippet_prev = '<S-tab>'
 
 " Use the location list for Coc, instead of its own (somewhat confusing to use)
 " location list system.
@@ -360,6 +362,9 @@ map <silent> <leader>gd :Gdiff<CR>
 map <silent> <leader>h :call CocActionAsync('doHover')<CR>
 map <silent> <leader>r <Plug>(coc-rename)
 map <silent> <leader>d <Plug>(coc-definition)
+
+" Confirm completion by pressing enter
+inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
 " use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
 " instances to still use Control + [.
