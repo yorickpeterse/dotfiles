@@ -205,8 +205,6 @@ let g:ale_python_flake8_auto_pipenv = 1
 
 " CoC
 let g:coc_enable_locationlist = 0
-let g:coc_snippet_next = '<tab>'
-let g:coc_snippet_prev = '<S-tab>'
 
 " Use the location list for Coc, instead of its own (somewhat confusing to use)
 " location list system.
@@ -362,6 +360,7 @@ map <silent> <leader>gd :Gdiff<CR>
 map <silent> <leader>h :call CocActionAsync('doHover')<CR>
 map <silent> <leader>r <Plug>(coc-rename)
 map <silent> <leader>d <Plug>(coc-definition)
+map <silent> <leader>i <Plug>(coc-references)
 
 " Confirm completion by pressing enter
 inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
@@ -391,10 +390,14 @@ endfunction
 
 inoremap <silent><expr> <tab>
   \ pumvisible() ? "\<C-n>" :
+  \ coc#jumpable() ? "\<C-r>=coc#rpc#request('snippetNext',[])\<CR>" :
   \ <SID>checkBackSpace() ? "\<tab>" :
   \ "\<C-n>"
 
-inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
+inoremap <silent><expr> <S-tab>
+  \ pumvisible() ? "\<C-p>" :
+  \ coc#jumpable() ? "\<C-r>=coc#rpc#request('snippetPrev',[])\<CR>" :
+  \ "\<S-tab>"
 
 " Custom commands {{{1
 function! s:openTerm(cmd)
