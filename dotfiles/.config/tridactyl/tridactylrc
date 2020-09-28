@@ -1,9 +1,0 @@
-set configversion 1.9
-set newtab about:blank
-set modeindicator false
-set theme default
-set editorcmd fish -c "nvim-qt -- %f"
-
-autocmd TabEnter .* unfocus
-
-" vim: set filetype=tridactyl
