@@ -83,6 +83,9 @@ color paper
 set nocursorcolumn
 set nocursorline
 
+" Open the quickfix window at the bottom of all other windows.
+autocmd FileType qf wincmd J
+
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4
