@@ -152,11 +152,8 @@ function! AleErrors() abort
 endfunction
 
 set statusline=%f\ %w%m%r%=
-set statusline+=%#AleStatusWarnings#%{AleWarnings()}%*
-set statusline+=%#AleStatusErrors#%{AleErrors()}%*
-
-hi! AleStatusWarnings guifg=#ffffff guibg=#b58900 ctermfg=231 ctermbg=136
-hi! AleStatusErrors guifg=#ffffff guibg=#cc3e28 ctermfg=231 ctermbg=160
+set statusline+=%#WhiteOnYellow#%{AleWarnings()}%*
+set statusline+=%#WhiteOnRed#%{AleErrors()}%*
 
 " UltiSnips {{{1
 let g:UltiSnipsExpandTrigger = '<C-s>'
