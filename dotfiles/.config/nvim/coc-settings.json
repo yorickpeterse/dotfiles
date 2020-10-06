@@ -39,5 +39,10 @@
     "jedi.diagnostics.didChange": false,
 
     "tsserver.formatOnType": false,
-    "tsserver.maxTsServerMemory": 512
+    "tsserver.maxTsServerMemory": 512,
+
+    // ALE takes care of validating the file when saving it.
+    "javascript.validate.enable": false,
+    "typescript.validate.enable": false
+
 }
