@@ -25,6 +25,7 @@ Plug 'neoclide/coc.nvim', { 'branch': 'release' }
 Plug 'neoclide/jsonc.vim'
 Plug 'dense-analysis/ale'
 Plug 'lifepillar/vim-colortemplate'
+Plug 'editorconfig/editorconfig-vim'
 
 call plug#end()
 
