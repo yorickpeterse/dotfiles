@@ -202,6 +202,11 @@ let g:ale_linters = {
   \ 'markdown': ['vale']
   \ }
 
+let g:ale_fixers = {
+  \ 'rust': 'rustfmt',
+  \ 'javascript': 'prettier'
+  \ }
+
 let g:ale_python_flake8_auto_pipenv = 1
 
 " CoC

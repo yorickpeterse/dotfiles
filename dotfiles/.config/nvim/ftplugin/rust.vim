@@ -8,5 +8,3 @@ else
     let b:ale_rust_rustfmt_options = '--config-path='
         \ . fnamemodify(rustfmt_config_path, ':p')
 end
-
-let b:ale_fixers = ['rustfmt']
