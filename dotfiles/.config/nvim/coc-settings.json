@@ -23,7 +23,7 @@
     // completion popup. Most of the time this just adds noise.
     "suggest.floatEnable": false,
     "suggest.snippetIndicator": "",
-    "suggest.triggerCompletionWait": 100,
+    "suggest.triggerCompletionWait": 50,
     "suggest.minTriggerInputLength": 2,
 
     // This prevents rust-analyzer from producing diagnostics while typing.
