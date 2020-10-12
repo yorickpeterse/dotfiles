@@ -226,6 +226,7 @@ let g:coc_global_extensions = [
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
+let g:gutentags_file_list_command = 'rg --files'
 
 " Markdown {{{1
 let g:markdown_fenced_languages = ['ruby', 'rust', 'sql', 'inko', 'yaml']
