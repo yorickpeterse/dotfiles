@@ -26,6 +26,7 @@ Plug 'neoclide/jsonc.vim'
 Plug 'dense-analysis/ale'
 Plug 'lifepillar/vim-colortemplate'
 Plug 'editorconfig/editorconfig-vim'
+Plug 'Vimjas/vim-python-pep8-indent'
 
 call plug#end()
 
