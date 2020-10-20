@@ -373,8 +373,9 @@ map <silent> <leader>i <Plug>(coc-references)
 " Confirm completion by pressing enter
 inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 
-" use Control + ] to exit insert mode in a terminal, allowing any nested Neovim
-" instances to still use Control + [.
+" Support exiting terminal INSERT mode using C-[ and C-]. C-] is mapped so we
+" can still exist in nested Vim sessions.
+tnoremap <C-[> <C-\><C-n>
 tnoremap <C-]> <C-\><C-n>
 
 " Allow Control + b + {h,j,k,l} to navigate around buffers even when inside a
