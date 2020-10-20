@@ -16,6 +16,7 @@
     ignorecase   = false
     editor       = nvim
     pager        = /usr/share/git/diff-highlight/diff-highlight | less -RS
+    attributesfile = /home/yorickpeterse/.gitattributes
 
 [github]
     user = yorickpeterse
