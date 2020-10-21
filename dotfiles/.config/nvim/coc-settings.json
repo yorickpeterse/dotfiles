@@ -8,6 +8,7 @@
     "coc.preferences.formatOnType": false,
     "coc.preferences.formatOnSaveFiletypes": [],
     "coc.preferences.rootPatterns": ["Cargo.toml", "rustfmt.toml"],
+    "coc.preferences.floatActions": false,
 
     "coc.source.file.enable": false,
     "coc.source.buffer.enable": false,
@@ -18,12 +19,19 @@
     // space, and are not always needed.
     "signature.enable": false,
     "signature.floatMaxWidth": 100,
+    "signature.maxWindowHeight": 15,
 
     // Disable the documentation/details when selecting an entry from the
     // completion popup. Most of the time this just adds noise.
     "suggest.floatEnable": false,
+
+    // Automatic completion has proven to be distracting. This enables manual
+    // completion, and automatically selects the first entry.
+    "suggest.autoTrigger": "none",
+    "suggest.keepCompleteopt": true,
+
     "suggest.snippetIndicator": "",
-    "suggest.triggerCompletionWait": 50,
+    "suggest.triggerCompletionWait": 30,
     "suggest.minTriggerInputLength": 2,
 
     // This prevents rust-analyzer from producing diagnostics while typing.

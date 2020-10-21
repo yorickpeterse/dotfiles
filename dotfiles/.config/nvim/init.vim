@@ -401,7 +401,7 @@ inoremap <silent><expr> <tab>
   \ pumvisible() ? "\<C-n>" :
   \ coc#jumpable() ? "\<C-r>=coc#rpc#request('snippetNext',[])\<CR>" :
   \ <SID>checkBackSpace() ? "\<tab>" :
-  \ "\<C-n>"
+  \ coc#refresh()
 
 inoremap <silent><expr> <S-tab>
   \ pumvisible() ? "\<C-p>" :
