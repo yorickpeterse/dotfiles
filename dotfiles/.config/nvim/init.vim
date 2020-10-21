@@ -27,6 +27,7 @@ Plug 'dense-analysis/ale'
 Plug 'lifepillar/vim-colortemplate'
 Plug 'editorconfig/editorconfig-vim'
 Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'yssl/QFEnter'
 
 call plug#end()
 
