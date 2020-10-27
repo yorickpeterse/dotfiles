@@ -62,9 +62,8 @@ set incsearch
 set nohlsearch
 set scrollback=1000
 
-if executable('rg')
-  set grepprg=rg\ --vimgrep
-endif
+set grepprg=rg\ --vimgrep
+set grepformat=%f:%l:%c:%m,%f:%l:%m
 
 set printoptions=number:n
 set printoptions=header:0
