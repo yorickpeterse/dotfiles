@@ -1,8 +1,7 @@
 cd ~/Projects/gitlab/gdk-ee
 set titlestring=GitLab
 
-tabnew
-Term
+Tterm
 stopinsert
 silent file Terminal
 tabprev
