@@ -1,4 +1,4 @@
-cd ~/Projects/gitlab/gdk-ee
+cd ~/Projects/gitlab/gdk-ee/gitlab
 set titlestring=GitLab
 
 Tterm
