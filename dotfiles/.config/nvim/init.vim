@@ -21,7 +21,7 @@ Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
+Plug 'neoclide/coc.nvim', { 'branch': 'master', 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/jsonc.vim'
 Plug 'dense-analysis/ale'
 Plug 'lifepillar/vim-colortemplate'
