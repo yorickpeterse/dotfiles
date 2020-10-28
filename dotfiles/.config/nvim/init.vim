@@ -85,8 +85,11 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" Open the quickfix window at the bottom of all other windows.
-autocmd FileType qf wincmd J
+" Open the quickfix window at the bottom of all other windows, while leaving the
+" location lists as-is.
+"
+" Taken from https://github.com/fatih/vim-go/issues/108#issuecomment-565131948.
+autocmd FileType qf if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif
 
 " Indentation settings {{{1
 set expandtab
