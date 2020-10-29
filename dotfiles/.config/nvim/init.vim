@@ -228,7 +228,8 @@ let g:coc_global_extensions = [
   \ "coc-rust-analyzer",
   \ "coc-ultisnips",
   \ "coc-jedi",
-  \ "coc-go"
+  \ "coc-go",
+  \ "coc-css"
   \ ]
 
 " gutentags {{{1
