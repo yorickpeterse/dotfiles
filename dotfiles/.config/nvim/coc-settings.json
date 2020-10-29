@@ -51,6 +51,10 @@
 
     // ALE takes care of validating the file when saving it.
     "javascript.validate.enable": false,
-    "typescript.validate.enable": false
+    "typescript.validate.enable": false,
+
+    "go.disable": {
+        "diagnostics": true
+    }
 
 }

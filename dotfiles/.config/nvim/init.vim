@@ -201,6 +201,7 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_linters = {
   \ 'rust': [],
+  \ 'go': ['gobuild'],
   \ 'ruby': ['ruby', 'rubocop'],
   \ 'python': ['flake8'],
   \ 'markdown': ['vale']
@@ -208,6 +209,7 @@ let g:ale_linters = {
 
 let g:ale_fixers = {
   \ 'rust': 'rustfmt',
+  \ 'go': 'gofmt',
   \ 'javascript': 'prettier'
   \ }
 
@@ -225,7 +227,8 @@ let g:coc_global_extensions = [
   \ "coc-tsserver",
   \ "coc-rust-analyzer",
   \ "coc-ultisnips",
-  \ "coc-jedi"
+  \ "coc-jedi",
+  \ "coc-go"
   \ ]
 
 " gutentags {{{1
