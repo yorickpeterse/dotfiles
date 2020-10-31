@@ -85,26 +85,11 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" Open the quickfix window at the bottom of all other windows, while leaving the
-" location lists as-is.
-"
-" Taken from https://github.com/fatih/vim-go/issues/108#issuecomment-565131948.
-autocmd FileType qf if (getwininfo(win_getid())[0].loclist != 1) | wincmd J | endif
-
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4
 set softtabstop=4
 set tabstop=4
-
-autocmd! FileType ruby setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType eruby setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType yaml setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType coffee setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType haml setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType scss setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType vim setlocal sw=2 sts=2 ts=2 expandtab
-autocmd! FileType rust setlocal tw=80
 
 " Tab and status lines {{{1
 function! init#Tabline()
@@ -178,8 +163,6 @@ let g:netrw_banner = 0
 let g:netrw_winsize = 15
 let g:netrw_altv = 1
 let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
-
-autocmd FileType netrw setlocal bufhidden=delete
 
 " NERDCommenter {{{1
 let g:NERDSpaceDelims = 1
