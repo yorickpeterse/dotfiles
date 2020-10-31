@@ -107,7 +107,7 @@ autocmd! FileType vim setlocal sw=2 sts=2 ts=2 expandtab
 autocmd! FileType rust setlocal tw=80
 
 " Tab and status lines {{{1
-function! Tabline()
+function! init#Tabline()
   let s = ''
   for i in range(tabpagenr('$'))
     let tab = i + 1
@@ -131,9 +131,9 @@ function! Tabline()
   return s
 endfunction
 
-set tabline=%!Tabline()
+set tabline=%!init#Tabline()
 
-function! AleWarnings() abort
+function! init#AleWarnings() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:errors = l:counts.error + l:counts.style_error
   let l:warnings = l:counts.total - l:errors
@@ -145,7 +145,7 @@ function! AleWarnings() abort
   return ''
 endfunction
 
-function! AleErrors() abort
+function! init#AleErrors() abort
   let l:counts = ale#statusline#Count(bufnr(''))
   let l:errors = l:counts.error + l:counts.style_error
 
@@ -157,13 +157,13 @@ function! AleErrors() abort
 endfunction
 
 set statusline=%f\ %w%m%r%=
-set statusline+=%#WhiteOnYellow#%{AleWarnings()}%*
-set statusline+=%#WhiteOnRed#%{AleErrors()}%*
+set statusline+=%#WhiteOnYellow#%{init#AleWarnings()}%*
+set statusline+=%#WhiteOnRed#%{init#AleErrors()}%*
 
 " UltiSnips {{{1
 let g:UltiSnipsExpandTrigger = '<C-s>'
-let g:UltiSnipsJumpForwardTrigger = '<tab>'
-let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+let g:UltiSnipsJumpForwardTrigger = '<C-j>'
+let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 
 " This disables UltiSnips' auto trigger feature, which can easily consume
 " between 10% and 20% of a CPU core when typing in insert mode.
@@ -333,14 +333,14 @@ command! -bang -nargs=* Rg
   \ )
 
 " Trailing whitespace {{{1
-function! Trim()
+function! s:Trim()
   let l = line(".")
   let c = col(".")
   %s/\s\+$//eg
   call cursor(l, c)
 endfunction
 
-autocmd! BufWritePre * :call Trim()
+autocmd! BufWritePre * call <SID>Trim()
 autocmd! BufWinEnter * match Visual /\s\+$/
 autocmd! InsertEnter * match Visual /\s\+\%#\@<!$/
 autocmd! InsertLeave * match Visual /\s\+$/
@@ -404,16 +404,30 @@ function! s:checkBackSpace() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-inoremap <silent><expr> <tab>
-  \ pumvisible() ? "\<C-n>" :
-  \ coc#jumpable() ? "\<C-r>=coc#rpc#request('snippetNext',[])\<CR>" :
-  \ <SID>checkBackSpace() ? "\<tab>" :
-  \ coc#refresh()
+function! init#tabCompleteKeyword() abort
+  if pumvisible()
+    return "\<C-n>"
+  elseif s:checkBackSpace()
+    return "\<tab>"
+  else
+    return "\<C-n>"
+  end
+endfunction
 
-inoremap <silent><expr> <S-tab>
-  \ pumvisible() ? "\<C-p>" :
-  \ coc#jumpable() ? "\<C-r>=coc#rpc#request('snippetPrev',[])\<CR>" :
-  \ "\<S-tab>"
+function! init#tabCompleteLSP() abort
+  if pumvisible()
+    return "\<C-n>"
+  elseif s:checkBackSpace()
+    return "\<tab>"
+  else
+    return coc#refresh()
+  end
+endfunction
+
+" The default is keyword completion. For languages that support a language
+" server, this is overwritten in a correspodning ftplugin file.
+inoremap <silent><expr> <tab> init#tabCompleteKeyword()
+inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
 
 " Custom commands {{{1
 function! s:openTerm(cmd)
