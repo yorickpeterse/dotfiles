@@ -1,1 +1,1 @@
-inoremap <silent><expr> <tab> init#tabCompleteLSP()
+inoremap <silent><expr><buffer> <tab> init#tabCompleteLSP()
