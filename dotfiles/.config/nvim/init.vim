@@ -316,6 +316,9 @@ command! -bang -nargs=* Rg
   \   <bang>0
   \ )
 
+" Rust {{{1
+let g:rust_recommended_style = 0
+
 " Trailing whitespace {{{1
 function! s:Trim()
   let l = line(".")
