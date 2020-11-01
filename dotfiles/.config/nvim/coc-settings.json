@@ -9,10 +9,11 @@
     "coc.preferences.formatOnSaveFiletypes": [],
     "coc.preferences.rootPatterns": ["Cargo.toml", "rustfmt.toml"],
     "coc.preferences.floatActions": false,
+    "coc.preferences.promptInput": false,
 
     "coc.source.file.enable": false,
     "coc.source.buffer.enable": false,
-    "coc.source.around.enable": false,
+    "coc.source.around.enable": true,
     "coc.source.ultisnips.disableSyntaxes": ["Comment", "String"],
 
     // Disable the automatic documentation popups. These occupy quite a bit of

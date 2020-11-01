@@ -199,8 +199,20 @@ let g:ale_fixers = {
 
 let g:ale_python_flake8_auto_pipenv = 1
 
-" CoC
+" CoC {{{1
 let g:coc_enable_locationlist = 0
+
+" For these file types I use language server completion, instead of buffer
+" completion.
+let g:coc_sources_disable_map = {
+  \ 'json': ['buffer'],
+  \ 'typescript': ['buffer'],
+  \ 'rust': ['buffer'],
+  \ 'python': ['buffer'],
+  \ 'go': ['buffer'],
+  \ 'css': ['buffer'],
+  \ 'scss': ['buffer'],
+  \ }
 
 " Use the location list for Coc, instead of its own (somewhat confusing to use)
 " location list system.
@@ -391,16 +403,6 @@ function! s:checkBackSpace() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-function! init#tabCompleteKeyword() abort
-  if pumvisible()
-    return "\<C-n>"
-  elseif s:checkBackSpace()
-    return "\<tab>"
-  else
-    return "\<C-n>"
-  end
-endfunction
-
 function! init#tabCompleteLSP() abort
   if pumvisible()
     return "\<C-n>"
@@ -411,9 +413,7 @@ function! init#tabCompleteLSP() abort
   end
 endfunction
 
-" The default is keyword completion. For languages that support a language
-" server, this is overwritten in a correspodning ftplugin file.
-inoremap <silent><expr> <tab> init#tabCompleteKeyword()
+inoremap <silent><expr> <tab> init#tabCompleteLSP()
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
 
 " Custom commands {{{1

@@ -9,8 +9,6 @@ else
         \ . fnamemodify(rustfmt_config_path, ':p')
 end
 
-inoremap <silent><expr><buffer> <tab> init#tabCompleteLSP()
-
 " vim-rust sets this to 100 or so by default, but I prefer to stick to 80
 " columns.
 setlocal tw=80
