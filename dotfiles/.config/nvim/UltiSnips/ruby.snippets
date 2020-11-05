@@ -10,10 +10,6 @@ snippet pry_binding "Inserts a Pry binding"
 require 'pry'; binding.pry
 endsnippet
 
-snippet pry_daemon "Inserts a Pry binding for daemons"
-STDIN.reopen('/dev/tty'); require 'pry'; binding.pry
-endsnippet
-
 snippet def "Inserts a new method"
 # ${2:Description of this method.}
 def ${1:method_name}
