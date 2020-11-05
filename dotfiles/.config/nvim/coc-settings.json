@@ -12,7 +12,7 @@
     "coc.preferences.promptInput": false,
 
     "coc.source.file.enable": false,
-    "coc.source.buffer.enable": false,
+    "coc.source.buffer.enable": true,
     "coc.source.around.enable": true,
     "coc.source.ultisnips.disableSyntaxes": ["Comment", "String"],
 

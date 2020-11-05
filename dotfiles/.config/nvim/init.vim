@@ -205,13 +205,13 @@ let g:coc_enable_locationlist = 0
 " For these file types I use language server completion, instead of buffer
 " completion.
 let g:coc_sources_disable_map = {
-  \ 'json': ['buffer'],
-  \ 'typescript': ['buffer'],
-  \ 'rust': ['buffer'],
-  \ 'python': ['buffer'],
-  \ 'go': ['buffer'],
-  \ 'css': ['buffer'],
-  \ 'scss': ['buffer'],
+  \ 'json': ['buffer', 'around'],
+  \ 'typescript': ['buffer', 'around'],
+  \ 'rust': ['buffer', 'around'],
+  \ 'python': ['buffer', 'around'],
+  \ 'go': ['buffer', 'around'],
+  \ 'css': ['buffer', 'around'],
+  \ 'scss': ['buffer', 'around'],
   \ }
 
 " Use the location list for Coc, instead of its own (somewhat confusing to use)
