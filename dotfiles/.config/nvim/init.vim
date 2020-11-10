@@ -214,9 +214,10 @@ let g:coc_sources_disable_map = {
   \ 'scss': ['buffer', 'around'],
   \ }
 
-" Use the location list for Coc, instead of its own (somewhat confusing to use)
-" location list system.
-autocmd! User CocLocationsChange call setloclist(0, g:coc_jump_locations) | lwindow
+" Use the quickfix list for Coc, instead of its own (somewhat confusing to use)
+" location list system. I'm using the quickfix list because the location list
+" may be reset by other plugins (e.g. ALE).
+autocmd! User CocLocationsChange call setqflist(g:coc_jump_locations) | cwindow
 
 let g:coc_global_extensions = [
   \ "coc-json",
