@@ -5,17 +5,18 @@
 
 [diff]
     color = auto
+    prompt = false
 
 [branch]
     color = auto
 
 [core]
-    autocrlf     = input
-    filemode     = false
+    autocrlf = input
+    filemode = false
     excludesfile = /home/yorickpeterse/.config/git/ignore
-    ignorecase   = false
-    editor       = nvim
-    pager        = /usr/share/git/diff-highlight/diff-highlight | less -RS
+    ignorecase = false
+    editor = nvim
+    pager = /usr/share/git/diff-highlight/diff-highlight | less -RS
     attributesfile = /home/yorickpeterse/.config/git/attributes
 
 [github]
@@ -24,11 +25,11 @@
 [color]
     ui = true
 
-[mergetool "fugitive"]
-    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
+[mergetool "nvr"]
+    cmd = nvr -s -c \"tabnew +Gdiffsplit!\" \"$MERGED\"
 
 [merge]
-    tool = fugitive
+    tool = nvr
     prompt = false
 
 [mergetool]

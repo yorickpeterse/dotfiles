@@ -37,7 +37,7 @@ set backupskip=/tmp/*
 set clipboard=unnamed
 set completeopt=menu
 set complete=.,b
-set diffopt=filler,vertical,internal,algorithm:histogram,indent-heuristic
+set diffopt=filler,vertical,internal,algorithm:patience,indent-heuristic
 set lz
 set noshowcmd
 set omnifunc=syntaxcomplete#Complete
@@ -84,6 +84,14 @@ color paper
 " dealing with large files.
 set nocursorcolumn
 set nocursorline
+
+" Git settings {{{1
+
+" Reuse existing nvim instances using https://github.com/mhinz/neovim-remote
+let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+
+" This ensures that closing the Git buffers also deletes them.
+autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
 
 " Indentation settings {{{1
 set expandtab
@@ -429,5 +437,9 @@ endfunction
 command! Term call s:openTerm('new')
 command! Vterm call s:openTerm('vnew')
 command! Tterm call s:openTerm('tabnew')
+
+" Close all buffers in the current tab. This is useful when viewing a diff in a
+" tab and you want to close all buffers in that tab.
+command! Tq windo q
 
 " vim: fdm=marker
