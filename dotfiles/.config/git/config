@@ -6,6 +6,7 @@
 [diff]
     color = auto
     prompt = false
+    algorithm = patience
 
 [branch]
     color = auto
@@ -24,6 +25,11 @@
 
 [color]
     ui = true
+
+[color "diff"]
+    old = red
+    new = green
+    frag = blue
 
 [mergetool "nvr"]
     cmd = nvr -s -c \"tabnew +Gdiffsplit!\" \"$MERGED\"
