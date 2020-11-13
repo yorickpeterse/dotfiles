@@ -61,6 +61,7 @@ set inccommand=nosplit
 set incsearch
 set nohlsearch
 set scrollback=1000
+set updatetime=1000
 
 set grepprg=rg\ --vimgrep
 set grepformat=%f:%l:%c:%m,%f:%l:%m
