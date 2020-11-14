@@ -86,10 +86,14 @@ color paper
 set nocursorcolumn
 set nocursorline
 
+" This ensures that any program using EDITOR inside nvim reuses that nvim
+" instance.
+let $EDITOR = 'nvr -cc vsplit --remote-wait'
+
 " Git settings {{{1
 
 " Reuse existing nvim instances using https://github.com/mhinz/neovim-remote
-let $GIT_EDITOR = 'nvr -cc split --remote-wait'
+let $GIT_EDITOR = 'nvr -cc vsplit --remote-wait'
 
 " This ensures that closing the Git buffers also deletes them.
 autocmd FileType gitcommit,gitrebase,gitconfig set bufhidden=delete
