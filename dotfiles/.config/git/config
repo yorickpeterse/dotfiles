@@ -16,7 +16,6 @@
     filemode = false
     excludesfile = /home/yorickpeterse/.config/git/ignore
     ignorecase = false
-    editor = nvim
     pager = /usr/share/git/diff-highlight/diff-highlight | less -RS
     attributesfile = /home/yorickpeterse/.config/git/attributes
 
