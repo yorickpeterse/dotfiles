@@ -61,6 +61,7 @@ set inccommand=nosplit
 set incsearch
 set nohlsearch
 set scrollback=1000
+set scrolloff=1
 set updatetime=1000
 
 set grepprg=rg\ --vimgrep
@@ -428,6 +429,7 @@ function! s:openTerm(cmd)
   term
   setlocal nonumber nornu
   setlocal signcolumn=no
+  setlocal scrolloff=0
   startinsert
 endfunction
 
