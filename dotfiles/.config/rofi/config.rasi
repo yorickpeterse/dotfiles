@@ -1,0 +1,8 @@
+configuration {
+    modi: "window,run,drun,combi";
+    font: "Noto Sans 10";
+    dpi: 192;
+    theme: "paper";
+    show-icons: true;
+    icon-theme: "Papirus-Dark";
+}
