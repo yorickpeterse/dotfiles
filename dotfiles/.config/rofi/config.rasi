@@ -5,4 +5,8 @@ configuration {
     theme: "paper";
     show-icons: true;
     icon-theme: "Papirus-Dark";
+    kb-accept-entry: "Return";
+    kb-row-up: "Up,Control+k,ISO_Left_Tab";
+    kb-row-down: "Down,Control+j";
+    kb-remove-to-eol: "";
 }
