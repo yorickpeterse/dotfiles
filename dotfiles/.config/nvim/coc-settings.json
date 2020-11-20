@@ -19,7 +19,7 @@
     // Disable the automatic documentation popups. These occupy quite a bit of
     // space, and are not always needed.
     "signature.enable": false,
-    "signature.floatMaxWidth": 100,
+    "signature.maxWindowWidth": 100,
     "signature.maxWindowHeight": 15,
 
     // Disable the documentation/details when selecting an entry from the
