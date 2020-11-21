@@ -4,12 +4,7 @@ source /usr/share/chruby/chruby.fish
 source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
-# Programs such as nvim may set a custom EDITOR, in which case we want to honor
-# that setting.
-if ! set -q EDITOR
-    set -x EDITOR 'nvim'
-end
-
+set -x EDITOR $HOME/bin/editor
 set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ivm/bin $PATH
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'

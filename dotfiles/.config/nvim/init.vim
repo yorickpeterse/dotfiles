@@ -86,10 +86,6 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" This ensures that any program using EDITOR inside nvim reuses that nvim
-" instance.
-let $EDITOR = 'nvr -cc vsplit -c "setlocal bufhidden=delete" --remote-wait'
-
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4

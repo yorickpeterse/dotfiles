@@ -1,0 +1,10 @@
+#!/usr/bin/env fish
+
+if set -q NVIM_LISTEN_ADDRESS
+    nvr -cc vsplit -c "setlocal bufhidden=delete" --remote-wait $argv
+
+    # Re-enter insert mode after the buffer is closed.
+    nvr -c startinsert
+else
+    nvim $argv
+end
