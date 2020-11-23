@@ -1,0 +1,3 @@
+#!/usr/bin/env fish
+
+exec rofi -drun-match-fields name,generic -show combi -combi-modi window,drun
