@@ -8,8 +8,8 @@
     "coc.preferences.formatOnType": false,
     "coc.preferences.formatOnSaveFiletypes": [],
     "coc.preferences.rootPatterns": ["Cargo.toml", "rustfmt.toml"],
-    "coc.preferences.floatActions": false,
-    "coc.preferences.promptInput": false,
+    "coc.preferences.floatActions": true,
+    "coc.preferences.promptInput": true,
 
     "coc.source.file.enable": false,
     "coc.source.buffer.enable": true,
