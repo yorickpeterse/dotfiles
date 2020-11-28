@@ -19,6 +19,7 @@ Plug 'dag/vim-fish'
 Plug 'git@gitlab.com:inko-lang/inko.vim.git'
 Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', { 'branch': 'master', 'do': 'yarn install --frozen-lockfile' }
 Plug 'neoclide/jsonc.vim'
@@ -291,7 +292,7 @@ command! -bang -nargs=* BTags
   \   <q-args>,
   \   {
   \     'placeholder': '{2}:{3}',
-  \     'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact']
+  \     'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']
   \   },
   \   <bang>0
   \ )
@@ -309,18 +310,21 @@ command! -bar -bang -nargs=? -complete=buffer Buffers
 command! -bang -nargs=* BLines
   \ call fzf#vim#buffer_lines(
   \   <q-args>,
-  \   {'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact']},
+  \   {'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']},
   \   <bang>0
   \ )
 
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading
-  \     --color=always --smart-case
+  \   'rg
+  \     --column
+  \     --line-number
+  \     --no-heading
+  \     --color=always
+  \     --smart-case
   \     --colors match:none
-  \     --colors match:fg:yellow
-  \     --colors match:style:bold
-  \     --colors match:style:underline
+  \     --colors match:fg:black
+  \     --colors "match:bg:242,222,145"
   \     --colors path:none
   \     --colors path:style:bold
   \     --colors column:none
