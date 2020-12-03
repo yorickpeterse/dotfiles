@@ -425,8 +425,6 @@ inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
 function! s:openTerm(cmd)
   exec a:cmd
   term
-  setlocal nonumber nornu
-  setlocal signcolumn=no
   startinsert
 endfunction
 
