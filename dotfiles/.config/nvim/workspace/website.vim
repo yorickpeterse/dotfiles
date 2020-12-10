@@ -3,6 +3,5 @@ set titlestring=Website
 
 Tterm
 stopinsert
-setlocal nonumber nornu
 silent file Terminal
 tabprev
