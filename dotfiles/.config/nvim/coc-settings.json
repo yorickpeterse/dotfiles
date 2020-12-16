@@ -1,4 +1,6 @@
 {
+    "workspace.progressTarget": "statusline",
+
     // Display diagnostics using ALE, keeping the output consistent with
     // whatever ALE itself may produce.
     "diagnostic.displayByAle": true,
