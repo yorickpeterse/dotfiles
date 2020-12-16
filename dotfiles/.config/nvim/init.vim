@@ -230,7 +230,17 @@ let g:coc_global_extensions = [
   \ ]
 
 " gutentags {{{1
-let g:gutentags_ctags_exclude = ['target', 'tmp', 'spec', 'node_modules', 'public', '*.json', '*.svg']
+let g:gutentags_ctags_exclude = [
+  \ 'target',
+  \ 'tmp',
+  \ 'node_modules',
+  \ 'public',
+  \ '*/fixtures/*',
+  \ '*/locale/*',
+  \ '*.json',
+  \ '*.svg'
+  \ ]
+
 let g:gutentags_file_list_command = 'rg --files'
 let g:gutentags_ctags_extra_args = ['--exclude=@.gitignore', '--excmd=number']
 
@@ -292,9 +302,7 @@ command! -bang -nargs=* BTags
   \   <q-args>,
   \   'rg --color=never --no-filename --no-line-number '
   \     . fzf#shellescape(expand('%'))
-  \     . ' '
-  \     . join(tagfiles(), ' ')
-  \     . ' | sort -s -t \t -k 1,1',
+  \     . ' tags | sort -s -t \t -k 1,1',
   \   {
   \     'placeholder': '{2}:{3}',
   \     'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']
