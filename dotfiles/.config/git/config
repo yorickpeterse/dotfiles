@@ -30,11 +30,11 @@
     new = green
     frag = blue
 
-[mergetool "nvr"]
-    cmd = nvr -s -c \"tabnew +Gdiffsplit!\" \"$MERGED\"
+[mergetool "nvim"]
+    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
 
 [merge]
-    tool = nvr
+    tool = nvim
     prompt = false
 
 [mergetool]
