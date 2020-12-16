@@ -290,6 +290,11 @@ command! -bang -nargs=? -complete=dir Files
 command! -bang -nargs=* BTags
   \ call fzf#vim#buffer_tags(
   \   <q-args>,
+  \   'rg --color=never --no-filename --no-line-number '
+  \     . fzf#shellescape(expand('%'))
+  \     . ' '
+  \     . join(tagfiles(), ' ')
+  \     . ' | sort -s -t \t -k 1,1',
   \   {
   \     'placeholder': '{2}:{3}',
   \     'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']
