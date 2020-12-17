@@ -10,7 +10,7 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'Krasjet/auto.pairs'
+Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
 Plug 'SirVer/ultisnips'
@@ -168,9 +168,6 @@ let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
-
-" auto-pairs {{{1
-let g:AutoPairsOpenBalanceBlacklist = ['{']
 
 " ALE {{{1
 let g:ale_disable_lsp = 1
