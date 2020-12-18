@@ -1,6 +1,4 @@
 {
-    "workspace.progressTarget": "statusline",
-
     // Display diagnostics using ALE, keeping the output consistent with
     // whatever ALE itself may produce.
     "diagnostic.displayByAle": true,
@@ -40,6 +38,8 @@
     // This prevents rust-analyzer from producing diagnostics while typing.
     "rust-analyzer.diagnostics.enable": false,
     "rust-analyzer.inlayHints.chainingHints": false,
+    "rust-analyzer.inlayHints.enable": false,
+    "rust-analyzer.inlayHints.typeHints": false,
     "rust-analyzer.serverPath": "/usr/bin/rust-analyzer",
     "rust-analyzer.lruCapacity": 64,
     "rust-analyzer.completion.postfix.enable": false,
@@ -63,5 +63,4 @@
     "css.validate": false,
     "less.validate": false,
     "scss.validate": false
-
 }
