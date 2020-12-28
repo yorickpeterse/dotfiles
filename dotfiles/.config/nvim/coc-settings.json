@@ -44,6 +44,11 @@
     "rust-analyzer.lruCapacity": 64,
     "rust-analyzer.completion.postfix.enable": false,
 
+    // coc-rust-analyzer/rust-analyzer messes up diagnostics, resulting in them
+    // appearing as separate location list entries. To work around this, ALE
+    // handles linting of Rust code.
+    "rust-analyzer.checkOnSave.enable": false,
+
     "jedi.trace.server": "off",
     "jedi.markupKindPreferred": "markdown",
     "jedi.startupMessage": false,
