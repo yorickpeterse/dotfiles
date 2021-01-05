@@ -6,5 +6,5 @@ if set -q NVIM_LISTEN_ADDRESS
     # Re-enter insert mode after the buffer is closed.
     nvr -c startinsert
 else
-    nvim $argv
+    /usr/bin/nvim $argv
 end

@@ -4,7 +4,7 @@ source /usr/share/chruby/chruby.fish
 source /usr/share/chruby/auto.fish
 source $HOME/.config/fish/private.fish
 
-set -x EDITOR $HOME/bin/editor
+set -x EDITOR $HOME/bin/nvim
 set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ivm/bin $PATH
 set -x DISABLE_SPRING '1'
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
