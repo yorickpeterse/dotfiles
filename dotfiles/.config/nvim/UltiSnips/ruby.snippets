@@ -106,12 +106,12 @@ snippet fst "Adds a frozen string literal comment"
 
 endsnippet
 
-snippet RSpec.rspec "Inserts an RSpec test"
+snippet rspec "Inserts an RSpec test"
 # frozen_string_literal: true
 
 require 'spec_helper'
 
-describe ${1:ClassName} do
+RSpec.describe ${1:ClassName} do
 	describe '${2:method name}' do
 		$0
 	end
