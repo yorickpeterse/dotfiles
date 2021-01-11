@@ -2,6 +2,7 @@
     // Display diagnostics using ALE, keeping the output consistent with
     // whatever ALE itself may produce.
     "diagnostic.displayByAle": true,
+    "diagnostic.level": "warning",
 
     // Formatting is handled by ALE, as that also works for cases where a
     // language server is not available.
