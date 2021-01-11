@@ -88,6 +88,7 @@ set nocursorline
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4
+set shiftround
 set softtabstop=4
 set tabstop=4
 
