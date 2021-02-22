@@ -1,0 +1,212 @@
+{
+    "@param": {
+        "description": "Inserts a new YARDOC parameter tag",
+        "body": [
+            "@param [${1:type}] ${2:name} ${3:description}"
+        ],
+        "prefix": [
+            "@param"
+        ]
+    },
+    "def": {
+        "description": "Inserts a new method",
+        "body": [
+            "# ${2:Description of this method.}",
+            "def ${1:method_name}",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "def"
+        ]
+    },
+    "rspec": {
+        "description": "Inserts an RSpec test",
+        "body": [
+            "# frozen_string_literal: true",
+            "",
+            "require 'spec_helper'",
+            "",
+            "RSpec.describe ${1:ClassName} do",
+            "\tdescribe '${2:method name}' do",
+            "\t\t$0",
+            "\tend",
+            "end"
+        ],
+        "prefix": [
+            "rspec"
+        ]
+    },
+    "fst": {
+        "description": "Adds a frozen string literal comment",
+        "body": [
+            "# frozen_string_literal: true",
+            "",
+            ""
+        ],
+        "prefix": [
+            "fst"
+        ]
+    },
+    "do": {
+        "description": "Inserts a do/end block",
+        "body": [
+            "do",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "do"
+        ]
+    },
+    "#!": {
+        "description": "Inserts a Ruby shebang",
+        "body": [
+            "#!/usr/bin/env ruby"
+        ],
+        "prefix": [
+            "#!"
+        ]
+    },
+    "it": {
+        "description": "Inserts an RSpec it block",
+        "body": [
+            "it '${1:description}' do",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "it"
+        ]
+    },
+    "before": {
+        "description": "Inserts a before block",
+        "body": [
+            "before do",
+            "\t${1}",
+            "end${0}"
+        ],
+        "prefix": [
+            "before"
+        ]
+    },
+    "@return": {
+        "description": "Inserts a new YARDOC return tag",
+        "body": [
+            "@return [${1:type}]"
+        ],
+        "prefix": [
+            "@return"
+        ]
+    },
+    "aeq": {
+        "description": "Inserts an equality expectation",
+        "body": [
+            "expect(${1:expression}).to eq(${2})"
+        ],
+        "prefix": [
+            "aeq"
+        ]
+    },
+    "doa": {
+        "description": "Inserts a do/end block with arguments",
+        "body": [
+            "do |${1}|",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "doa"
+        ]
+    },
+    "context": {
+        "description": "Inserts an RSpec context block",
+        "body": [
+            "context '${1:description}' do",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "context"
+        ]
+    },
+    "module": {
+        "description": "Inserts a new module",
+        "body": [
+            "module ${1:name}",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "module"
+        ]
+    },
+    "if": {
+        "description": "Inserts an if statement",
+        "body": [
+            "if ${1:statement}",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "if"
+        ]
+    },
+    "gemspec": {
+        "description": "Inserts a new Gem specification",
+        "body": [
+            "require File.expand_path('../lib/${1:name}/version', __FILE__)",
+            "",
+            "Gem::Specification.new do |gem|",
+            "\tgem.name        = '$1'",
+            "\tgem.version     = ${2:version}",
+            "\tgem.authors     = ['Yorick Peterse']",
+            "\tgem.email       = 'yorick@yorickpeterse.com'",
+            "\tgem.summary     = '${3:description}'",
+            "\tgem.homepage    = 'https://gitlab.com/yorickpeterse/$1/'",
+            "\tgem.description = gem.summary",
+            "\tgem.executables = []",
+            "\tgem.license     = 'MPL-2.0'",
+            "",
+            "\tgem.files = Dir.glob([",
+                "\t\t'${2}',${0}",
+                "\t]).select { |file| File.file?(file) }",
+                "end"
+        ],
+        "prefix": [
+            "gemspec"
+        ]
+    },
+    "class": {
+        "description": "Inserts a new class",
+        "body": [
+            "# ${2:Class description}",
+            "class ${1:name}",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "class"
+        ]
+    },
+    "describe": {
+        "description": "Inserts an RSpec describe block",
+        "body": [
+            "describe '${1:description}' do",
+            "\t${0}",
+            "end"
+        ],
+        "prefix": [
+            "describe"
+        ]
+    },
+    "pry_binding": {
+        "description": "Inserts a Pry binding",
+        "body": [
+            "require 'pry'; binding.pry"
+        ],
+        "prefix": [
+            "pry_binding"
+        ]
+    }
+}

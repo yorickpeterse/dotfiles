@@ -13,7 +13,6 @@ call plug#begin('~/.config/nvim/plugged')
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
 Plug 'scrooloose/nerdcommenter'
-Plug 'SirVer/ultisnips'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
 Plug 'git@gitlab.com:inko-lang/inko.vim.git'
@@ -21,12 +20,13 @@ Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', { 'branch': 'release' }
-Plug 'neoclide/jsonc.vim'
 Plug 'dense-analysis/ale'
 Plug 'lifepillar/vim-colortemplate'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'yssl/QFEnter'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/vim-vsnip'
+Plug 'hrsh7th/nvim-compe'
 
 call plug#end()
 
@@ -34,7 +34,7 @@ call plug#end()
 set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
-set completeopt=menu
+set completeopt=menuone,noselect
 set complete=.,b
 set diffopt=filler,vertical,internal,algorithm:patience,indent-heuristic
 set lz
@@ -146,18 +146,6 @@ set statusline=%f\ %w%m%r%=
 set statusline+=%#WhiteOnYellow#%{init#AleWarnings()}%*
 set statusline+=%#WhiteOnRed#%{init#AleErrors()}%*
 
-" UltiSnips {{{1
-let g:UltiSnipsExpandTrigger = '<C-s>'
-let g:UltiSnipsJumpForwardTrigger = '<C-j>'
-let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
-
-" This disables UltiSnips' auto trigger feature, which can easily consume
-" between 10% and 20% of a CPU core when typing in insert mode.
-augroup ultisnips_no_auto_expansion
-  au!
-  au VimEnter * au! UltiSnips_AutoTrigger
-augroup END
-
 " netrw {{{1
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
@@ -169,6 +157,7 @@ let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
 let g:NERDSpaceDelims = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
+let g:NERDCreateDefaultMappings = 0
 
 " ALE {{{1
 let g:ale_disable_lsp = 1
@@ -183,49 +172,50 @@ let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_insert_leave = 0
 let g:ale_linters = {
   \ 'rust': [],
-  \ 'go': ['gobuild', 'gofmt'],
+  \ 'go': [],
   \ 'ruby': ['ruby', 'rubocop'],
   \ 'python': ['flake8'],
   \ 'markdown': ['vale']
   \ }
 
 let g:ale_fixers = {
-  \ 'rust': 'rustfmt',
-  \ 'go': 'gofmt',
   \ 'javascript': 'prettier'
   \ }
 
 let g:ale_python_flake8_auto_pipenv = 1
 
-" CoC {{{1
-let g:coc_enable_locationlist = 0
+" LSP {{{1
 
-" For these file types I use language server completion, instead of buffer
-" completion.
-let g:coc_sources_disable_map = {
-  \ 'json': ['buffer', 'around'],
-  \ 'typescript': ['buffer', 'around'],
-  \ 'rust': ['buffer', 'around'],
-  \ 'python': ['buffer', 'around'],
-  \ 'go': ['buffer', 'around'],
-  \ 'css': ['buffer', 'around'],
-  \ 'scss': ['buffer', 'around'],
+" Since alll nvim LSP plugins use Lua, we use a separate Lua file. This way we
+" don't have to use a bunch of heredoc strings.
+lua require('dotfiles/lsp')
+
+" Code completion {{{1
+let g:compe = {
+  \   'min_length': 2,
+  \   'autocomplete': v:false,
+  \   'throttle_time': 0,
+  \   'preselect': 'disable',
+  \   'documentation': v:false,
+  \   'source': {
+  \     'buffer': v:true,
+  \     'nvim_lsp': v:false,
+  \     'vsnip': v:true,
+  \   }
   \ }
 
-" Use the quickfix list for Coc, instead of its own (somewhat confusing to use)
-" location list system. I'm using the quickfix list because the location list
-" may be reset by other plugins (e.g. ALE).
-autocmd! User CocLocationsChange call setqflist(g:coc_jump_locations) | cwindow
-
-let g:coc_global_extensions = [
-  \ "coc-json",
-  \ "coc-tsserver",
-  \ "coc-rust-analyzer",
-  \ "coc-ultisnips",
-  \ "coc-jedi",
-  \ "coc-go",
-  \ "coc-css"
-  \ ]
+function! init#enableLspCompletion() abort
+  call compe#setup(
+  \   {
+  \     'source': extend(
+  \       { 'buffer': v:false, 'nvim_lsp': v:true },
+  \       g:compe.source,
+  \       'keep'
+  \     )
+  \   },
+  \   0
+  \ )
+endfunction
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = [
@@ -344,6 +334,12 @@ command! -bang -nargs=* Rg
   \   <bang>0
   \ )
 
+" vsnip {{{1
+let g:vsnip_snippet_dir = expand('~/.config/nvim/snippets')
+
+" colortemplate {{{1
+let g:colortemplate_toolbar = 0
+
 " Rust {{{1
 let g:rust_recommended_style = 0
 
@@ -361,15 +357,19 @@ autocmd! InsertEnter * match Visual /\s\+\%#\@<!$/
 autocmd! InsertLeave * match Visual /\s\+$/
 autocmd! BufWinLeave * call clearmatches()
 
-" File type detection {{{1
+" Buffer hooks {{{1
 autocmd! BufRead,BufNewFile *.rll set filetype=rll
 autocmd! BufRead,BufNewFile Dangerfile set filetype=ruby
 
+function! init#formatBuffer() abort
+  lua vim.lsp.buf.formatting_sync(nil, 1000)
+endfunction
+
+autocmd BufWritePre *.rs call init#formatBuffer()
+autocmd BufWritePre *.go call init#formatBuffer()
+
 " Mappings {{{1
-map <silent> <leader>f :Files<CR>
-map <silent> <leader>t :BTags<CR>
-map <silent> <leader>b :Buffers<CR>
-map <silent> <leader>l :BLines<CR>
+" Generic {{{2
 map <F6> :Lexplore<CR><Esc>
 map K <nop>
 map <ScrollWheelUp> <nop>
@@ -381,19 +381,25 @@ map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
-" Custom mappings for Fugitive
+" FZF {{{2
+map <silent> <leader>f :Files<CR>
+map <silent> <leader>t :BTags<CR>
+map <silent> <leader>b :Buffers<CR>
+map <silent> <leader>l :BLines<CR>
+
+" Fugitive {{{2
 map <silent> <leader>gs :vert bo Gstatus<CR>
 map <silent> <leader>gc :vert bo Gcommit<CR>
 map <silent> <leader>gd :Gdiff<CR>
 
-" Mappings for CoC
-map <silent> <leader>h :call CocActionAsync('doHover')<CR>
-map <silent> <leader>r <Plug>(coc-rename)
-map <silent> <leader>d <Plug>(coc-definition)
-map <silent> <leader>i <Plug>(coc-references)
+" LSP {{{2
+map <silent> <leader>h :lua vim.lsp.buf.hover()<CR>
+map <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
+map <silent> <leader>d :lua vim.lsp.buf.definition()<CR>
+map <silent> <leader>i :lua vim.lsp.buf.references()<CR>
+map <silent> <leader>a :lua vim.lsp.buf.code_action()<CR>
 
-" Confirm completion by pressing enter
-inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" Terminals {{{2
 
 " Support exiting terminal INSERT mode using C-[ and C-]. C-] is mapped so we
 " can still exist in nested Vim sessions.
@@ -425,12 +431,22 @@ function! init#tabCompleteLSP() abort
   elseif s:checkBackSpace()
     return "\<tab>"
   else
-    return coc#refresh()
+    return compe#complete()
   end
 endfunction
 
+" Completion {{{2
+inoremap <silent><expr> <cr> pumvisible() ? compe#confirm('<C-y>') : "\<C-g>u\<CR>"
 inoremap <silent><expr> <tab> init#tabCompleteLSP()
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
+
+" vsnip {{{2
+imap <expr> <C-s> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-s>'
+imap <expr> <C-j> vsnip#jumpable(1) ? '<Plug>(vsnip-jump-next)' : '<C-j>'
+imap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
+
+" NERD commenter {{{2
+map <leader>c <plug>NERDCommenterToggle
 
 " Custom commands {{{1
 function! s:openTerm(cmd)
@@ -446,5 +462,6 @@ command! Tterm call s:openTerm('tabnew')
 " Close all buffers in the current tab. This is useful when viewing a diff in a
 " tab and you want to close all buffers in that tab.
 command! Tq windo q
+command! Init e ~/.config/nvim/init.vim
 
 " vim: fdm=marker
