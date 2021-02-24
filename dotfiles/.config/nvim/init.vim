@@ -26,7 +26,6 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'yssl/QFEnter'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'hrsh7th/nvim-compe'
 
 call plug#end()
 
@@ -34,12 +33,11 @@ call plug#end()
 set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
-set completeopt=menuone,noselect
+set completeopt=menuone
 set complete=.,b
 set diffopt=filler,vertical,internal,algorithm:patience,indent-heuristic
 set lz
 set noshowcmd
-set omnifunc=syntaxcomplete#Complete
 set pastetoggle=<F2>
 set splitright
 set title
@@ -71,10 +69,9 @@ set printoptions=header:0
 let mapleader = ','
 let maplocalleader = '\'
 
-" The NFA engine is rather slow, especially for large Ruby files. After testing
-" this extensively, I found that switching to the old engine can reduce input
-" latency by about 40%.
-set regexpengine=1
+" Some languages such as typescript are super slow using the old regex engine,
+" so we use the new one.
+set regexpengine=0
 
 filetype plugin indent on
 syntax on
@@ -189,33 +186,12 @@ let g:ale_python_flake8_auto_pipenv = 1
 " Since alll nvim LSP plugins use Lua, we use a separate Lua file. This way we
 " don't have to use a bunch of heredoc strings.
 lua require('dotfiles/lsp')
+lua require('dotfiles/completion')
 
 " Code completion {{{1
-let g:compe = {
-  \   'min_length': 2,
-  \   'autocomplete': v:false,
-  \   'throttle_time': 0,
-  \   'preselect': 'disable',
-  \   'documentation': v:false,
-  \   'source': {
-  \     'buffer': v:true,
-  \     'nvim_lsp': v:false,
-  \     'vsnip': v:true,
-  \   }
-  \ }
+set omnifunc=v:lua.dotfiles_complete_start
 
-function! init#enableLspCompletion() abort
-  call compe#setup(
-  \   {
-  \     'source': extend(
-  \       { 'buffer': v:false, 'nvim_lsp': v:true },
-  \       g:compe.source,
-  \       'keep'
-  \     )
-  \   },
-  \   0
-  \ )
-endfunction
+autocmd CompleteDone * :lua dotfiles_complete_done()
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = [
@@ -431,12 +407,12 @@ function! init#tabCompleteLSP() abort
   elseif s:checkBackSpace()
     return "\<tab>"
   else
-    return compe#complete()
+    return "\<C-x>\<C-o>"
   end
 endfunction
 
 " Completion {{{2
-inoremap <silent><expr> <cr> pumvisible() ? compe#confirm('<C-y>') : "\<C-g>u\<CR>"
+inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <silent><expr> <tab> init#tabCompleteLSP()
 inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
 
