@@ -22,9 +22,19 @@ local confirmed = false
 -- The time (in milliseconds) to wait for a language server to produce results.
 local completion_timeout = 4000
 
+-- The minimum word length for it to be included in the buffer completion
+-- results.
+local min_word_size = 3
+
 -- The name of the buffer-local variable used for keeping track of completion
 -- confirmations.
 local confirmed_var = 'dotfiles_completion_confirmed'
+
+-- The Vim regex to use for splitting buffer words.
+--
+-- We only concern ourselves with ASCII words, as I rarely encounter multi-byte
+-- characters in e.g. identifiers (or other words I want to complete).
+local buffer_word_regex = '[^?a-zA-Z0-9_\\-]\\+'
 
 local function is_confirmed()
   return vim.b[confirmed_var] == true
@@ -71,34 +81,43 @@ local function filter_text(item)
   end
 end
 
+-- Moves the cursor to the given line and column.
+local function move_cursor(line, column)
+  api.nvim_win_set_cursor(0, { line + 1, column })
+end
+
 -- Removes the user provided prefix from the buffer, and resets the cursor to
 -- the right place.
 local function remove_prefix(start_col, start_line, stop_col, stop_line)
   local buffer = api.nvim_get_current_buf()
   local edit = {
     range = {
-      -- This is the start of the completion range, provided by the language
-      -- server. The range starts before the inserted text.
-      ['start'] = {
-        line = start_line,
-        character = start_col
-      },
-      ['end'] = {
-        line = stop_line,
-        character = stop_col
-      }
+      ['start'] = { line = start_line, character = start_col },
+      ['end'] = { line = stop_line, character = stop_col }
     },
     newText = ''
   }
 
-  print(vim.inspect(edit))
-
-  -- This will remove the text that was inserted upon confirming the completion.
   lsp.util.apply_text_edits({ edit }, buffer)
+  move_cursor(start_line, start_col)
+end
 
-  -- Move the cursor to the start of the text we just removed, otherwise the
-  -- snippet gets inserted in the wrong location.
-  api.nvim_win_set_cursor(win, { start_line + 1, start_col })
+-- Inserts text at the current location.
+local function insert_text(text)
+  local pos = api.nvim_win_get_cursor(0)
+  local line = pos[1] - 1
+  local column = pos[2]
+  local buffer = api.nvim_get_current_buf()
+  local edit = {
+    range = {
+      ['start'] = { line = line, character = column },
+      ['end'] = { line = line, character = column }
+    },
+    newText = text
+  }
+
+  lsp.util.apply_text_edits({ edit }, buffer)
+  move_cursor(line, column + #text)
 end
 
 -- Inserts the final completion into the buffer.
@@ -113,28 +132,33 @@ local function insert_completion(item)
 
   local data = item.user_data.dotfiles
   local pos = api.nvim_win_get_cursor(0)
+  local line = pos[1] - 1
+  local column = pos[2]
 
-  -- nvim lines are 1 based, but the TextEdit command needs a 0 based line.
-  local curr_line = pos[1] - 1
-  local curr_col = pos[2]
+  remove_prefix(data.column, data.line, column, line)
 
   if data.source == 'lsp' then
     -- When completing an LSP symbol, the text inserted so far is a placeholder.
     -- We need to replace this with the LSP snippet and expand it.
-    remove_prefix(data.column, data.line, curr_col, curr_line)
     vim.fn['vsnip#anonymous'](data.expand)
   elseif data.source == 'vsnip' then
-    remove_prefix(data.column, data.line, curr_col, curr_line)
     vim.fn['vsnip#anonymous'](vim.fn.join(data.expand, "\n"))
   else
-    -- Buffer completion doesn't need any extra work.
+    insert_text(item.word)
   end
 end
 
 -- Returns all snippets to insert into the completion menu.
 local function snippet_completion_items(buffer, column, prefix)
-  local line = api.nvim_win_get_cursor(0)[1]
+  -- TextEdit lines are 0 based, but nvim starts at 1
+  local line = api.nvim_win_get_cursor(0)[1] - 1
   local snippets = {}
+
+  -- When the input is `.|`, where | is the cursor, we don't want to trigger
+  -- completion of snippets.
+  if prefix == '' then
+    return snippets
+  end
 
   for _, source in ipairs(vim.fn['vsnip#source#find'](buffer)) do
     for _, snippet in ipairs(source) do
@@ -157,8 +181,7 @@ local function snippet_completion_items(buffer, column, prefix)
                 dotfiles = {
                   expand = snippet.body,
                   source = 'vsnip',
-                  -- TextEdit lines are 0 based, but nvim starts at 1
-                  line = line - 1,
+                  line = line,
                   -- We want the range to start before the first character, not
                   -- _on_ the first character.
                   column = column - 1
@@ -177,6 +200,54 @@ local function snippet_completion_items(buffer, column, prefix)
   return snippets
 end
 
+-- Returns completion items for all words in the buffer.
+function buffer_completion_items(buffer, column, prefix)
+  local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
+  local words = {}
+  local pos = api.nvim_win_get_cursor(0)
+  local line_number = api.nvim_win_get_cursor(0)[1] - 1
+
+  for _, word in ipairs(vim.fn.split(lines, buffer_word_regex)) do
+    if #word >= min_word_size and vim.startswith(word, prefix) then
+      if words[word] then
+        local data = words[word].user_data.dotfiles
+
+        data.count = data.count + 1
+      else
+        words[word] = {
+          word = word,
+          abbr = word,
+          kind = 'Text',
+          user_data = {
+            dotfiles = {
+              source = 'buffer',
+              count = 1,
+              line = line_number,
+              column = column - 1
+            }
+          }
+        }
+      end
+    end
+  end
+
+  -- If the prefix only occurs once, it means it doesn't occur anywhere but in
+  -- the user's input. In this case we don't want to include it.
+  if words[prefix] and words[prefix].user_data.dotfiles.count == 1 then
+    words[prefix] = nil
+  end
+
+  local items = {}
+
+  for _, item in pairs(words) do
+    table.insert(items, item)
+  end
+
+  table.sort(items, function(a, b) return a.word < b.word end)
+
+  return items
+end
+
 -- Shows the completions in the completion menu.
 local function show_completions(start_pos, items)
     -- When there's only one candidate, we insert/expand it right away.
@@ -192,8 +263,9 @@ local function fallback_completion(findstart, prefix)
   local start_pos, prefix = unpack(completion_position())
   local bufnr = api.nvim_get_current_buf()
   local items = snippet_completion_items(bufnr, start_pos, prefix)
+  local words = buffer_completion_items(bufnr, start_pos, prefix)
 
-  -- TODO: buffer completion
+  vim.list_extend(items, words)
 
   -- This is so we can automatically insert and expand the first entry. This
   -- doesn't work reliably when returning the items directly.

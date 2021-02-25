@@ -185,7 +185,7 @@ let g:ale_fixers = {
 let g:ale_python_flake8_auto_pipenv = 1
 
 " Code completion {{{1
-set omnifunc=v:lua.dotfiles.completion.start
+set completefunc=v:lua.dotfiles.completion.start
 
 autocmd CompleteDonePre * :lua dotfiles.completion.done()
 
@@ -405,7 +405,7 @@ function! init#tab() abort
   elseif s:checkBackSpace()
     return "\<tab>"
   else
-    return "\<C-x>\<C-o>"
+    return "\<C-x>\<C-U>"
   end
 endfunction
 
