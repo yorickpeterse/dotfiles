@@ -29,11 +29,14 @@ Plug 'hrsh7th/vim-vsnip'
 
 call plug#end()
 
+" Lua setup {{{1
+lua require('dotfiles')
+
 " Generic settings {{{1
 set backspace=indent,eol,start
 set backupskip=/tmp/*
 set clipboard=unnamed
-set completeopt=menuone
+set completeopt=menu
 set complete=.,b
 set diffopt=filler,vertical,internal,algorithm:patience,indent-heuristic
 set lz
@@ -181,17 +184,10 @@ let g:ale_fixers = {
 
 let g:ale_python_flake8_auto_pipenv = 1
 
-" LSP {{{1
-
-" Since alll nvim LSP plugins use Lua, we use a separate Lua file. This way we
-" don't have to use a bunch of heredoc strings.
-lua require('dotfiles/lsp')
-lua require('dotfiles/completion')
-
 " Code completion {{{1
-set omnifunc=v:lua.dotfiles_complete_start
+set omnifunc=v:lua.dotfiles.completion.start
 
-autocmd CompleteDone * :lua dotfiles_complete_done()
+autocmd CompleteDonePre * :lua dotfiles.completion.done()
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = [
@@ -394,6 +390,8 @@ tnoremap <C-b>l <C-\><C-n><C-w>li
 noremap <C-c> "+y
 inoremap <C-v> <Esc>"+pa
 
+" Completion {{{2
+
 " This allows cycling through popup menu results using tab, as well as
 " performing keyword completion if the menu is not visible.
 function! s:checkBackSpace() abort
@@ -401,7 +399,7 @@ function! s:checkBackSpace() abort
   return !col || getline('.')[col - 1]  =~ '\s'
 endfunction
 
-function! init#tabCompleteLSP() abort
+function! init#tab() abort
   if pumvisible()
     return "\<C-n>"
   elseif s:checkBackSpace()
@@ -411,10 +409,25 @@ function! init#tabCompleteLSP() abort
   end
 endfunction
 
-" Completion {{{2
-inoremap <silent><expr> <cr> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <silent><expr> <tab> init#tabCompleteLSP()
-inoremap <silent><expr> <S-tab> pumvisible() ? "\<C-p>" : "\<S-tab>"
+function! init#stab() abort
+  if pumvisible()
+    return "\<C-p>"
+  else
+    return "\<S-tab>"
+  end
+endfunction
+
+function init#enter() abort
+  if pumvisible()
+    return v:lua.dotfiles.completion.confirm()
+  else
+    return "\<C-g>u\<CR>"
+  end
+endfunction
+
+inoremap <silent><expr> <tab> init#tab()
+inoremap <silent><expr> <S-tab> init#stab()
+inoremap <silent><expr> <cr> init#enter()
 
 " vsnip {{{2
 imap <expr> <C-s> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-s>'
