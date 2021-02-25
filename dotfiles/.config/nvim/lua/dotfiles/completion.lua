@@ -237,28 +237,30 @@ function M.start(findstart, base)
       -- Now that we have the items, we need to process them so the right text
       -- is inserted when changing the selected entry.
       for _, item in ipairs(lsp_items) do
-        local completion = item.user_data.nvim.lsp.completion_item
+        -- Keywords are ignored as I find them too distracting.
+        if item.kind ~= 'Keyword' then
+          local completion = item.user_data.nvim.lsp.completion_item
 
-        -- The text to insert will include the placeholders, which we don't
-        -- want. So instead we'll display the filter text, and fall back to the
-        -- label.
-        item.word = filter_text(completion)
+          -- The text to insert will include the placeholders, which we don't
+          -- want. So instead we'll display the filter text, and fall back to
+          -- the label.
+          item.word = filter_text(completion)
 
-        item.user_data = {
-          dotfiles = {
-            -- The raw text will be used to properly expand snippets. This is
-            -- handled by the complete_done() function.
-            expand = text_to_expand(completion),
-            source = 'lsp',
-            line = completion.textEdit.range.start.line,
-            column = completion.textEdit.range.start.character
+          item.user_data = {
+            dotfiles = {
+              -- The raw text will be used to properly expand snippets. This is
+              -- handled by the complete_done() function.
+              expand = text_to_expand(completion),
+              source = 'lsp',
+              line = completion.textEdit.range.start.line,
+              column = completion.textEdit.range.start.character
+            }
           }
-        }
+
+          table.insert(items, item)
+        end
       end
 
-      -- We show snippets first, so they're easier to access when there are
-      -- multiple matches.
-      vim.list_extend(items, lsp_items)
       show_completions(start_pos, items)
     end
   )
