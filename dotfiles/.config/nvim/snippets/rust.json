@@ -57,15 +57,6 @@
             "assert"
         ]
     },
-    "pub": {
-        "description": "Inserts the pub keyword",
-        "body": [
-            "pub ${0}"
-        ],
-        "prefix": [
-            "pub"
-        ]
-    },
     "fn": {
         "description": "Inserts a function",
         "body": [
