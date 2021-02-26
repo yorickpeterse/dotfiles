@@ -63,9 +63,6 @@ set nohlsearch
 set scrollback=1000
 set updatetime=1000
 
-set grepprg=rg\ --vimgrep
-set grepformat=%f:%l:%c:%m,%f:%l:%m
-
 set printoptions=number:n
 set printoptions=header:0
 
@@ -84,6 +81,19 @@ color paper
 " dealing with large files.
 set nocursorcolumn
 set nocursorline
+
+" grep
+set grepprg=rg\ --vimgrep
+set grepformat=%f:%l:%c:%m,%f:%l:%m
+
+" Don't show the output window of grep, while still opening the quickfix window
+" automatically.
+cnoreabbrev <expr> grep (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep' : 'grep'
+
+augroup init_grep_quickfix
+  autocmd!
+  autocmd QuickFixCmdPost grep cwindow
+augroup END
 
 " Indentation settings {{{1
 set expandtab
