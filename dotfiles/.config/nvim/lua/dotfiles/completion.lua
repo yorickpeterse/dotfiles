@@ -2,7 +2,6 @@
 
 local lsp = vim.lsp
 local api = vim.api
-local log = require('vim.lsp.log')
 local M = {}
 
 -- This disables NeoVim's built-in snippet parser, just to make sure it never
