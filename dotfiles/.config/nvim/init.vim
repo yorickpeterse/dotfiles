@@ -12,7 +12,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'rust-lang/rust.vim'
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
 Plug 'git@gitlab.com:inko-lang/inko.vim.git'
