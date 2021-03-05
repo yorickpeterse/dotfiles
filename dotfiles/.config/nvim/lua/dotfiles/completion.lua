@@ -134,17 +134,32 @@ local function insert_completion(item)
   local line = pos[1] - 1
   local column = pos[2]
 
-  remove_prefix(data.column, data.line, column, line)
-
   if data.source == 'lsp' then
+    remove_prefix(data.column, data.line, column, line)
+
     -- When completing an LSP symbol, the text inserted so far is a placeholder.
     -- We need to replace this with the LSP snippet and expand it.
     vim.fn['vsnip#anonymous'](data.expand)
-  elseif data.source == 'vsnip' then
-    vim.fn['vsnip#anonymous'](vim.fn.join(data.expand, "\n"))
-  else
-    insert_text(item.word)
+
+    return
   end
+
+  -- Calculate the start of the column based on the current cursor position, and
+  -- the length of the placeholder text.
+  local start_column = column - vim.fn.strchars(item.word)
+
+  if start_column < 0 then
+    start_column = 0
+  end
+
+  remove_prefix(start_column, line, column, line)
+
+  if data.source == 'vsnip' then
+    vim.fn['vsnip#anonymous'](data.expand)
+    return
+  end
+
+  insert_text(item.word)
 end
 
 -- Returns all snippets to insert into the completion menu.
@@ -178,12 +193,8 @@ local function snippet_completion_items(buffer, column, prefix)
               menu = menu,
               user_data = {
                 dotfiles = {
-                  expand = snippet.body,
-                  source = 'vsnip',
-                  line = line,
-                  -- We want the range to start before the first character, not
-                  -- _on_ the first character.
-                  column = column - 1
+                  expand = vim.fn.join(snippet.body, "\n"),
+                  source = 'vsnip'
                 }
               }
             }
@@ -199,33 +210,33 @@ local function snippet_completion_items(buffer, column, prefix)
   return snippets
 end
 
--- Returns completion items for all words in the buffer.
-function buffer_completion_items(buffer, column, prefix)
-  local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
+-- Returns completion items for all words in the buffers in the current tab.
+function buffer_completion_items(_buffer, column, prefix)
   local words = {}
-  local pos = api.nvim_win_get_cursor(0)
-  local line_number = api.nvim_win_get_cursor(0)[1] - 1
 
-  for _, word in ipairs(vim.fn.split(lines, buffer_word_regex)) do
-    if #word >= min_word_size and vim.startswith(word, prefix) then
-      if words[word] then
-        local data = words[word].user_data.dotfiles
+  for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
+    local buffer = api.nvim_win_get_buf(window)
+    local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
 
-        data.count = data.count + 1
-      else
-        words[word] = {
-          word = word,
-          abbr = word,
-          kind = 'Text',
-          user_data = {
-            dotfiles = {
-              source = 'buffer',
-              count = 1,
-              line = line_number,
-              column = column - 1
+    for _, word in ipairs(vim.fn.split(lines, buffer_word_regex)) do
+      if #word >= min_word_size and vim.startswith(word, prefix) then
+        if words[word] then
+          local data = words[word].user_data.dotfiles
+
+          data.count = data.count + 1
+        else
+          words[word] = {
+            word = word,
+            abbr = word,
+            kind = 'Text',
+            user_data = {
+              dotfiles = {
+                source = 'buffer',
+                count = 1
+              }
             }
           }
-        }
+        end
       end
     end
   end
