@@ -370,9 +370,9 @@ map <silent> <leader>b :Buffers<CR>
 map <silent> <leader>l :BLines<CR>
 
 " Fugitive {{{2
-map <silent> <leader>gs :vert bo Gstatus<CR>
-map <silent> <leader>gc :vert bo Gcommit<CR>
-map <silent> <leader>gd :Gdiff<CR>
+map <silent> <leader>gs :vert bo Git<CR>
+map <silent> <leader>gc :vert bo Git commit<CR>
+map <silent> <leader>gd :Gdiffsplit<CR>
 
 " LSP {{{2
 map <silent> <leader>h :lua vim.lsp.buf.hover()<CR>
