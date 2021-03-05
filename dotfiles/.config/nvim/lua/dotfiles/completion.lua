@@ -212,10 +212,19 @@ end
 
 -- Returns completion items for all words in the buffers in the current tab.
 function buffer_completion_items(_buffer, column, prefix)
-  local words = {}
+  local buffers = {}
 
   for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
     local buffer = api.nvim_win_get_buf(window)
+
+    if api.nvim_buf_is_loaded(buffer) then
+      table.insert(buffers, buffer)
+    end
+  end
+
+  local words = {}
+
+  for _, buffer in ipairs(buffers) do
     local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
 
     for _, word in ipairs(vim.fn.split(lines, buffer_word_regex)) do
