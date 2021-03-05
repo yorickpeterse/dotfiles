@@ -80,6 +80,24 @@ local function filter_text(item)
   end
 end
 
+-- Given a completion item for a snippet and text, returns the snippet's item.
+local function snippet_from_binary_completion(items)
+  local first = items[1]
+  local second = items[2]
+
+  if first.word ~= second.word then
+    return
+  end
+
+  if first.kind == 'Snippet' and second.kind == 'Text' then
+    return first
+  end
+
+  if first.kind == 'Text' and second.kind == 'Snippet' then
+    return second
+  end
+end
+
 -- Moves the cursor to the given line and column.
 local function move_cursor(line, column)
   api.nvim_win_set_cursor(0, { line + 1, column })
@@ -134,32 +152,15 @@ local function insert_completion(item)
   local line = pos[1] - 1
   local column = pos[2]
 
-  if data.source == 'lsp' then
-    remove_prefix(data.column, data.line, column, line)
+  remove_prefix(data.column, data.line, column, line)
 
+  if data.source == 'lsp' or data.source == 'vsnip' then
     -- When completing an LSP symbol, the text inserted so far is a placeholder.
     -- We need to replace this with the LSP snippet and expand it.
     vim.fn['vsnip#anonymous'](data.expand)
-
-    return
+  else
+    insert_text(item.word)
   end
-
-  -- Calculate the start of the column based on the current cursor position, and
-  -- the length of the placeholder text.
-  local start_column = column - vim.fn.strchars(item.word)
-
-  if start_column < 0 then
-    start_column = 0
-  end
-
-  remove_prefix(start_column, line, column, line)
-
-  if data.source == 'vsnip' then
-    vim.fn['vsnip#anonymous'](data.expand)
-    return
-  end
-
-  insert_text(item.word)
 end
 
 -- Returns all snippets to insert into the completion menu.
@@ -191,10 +192,13 @@ local function snippet_completion_items(buffer, column, prefix)
               abbr = snippet_prefix,
               kind = 'Snippet',
               menu = menu,
+              dup = 1,
               user_data = {
                 dotfiles = {
                   expand = vim.fn.join(snippet.body, "\n"),
-                  source = 'vsnip'
+                  source = 'vsnip',
+                  line = line,
+                  column = column - 1
                 }
               }
             }
@@ -211,7 +215,7 @@ local function snippet_completion_items(buffer, column, prefix)
 end
 
 -- Returns completion items for all words in the buffers in the current tab.
-function buffer_completion_items(_buffer, column, prefix)
+function buffer_completion_items(column, prefix)
   local buffers = {}
 
   for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
@@ -223,6 +227,7 @@ function buffer_completion_items(_buffer, column, prefix)
   end
 
   local words = {}
+  local line = api.nvim_win_get_cursor(0)[1] - 1
 
   for _, buffer in ipairs(buffers) do
     local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
@@ -238,10 +243,13 @@ function buffer_completion_items(_buffer, column, prefix)
             word = word,
             abbr = word,
             kind = 'Text',
+            dup = 1,
             user_data = {
               dotfiles = {
                 source = 'buffer',
-                count = 1
+                count = 1,
+                line = line,
+                column = column - 1
               }
             }
           }
@@ -269,20 +277,35 @@ end
 
 -- Shows the completions in the completion menu.
 local function show_completions(start_pos, items)
-    -- When there's only one candidate, we insert/expand it right away.
-    if #items == 1 then
-      insert_completion(items[1])
-    else
-      vim.fn.complete(start_pos, items)
+  -- When there's only one candidate, we insert/expand it right away.
+  if #items == 1 then
+    insert_completion(items[1])
+    return
+  end
+
+  -- It's possible for there to be only two entries, one of which is a snippet,
+  -- and one of which is text. If both have the same word value, we want to
+  -- automatically insert a snippet. This way I can have a snippet called "def",
+  -- while "def" also exists as a keyword in the buffer, and automatically
+  -- complete the snippet.
+  if #items == 2 then
+    local snippet = snippet_from_binary_completion(items)
+
+    if snippet then
+      insert_completion(snippet)
+      return
     end
+  end
+
+  vim.fn.complete(start_pos, items)
 end
 
 -- Performs a fallback completion if a language server client isn't available.
-local function fallback_completion(findstart, prefix)
+local function fallback_completion(prefix)
   local start_pos, prefix = unpack(completion_position())
   local bufnr = api.nvim_get_current_buf()
   local items = snippet_completion_items(bufnr, start_pos, prefix)
-  local words = buffer_completion_items(bufnr, start_pos, prefix)
+  local words = buffer_completion_items(start_pos, prefix)
 
   vim.list_extend(items, words)
 
@@ -303,7 +326,7 @@ function M.start(findstart, base)
   -- Don't do anything when there are no clients connected (= no language server
   -- is used).
   if #lsp.buf_get_clients(bufnr) == 0 then
-    return fallback_completion(findstart, base)
+    return fallback_completion(base)
   end
 
   local start_pos, prefix = unpack(completion_position())
