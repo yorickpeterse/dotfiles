@@ -88,7 +88,7 @@ set grepformat=%f:%l:%c:%m,%f:%l:%m
 
 " Don't show the output window of grep, while still opening the quickfix window
 " automatically.
-cnoreabbrev <expr> grep (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep' : 'grep'
+cnoreabbrev <expr> grep (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'silent grep!' : 'grep!'
 
 augroup init_grep_quickfix
   autocmd!
