@@ -57,8 +57,6 @@ set termguicolors
 set textwidth=80
 set guitablabel=%f
 set inccommand=nosplit
-set incsearch
-set nohlsearch
 set scrollback=1000
 set updatetime=1000
 
@@ -81,9 +79,11 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" grep
+" Search {{{1
 set grepprg=rg\ --vimgrep
 set grepformat=%f:%l:%c:%m,%f:%l:%m
+set incsearch
+set nohlsearch
 
 " Don't show the output window of grep, while still opening the quickfix window
 " automatically.
@@ -92,6 +92,13 @@ cnoreabbrev <expr> grep (getcmdtype() ==# ':' && getcmdline() =~# '^grep') ? 'si
 augroup init_grep_quickfix
   autocmd!
   autocmd QuickFixCmdPost grep cwindow
+augroup END
+
+" Highlight all search matches while searching
+augroup init_search_highlight
+  autocmd!
+  autocmd CmdlineEnter [/\?] :set hlsearch
+  autocmd CmdlineLeave [/\?] :set nohlsearch
 augroup END
 
 " Indentation settings {{{1
@@ -358,6 +365,17 @@ map <ScrollWheelLeft> <nop>
 map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
+
+" Searching {{{1
+function! init#toggleSearchHighlight()
+  if &hls && v:hlsearch
+    setlocal nohlsearch
+  else
+    setlocal hlsearch
+  endif
+endfunction
+
+map <silent> <leader>/ :call init#toggleSearchHighlight()<CR>
 
 " FZF {{{2
 map <silent> <leader>f :Files<CR>
