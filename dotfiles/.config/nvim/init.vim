@@ -21,7 +21,6 @@ Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'dense-analysis/ale'
-Plug 'lifepillar/vim-colortemplate'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'yssl/QFEnter'
 Plug 'neovim/nvim-lspconfig'
@@ -318,9 +317,6 @@ command! -bang -nargs=* Rg
 
 " vsnip {{{1
 let g:vsnip_snippet_dir = expand('~/.config/nvim/snippets')
-
-" colortemplate {{{1
-let g:colortemplate_toolbar = 0
 
 " Rust {{{1
 let g:rust_recommended_style = 0
