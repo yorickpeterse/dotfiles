@@ -63,9 +63,6 @@ set updatetime=1000
 set printoptions=number:n
 set printoptions=header:0
 
-let mapleader = ','
-let maplocalleader = '\'
-
 " Some languages such as typescript are super slow using the old regex engine,
 " so we use the new one.
 set regexpengine=0
@@ -79,7 +76,12 @@ color paper
 set nocursorcolumn
 set nocursorline
 
-" Search {{{1
+" Leader key {{{1
+map <space> <nop>
+let mapleader = ' '
+let maplocalleader = ' '
+
+" Search {{{
 set grepprg=rg\ --vimgrep
 set grepformat=%f:%l:%c:%m,%f:%l:%m
 set incsearch
@@ -375,7 +377,7 @@ function! init#toggleSearchHighlight()
   endif
 endfunction
 
-map <silent> <leader>/ :call init#toggleSearchHighlight()<CR>
+map <silent> <leader>s :call init#toggleSearchHighlight()<CR>
 
 " FZF {{{2
 map <silent> <leader>f :Files<CR>
