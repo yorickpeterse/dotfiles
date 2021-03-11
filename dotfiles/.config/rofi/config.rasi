@@ -2,9 +2,9 @@ configuration {
     modi: "window,run,drun,combi";
     font: "Noto Sans 10";
     dpi: 192;
-    theme: "paper";
+    theme: "custom";
     show-icons: true;
-    icon-theme: "Papirus-Dark";
+    icon-theme: "Papirus";
     kb-accept-entry: "Return";
     kb-row-up: "Up,Control+k,ISO_Left_Tab";
     kb-row-down: "Down,Control+j";
