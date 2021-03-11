@@ -6,9 +6,9 @@ configuration {
 }
 
 * {
-    background-color: #34394b;
-    background-prompt: #3c4253;
-    background-selected: #4e5568;
+    background-color: #383c4a;
+    background-prompt: #404552;
+    background-selected: #505666;
     border-color: #000000;
     text-color: #d3dbe5;
     accent: #4b93e7;
