@@ -22,7 +22,7 @@ window {
     border-radius: 2px;
     padding: 0px;
     y-offset: 20%;
-    width: 80%;
+    width: 1600px;
 }
 
 listview {
