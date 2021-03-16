@@ -217,12 +217,14 @@ end
 -- Returns completion items for all words in the buffers in the current tab.
 function buffer_completion_items(column, prefix)
   local buffers = {}
+  local processed = {}
 
   for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
     local buffer = api.nvim_win_get_buf(window)
 
-    if api.nvim_buf_is_loaded(buffer) then
+    if processed[buffer] == nil and api.nvim_buf_is_loaded(buffer) then
       table.insert(buffers, buffer)
+      processed[buffer] = true
     end
   end
 
