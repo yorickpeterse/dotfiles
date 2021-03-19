@@ -33,7 +33,7 @@ local confirmed_var = 'dotfiles_completion_confirmed'
 --
 -- We only concern ourselves with ASCII words, as I rarely encounter multi-byte
 -- characters in e.g. identifiers (or other words I want to complete).
-local buffer_word_regex = '[^?a-zA-Z0-9_\\-]\\+'
+local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
 local function is_confirmed()
   return vim.b[confirmed_var] == true
