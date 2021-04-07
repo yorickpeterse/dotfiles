@@ -368,7 +368,7 @@ map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
-" Searching {{{1
+" Searching {{{2
 function! init#toggleSearchHighlight()
   if &hls && v:hlsearch
     setlocal nohlsearch

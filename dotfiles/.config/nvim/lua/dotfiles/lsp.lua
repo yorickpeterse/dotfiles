@@ -2,6 +2,26 @@
 
 local config = require('lspconfig')
 
+-- Customise the Markdown hover popup. This is a hack, but sadly NeoVim doesn't
+-- offer an easier way at this time.
+local old_markdown = vim.lsp.util.fancy_floating_markdown
+
+vim.lsp.util.fancy_floating_markdown = function(contents, opts)
+  local local_opts = {
+    max_width = 120,
+    max_height = 20,
+    separator = false
+  }
+
+  local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
+
+  return old_markdown(contents, combined_opts)
+end
+
+-- Draw a border around the hover menu.
+vim.lsp.handlers['textDocument/hover'] =
+  vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
+
 -- Enable support for LSP snippets
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
