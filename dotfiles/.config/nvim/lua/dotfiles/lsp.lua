@@ -18,9 +18,15 @@ vim.lsp.util.fancy_floating_markdown = function(contents, opts)
   return old_markdown(contents, combined_opts)
 end
 
--- Draw a border around the hover menu.
-vim.lsp.handlers['textDocument/hover'] =
-  vim.lsp.with(vim.lsp.handlers.hover, { border = 'single' })
+-- This enables a border for all LSP related floating windows.
+local old_make_opts = vim.lsp.util.make_floating_popup_options
+
+vim.lsp.util.make_floating_popup_options = function(width, height, opts)
+  local new_opts =
+    vim.tbl_deep_extend('force', opts or {}, { border = 'single' })
+
+  return old_make_opts(width, height, new_opts)
+end
 
 -- Enable support for LSP snippets
 local capabilities = vim.lsp.protocol.make_client_capabilities()
