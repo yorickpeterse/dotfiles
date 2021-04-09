@@ -1,3 +1,5 @@
+require 'pry-theme'
+
 Pry.config.theme = 'paper'
 
 Pry.config.theme_options = { paint_key_as_symbol: true }
