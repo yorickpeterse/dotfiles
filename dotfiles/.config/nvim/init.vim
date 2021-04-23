@@ -396,7 +396,7 @@ map <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
 map <silent> <leader>d :lua vim.lsp.buf.definition()<CR>
 map <silent> <leader>i :lua vim.lsp.buf.references()<CR>
 map <silent> <leader>a :lua vim.lsp.buf.code_action()<CR>
-map <silent> <leader>e :lua vim.lsp.diagnostic.show_line_diagnostics()<CR>
+map <silent> <leader>e :lua dotfiles.show_line_diagnostics()<CR>
 
 " Terminals {{{2
 
