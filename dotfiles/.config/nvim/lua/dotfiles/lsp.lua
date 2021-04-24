@@ -66,6 +66,43 @@ vim.lsp.diagnostic.clear = function(bufnr, client_id, diagnostic_ns, sign_ns)
   )
 end
 
+-- Set up symbols for LSP completion.
+local lsp_symbols = {
+  Class = '𝗖',
+  Color = '',
+  Constant = '',
+  Constructor = '',
+  Enum = '𝗘',
+  EnumMember = '',
+  File = '',
+  Folder = '',
+  Function = '',
+  Interface = 'ﰮ',
+  Keyword = '',
+  Method = '',
+  Module = '',
+  Property = '',
+  Snippet = '',
+  Struct = '',
+  Text = '',
+  Unit = '',
+  Value = '',
+  Variable = '',
+  Namespace = '',
+  Field = '',
+  Number = '#',
+  TypeParameter = '𝗧'
+}
+
+for kind, symbol in pairs(lsp_symbols) do
+  local kinds = vim.lsp.protocol.CompletionItemKind
+  local index = kinds[kind]
+
+  if index ~= nil then
+    kinds[index] = symbol
+  end
+end
+
 vim.lsp.diagnostic.set_signs = function(diagnostics, bufnr, _, _, _)
   if not diagnostics then
     return

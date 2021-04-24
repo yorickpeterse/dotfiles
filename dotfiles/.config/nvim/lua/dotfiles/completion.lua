@@ -35,6 +35,9 @@ local confirmed_var = 'dotfiles_completion_confirmed'
 -- characters in e.g. identifiers (or other words I want to complete).
 local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
+local text_kind = ''
+local snippet_kind = ''
+
 local function is_confirmed()
   return vim.b[confirmed_var] == true
 end
@@ -89,11 +92,11 @@ local function snippet_from_binary_completion(items)
     return
   end
 
-  if first.kind == 'Snippet' and second.kind == 'Text' then
+  if first.kind == snippet_kind and second.kind == text_kind then
     return first
   end
 
-  if first.kind == 'Text' and second.kind == 'Snippet' then
+  if first.kind == text_kind and second.kind == snippet_kind then
     return second
   end
 end
@@ -190,7 +193,7 @@ local function snippet_completion_items(buffer, column, prefix)
             {
               word = snippet_prefix,
               abbr = snippet_prefix,
-              kind = 'Snippet',
+              kind = snippet_kind,
               menu = menu,
               dup = 1,
               user_data = {
@@ -244,7 +247,7 @@ function buffer_completion_items(column, prefix)
           words[word] = {
             word = word,
             abbr = word,
-            kind = 'Text',
+            kind = text_kind,
             dup = 1,
             user_data = {
               dotfiles = {
