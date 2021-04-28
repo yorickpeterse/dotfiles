@@ -1,4 +1,5 @@
 require 'pry-theme'
+require 'pry-doc'
 
 Pry.config.theme = 'paper'
 
