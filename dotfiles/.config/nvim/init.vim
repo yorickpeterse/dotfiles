@@ -177,6 +177,9 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 let g:NERDCreateDefaultMappings = 0
 
+" AutoPairs {{{1
+let g:AutoPairsShortcutFastWrap = '<C-e>'
+
 " ALE {{{1
 let g:ale_disable_lsp = 1
 let g:ale_sign_error = '✖'
