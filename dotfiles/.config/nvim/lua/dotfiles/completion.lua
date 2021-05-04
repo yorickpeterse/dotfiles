@@ -37,6 +37,7 @@ local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
 local text_kind = ''
 local snippet_kind = ''
+local keyword_kind = ''
 
 local function is_confirmed()
   return vim.b[confirmed_var] == true
@@ -334,6 +335,7 @@ function M.start(findstart, base)
     return fallback_completion(base)
   end
 
+  local comp_line = api.nvim_win_get_cursor(0)[1]
   local start_pos, prefix = unpack(completion_position())
   local params = lsp.util.make_position_params()
   local items = snippet_completion_items(bufnr, start_pos, prefix)
@@ -357,7 +359,7 @@ function M.start(findstart, base)
       -- is inserted when changing the selected entry.
       for _, item in ipairs(lsp_items) do
         -- Keywords are ignored as I find them too distracting.
-        if item.kind ~= 'Keyword' then
+        if item.kind ~= keyword_kind then
           local completion = item.user_data.nvim.lsp.completion_item
 
           -- The text to insert will include the placeholders, which we don't
@@ -367,12 +369,12 @@ function M.start(findstart, base)
 
           item.user_data = {
             dotfiles = {
-              -- The raw text will be used to properly expand snippets. This is
-              -- handled by the complete_done() function.
+              -- The raw text will be used to properly expand snippets. This
+              -- is handled by the complete_done() function.
               expand = text_to_expand(completion),
               source = 'lsp',
-              line = completion.textEdit.range.start.line,
-              column = completion.textEdit.range.start.character
+              line = comp_line - 1,
+              column = start_pos - 1
             }
           }
 
