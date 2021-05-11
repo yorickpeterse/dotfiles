@@ -9,8 +9,10 @@ _G.dotfiles = {
   -- diagnostics.
   show_line_diagnostics = function()
     local bufnr = vim.fn.bufnr('')
-    local lsp_bufnr, _ =
-      vim.lsp.diagnostic.show_line_diagnostics({}, bufnr)
+    local lsp_bufnr, _ = vim
+      .lsp
+      .diagnostic
+      .show_line_diagnostics({ severity_limit = 'Warning' }, bufnr)
 
     -- LSP diagnostics take priority over ALE diagnostics.
     if lsp_bufnr ~= nil then
@@ -21,9 +23,19 @@ _G.dotfiles = {
     local items = vim.fn['ale#util#FindItemAtCursor'](bufnr)[1].loclist
     local lines = { 'Diagnostics:' }
 
+    if items == nil then
+      return
+    end
+
     for _, item in ipairs(items) do
       if item.lnum == line then
-        table.insert(lines, #lines .. '. ' .. item.text)
+        local msg_lines = vim.split(item.text, "\n", true)
+
+        table.insert(lines, #lines .. '. ' .. msg_lines[1])
+
+        for i = 2, #msg_lines do
+          table.insert(lines, msg_lines[i])
+        end
       end
     end
 

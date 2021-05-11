@@ -118,7 +118,9 @@ vim.lsp.diagnostic.set_signs = function(diagnostics, bufnr, _, _, _)
         items,
         {
           nr = item.code,
-          text = item.message,
+          -- ALE doesn't handle newlines in messages very well, so we only send
+          -- over the first line.
+          text = vim.split(item.message, "\n", true)[1],
           lnum = item.range.start.line+1,
           end_lnum = item.range['end'].line,
           col = item.range.start.character+1,
