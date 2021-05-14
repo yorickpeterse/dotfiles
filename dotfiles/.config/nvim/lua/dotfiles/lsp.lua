@@ -2,71 +2,104 @@
 
 local config = require('lspconfig')
 
--- Customise the Markdown hover popup. This is a hack, but sadly NeoVim doesn't
--- offer an easier way at this time.
-local old_markdown = vim.lsp.util.fancy_floating_markdown
+-- Markdown popup {{{1
+do
+  local default = vim.lsp.util.fancy_floating_markdown
 
-vim.lsp.util.fancy_floating_markdown = function(contents, opts)
-  local local_opts = {
-    max_width = 120,
-    max_height = 20,
-    separator = false
-  }
+  vim.lsp.util.fancy_floating_markdown = function(contents, opts)
+    local local_opts = {
+      max_width = 120,
+      max_height = 20,
+      separator = false
+    }
 
-  local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
+    local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
 
-  return old_markdown(contents, combined_opts)
+    return default(contents, combined_opts)
+  end
 end
 
--- This enables a border for all LSP related floating windows.
-local old_make_opts = vim.lsp.util.make_floating_popup_options
+-- Floating window borders {{{1
+do
+  local default = vim.lsp.util.make_floating_popup_options
 
-vim.lsp.util.make_floating_popup_options = function(width, height, opts)
-  local new_opts =
-    vim.tbl_deep_extend('force', opts or {}, { border = 'single' })
+  vim.lsp.util.make_floating_popup_options = function(width, height, opts)
+    local new_opts =
+      vim.tbl_deep_extend('force', opts or {}, { border = 'single' })
 
-  return old_make_opts(width, height, new_opts)
+    return default(width, height, new_opts)
+  end
 end
 
--- Enable support for LSP snippets
+-- Snippet support {{{1
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
--- Configure how/when diagnostics are displayed
-vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics,
-  {
-    underline = false,
+-- Diagnostics {{{1
+do
+  local event = 'textDocument/publishDiagnostics'
+  local default = vim.lsp.handlers[event]
+  local config = {
+    underline = true,
     virtual_text = false,
     signs = true,
-    update_in_insert = false
+    update_in_insert = false,
+    severity_sort = true
   }
-)
 
--- Routes LSP diagnostics to ALE
---
--- This is based on https://github.com/nathunsmitty/nvim-ale-diagnostic, with
--- some extra enhancements.
-local ale_diagnostic_severity_map = {
-  [vim.lsp.protocol.DiagnosticSeverity.Error] = 'E';
-  [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W';
-  [vim.lsp.protocol.DiagnosticSeverity.Information] = 'I';
-  [vim.lsp.protocol.DiagnosticSeverity.Hint] = 'I';
-}
+  local severities = {
+    [vim.lsp.protocol.DiagnosticSeverity.Error] = 'E',
+    [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W',
+  }
 
-local lsp_original_clear = vim.lsp.diagnostic.clear
+  -- I'm using a custom handler for populating the location list. For some
+  -- reason using vim.lsp.diagnostic.set_loclist() produces an empty location
+  -- list; perhaps due to a timing issue of some sort.
+  --
+  -- In addition, using a custom handler makes it easier to customise the
+  -- behaviour/format.
+  vim.lsp.handlers[event] = function(err, method, result, client_id, unused, _)
+    default(err, method, result, client_id, unused, config)
 
-vim.lsp.diagnostic.clear = function(bufnr, client_id, diagnostic_ns, sign_ns)
-  lsp_original_clear(bufnr, client_id, diagnostic_ns, sign_ns)
+    local items = {}
+    local bufnr = vim.api.nvim_get_current_buf()
 
-  vim.api.nvim_call_function(
-    'ale#other_source#ShowResults',
-    { bufnr, 'nvim-lsp', {} }
-  )
+    for _, diag in ipairs(vim.lsp.diagnostic.get(bufnr, client_id)) do
+      if diag.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
+        local pos = diag.range.start
+        local row = pos.line
+        local col = vim.lsp.util.character_offset(bufnr, row, pos.character)
+        local line =
+          (vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false) or { '' })[1]
+
+        table.insert(items, {
+          bufnr = bufnr,
+          lnum = row + 1,
+          col = col + 1,
+          text = diag.message,
+          type = severities[diag.severity or vim.lsp.protocol.DiagnosticSeverity.Error] or 'E',
+        })
+      end
+    end
+
+    table.sort(items, function(a, b) return a.lnum < b.lnum end)
+
+    vim.lsp.util.set_loclist(items)
+  end
 end
 
--- Set up symbols for LSP completion.
+-- Signs {{{1
+do
+  local default = vim.lsp.diagnostic.set_signs
+  local config = { severity_limit = 'Warning' }
+
+  vim.lsp.diagnostic.set_signs = function(diagnostics, bufnr, client_id, sign_ns, _)
+    default(diagnostics, bufnr, client_id, sign_ns, config)
+  end
+end
+
+-- Completion symbols {{{1
 local lsp_symbols = {
   Class = '𝗖',
   Color = '',
@@ -103,41 +136,7 @@ for kind, symbol in pairs(lsp_symbols) do
   end
 end
 
-vim.lsp.diagnostic.set_signs = function(diagnostics, bufnr, _, _, _)
-  if not diagnostics then
-    return
-  end
-
-  local items = {}
-
-  for _, item in ipairs(diagnostics) do
-    -- We only want errors and warnings, as hints/informal messages are almost
-    -- always just noise.
-    if item.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
-      table.insert(
-        items,
-        {
-          nr = item.code,
-          -- ALE doesn't handle newlines in messages very well, so we only send
-          -- over the first line.
-          text = vim.split(item.message, "\n", true)[1],
-          lnum = item.range.start.line+1,
-          end_lnum = item.range['end'].line,
-          col = item.range.start.character+1,
-          end_col = item.range['end'].character,
-          type = ale_diagnostic_severity_map[item.severity]
-        }
-      )
-    end
-  end
-
-  vim.api.nvim_call_function(
-    'ale#other_source#ShowResults',
-    { bufnr, 'nvim-lsp', items }
-  )
-end
-
--- Rust
+-- Rust {{{1
 config.rust_analyzer.setup {
   root_dir = config.util.root_pattern('Cargo.toml', 'rustfmt.toml'),
   capabilities = capabilities,
@@ -170,7 +169,7 @@ config.rust_analyzer.setup {
   }
 }
 
--- Python
+-- Python {{{1
 config.jedi_language_server.setup {
   capabilities = capabilities,
   flags = {
@@ -186,10 +185,12 @@ config.jedi_language_server.setup {
   }
 }
 
--- Go
+-- Go {{{1
 config.gopls.setup {
   capabilities = capabilities,
   flags = {
     allow_incremental_sync = true
   },
 }
+
+-- vim: set foldmethod=marker

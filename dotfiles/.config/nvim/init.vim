@@ -20,11 +20,11 @@ Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'yssl/QFEnter'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'mfussenegger/nvim-lint'
 
 call plug#end()
 
@@ -75,6 +75,14 @@ color paper
 " dealing with large files.
 set nocursorcolumn
 set nocursorline
+
+" LSP {{{1
+sign define LspDiagnosticsSignError text=▮ numhl=ErrorMsg texthl=ErrorMsg
+sign define LspDiagnosticsSignWarning text=▮ numhl=Yellow texthl=Yellow
+
+hi! Yellow guifg=#b58900 guibg=NONE gui=bold
+hi! link LspDiagnosticsUnderlineError ErrorMsg
+hi! link LspDiagnosticsUnderlineWarning WarningMsg
 
 " Leader key {{{1
 map <space> <nop>
@@ -137,10 +145,8 @@ endfunction
 
 set tabline=%!init#Tabline()
 
-function! init#AleWarnings() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:errors = l:counts.error + l:counts.style_error
-  let l:warnings = l:counts.total - l:errors
+function! init#LspWarnings() abort
+  let l:warnings = luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
 
   if l:warnings > 0
     return printf("\u2002W: %d\u2002", warnings)
@@ -149,9 +155,8 @@ function! init#AleWarnings() abort
   return ''
 endfunction
 
-function! init#AleErrors() abort
-  let l:counts = ale#statusline#Count(bufnr(''))
-  let l:errors = l:counts.error + l:counts.style_error
+function! init#LspErrors() abort
+  let l:errors = luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
 
   if l:errors > 0
     return printf("\u2002E: %d\u2002", errors)
@@ -161,8 +166,8 @@ function! init#AleErrors() abort
 endfunction
 
 set statusline=%f\ %w%m%r%=
-set statusline+=%#WhiteOnYellow#%{init#AleWarnings()}%*
-set statusline+=%#WhiteOnRed#%{init#AleErrors()}%*
+set statusline+=%#WhiteOnYellow#%{init#LspWarnings()}%*
+set statusline+=%#WhiteOnRed#%{init#LspErrors()}%*
 
 " netrw {{{1
 let g:netrw_liststyle = 3
@@ -179,31 +184,6 @@ let g:NERDCreateDefaultMappings = 0
 
 " AutoPairs {{{1
 let g:AutoPairsShortcutFastWrap = '<C-e>'
-
-" ALE {{{1
-let g:ale_disable_lsp = 1
-let g:ale_sign_error = '✖'
-let g:ale_sign_warning = '●'
-let g:ale_virtualtext_cursor = 0
-let g:ale_echo_msg_format = '[%linter%]: %s'
-let g:ale_lint_on_enter = 1
-let g:ale_fix_on_save = 1
-let g:ale_fix_on_enter = 0
-let g:ale_lint_on_text_changed = 'never'
-let g:ale_lint_on_insert_leave = 0
-let g:ale_linters = {
-  \ 'rust': [],
-  \ 'go': [],
-  \ 'ruby': ['ruby', 'rubocop'],
-  \ 'python': ['flake8'],
-  \ 'markdown': ['vale']
-  \ }
-
-let g:ale_fixers = {
-  \ 'javascript': 'prettier'
-  \ }
-
-let g:ale_python_flake8_auto_pipenv = 1
 
 " Code completion {{{1
 set completefunc=v:lua.dotfiles.completion.start
@@ -357,6 +337,7 @@ endfunction
 
 autocmd BufWritePre *.rs call init#formatBuffer()
 autocmd BufWritePre *.go call init#formatBuffer()
+autocmd BufWritePost * lua require('lint').try_lint()
 
 " Mappings {{{1
 " Generic {{{2
