@@ -45,7 +45,7 @@ set splitright
 set title
 set pumheight=30
 set mouse=
-set shortmess=atOIc
+set shortmess=atOIcF
 set signcolumn=yes
 set colorcolumn=80
 set noruler
