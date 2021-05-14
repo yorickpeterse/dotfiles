@@ -65,7 +65,10 @@ do
     local items = {}
     local bufnr = vim.api.nvim_get_current_buf()
 
-    for _, diag in ipairs(vim.lsp.diagnostic.get(bufnr, client_id)) do
+    -- Multiple clients may produce diagnostics, so we add _all_ current
+    -- diagnostics to the location list; instead of the diagnostics for the
+    -- current callback.
+    for _, diag in ipairs(vim.lsp.diagnostic.get(bufnr)) do
       if diag.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
         local pos = diag.range.start
         local row = pos.line
@@ -193,4 +196,4 @@ config.gopls.setup {
   },
 }
 
--- vim: set foldmethod=marker
+-- vim: set foldmethod=marker:
