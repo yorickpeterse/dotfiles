@@ -70,16 +70,10 @@ do
     -- current callback.
     for _, diag in ipairs(vim.lsp.diagnostic.get(bufnr)) do
       if diag.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
-        local pos = diag.range.start
-        local row = pos.line
-        local col = vim.lsp.util.character_offset(bufnr, row, pos.character)
-        local line =
-          (vim.api.nvim_buf_get_lines(bufnr, row, row + 1, false) or { '' })[1]
-
         table.insert(items, {
           bufnr = bufnr,
-          lnum = row + 1,
-          col = col + 1,
+          lnum = diag.range.start.line + 1,
+          col = diag.range.start.character + 1,
           text = diag.message,
           type = severities[diag.severity or vim.lsp.protocol.DiagnosticSeverity.Error] or 'E',
         })
