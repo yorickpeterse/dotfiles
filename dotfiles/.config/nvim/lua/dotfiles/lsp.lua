@@ -74,7 +74,7 @@ do
           bufnr = bufnr,
           lnum = diag.range.start.line + 1,
           col = diag.range.start.character + 1,
-          text = diag.message,
+          text = vim.split(diag.message, "\n")[1],
           type = severities[diag.severity or vim.lsp.protocol.DiagnosticSeverity.Error] or 'E',
         })
       end
