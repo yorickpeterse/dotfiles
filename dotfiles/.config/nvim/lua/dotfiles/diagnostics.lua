@@ -17,6 +17,10 @@ local warning_hlgroup = 'WarningMsg'
 -- The highlight group to use for error messages.
 local error_hlgroup = 'ErrorMsg'
 
+-- If the first diagnostic line has fewer than this many characters, also add
+-- the second line to it.
+local short_line_limit = 20
+
 -- Shows the current line's diagnostics in a floating window.
 function M.show_line_diagnostics()
   vim
@@ -60,9 +64,14 @@ function M.echo_diagnostic()
       last_echo = { true, bufnr, line }
 
       local diag = diags[1]
-      local width = vim.api.nvim_win_get_width(0) - 15
-      local message = vim.split(diag.message, "\n")[1]
+      local width = vim.api.nvim_get_option('columns') - 15
+      local lines = vim.split(diag.message, "\n")
+      local message = lines[1]
       local trimmed = false
+
+      if #lines > 1 and #message <= short_line_limit then
+        message = message .. ' ' .. lines[2]
+      end
 
       if width > 0 and #message >= width then
         message = message:sub(1, width) .. '...'
