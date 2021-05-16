@@ -428,17 +428,8 @@ function! init#stab() abort
   end
 endfunction
 
-function init#enter() abort
-  if pumvisible()
-    return v:lua.dotfiles.completion.confirm()
-  else
-    return "\<C-g>u\<CR>"
-  end
-endfunction
-
 inoremap <silent><expr> <tab> init#tab()
 inoremap <silent><expr> <S-tab> init#stab()
-inoremap <silent><expr> <cr> init#enter()
 
 " vsnip {{{2
 imap <expr> <C-s> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-s>'
