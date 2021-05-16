@@ -10,7 +10,7 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'jiangmiao/auto-pairs'
+Plug 'steelsojka/pears.nvim'
 Plug 'rust-lang/rust.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
@@ -182,13 +182,13 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 let g:NERDCreateDefaultMappings = 0
 
-" AutoPairs {{{1
-let g:AutoPairsShortcutFastWrap = '<C-e>'
-
 " Code completion {{{1
 set completefunc=v:lua.dotfiles.completion.start
 
 autocmd CompleteDonePre * :lua dotfiles.completion.done()
+
+" LSP
+autocmd CursorMoved * :lua dotfiles.diagnostics.echo_diagnostic()
 
 " gutentags {{{1
 let g:gutentags_ctags_exclude = [
@@ -380,7 +380,7 @@ map <silent> <leader>r :lua vim.lsp.buf.rename()<CR>
 map <silent> <leader>d :lua vim.lsp.buf.definition()<CR>
 map <silent> <leader>i :lua vim.lsp.buf.references()<CR>
 map <silent> <leader>a :lua vim.lsp.buf.code_action()<CR>
-map <silent> <leader>e :lua dotfiles.show_line_diagnostics()<CR>
+map <silent> <leader>e :lua dotfiles.diagnostics.show_line_diagnostics()<CR>
 
 " Terminals {{{2
 
