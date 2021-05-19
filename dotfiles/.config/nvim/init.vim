@@ -10,7 +10,7 @@ let g:plug_url_format = 'git@github.com:%s.git'
 
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'steelsojka/pears.nvim'
+Plug 'windwp/nvim-autopairs'
 Plug 'rust-lang/rust.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
@@ -24,7 +24,6 @@ Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'yssl/QFEnter'
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/vim-vsnip'
-Plug 'mfussenegger/nvim-lint'
 
 call plug#end()
 
@@ -337,7 +336,7 @@ endfunction
 
 autocmd BufWritePre *.rs call init#formatBuffer()
 autocmd BufWritePre *.go call init#formatBuffer()
-autocmd BufWritePost * lua require('lint').try_lint()
+autocmd BufWritePost * lua dotfiles.lint.lint()
 
 " Mappings {{{1
 " Generic {{{2
@@ -428,8 +427,17 @@ function! init#stab() abort
   end
 endfunction
 
+function! init#cr() abort
+  if pumvisible()
+    return v:lua.dotfiles.completion.confirm()
+  else
+    return v:lua.dotfiles.pairs.enter()
+  end
+endfunction
+
 inoremap <silent><expr> <tab> init#tab()
 inoremap <silent><expr> <S-tab> init#stab()
+inoremap <silent><expr> <cr> init#cr()
 
 " vsnip {{{2
 imap <expr> <C-s> vsnip#expandable() ? '<Plug>(vsnip-expand)' : '<C-s>'

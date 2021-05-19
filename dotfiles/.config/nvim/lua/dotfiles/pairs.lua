@@ -1,34 +1,29 @@
-local pears = require('pears')
-local R = require('pears/rule')
-local completion = require('dotfiles/completion')
+local pairs = require('nvim-autopairs')
+local Rule = require('nvim-autopairs/rule')
 
-local not_after_alpha = R.not_(R.start_of_context('[a-zA-Z]'))
+pairs.setup()
 
-pears.setup(function(conf)
-  conf.on_enter(function(pears)
-    if vim.fn.pumvisible() == 1 then
-      return completion.confirm()
-    else
-      return pears()
-    end
-  end)
+-- Disable matching of single quotes in Rust.
+pairs.get_rule("'"):with_pair(function()
+  if vim.bo.filetype == 'rust' then
+    return false
+  end
 
-  conf.pair('{ ', { close = ' }' })
-  conf.pair('[ ', { close = ' ]' })
-  conf.pair('( ', { close = ' )' })
-
-  conf.pair("'", {
-    should_expand = function(rule)
-      -- Rust uses single quotes for both lifetimes and characters. As
-      -- characters are used less often compared to lifetimes, we disable
-      -- single quote expansion for Rust.
-      if rule.lang == 'rust' then
-        return false
-      end
-
-      return not_after_alpha(rule)
-    end,
-  })
-
-  conf.pair('"', { should_expand = not_after_alpha })
+  return true
 end)
+
+-- When pressing a space after a pair, insert an extra space before the closing
+-- pair.
+local space_pairs = { '()', '[]', '{}' }
+
+pairs.add_rules({
+  Rule(' ', ' '):with_pair(function(opts)
+    local pair = opts.line:sub(opts.col, opts.col + 1)
+
+    return vim.tbl_contains(space_pairs, pair)
+  end),
+})
+
+return {
+  enter = pairs.autopairs_cr
+}
