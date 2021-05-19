@@ -48,6 +48,10 @@ end
 function M.find_file(name)
   local relative = vim.fn.findfile(name, M.buffer_directory() .. ';')
 
+  if relative == '' then
+    return ''
+  end
+
   return vim.fn.fnamemodify(relative, ':p')
 end
 

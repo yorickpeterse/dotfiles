@@ -27,11 +27,15 @@ local function rubocop_in_gemfile(path)
     return false
   end
 
-  local found = uv.fs_read(fd, stat.size):match(' rubocop ')
+  local data = uv.fs_read(fd, stat.size)
+
+  if not data then
+    return false
+  end
 
   uv.fs_close(fd)
 
-  return found ~= nil
+  return data:match(' rubocop ') ~= nil
 end
 
 lint.linter('ruby', {
