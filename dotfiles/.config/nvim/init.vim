@@ -11,7 +11,7 @@ let g:plug_url_format = 'git@github.com:%s.git'
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'windwp/nvim-autopairs'
-Plug 'rust-lang/rust.vim'
+Plug 'YorickPeterse/rust.vim'
 Plug 'preservim/nerdcommenter'
 Plug 'tpope/vim-fugitive'
 Plug 'dag/vim-fish'
