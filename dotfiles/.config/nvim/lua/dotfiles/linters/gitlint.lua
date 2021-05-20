@@ -1,5 +1,5 @@
-local lint = require('dotfiles/lint')
-local util = require('dotfiles/lint/util')
+local lint = require('dotfiles.lint')
+local util = require('dotfiles.lint.util')
 
 local config_file = '.gitlint'
 

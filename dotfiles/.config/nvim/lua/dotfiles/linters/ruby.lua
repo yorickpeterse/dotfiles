@@ -1,4 +1,4 @@
-local lint = require('dotfiles/lint')
+local lint = require('dotfiles.lint')
 local severities = vim.lsp.protocol.DiagnosticSeverity
 
 lint.linter('ruby', {

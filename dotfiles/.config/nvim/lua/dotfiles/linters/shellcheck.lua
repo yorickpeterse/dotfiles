@@ -1,5 +1,5 @@
-local lint = require('dotfiles/lint')
-local util = require('dotfiles/lint/util')
+local lint = require('dotfiles.lint')
+local util = require('dotfiles.lint.util')
 
 local severities = {
   error = vim.lsp.protocol.DiagnosticSeverity.Error,
