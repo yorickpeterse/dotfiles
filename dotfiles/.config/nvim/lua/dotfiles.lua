@@ -1,3 +1,4 @@
+require('dotfiles.packages')
 require('dotfiles.lsp')
 require('dotfiles.linters.flake8')
 require('dotfiles.linters.gitlint')

@@ -5,28 +5,6 @@
 let g:python3_host_prog = '/usr/bin/python'
 let g:python_host_prog = '/usr/bin/python2'
 
-" Plugins {{{1
-let g:plug_url_format = 'git@github.com:%s.git'
-
-call plug#begin('~/.config/nvim/plugged')
-
-Plug 'windwp/nvim-autopairs'
-Plug 'YorickPeterse/rust.vim'
-Plug 'preservim/nerdcommenter'
-Plug 'tpope/vim-fugitive'
-Plug 'dag/vim-fish'
-Plug 'git@gitlab.com:inko-lang/inko.vim.git'
-Plug 'git@gitlab.com:yorickpeterse/vim-paper.git'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'junegunn/fzf'
-Plug 'junegunn/fzf.vim'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'yssl/QFEnter'
-Plug 'neovim/nvim-lspconfig'
-Plug 'hrsh7th/vim-vsnip'
-
-call plug#end()
-
 " Lua setup {{{1
 lua require('dotfiles')
 
@@ -462,5 +440,9 @@ command! Tterm call s:openTerm('tabnew')
 " tab and you want to close all buffers in that tab.
 command! Tq windo q
 command! Init e ~/.config/nvim/init.vim
+
+" Commands for managing packages
+command! PackageUpdate lua require('dotfiles.package').update()
+command! PackageClean lua require('dotfiles.package').clean()
 
 " vim: fdm=marker
