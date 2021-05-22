@@ -88,6 +88,9 @@ augroup init_search_highlight
   autocmd CmdlineLeave [/\?] :set nohlsearch
 augroup END
 
+" Quickfix/location lists {{{1
+set quickfixtextfunc=v:lua.dotfiles.quickfix.format
+
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4

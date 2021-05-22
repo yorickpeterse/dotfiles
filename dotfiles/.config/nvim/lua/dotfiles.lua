@@ -1,5 +1,6 @@
 require('dotfiles.packages')
 require('dotfiles.lsp')
+
 require('dotfiles.linters.flake8')
 require('dotfiles.linters.gitlint')
 require('dotfiles.linters.inko')
@@ -14,4 +15,5 @@ _G.dotfiles = {
   diagnostics = require('dotfiles.diagnostics'),
   pairs = require('dotfiles.pairs'),
   lint = require('dotfiles.lint'),
+  quickfix = require('dotfiles.quickfix'),
 }
