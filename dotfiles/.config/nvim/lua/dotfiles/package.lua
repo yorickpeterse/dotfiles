@@ -33,11 +33,6 @@ local function progress(state)
   }
 
   api.nvim_echo(lines, false, {})
-
-  if current == total then
-    api.nvim_echo({}, false, {})
-  end
-
   vim.cmd('redraw')
 end
 
@@ -125,6 +120,7 @@ local function wait(state)
   vim.wait(timeout, function() return state.done == state.total end)
   vim.cmd('helptags ALL')
   show_failures(state)
+  api.nvim_echo({}, false, {})
 end
 
 -- Returns `true` if the given package is installed.
@@ -181,11 +177,6 @@ local function update(package, state)
   })
 end
 
--- Updates all remote plugins
-local function update_remote_plugins()
-  vim.cmd('silent UpdateRemotePlugins')
-end
-
 -- Removes an unrecognised directory
 local function remove_directory(dir, state)
   spawn({
@@ -230,7 +221,6 @@ local function install_pending()
   end
 
   wait(state)
-  update_remote_plugins()
 end
 
 -- Activates all installed packages
@@ -305,7 +295,6 @@ function M.update()
   end
 
   wait(state)
-  update_remote_plugins()
 end
 
 -- Removes all unrecognised packages
