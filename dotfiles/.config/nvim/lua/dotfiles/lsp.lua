@@ -38,6 +38,8 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
 do
+  local timer = nil
+  local timeout = 100
   local event = 'textDocument/publishDiagnostics'
   local default = vim.lsp.handlers[event]
   local config = {
@@ -53,15 +55,7 @@ do
     [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W',
   }
 
-  -- I'm using a custom handler for populating the location list. For some
-  -- reason using vim.lsp.diagnostic.set_loclist() produces an empty location
-  -- list; perhaps due to a timing issue of some sort.
-  --
-  -- In addition, using a custom handler makes it easier to customise the
-  -- behaviour/format.
-  vim.lsp.handlers[event] = function(err, method, result, client_id, unused, _)
-    default(err, method, result, client_id, unused, config)
-
+  local function set_location_list()
     local items = {}
     local bufnr = vim.api.nvim_get_current_buf()
 
@@ -83,6 +77,25 @@ do
     table.sort(items, function(a, b) return a.lnum < b.lnum end)
 
     vim.lsp.util.set_loclist(items)
+  end
+
+  -- I'm using a custom handler for populating the location list. For some
+  -- reason using vim.lsp.diagnostic.set_loclist() produces an empty location
+  -- list; perhaps due to a timing issue of some sort.
+  --
+  -- In addition, using a custom handler makes it easier to customise the
+  -- behaviour/format.
+  vim.lsp.handlers[event] = function(err, method, result, client_id, unused, _)
+    default(err, method, result, client_id, unused, config)
+
+    if timer then
+      timer:stop()
+    end
+
+    -- This callback gets called _a lot_. Populating the location list every
+    -- time can sometimes lead to empty or out of sync location lists. To
+    -- prevent this from happening we defer updating the location list.
+    timer = vim.defer_fn(set_location_list, timeout)
   end
 end
 
