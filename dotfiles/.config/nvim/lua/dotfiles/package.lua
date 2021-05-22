@@ -1,7 +1,9 @@
 -- A small and opinionated package manager.
-local M = {}
+local reader = require('dotfiles.util').reader
 local uv = vim.loop
 local api = vim.api
+
+local M = {}
 
 -- The root directory to install all plugins into.
 local root = vim.fn.stdpath('data') .. '/site/pack/packages/opt/'
@@ -34,19 +36,6 @@ local function progress(state)
 
   api.nvim_echo(lines, false, {})
   vim.cmd('redraw')
-end
-
--- Returns a function for reading output from an output stream.
-local function reader(done)
-  local output = ''
-
-  return function(err, chunk)
-    if chunk then
-      output = output .. chunk
-    else
-      done(output)
-    end
-  end
 end
 
 local function new_state(title, total)
