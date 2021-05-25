@@ -55,14 +55,13 @@ do
     [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W',
   }
 
-  local function set_location_list()
+  local function set_location_list(diagnostics, bufnr)
     local items = {}
-    local bufnr = vim.api.nvim_get_current_buf()
 
     -- Multiple clients may produce diagnostics, so we add _all_ current
     -- diagnostics to the location list; instead of the diagnostics for the
     -- current callback.
-    for _, diag in ipairs(vim.lsp.diagnostic.get(bufnr)) do
+    for _, diag in ipairs(diagnostics) do
       if diag.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
         table.insert(items, {
           bufnr = bufnr,
@@ -76,7 +75,17 @@ do
 
     table.sort(items, function(a, b) return a.lnum < b.lnum end)
 
-    vim.lsp.util.set_loclist(items)
+    -- Using window ID 0 doesn't work reliably. For example, if diagnostics are
+    -- being published while the active window is changed, we may end up setting
+    -- the location list for the wrong window.
+    --
+    -- See https://github.com/neovim/neovim/issues/14639 for more details.
+    local window = vim.fn.bufwinnr(bufnr)
+
+    vim.fn.setloclist(window, {}, ' ', {
+      title = 'Language Server',
+      items = items,
+    })
   end
 
   -- I'm using a custom handler for populating the location list. For some
@@ -88,6 +97,21 @@ do
   vim.lsp.handlers[event] = function(err, method, result, client_id, unused, _)
     default(err, method, result, client_id, unused, config)
 
+    -- if timer then
+    --   timer:stop()
+    -- end
+
+    -- This callback gets called _a lot_. Populating the location list every
+    -- time can sometimes lead to empty or out of sync location lists. To
+    -- prevent this from happening we defer updating the location list.
+    -- timer = vim.defer_fn(set_location_list, timeout)
+  end
+
+  local display = vim.lsp.diagnostic.display
+
+  vim.lsp.diagnostic.display = function(diagnostics, bufnr, client_id, config)
+    display(diagnostics, bufnr, client_id, config)
+
     if timer then
       timer:stop()
     end
@@ -95,7 +119,8 @@ do
     -- This callback gets called _a lot_. Populating the location list every
     -- time can sometimes lead to empty or out of sync location lists. To
     -- prevent this from happening we defer updating the location list.
-    timer = vim.defer_fn(set_location_list, timeout)
+    timer =
+      vim.defer_fn(function() set_location_list(diagnostics, bufnr) end, timeout)
   end
 end
 
