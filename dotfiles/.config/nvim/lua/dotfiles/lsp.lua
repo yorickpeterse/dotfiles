@@ -103,7 +103,6 @@ do
       -- Clear the cache when the buffer unloads
       vim.api.nvim_buf_attach(bufnr, false, {
         on_detach = function()
-          vim.api.nvim_echo({ { vim.inspect(timeouts) } }, false, {})
           timeouts[bufnr] = nil
         end
       })
