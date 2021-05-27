@@ -38,18 +38,6 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
 do
-  local timer = nil
-  local timeout = 100
-  local event = 'textDocument/publishDiagnostics'
-  local default = vim.lsp.handlers[event]
-  local config = {
-    underline = true,
-    virtual_text = false,
-    signs = true,
-    update_in_insert = false,
-    severity_sort = true
-  }
-
   local severities = {
     [vim.lsp.protocol.DiagnosticSeverity.Error] = 'E',
     [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W',
@@ -88,38 +76,44 @@ do
     })
   end
 
-  -- I'm using a custom handler for populating the location list. For some
-  -- reason using vim.lsp.diagnostic.set_loclist() produces an empty location
-  -- list; perhaps due to a timing issue of some sort.
-  --
-  -- In addition, using a custom handler makes it easier to customise the
-  -- behaviour/format.
-  vim.lsp.handlers[event] = function(err, method, result, client_id, unused, _)
-    default(err, method, result, client_id, unused, config)
-
-    -- if timer then
-    --   timer:stop()
-    -- end
-
-    -- This callback gets called _a lot_. Populating the location list every
-    -- time can sometimes lead to empty or out of sync location lists. To
-    -- prevent this from happening we defer updating the location list.
-    -- timer = vim.defer_fn(set_location_list, timeout)
-  end
+  vim.lsp.handlers['textDocument/publishDiagnostics'] =
+    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+      underline = true,
+      virtual_text = false,
+      signs = true,
+      update_in_insert = false,
+      severity_sort = true
+    })
 
   local display = vim.lsp.diagnostic.display
+  local timeout = 100
+  local timeouts = {}
 
+  -- This callback gets called _a lot_. Populating the location list every time
+  -- can sometimes lead to empty or out of sync location lists. To prevent this
+  -- from happening we defer updating the location list.
   vim.lsp.diagnostic.display = function(diagnostics, bufnr, client_id, config)
     display(diagnostics, bufnr, client_id, config)
 
-    if timer then
-      timer:stop()
+    -- Timers are stored per buffer and client, otherwise diagnostics produced
+    -- for one buffer/client may reset the timer of an unrelated buffer/client.
+    if timeouts[bufnr] == nil then
+      timeouts[bufnr] = {}
+
+      -- Clear the cache when the buffer unloads
+      vim.api.nvim_buf_attach(bufnr, false, {
+        on_detach = function()
+          vim.api.nvim_echo({ { vim.inspect(timeouts) } }, false, {})
+          timeouts[bufnr] = nil
+        end
+      })
     end
 
-    -- This callback gets called _a lot_. Populating the location list every
-    -- time can sometimes lead to empty or out of sync location lists. To
-    -- prevent this from happening we defer updating the location list.
-    timer =
+    if timeouts[bufnr][client_id] then
+      timeouts[bufnr][client_id]:stop()
+    end
+
+    timeouts[bufnr][client_id] =
       vim.defer_fn(function() set_location_list(diagnostics, bufnr) end, timeout)
   end
 end

@@ -57,23 +57,29 @@ function M.format(info)
 
   for i = info.start_idx, info.end_idx do
     local item = items[i]
-    local path = trim_path(fn.bufname(item.bufnr))
-    local location = path .. ':' .. item.lnum .. ':' .. item.col
-    local size = #location
 
-    if size > pad_to then
-      pad_to = size
+    if item then
+      local path = trim_path(fn.bufname(item.bufnr))
+      local location = path .. ':' .. item.lnum .. ':' .. item.col
+      local size = #location
+
+      if size > pad_to then
+        pad_to = size
+      end
+
+      item.location = location
     end
-
-    item.location = location
   end
 
   for list_index = info.start_idx, info.end_idx do
     local item = items[list_index]
-    local location = util.pad_right(item.location, pad_to)
-    local kind = type_mapping[item.type] or ''
 
-    table.insert(lines, kind .. location .. fn.trim(item.text))
+    if item then
+      local location = util.pad_right(item.location, pad_to)
+      local kind = type_mapping[item.type] or ''
+
+      table.insert(lines, kind .. location .. fn.trim(item.text))
+    end
   end
 
   return lines
