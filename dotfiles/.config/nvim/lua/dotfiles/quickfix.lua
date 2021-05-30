@@ -60,7 +60,12 @@ function M.format(info)
 
     if item then
       local path = trim_path(fn.bufname(item.bufnr))
-      local location = path .. ':' .. item.lnum .. ':' .. item.col
+      local location = path .. ':' .. item.lnum
+
+      if item.col > 0 then
+        location = location .. ':' .. item.col
+      end
+
       local size = #location
 
       if size > pad_to then
