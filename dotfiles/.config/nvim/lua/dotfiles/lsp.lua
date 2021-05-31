@@ -95,6 +95,10 @@ do
   vim.lsp.diagnostic.display = function(diagnostics, bufnr, client_id, config)
     display(diagnostics, bufnr, client_id, config)
 
+    if not diagnostics then
+      return
+    end
+
     -- Timers are stored per buffer and client, otherwise diagnostics produced
     -- for one buffer/client may reset the timer of an unrelated buffer/client.
     if timeouts[bufnr] == nil then
