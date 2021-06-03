@@ -57,10 +57,6 @@ set nocursorline
 sign define LspDiagnosticsSignError text=▮ numhl=ErrorMsg texthl=ErrorMsg
 sign define LspDiagnosticsSignWarning text=▮ numhl=Yellow texthl=Yellow
 
-hi! Yellow guifg=#b58900 guibg=NONE gui=bold
-hi! link LspDiagnosticsUnderlineError ErrorMsg
-hi! link LspDiagnosticsUnderlineWarning WarningMsg
-
 " Leader key {{{1
 map <space> <nop>
 let mapleader = ' '
