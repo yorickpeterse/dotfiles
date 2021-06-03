@@ -240,6 +240,10 @@ function M.use(spec)
     url = 'https://github.com/' .. path .. '.git'
   end
 
+  if not url:match('.git$') then
+    url = url .. '.git'
+  end
+
   local name_chunks = vim.split(path, '/', true)
   local name = name_chunks[#name_chunks]:gsub('\\.git', '')
 
