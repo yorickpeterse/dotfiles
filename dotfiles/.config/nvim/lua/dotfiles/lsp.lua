@@ -4,9 +4,9 @@ local config = require('lspconfig')
 
 -- Markdown popup {{{1
 do
-  local default = vim.lsp.util.fancy_floating_markdown
+  local default = vim.lsp.util.open_floating_preview
 
-  vim.lsp.util.fancy_floating_markdown = function(contents, opts)
+  vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
     local local_opts = {
       max_width = 120,
       max_height = 20,
@@ -15,7 +15,7 @@ do
 
     local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
 
-    return default(contents, combined_opts)
+    return default(contents, syntax, combined_opts)
   end
 end
 
