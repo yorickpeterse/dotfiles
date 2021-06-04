@@ -443,5 +443,6 @@ command! Init e ~/.config/nvim/init.vim
 " Commands for managing packages
 command! PackageUpdate lua require('dotfiles.package').update()
 command! PackageClean lua require('dotfiles.package').clean()
+command! PackageEdit e ~/.config/nvim/lua/dotfiles/packages.lua
 
 " vim: fdm=marker
