@@ -63,17 +63,7 @@ do
 
     table.sort(items, function(a, b) return a.lnum < b.lnum end)
 
-    -- Using window ID 0 doesn't work reliably. For example, if diagnostics are
-    -- being published while the active window is changed, we may end up setting
-    -- the location list for the wrong window.
-    --
-    -- See https://github.com/neovim/neovim/issues/14639 for more details.
-    local window = vim.fn.bufwinnr(bufnr)
-
-    vim.fn.setloclist(window, {}, ' ', {
-      title = 'Language Server',
-      items = items,
-    })
+    vim.lsp.util.set_loclist(items, vim.fn.bufwinnr(bufnr))
   end
 
   vim.lsp.handlers['textDocument/publishDiagnostics'] =
