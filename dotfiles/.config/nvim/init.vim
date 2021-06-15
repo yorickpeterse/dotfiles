@@ -59,8 +59,8 @@ sign define LspDiagnosticsSignWarning text=▮ numhl=Yellow texthl=Yellow
 
 " Leader key {{{1
 map <space> <nop>
-let mapleader = ' '
-let maplocalleader = ' '
+let mapleader = ','
+let maplocalleader = ','
 
 " Search {{{
 set grepprg=rg\ --vimgrep
