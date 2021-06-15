@@ -15,5 +15,6 @@ use 'neovim/nvim-lspconfig'
 use 'hrsh7th/vim-vsnip'
 use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
 use 'https://gitlab.com/yorickpeterse/vim-paper'
+use 'phaazon/hop.nvim'
 
 package.install()
