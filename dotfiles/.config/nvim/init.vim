@@ -340,7 +340,7 @@ endfunction
 map <silent> <leader>z :call init#toggleSearchHighlight()<CR>
 
 " hop.nvim {{{2
-map <silent> <leader>s :HopWord<CR>
+map <silent> <leader>s <cmd>HopWord<CR>
 
 " FZF {{{2
 map <silent> <leader>f :Files<CR>
