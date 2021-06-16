@@ -337,7 +337,7 @@ function! init#toggleSearchHighlight()
   endif
 endfunction
 
-map <silent> <leader>s :call init#toggleSearchHighlight()<CR>
+map <silent> <leader>z :call init#toggleSearchHighlight()<CR>
 
 " hop.nvim {{{2
 map <silent> <leader>s :HopWord<CR>
