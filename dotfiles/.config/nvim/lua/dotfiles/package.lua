@@ -265,13 +265,15 @@ function M.install()
 end
 
 -- Updates all installed packages.
-function M.update()
+function M.update(to_update)
   local done = 0
   local pending = {}
 
   for _, package in pairs(packages) do
     if installed(package) then
-      table.insert(pending, package)
+      if not to_update or to_update == package.name then
+        table.insert(pending, package)
+      end
     end
   end
 
@@ -288,6 +290,23 @@ function M.update()
   end
 
   wait(state)
+end
+
+-- Returns a list of all installed package names.
+function M.names(start)
+  local names = {}
+
+  for _, package in pairs(packages) do
+    if installed(package) then
+      if not start or vim.startswith(package.name, start) then
+        table.insert(names, package.name)
+      end
+    end
+  end
+
+  table.sort(names)
+
+  return names
 end
 
 -- Removes all unrecognised packages

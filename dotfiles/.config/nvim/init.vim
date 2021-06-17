@@ -444,8 +444,11 @@ command! Tq windo q
 command! Init e ~/.config/nvim/init.vim
 
 " Commands for managing packages
-command! PackageUpdate lua require('dotfiles.package').update()
-command! PackageClean lua require('dotfiles.package').clean()
+command! -nargs=? -complete=customlist,v:lua.dotfiles.package.names
+  \ PackageUpdate
+  \ lua dotfiles.package.update(<f-args>)
+
+command! PackageClean lua dotfiles.package.clean()
 command! PackageEdit e ~/.config/nvim/lua/dotfiles/packages.lua
 
 " vim: fdm=marker
