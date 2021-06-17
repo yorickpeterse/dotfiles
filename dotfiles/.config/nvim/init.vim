@@ -451,4 +451,16 @@ command! -nargs=? -complete=customlist,v:lua.dotfiles.package.names
 command! PackageClean lua dotfiles.package.clean()
 command! PackageEdit e ~/.config/nvim/lua/dotfiles/packages.lua
 
+" Finds all occurrences of text stored in register A, replacing it with the
+" contents of register B.
+function! init#Replace(find, replace)
+  exe '%s/\V'
+    \ . substitute(escape(getreg(a:find), '/'), "\n", '\\n', "g")
+    \ . '/'
+    \ . substitute(escape(getreg(a:replace), '/&'), "\n", '\\r', "g")
+    \ . '/g'
+endfunction
+
+command! -nargs=+ Replace call init#Replace(<f-args>)
+
 " vim: fdm=marker
