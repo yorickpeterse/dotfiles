@@ -141,9 +141,20 @@ function! init#LspErrors() abort
   return ''
 endfunction
 
-set statusline=%f\ %w%m%r%=
-set statusline+=%#WhiteOnYellow#%{init#LspWarnings()}%*
-set statusline+=%#WhiteOnRed#%{init#LspErrors()}%*
+function! init#Statusline() abort
+  if g:statusline_winid == win_getid()
+    let l:file = '%#BlackOnLightYellow# %f %*'
+  else
+    let l:file = ' %f '
+  endif
+
+  let l:warnings = '%#WhiteOnYellow#%{init#LspWarnings()}%*'
+  let l:errors = '%#WhiteOnRed#%{init#LspErrors()}%*'
+
+  return l:file . '%w%m%r%=' . l:warnings . l:errors
+endfunction
+
+set statusline=%!init#Statusline()
 
 " netrw {{{1
 let g:netrw_liststyle = 3
