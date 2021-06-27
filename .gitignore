@@ -1,5 +1,6 @@
 dotfiles/bin/chromedriver
 dotfiles/bin/breaks
+dotfiles/bin/inko
 
 dotfiles/.config/fish/fishd.*
 dotfiles/.config/fish/private.fish
