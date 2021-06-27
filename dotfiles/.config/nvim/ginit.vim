@@ -3,6 +3,7 @@ if exists('g:GuiLoaded')
     GuiTabline 0
     GuiPopupmenu 0
     GuiLinespace 1
+    GuiRenderLigatures 1
 
     " Mouse settings, mostly so copy-pasting in :term buffers is a bit easier
     set mouse=a
