@@ -85,7 +85,11 @@ augroup init_search_highlight
 augroup END
 
 " Quickfix/location lists {{{1
-set quickfixtextfunc=v:lua.dotfiles.quickfix.format
+function! init#QuickfixTextFunc(info)
+  return luaeval('dotfiles.quickfix.format(_A)', a:info)
+endfunction
+
+set quickfixtextfunc=init#QuickfixTextFunc
 
 " Indentation settings {{{1
 set expandtab
@@ -170,7 +174,11 @@ let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 let g:NERDCreateDefaultMappings = 0
 
 " Code completion {{{1
-set completefunc=v:lua.dotfiles.completion.start
+function! init#Completefunc(a, b)
+  return luaeval('dotfiles.completion.start(unpack(_A))', [a:a, a:b])
+endfunction
+
+set completefunc=init#Completefunc
 
 autocmd CompleteDonePre * :lua dotfiles.completion.done()
 
@@ -420,9 +428,9 @@ endfunction
 
 function! init#cr() abort
   if pumvisible()
-    return v:lua.dotfiles.completion.confirm()
+    return luaeval('dotfiles.completion.confirm()')
   else
-    return v:lua.dotfiles.pairs.enter()
+    return luaeval('dotfiles.pairs.enter()')
   end
 endfunction
 
@@ -460,7 +468,11 @@ command! Tq windo q
 command! Init e ~/.config/nvim/init.vim
 
 " Commands for managing packages
-command! -nargs=? -complete=customlist,v:lua.dotfiles.package.names
+function! init#PackageUpdateList(a, ...)
+  return luaeval('dotfiles.package.names(_A)', a:a)
+endfunction
+
+command! -nargs=? -complete=customlist,init#PackageUpdateList
   \ PackageUpdate
   \ lua dotfiles.package.update(<f-args>)
 
