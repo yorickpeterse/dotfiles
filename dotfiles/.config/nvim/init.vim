@@ -126,7 +126,7 @@ endfunction
 set tabline=%!init#Tabline()
 
 function! init#LspWarnings() abort
-  let l:warnings = luaeval('vim.lsp.diagnostic.get_count(0, [[Warning]])')
+  let l:warnings = v:lua.vim.lsp.diagnostic.get_count(0, 'Warning')
 
   if l:warnings > 0
     return printf("\u2002W: %d\u2002", warnings)
@@ -136,7 +136,7 @@ function! init#LspWarnings() abort
 endfunction
 
 function! init#LspErrors() abort
-  let l:errors = luaeval('vim.lsp.diagnostic.get_count(0, [[Error]])')
+  let l:errors = v:lua.vim.lsp.diagnostic.get_count(0, 'Error')
 
   if l:errors > 0
     return printf("\u2002E: %d\u2002", errors)
@@ -174,11 +174,7 @@ let g:NERDCustomDelimiters = { 'inko': { 'left': '#' } }
 let g:NERDCreateDefaultMappings = 0
 
 " Code completion {{{1
-function! init#Completefunc(a, b)
-  return luaeval('dotfiles.completion.start(unpack(_A))', [a:a, a:b])
-endfunction
-
-set completefunc=init#Completefunc
+set completefunc=v:lua.dotfiles.completion.start
 
 autocmd CompleteDonePre * :lua dotfiles.completion.done()
 
@@ -428,9 +424,9 @@ endfunction
 
 function! init#cr() abort
   if pumvisible()
-    return luaeval('dotfiles.completion.confirm()')
+    return v:lua.dotfiles.completion.confirm()
   else
-    return luaeval('dotfiles.pairs.enter()')
+    return v:lua.dotfiles.pairs.enter()
   end
 endfunction
 
@@ -468,11 +464,7 @@ command! Tq windo q
 command! Init e ~/.config/nvim/init.vim
 
 " Commands for managing packages
-function! init#PackageUpdateList(a, ...)
-  return luaeval('dotfiles.package.names(_A)', a:a)
-endfunction
-
-command! -nargs=? -complete=customlist,init#PackageUpdateList
+command! -nargs=? -complete=customlist,v:lua.dotfiles.package.names
   \ PackageUpdate
   \ lua dotfiles.package.update(<f-args>)
 
