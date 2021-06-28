@@ -98,67 +98,11 @@ set shiftround
 set softtabstop=4
 set tabstop=4
 
-" Tab and status lines {{{1
-function! init#Tabline()
-  let s = ''
-  for i in range(tabpagenr('$'))
-    let tab = i + 1
-    let winnr = tabpagewinnr(tab)
-    let buflist = tabpagebuflist(tab)
-    let bufnr = buflist[winnr - 1]
-    let bufname = bufname(bufnr)
-    let bufmodified = getbufvar(bufnr, "&mod")
+" Tabline {{{1
+set tabline=%!v:lua.dotfiles.tabline.render()
 
-    let s .= '%' . tab . 'T'
-    let s .= (tab == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-    let s .= ' ' . tab .': '
-    let s .= (bufname != '' ? fnamemodify(bufname, ':t') . ' ' : '[No Name] ')
-
-    if bufmodified
-      let s .= '[+] '
-    endif
-  endfor
-
-  let s .= '%#TabLineFill#'
-  return s
-endfunction
-
-set tabline=%!init#Tabline()
-
-function! init#LspWarnings() abort
-  let l:warnings = v:lua.vim.lsp.diagnostic.get_count(0, 'Warning')
-
-  if l:warnings > 0
-    return printf("\u2002W: %d\u2002", warnings)
-  endif
-
-  return ''
-endfunction
-
-function! init#LspErrors() abort
-  let l:errors = v:lua.vim.lsp.diagnostic.get_count(0, 'Error')
-
-  if l:errors > 0
-    return printf("\u2002E: %d\u2002", errors)
-  endif
-
-  return ''
-endfunction
-
-function! init#Statusline() abort
-  if g:statusline_winid == win_getid()
-    let l:file = '%#BlackOnLightYellow# %f %*'
-  else
-    let l:file = ' %f '
-  endif
-
-  let l:warnings = '%#WhiteOnYellow#%{init#LspWarnings()}%*'
-  let l:errors = '%#WhiteOnRed#%{init#LspErrors()}%*'
-
-  return l:file . '%w%m%r%=' . l:warnings . l:errors
-endfunction
-
-set statusline=%!init#Statusline()
+" Statusline {{{1
+set statusline=%!v:lua.dotfiles.statusline.render()
 
 " netrw {{{1
 let g:netrw_liststyle = 3

@@ -16,5 +16,7 @@ _G.dotfiles = {
   pairs = require('dotfiles.pairs'),
   lint = require('dotfiles.lint'),
   quickfix = require('dotfiles.quickfix'),
-  package = require('dotfiles.package')
+  package = require('dotfiles.package'),
+  statusline = require('dotfiles.statusline'),
+  tabline = require('dotfiles.tabline'),
 }
