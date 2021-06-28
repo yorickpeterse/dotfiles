@@ -35,9 +35,9 @@ local confirmed_var = 'dotfiles_completion_confirmed'
 -- characters in e.g. identifiers (or other words I want to complete).
 local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
-local text_kind = ''
-local snippet_kind = ''
-local keyword_kind = ''
+local text_kind = 'Text'
+local snippet_kind = 'Snippet'
+local keyword_kind = 'Keyword'
 
 local function is_confirmed()
   return vim.b[confirmed_var] == true
