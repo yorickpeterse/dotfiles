@@ -10,8 +10,8 @@ local modified = '%m'
 local readonly = '%r'
 local separator = '%='
 
-local function diagnostic_count(kind)
-  local amount = vim.lsp.diagnostic.get_count(0, kind)
+local function diagnostic_count(buffer, kind)
+  local amount = vim.lsp.diagnostic.get_count(buffer, kind)
 
   if amount > 0 then
     return forced_space .. kind:sub(1, 1) .. ': ' .. amount .. forced_space
@@ -26,7 +26,9 @@ end
 
 -- Renders the status line.
 function M.render()
-  local active = vim.g.statusline_winid == vim.api.nvim_get_current_win()
+  local window = vim.g.statusline_winid
+  local active = window == vim.api.nvim_get_current_win()
+  local buffer = vim.api.nvim_win_get_buf(window)
 
   return table.concat({
     active and highlight(' %f ', 'BlackOnLightYellow') or ' %f ',
@@ -34,8 +36,8 @@ function M.render()
     modified,
     readonly,
     separator,
-    highlight(diagnostic_count('Warning'), 'WhiteOnYellow'),
-    highlight(diagnostic_count('Error'), 'WhiteOnRed'),
+    highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
+    highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
   })
 end
 
