@@ -338,6 +338,7 @@ tnoremap <C-b>l <C-\><C-n><C-w>li
 " Vim terminals.
 noremap <C-c> "+y
 inoremap <C-v> <Esc>"+pa
+tnoremap <C-v> <C-\><C-n>"+pa
 
 " Completion {{{2
 
