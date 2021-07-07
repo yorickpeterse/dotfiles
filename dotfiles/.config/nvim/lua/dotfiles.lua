@@ -9,6 +9,7 @@ require('dotfiles.linters.rubocop')
 require('dotfiles.linters.ruby')
 require('dotfiles.linters.shellcheck')
 require('dotfiles.linters.vale')
+require('dotfiles.window')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -19,5 +20,4 @@ _G.dotfiles = {
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
-  window = require('dotfiles.window'),
 }

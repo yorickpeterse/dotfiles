@@ -14,7 +14,8 @@ use 'yssl/QFEnter'
 use 'neovim/nvim-lspconfig'
 use 'hrsh7th/vim-vsnip'
 use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
-use 'https://gitlab.com/yorickpeterse/vim-paper'
+use { 'https://gitlab.com/yorickpeterse/vim-paper', branch = 'master' }
+use { 'https://gitlab.com/yorickpeterse/nvim-window', branch = 'main' }
 use 'phaazon/hop.nvim'
 
 package.install()
