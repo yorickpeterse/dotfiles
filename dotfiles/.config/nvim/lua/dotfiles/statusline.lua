@@ -50,7 +50,7 @@ function M.render_quickfix()
     pcall(vim.api.nvim_win_get_var, window, 'quickfix_title')
 
   return table.concat({
-    active and highlight('%t', active_hl) or '%t',
+    active and highlight(' %t ', active_hl) or ' %t ',
     has_title and ' ' .. title or ''
   })
 end
