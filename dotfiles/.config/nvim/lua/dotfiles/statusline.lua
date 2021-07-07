@@ -9,6 +9,7 @@ local preview = '%w'
 local modified = '%m'
 local readonly = '%r'
 local separator = '%='
+local active_hl = 'BlackOnLightYellow'
 
 local function diagnostic_count(buffer, kind)
   local amount = vim.lsp.diagnostic.get_count(buffer, kind)
@@ -31,13 +32,26 @@ function M.render()
   local buffer = vim.api.nvim_win_get_buf(window)
 
   return table.concat({
-    active and highlight(' %f ', 'BlackOnLightYellow') or ' %f ',
+    active and highlight(' %f ', active_hl) or ' %f ',
     preview,
     modified,
     readonly,
     separator,
     highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
     highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
+  })
+end
+
+-- Renders the statusline for a quickfix window
+function M.render_quickfix()
+  local window = vim.g.statusline_winid
+  local active = window == vim.api.nvim_get_current_win()
+  local has_title, title =
+    pcall(vim.api.nvim_win_get_var, window, 'quickfix_title')
+
+  return table.concat({
+    active and highlight('%t', active_hl) or '%t',
+    has_title and ' ' .. title or ''
   })
 end
 

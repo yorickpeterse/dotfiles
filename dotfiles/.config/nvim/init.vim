@@ -104,6 +104,10 @@ set tabline=%!v:lua.dotfiles.tabline.render()
 " Statusline {{{1
 set statusline=%!v:lua.dotfiles.statusline.render()
 
+" Setting this in ftplugin/qf.vim doesn't work for some reason, so we set it
+" here instead.
+autocmd FileType qf setlocal statusline=%!v:lua.dotfiles.statusline.render_quickfix()
+
 " netrw {{{1
 let g:netrw_liststyle = 3
 let g:netrw_banner = 0
