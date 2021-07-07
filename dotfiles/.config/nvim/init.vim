@@ -287,6 +287,8 @@ map <S-ScrollWheelLeft> <nop>
 map <ScrollWheelRight> <nop>
 map <S-ScrollWheelRight> <nop>
 
+map <silent> <leader>w <cmd>lua dotfiles.window.pick()<CR>
+
 " Searching {{{2
 function! init#toggleSearchHighlight()
   if &hls && v:hlsearch
