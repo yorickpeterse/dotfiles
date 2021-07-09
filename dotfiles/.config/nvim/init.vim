@@ -36,6 +36,7 @@ set guitablabel=%f
 set inccommand=nosplit
 set scrollback=1000
 set updatetime=1000
+set fillchars=fold:\ ,
 
 set printoptions=number:n
 set printoptions=header:0
