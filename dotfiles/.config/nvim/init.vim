@@ -58,8 +58,8 @@ set nocursorline
 au TextYankPost * lua dotfiles.highlight_yanked()
 
 " LSP {{{1
-sign define LspDiagnosticsSignError text=▮ numhl=ErrorMsg texthl=ErrorMsg
-sign define LspDiagnosticsSignWarning text=▮ numhl=Yellow texthl=Yellow
+sign define LspDiagnosticsSignError text=┃ numhl=ErrorMsg texthl=ErrorMsg
+sign define LspDiagnosticsSignWarning text=┃ numhl=Yellow texthl=Yellow
 
 " Leader key {{{1
 map <space> <nop>
