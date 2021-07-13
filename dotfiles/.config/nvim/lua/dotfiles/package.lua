@@ -119,16 +119,18 @@ end
 
 -- Installs a single package.
 local function install(package, state)
+  local args = { 'clone', package.url, '--depth=1' }
+
+  if package.branch then
+    table.insert(args, '--branch')
+    table.insert(args, package.branch)
+  end
+
+  table.insert(args, package.dir)
+
   spawn({
     cmd = 'git',
-    args = {
-      'clone',
-      package.url,
-      '--depth=1',
-      '--branch',
-      package.branch,
-      package.dir
-    },
+    args = args,
     success = function()
       state.done = state.done + 1
 
@@ -254,7 +256,7 @@ function M.use(spec)
     dir = root .. name,
     url = url,
     enable = true,
-    branch = options.branch or 'master'
+    branch = options.branch
   }
 end
 
