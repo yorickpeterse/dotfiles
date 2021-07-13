@@ -54,6 +54,9 @@ color paper
 set nocursorcolumn
 set nocursorline
 
+" Highlight the region that was yanked
+au TextYankPost * lua dotfiles.highlight_yanked()
+
 " LSP {{{1
 sign define LspDiagnosticsSignError text=▮ numhl=ErrorMsg texthl=ErrorMsg
 sign define LspDiagnosticsSignWarning text=▮ numhl=Yellow texthl=Yellow
