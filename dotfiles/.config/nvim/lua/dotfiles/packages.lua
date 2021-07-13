@@ -17,5 +17,6 @@ use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
 use 'https://gitlab.com/yorickpeterse/vim-paper'
 use 'https://gitlab.com/yorickpeterse/nvim-window'
 use 'phaazon/hop.nvim'
+use 'kyazdani42/nvim-web-devicons'
 
 package.install()

@@ -1,5 +1,6 @@
 local fn = vim.fn
 local M = {}
+local icons = require('dotfiles.icons')
 
 local active_tab = 'TabLineSel'
 local inactive_tab = 'TabLine'
@@ -33,6 +34,7 @@ function M.render()
       ' ',
       tab,
       ': ',
+      icons.icon(bufname),
       bufname,
       ' ',
       modified == 1 and '[+] ' or ''

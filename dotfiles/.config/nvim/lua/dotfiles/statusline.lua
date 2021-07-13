@@ -1,4 +1,6 @@
 local M = {}
+local api = vim.api
+local icons = require('dotfiles.icons')
 
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
 -- get swallowed in statuslines. This kind of space doesn't.
@@ -28,11 +30,12 @@ end
 -- Renders the status line.
 function M.render()
   local window = vim.g.statusline_winid
-  local active = window == vim.api.nvim_get_current_win()
-  local buffer = vim.api.nvim_win_get_buf(window)
+  local active = window == api.nvim_get_current_win()
+  local buffer = api.nvim_win_get_buf(window)
+  local name = ' ' .. icons.icon(vim.fn.bufname(buffer)) .. '%f '
 
   return table.concat({
-    active and highlight(' %f ', active_hl) or ' %f ',
+    active and highlight(name, active_hl) or name,
     preview,
     modified,
     readonly,
@@ -45,9 +48,9 @@ end
 -- Renders the statusline for a quickfix window
 function M.render_quickfix()
   local window = vim.g.statusline_winid
-  local active = window == vim.api.nvim_get_current_win()
+  local active = window == api.nvim_get_current_win()
   local has_title, title =
-    pcall(vim.api.nvim_win_get_var, window, 'quickfix_title')
+    pcall(api.nvim_win_get_var, window, 'quickfix_title')
 
   return table.concat({
     active and highlight(' %t ', active_hl) or ' %t ',
