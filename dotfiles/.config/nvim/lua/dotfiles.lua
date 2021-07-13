@@ -20,6 +20,8 @@ _G.dotfiles = {
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
+  workspace = require('dotfiles.workspace'),
+
   highlight_yanked = function()
     vim.highlight.on_yank({
       higroup = 'IncSearch',

@@ -438,4 +438,8 @@ endfunction
 
 command! -nargs=+ Replace call init#Replace(<f-args>)
 
+command! -nargs=1 -complete=customlist,v:lua.dotfiles.workspace.names
+  \ Workspace
+  \ lua dotfiles.workspace.open(<f-args>)
+
 " vim: fdm=marker

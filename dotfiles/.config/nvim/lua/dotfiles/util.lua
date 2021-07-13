@@ -1,4 +1,5 @@
 -- Utility functions for my dotfiles.
+local api = vim.api
 local M = {}
 
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
@@ -23,6 +24,18 @@ function M.pad_right(string, pad_to)
   end
 
   return new
+end
+
+-- Prints an error message to the commandline.
+function M.error(message)
+  vim.schedule(function()
+    local chunks = {
+      { 'error: ', 'ErrorMsg' },
+      { message }
+    }
+
+    api.nvim_echo(chunks, true, {})
+  end)
 end
 
 return M

@@ -3,24 +3,14 @@
 -- This is a custom linter setup, based on
 -- https://github.com/mfussenegger/nvim-lint/. I'm using a custom setup so I can
 -- more easily tweak it to my own liking.
-local reader = require('dotfiles.util').reader
+local util = require('dotfiles.util')
+local reader = util.reader
+local error = util.error
 local api = vim.api
 local uv = vim.loop
 
 local M = {}
 local linters = {}
-
--- Prints an error message to the commandline.
-local function error(message)
-  vim.schedule(function()
-    local chunks = {
-      { 'error: ', 'ErrorMsg' },
-      { message }
-    }
-
-    api.nvim_echo(chunks, true, {})
-  end)
-end
 
 -- Callback for parsing and publishing a linter's diagnostics.
 local function done(bufnr, linter, client_id, output)
