@@ -321,6 +321,8 @@ map <silent> <leader>l :BLines<CR>
 map <silent> <leader>gs :vert bo Git<CR>
 map <silent> <leader>gc :vert bo Git commit<CR>
 map <silent> <leader>gd :Gdiffsplit<CR>
+map <silent> <leader>dp :diffput<CR>
+map <silent> <leader>dg :diffget<CR>
 
 " LSP {{{2
 map <silent> <leader>h :lua vim.lsp.buf.hover()<CR>
