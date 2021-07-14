@@ -224,13 +224,6 @@ command! -bar -bang -nargs=? -complete=buffer Buffers
   \   <bang>0
   \ )
 
-command! -bang -nargs=* BLines
-  \ call fzf#vim#buffer_lines(
-  \   <q-args>,
-  \   {'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']},
-  \   <bang>0
-  \ )
-
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg
@@ -297,6 +290,14 @@ map <S-ScrollWheelRight> <nop>
 
 map <silent> <leader>w <cmd>lua require('nvim-window').pick()<CR>
 
+" Quickfix/location lists
+map <silent> <leader>qf :cfirst<CR>
+map <silent> <leader>qn :cnext<CR>
+map <silent> <leader>qp :cprev<CR>
+map <silent> <leader>lf :lfirst<CR>
+map <silent> <leader>ln :lnext<CR>
+map <silent> <leader>lp :lprev<CR>
+
 " Searching {{{2
 function! init#toggleSearchHighlight()
   if &hls && v:hlsearch
@@ -315,7 +316,6 @@ map <silent> s <cmd>HopWord<CR>
 map <silent> <leader>f :Files<CR>
 map <silent> <leader>t :BTags<CR>
 map <silent> <leader>b :Buffers<CR>
-map <silent> <leader>l :BLines<CR>
 
 " Fugitive {{{2
 map <silent> <leader>gs :vert bo Git<CR>
