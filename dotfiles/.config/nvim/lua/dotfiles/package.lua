@@ -42,6 +42,18 @@ local function new_state(title, total)
   return { title = title, total = total, done = 0, failed = {} }
 end
 
+local function run_hook(thing)
+  if type(thing) == 'string' then
+    vim.cmd(thing)
+
+    -- Redraw after the command so we don't get any "Press enter to continue"
+    -- prompts.
+    vim.cmd('redraw')
+  elseif type(thing) == 'function' then
+    thing()
+  end
+end
+
 -- Runs a command.
 local function spawn(opts)
   local handle
@@ -136,6 +148,7 @@ local function install(package, state)
 
       progress(state)
       vim.cmd('packadd ' .. package.name)
+      run_hook(package.run)
     end,
     error = function(output)
       state.done = state.done + 1
@@ -156,6 +169,7 @@ local function update(package, state)
     success = function()
       state.done = state.done + 1
 
+      run_hook(package.run)
       progress(state)
     end,
     error = function(output)
@@ -256,7 +270,8 @@ function M.use(spec)
     dir = root .. name,
     url = url,
     enable = true,
-    branch = options.branch
+    branch = options.branch,
+    run = options.run
   }
 end
 
