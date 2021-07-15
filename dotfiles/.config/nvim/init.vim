@@ -45,6 +45,9 @@ set printoptions=header:0
 " so we use the new one.
 set regexpengine=0
 
+" Custom highlight groups. These must be defined before loading a color scheme.
+autocmd ColorScheme * hi DiffDeleteOld guibg=#f2ddcd
+
 filetype plugin indent on
 syntax on
 color paper
@@ -274,6 +277,8 @@ endfunction
 autocmd BufWritePre *.rs call init#formatBuffer()
 autocmd BufWritePre *.go call init#formatBuffer()
 autocmd BufWritePost * lua dotfiles.lint.lint()
+
+autocmd BufNew fugitive://* lua dotfiles.diff.fix_highlight()
 
 " Mappings {{{1
 " Generic {{{2

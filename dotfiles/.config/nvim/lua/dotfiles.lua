@@ -21,6 +21,7 @@ _G.dotfiles = {
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
+  diff = require('dotfiles.diff'),
 
   highlight_yanked = function()
     vim.highlight.on_yank({
