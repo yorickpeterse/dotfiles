@@ -80,10 +80,16 @@ function M.format(info)
     local item = items[list_index]
 
     if item then
-      local location = util.pad_right(item.location, pad_to)
+      local text = fn.trim(item.text)
+      local location = item.location
+
+      if text ~= '' then
+        location = util.pad_right(location, pad_to)
+      end
+
       local kind = type_mapping[item.type] or ''
 
-      table.insert(lines, kind .. location .. fn.trim(item.text))
+      table.insert(lines, kind .. location .. text)
     end
   end
 
