@@ -278,7 +278,7 @@ autocmd BufWritePre *.rs call init#formatBuffer()
 autocmd BufWritePre *.go call init#formatBuffer()
 autocmd BufWritePost * lua dotfiles.lint.lint()
 
-autocmd BufNew fugitive://* lua dotfiles.diff.fix_highlight()
+autocmd BufAdd fugitive://* lua dotfiles.diff.fix_highlight()
 
 " Mappings {{{1
 " Generic {{{2
