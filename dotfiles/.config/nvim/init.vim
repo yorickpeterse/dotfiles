@@ -98,6 +98,8 @@ endfunction
 
 set quickfixtextfunc=init#QuickfixTextFunc
 
+let g:qfenter_keymap.vopen = ['<leader>v']
+
 " Indentation settings {{{1
 set expandtab
 set shiftwidth=4
@@ -159,6 +161,7 @@ let g:fugitive_dynamic_colors = 0
 
 " FZF {{{1
 let $FZF_DEFAULT_COMMAND = 'rg --files --follow'
+let $FZF_DEFAULT_OPTS = '--bind=tab:down,shift-tab:up'
 
 let g:fzf_colors = {
   \ 'fg': ['fg', 'Normal'],
@@ -408,6 +411,7 @@ smap <expr> <C-k> vsnip#jumpable(-1) ? '<Plug>(vsnip-jump-prev)' : '<C-k>'
 map <leader>c <plug>NERDCommenterToggle
 
 " Custom commands {{{1
+" Terminals {{{2
 function! s:openTerm(cmd)
   exec a:cmd
   term
@@ -423,13 +427,15 @@ command! Tterm call s:openTerm('tabnew')
 command! Tq windo q
 command! Init e ~/.config/nvim/init.vim
 
-" Commands for managing packages
+" Package management {{{2
 command! -nargs=? -complete=customlist,v:lua.dotfiles.package.names
   \ PackageUpdate
   \ lua dotfiles.package.update(<f-args>)
 
 command! PackageClean lua dotfiles.package.clean()
 command! PackageEdit e ~/.config/nvim/lua/dotfiles/packages.lua
+
+" Searching {{{2
 
 " Finds all occurrences of text stored in register A, replacing it with the
 " contents of register B.
@@ -443,6 +449,7 @@ endfunction
 
 command! -nargs=+ Replace call init#Replace(<f-args>)
 
+" Workspace management {{{2
 command! -nargs=1 -complete=customlist,v:lua.dotfiles.workspace.names
   \ Workspace
   \ lua dotfiles.workspace.open(<f-args>)
