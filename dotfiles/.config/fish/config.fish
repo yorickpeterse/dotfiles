@@ -24,7 +24,7 @@ set fish_color_comment 777777
 set fish_color_operator normal
 set fish_color_redirection normal --bold
 set fish_color_end normal
-set fish_color_search_match --background=bfbcaf
+set fish_color_search_match --background=dddddd
 set fish_color_match normal
 set fish_color_autosuggestion $fish_color_comment
 
