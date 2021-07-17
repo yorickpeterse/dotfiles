@@ -30,6 +30,9 @@
     new = green
     frag = blue
 
+[diff "color"]
+    commit = yellow normal bold
+
 [mergetool "nvim"]
     cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
 
