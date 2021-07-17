@@ -280,6 +280,10 @@ autocmd BufWritePost * lua dotfiles.lint.lint()
 
 autocmd BufAdd fugitive://* lua dotfiles.diff.fix_highlight()
 
+" Automatically create leading directories when writing a file. This makes it
+" easier to create new files in non-existing directories.
+autocmd BufWritePre * call mkdir(expand('<afile>:p:h'), 'p')
+
 " Mappings {{{1
 " Generic {{{2
 map <F6> :Lexplore<CR><Esc>
