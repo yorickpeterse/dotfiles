@@ -45,12 +45,9 @@ set printoptions=header:0
 " so we use the new one.
 set regexpengine=0
 
-" Custom highlight groups. These must be defined before loading a color scheme.
-autocmd ColorScheme * hi DiffDeleteOld guibg=#f2ddcd
-
 filetype plugin indent on
 syntax on
-color paper
+color grey
 
 " These settings are disabled to get some extra performance out of Vim when
 " dealing with large files.
