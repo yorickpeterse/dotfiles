@@ -25,7 +25,7 @@ _G.dotfiles = {
 
   highlight_yanked = function()
     vim.highlight.on_yank({
-      higroup = 'IncSearch',
+      higroup = 'Visual',
       timeout = 150,
       on_visual = false
     })
