@@ -115,11 +115,10 @@ set statusline=%!v:lua.dotfiles.statusline.render()
 autocmd FileType qf setlocal statusline=%!v:lua.dotfiles.statusline.render_quickfix()
 
 " netrw {{{1
-let g:netrw_liststyle = 3
-let g:netrw_banner = 0
-let g:netrw_winsize = 15
-let g:netrw_altv = 1
-let g:netrw_list_hide = ',^\.git,__pycache__,rustc-incremental,^tags$'
+
+" netrw is a pain to use, so I have it disabled.
+let g:loaded_netrw = 1
+let g:loaded_netrwPlugin = 1
 
 " NERDCommenter {{{1
 let g:NERDSpaceDelims = 1

@@ -18,5 +18,6 @@ use 'https://gitlab.com/yorickpeterse/nvim-grey'
 use 'https://gitlab.com/yorickpeterse/nvim-window'
 use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
+use 'justinmk/vim-dirvish'
 
 package.install()
