@@ -10,6 +10,7 @@ local keycode = util.keycode
 local popup_visible = util.popup_visible
 local api = vim.api
 local fn = vim.fn
+local lsp = vim.lsp
 
 local function start_or_after_space()
   local col = fn.col('.') - 1
@@ -112,6 +113,16 @@ function M.fzf_statusline()
   vim.opt_local.signcolumn = 'no'
 
   vim.cmd('silent file FZF')
+end
+
+function M.definition()
+  local bufnr = api.nvim_get_current_buf()
+
+  if #lsp.buf_get_clients(bufnr) == 0 then
+    api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
+  else
+    lsp.buf.definition()
+  end
 end
 
 return M

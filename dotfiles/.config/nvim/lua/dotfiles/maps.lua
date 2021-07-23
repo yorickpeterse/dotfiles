@@ -38,7 +38,7 @@ map('<leader>gd', ':Gdiffsplit<CR>')
 -- LSP
 map('<leader>h', ':lua vim.lsp.buf.hover()<CR>')
 map('<leader>r', ':lua vim.lsp.buf.rename()<CR>')
-map('<leader>d', ':lua vim.lsp.buf.definition()<CR>')
+map('<leader>d', ':lua dotfiles.callbacks.definition()<CR>')
 map('<leader>i', ':lua vim.lsp.buf.references()<CR>')
 map('<leader>a', ':lua vim.lsp.buf.code_action()<CR>')
 map('<leader>e', ':lua dotfiles.diagnostics.show_line_diagnostics()<CR>')
