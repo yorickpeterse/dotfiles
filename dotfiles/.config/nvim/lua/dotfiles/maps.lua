@@ -31,8 +31,8 @@ map('<leader>t', ':BTags<CR>')
 map('<leader>b', ':Buffers<CR>')
 
 -- Fugitive
-map('<leader>gs', ':vert bo Git<CR>')
-map('<leader>gc', ':vert bo Git commit<CR>')
+map('<leader>gs', ':vert rightbelow Git<CR>')
+map('<leader>gc', ':vert rightbelow Git commit<CR>')
 map('<leader>gd', ':Gdiffsplit<CR>')
 
 -- LSP
