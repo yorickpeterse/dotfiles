@@ -113,6 +113,9 @@ do
 end
 
 -- Signs {{{1
+vim.cmd('sign define LspDiagnosticsSignError text=E numhl=ErrorMsg texthl=ErrorMsg')
+vim.cmd('sign define LspDiagnosticsSignWarning text=W numhl=Yellow texthl=Yellow')
+
 do
   local default = vim.lsp.diagnostic.set_signs
   local config = { severity_limit = 'Warning' }

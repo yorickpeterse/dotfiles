@@ -1,5 +1,6 @@
 -- Utility functions for my dotfiles.
 local api = vim.api
+local fn = vim.fn
 local M = {}
 
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
@@ -15,7 +16,6 @@ function M.reader(done)
   end
 end
 
--- Right pads a string with spaces.
 function M.pad_right(string, pad_to)
   local new = string
 
@@ -26,7 +26,6 @@ function M.pad_right(string, pad_to)
   return new
 end
 
--- Prints an error message to the commandline.
 function M.error(message)
   vim.schedule(function()
     local chunks = {
@@ -36,6 +35,14 @@ function M.error(message)
 
     api.nvim_echo(chunks, true, {})
   end)
+end
+
+function M.keycode(string)
+  return api.nvim_replace_termcodes(string, true, true, true)
+end
+
+function M.popup_visible()
+  return fn.pumvisible() == 1
 end
 
 return M

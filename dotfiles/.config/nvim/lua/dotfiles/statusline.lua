@@ -27,8 +27,25 @@ local function highlight(text, group)
   return '%#' .. group .. '#' .. text .. '%*'
 end
 
+-- Renders the statusline for a quickfix window
+local function render_quickfix()
+  local window = vim.g.statusline_winid
+  local active = window == api.nvim_get_current_win()
+  local has_title, title =
+    pcall(api.nvim_win_get_var, window, 'quickfix_title')
+
+  return table.concat({
+    active and highlight(' %t ', active_hl) or ' %t ',
+    has_title and ' ' .. title or ''
+  })
+end
+
 -- Renders the status line.
 function M.render()
+  if vim.bo.ft == 'qf' then
+    return render_quickfix()
+  end
+
   local window = vim.g.statusline_winid
   local active = window == api.nvim_get_current_win()
   local buffer = api.nvim_win_get_buf(window)
@@ -42,19 +59,6 @@ function M.render()
     separator,
     highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
     highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
-  })
-end
-
--- Renders the statusline for a quickfix window
-function M.render_quickfix()
-  local window = vim.g.statusline_winid
-  local active = window == api.nvim_get_current_win()
-  local has_title, title =
-    pcall(api.nvim_win_get_var, window, 'quickfix_title')
-
-  return table.concat({
-    active and highlight(' %t ', active_hl) or ' %t ',
-    has_title and ' ' .. title or ''
   })
 end
 

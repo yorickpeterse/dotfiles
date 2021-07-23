@@ -1,5 +1,4 @@
 require('dotfiles.packages')
-require('dotfiles.lsp')
 
 require('dotfiles.linters.flake8')
 require('dotfiles.linters.gitlint')
@@ -9,7 +8,12 @@ require('dotfiles.linters.rubocop')
 require('dotfiles.linters.ruby')
 require('dotfiles.linters.shellcheck')
 require('dotfiles.linters.vale')
+
+require('dotfiles.lsp')
 require('dotfiles.window')
+require('dotfiles.commands')
+require('dotfiles.hooks')
+require('dotfiles.maps')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -22,12 +26,5 @@ _G.dotfiles = {
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
   diff = require('dotfiles.diff'),
-
-  highlight_yanked = function()
-    vim.highlight.on_yank({
-      higroup = 'Visual',
-      timeout = 150,
-      on_visual = false
-    })
-  end
+  callbacks = require('dotfiles.callbacks'),
 }
