@@ -19,5 +19,6 @@ use 'https://gitlab.com/yorickpeterse/nvim-window'
 use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
 use 'justinmk/vim-dirvish'
+use 'cespare/vim-toml'
 
 package.install()
