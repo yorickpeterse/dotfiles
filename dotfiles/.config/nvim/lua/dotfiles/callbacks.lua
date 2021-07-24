@@ -12,12 +12,6 @@ local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
 
-local function start_or_after_space()
-  local col = fn.col('.') - 1
-
-  return col == 0 or api.nvim_get_current_line():sub(col, col):match('%s')
-end
-
 function M.yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
@@ -26,51 +20,11 @@ function M.yanked()
   })
 end
 
-function M.tab()
-  if popup_visible() then
-    return keycode('<C-n>')
-  end
-
-  return start_or_after_space() and keycode('<tab>') or keycode('<C-x><C-U>')
-end
-
-function M.shift_tab()
-  return popup_visible() and keycode('<C-p>') or keycode('<S-tab>')
-end
-
-function M.enter()
-  return popup_visible() and completion.confirm() or pairs.enter()
-end
-
 function M.abbreviate_grep()
   if fn.getcmdtype() == ':' and fn.getcmdline():match('^grep') then
     return 'silent grep!'
   else
     return 'grep'
-  end
-end
-
-function M.control_s()
-  if fn['vsnip#expandable']() then
-    return keycode('<Plug>(vsnip-expand)')
-  else
-    return keycode('<C-s>')
-  end
-end
-
-function M.control_j()
-  if fn['vsnip#jumpable'](1) then
-    return keycode('<Plug>(vsnip-jump-next)')
-  else
-    return keycode('<C-j>')
-  end
-end
-
-function M.control_k()
-  if fn['vsnip#jumpable'](-1) then
-    return keycode('<Plug>(vsnip-jump-prev)')
-  else
-    return keycode('<C-k>')
   end
 end
 
@@ -113,16 +67,6 @@ function M.fzf_statusline()
   vim.opt_local.signcolumn = 'no'
 
   vim.cmd('silent file FZF')
-end
-
-function M.definition()
-  local bufnr = api.nvim_get_current_buf()
-
-  if #lsp.buf_get_clients(bufnr) == 0 then
-    api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
-  else
-    lsp.buf.definition()
-  end
 end
 
 return M
