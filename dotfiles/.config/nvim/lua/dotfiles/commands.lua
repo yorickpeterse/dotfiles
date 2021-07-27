@@ -22,7 +22,7 @@ local function cmd(name, action, flags)
 end
 
 cmd('Tq', 'windo q')
-cmd('Init', 'e ~/.config/nvim/init.vim')
+cmd('Init', 'e ~/.config/nvim/init.lua')
 cmd(
   'Replace',
   'lua dotfiles.callbacks.find_replace_register(<f-args>)',
