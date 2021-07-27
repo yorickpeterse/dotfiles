@@ -46,6 +46,7 @@ local function map_key(kind, key, options, action)
 end
 
 local function map(key, options, action) map_key('', key, options, action) end
+local function nmap(key, options, action) map_key('n', key, options, action) end
 local function imap(key, options, action) map_key('i', key, options, action) end
 local function smap(key, options, action) map_key('s', key, options, action) end
 local function tmap(key, options, action) map_key('t', key, options, action) end
@@ -68,7 +69,7 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- Generic
-map('<leader>c', function() fn.NERDCommenterToggle(fn.mode(), 'Toggle') end)
+map('<space>', '<nop>')
 map('<leader>w', window.pick)
 map('K', '<nop>')
 map('s', cmd('HopWord'))
@@ -77,6 +78,10 @@ map('s', cmd('HopWord'))
 vmap('<C-c>', '"+y')
 imap('<C-v>', '<Esc>"+pa')
 tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
+
+-- Commenting
+nmap('<leader>c', '<Plug>kommentary_line_default<Esc>')
+vmap('<leader>c', '<Plug>kommentary_visual_default<Esc>')
 
 -- Code and pairs completion
 imap('<CR>', { expr = true }, function()

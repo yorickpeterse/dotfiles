@@ -28,6 +28,7 @@ require('dotfiles.lsp')
 require('dotfiles.window')
 require('dotfiles.commands')
 require('dotfiles.hooks')
+require('dotfiles.comments')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),

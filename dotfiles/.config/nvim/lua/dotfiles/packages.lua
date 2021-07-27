@@ -3,7 +3,6 @@ local use = package.use
 
 use 'windwp/nvim-autopairs'
 use 'YorickPeterse/rust.vim'
-use 'preservim/nerdcommenter'
 use 'tpope/vim-fugitive'
 use 'dag/vim-fish'
 use 'ludovicchabant/vim-gutentags'
@@ -20,5 +19,6 @@ use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
 use 'justinmk/vim-dirvish'
 use 'cespare/vim-toml'
+use 'b3nj5m1n/kommentary'
 
 package.install()
