@@ -113,7 +113,6 @@ map('<leader>b', cmd('Buffers'))
 
 -- Fugitive
 map('<leader>gs', cmd('vert rightbelow Git'))
-map('<leader>gc', cmd('vert rightbelow Git commit'))
 map('<leader>gd', cmd('Gdiffsplit'))
 
 -- LSP
