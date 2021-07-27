@@ -144,6 +144,10 @@ o.tabstop = 4
 -- Markdown {{{1
 g.markdown_fenced_languages = { 'ruby', 'rust', 'sql', 'inko', 'yaml' }
 
+-- Mergetool {{{1
+g.mergetool_layout = 'mr'
+g.mergetool_prefer_revision = 'local'
+
 -- netrw {{{1
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
