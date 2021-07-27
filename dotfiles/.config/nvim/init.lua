@@ -12,6 +12,10 @@ g.NERDDefaultAlign = 'left'
 g.NERDCustomDelimiters = { inko = { left = '#' } }
 g.NERDCreateDefaultMappings = 0
 
+g.qfenter_keymap = {
+  vopen = { '<leader>v' }
+}
+
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
@@ -161,7 +165,6 @@ vim.cmd([[
 ]])
 
 o.quickfixtextfunc = 'DotfilesQuickfixTextFunc'
-g.qfenter_keymap.vopen = { '<leader>v' }
 
 -- Rust {{{1
 g.rust_recommended_style = 0
