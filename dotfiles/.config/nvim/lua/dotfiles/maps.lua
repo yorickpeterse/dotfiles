@@ -106,6 +106,9 @@ imap('<tab>', { expr = true }, function()
   end
 end)
 
+vmap('<s-tab>', '<')
+vmap('<tab>', '>')
+
 -- FZF
 map('<leader>f', cmd('Files'))
 map('<leader>t', cmd('BTags'))
