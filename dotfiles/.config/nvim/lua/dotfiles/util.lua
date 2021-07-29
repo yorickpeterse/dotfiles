@@ -45,4 +45,24 @@ function M.popup_visible()
   return fn.pumvisible() == 1
 end
 
+function M.au(name, commands)
+  local cmds = {}
+
+  for _, cmd in ipairs(commands) do
+    table.insert(cmds, 'au ' .. cmd)
+  end
+
+  local cmd = table.concat({
+    'augroup dotfiles_',
+    name,
+    "\n",
+    "autocmd!\n",
+    table.concat(cmds, "\n"),
+    "\n",
+    'augroup END'
+  })
+
+  vim.cmd(cmd)
+end
+
 return M

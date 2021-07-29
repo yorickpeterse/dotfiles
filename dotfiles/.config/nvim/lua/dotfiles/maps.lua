@@ -8,6 +8,7 @@ local diag = require('dotfiles.diagnostics')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
+local au = util.au
 local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
@@ -108,6 +109,11 @@ end)
 
 vmap('<s-tab>', '<')
 vmap('<tab>', '>')
+
+-- Dirvish
+au('dirvish', {
+  'FileType dirvish nmap <silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
+})
 
 -- FZF
 map('<leader>f', cmd('Files'))
