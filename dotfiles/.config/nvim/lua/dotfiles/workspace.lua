@@ -2,9 +2,9 @@ local M = {}
 local error = require('dotfiles.util').error
 
 local workspaces = {
-  ['Inko'] = '~/Projects/inko/inko',
-  ['GitLab'] = '~/Projects/gitlab/gdk-ee/gitlab',
-  ['Release Tools'] = '~/Projects/gitlab/release-tools',
+  ['inko'] = '~/Projects/inko/inko',
+  ['gitlab'] = '~/Projects/gitlab/gdk-ee/gitlab',
+  ['release tools'] = '~/Projects/gitlab/release-tools',
   ['config'] = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
 }
 
