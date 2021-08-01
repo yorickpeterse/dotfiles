@@ -73,7 +73,8 @@ g.maplocalleader = ' '
 map('<space>', '<nop>')
 map('<leader>w', window.pick)
 map('K', '<nop>')
-map('s', cmd('HopWord'))
+nmap('s', cmd('HopWord'))
+vmap('s', cmd('HopWord'))
 
 -- Allow copy/pasting using Control-c and Control-v
 vmap('<C-c>', '"+y')
