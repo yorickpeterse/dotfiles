@@ -21,5 +21,6 @@ use 'justinmk/vim-dirvish'
 use 'cespare/vim-toml'
 use 'b3nj5m1n/kommentary'
 use 'samoshkin/vim-mergetool'
+use 'sindrets/diffview.nvim'
 
 package.install()

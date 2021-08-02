@@ -33,6 +33,7 @@ require('dotfiles.window')
 require('dotfiles.commands')
 require('dotfiles.hooks')
 require('dotfiles.comments')
+require('dotfiles.git')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -108,7 +109,7 @@ o.cursorline = false
 o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
 o.clipboard = 'unnamed'
-o.diffopt = 'filler,vertical,internal,algorithm:patience,indent-heuristic'
+o.diffopt = 'filler,vertical,internal,algorithm:patience,indent-heuristic,context:3'
 o.lz = true
 o.showcmd = false
 o.pastetoggle = '<F2>'

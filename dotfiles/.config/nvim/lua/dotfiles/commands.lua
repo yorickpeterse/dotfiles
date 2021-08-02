@@ -75,6 +75,9 @@ cmd(
   { bang = true, bar = true, nargs = '?', complete = 'buffer'  }
 )
 
+-- Git
+cmd('Review', 'lua dotfiles.callbacks.review()', { nargs = '?' })
+
 -- Terminals
 cmd('Term', 'lua dotfiles.callbacks.terminal("new")')
 cmd('Vterm', 'lua dotfiles.callbacks.terminal("vnew")')

@@ -5,6 +5,9 @@ local completion = require('dotfiles.completion')
 local pairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local icons = require('dotfiles.icons')
+local dv = require('diffview')
+local dv_lib = require('diffview.lib')
+local diff = require('dotfiles.diff')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -98,6 +101,16 @@ function M.fzf_statusline()
   vim.opt_local.signcolumn = 'no'
 
   vim.cmd('silent file FZF')
+end
+
+function M.review(rev)
+  dv.open(rev)
+
+  local view = dv_lib.get_current_diffview()
+
+  if view then
+    diff.fix_highlight(view.left_winid, { force = true })
+  end
 end
 
 return M
