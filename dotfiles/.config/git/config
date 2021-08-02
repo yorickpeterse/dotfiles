@@ -33,17 +33,13 @@
 [diff "color"]
     commit = yellow normal bold
 
-[mergetool "fugitive"]
-    cmd = nvim -c \"Gdiffsplit!\" \"$MERGED\"
-
-[mergetool "vim_mergetool"]
-    cmd = nvim -c "MergetoolStart" "$MERGED" "$BASE" "$LOCAL" "$REMOTE"
-    trustExitCode = true
+[mergetool "nvim"]
+    cmd = nvim-mergetool \"$MERGED\"
 
 [merge]
-    tool = vim_mergetool
+    tool = nvim
     prompt = false
-	conflictstyle = diff3
+    conflictstyle = diff3
 
 [mergetool]
     keepBackup = false

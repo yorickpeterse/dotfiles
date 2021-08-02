@@ -1,0 +1,19 @@
+#!/usr/bin/env fish
+
+if set -q NVIM_LISTEN_ADDRESS
+    # MergetoolStart always opens a new tab when invoked using `git mergetool`.
+    # This ensures we can do so, while still properly waiting for the merging to
+    # be finished.
+    nvr \
+        -cc tabnew \
+        -c MergetoolStart \
+        -c 'tabprev | q' \
+        -c 'setlocal bufhidden=delete' \
+        --remote-wait \
+        $argv
+
+    # Re-enter insert mode after the buffer is closed.
+    nvr -c startinsert
+else
+    /usr/bin/nvim -c MergetoolStart $argv
+end
