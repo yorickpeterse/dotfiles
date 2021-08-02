@@ -12,6 +12,9 @@ local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
 
+-- The namespace to use for restoring cursors after formatting a buffer.
+local format_mark_ns = api.nvim_create_namespace('')
+
 function M.yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
@@ -57,7 +60,35 @@ function M.remove_trailing_whitespace()
 end
 
 function M.format_buffer()
-  return vim.lsp.buf.formatting_sync(nil, 1000)
+  local bufnr = api.nvim_win_get_buf(0)
+  local windows = fn.win_findbuf(bufnr)
+  local marks = {}
+
+  -- Until https://github.com/neovim/neovim/issues/14645 is solved, I use this
+  -- code to ensure the cursor position is properly restored after formatting a
+  -- buffer. The approach used supports restoring cursors for different windows
+  -- using the same buffer.
+  for _, window in ipairs(windows) do
+    local line, col = unpack(api.nvim_win_get_cursor(window))
+
+    marks[window] =
+      api.nvim_buf_set_extmark(bufnr, format_mark_ns, line - 1, col, {})
+  end
+
+  lsp.buf.formatting_sync(nil, 1000)
+
+  for _, window in ipairs(windows) do
+    local mark = marks[window]
+
+    local line, col =
+      unpack(api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {}))
+
+    if line and col then
+      api.nvim_win_set_cursor(window, { line + 1, col })
+    end
+  end
+
+  api.nvim_buf_clear_namespace(bufnr, format_mark_ns, 0, -1)
 end
 
 function M.fzf_statusline()
