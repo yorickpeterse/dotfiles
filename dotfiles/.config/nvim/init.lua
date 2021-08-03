@@ -3,6 +3,10 @@ local g = vim.g
 local o = vim.opt
 local e = vim.env
 
+-- This ensures treesitter can work without double highlighting, while still
+-- allowing for legacy syntax highlighting where needed.
+vim.cmd('syntax enable')
+
 -- Settings to set before loading plugins {{{1
 g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
@@ -53,7 +57,6 @@ _G.dotfiles = {
 }
 
 -- Colorscheme {{{1
-vim.cmd('syntax on')
 vim.cmd('color grey')
 
 -- Code completion {{{1

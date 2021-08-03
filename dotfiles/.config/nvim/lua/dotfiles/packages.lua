@@ -16,7 +16,6 @@ use 'https://gitlab.com/yorickpeterse/nvim-window'
 use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
 use 'justinmk/vim-dirvish'
-use 'cespare/vim-toml'
 use 'b3nj5m1n/kommentary'
 use 'samoshkin/vim-mergetool'
 use 'sindrets/diffview.nvim'
@@ -27,7 +26,7 @@ use { 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' }
 use {
   'nvim-treesitter/nvim-treesitter',
   -- Automatically install/update these parsers when installing/updating.
-  run = 'TSUpdate bash c fish go javascript lua python ruby rust'
+  run = 'TSUpdate bash c comment fish go javascript json lua python ruby rust toml'
 }
 
 package.install()
