@@ -163,7 +163,7 @@ local function install(package, state)
 
       progress(state)
 
-      packages[package.name].enable = false
+      package.enable = false
       state.failed[package.name] = output
     end
   })
@@ -215,7 +215,7 @@ local function install_pending()
   local done = 0
   local pending = {}
 
-  for _, package in pairs(packages) do
+  for _, package in ipairs(packages) do
     if not installed(package) then
       table.insert(pending, package)
     end
@@ -238,7 +238,7 @@ end
 
 -- Activates all installed packages
 local function activate()
-  for _, package in pairs(packages) do
+  for _, package in ipairs(packages) do
     if package.enable then
       vim.cmd('packadd ' .. package.name)
     end
@@ -273,7 +273,7 @@ function M.use(spec)
 
   assert(name, 'No package name could be derived from ' .. vim.inspect(path))
 
-  packages[name] = {
+  local package = {
     name = name,
     dir = root .. name,
     url = url,
@@ -281,6 +281,8 @@ function M.use(spec)
     branch = options.branch,
     run = options.run
   }
+
+  table.insert(packages, package)
 end
 
 -- Installs all packages.
@@ -294,7 +296,7 @@ function M.update(to_update)
   local done = 0
   local pending = {}
 
-  for _, package in pairs(packages) do
+  for _, package in ipairs(packages) do
     if installed(package) then
       if not to_update or to_update == package.name then
         table.insert(pending, package)
@@ -321,7 +323,7 @@ end
 function M.names(start)
   local names = {}
 
-  for _, package in pairs(packages) do
+  for _, package in ipairs(packages) do
     if installed(package) then
       if not start or vim.startswith(package.name, start) then
         table.insert(names, package.name)
@@ -339,7 +341,7 @@ function M.clean()
   local known = {}
   local confirmed = {}
 
-  for _, package in pairs(packages) do
+  for _, package in ipairs(packages) do
     known[package.dir] = true
   end
 
