@@ -6,7 +6,7 @@ local util = require('dotfiles.util')
 local window = require('nvim-window')
 local diag = require('dotfiles.diagnostics')
 local telescope_builtin = require('telescope.builtin')
-local treesitter_info = require('nvim-treesitter.info')
+local parsers = require('nvim-treesitter.parsers')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -152,7 +152,7 @@ map('<leader>t', function()
     return
   end
 
-  if vim.tbl_contains(treesitter_info.installed_parsers(), vim.bo.ft) then
+  if parsers.has_parser() then
     telescope_builtin.treesitter()
     return
   end
