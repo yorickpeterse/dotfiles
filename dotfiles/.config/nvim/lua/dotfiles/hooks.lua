@@ -13,13 +13,9 @@ au('fzf', { 'User FzfStatusLine lua dotfiles.callbacks.fzf_statusline()' })
 -- Highlight yanked selections
 au('yank', { 'TextYankPost * lua dotfiles.callbacks.yanked()' })
 
--- Remove and highlight trailing whitespace
+-- Remove trailing whitespace
 au('trailing_whitespace', {
   [[BufWritePre * lua dotfiles.callbacks.remove_trailing_whitespace()]],
-  [[BufWinEnter * match Visual /\s\+$/]],
-  [[InsertEnter * match Visual /\s\+\%#\@<!$/]],
-  [[InsertLeave * match Visual /\s\+$/]],
-  [[BufWinLeave * call clearmatches()]],
 })
 
 -- LSP and linting

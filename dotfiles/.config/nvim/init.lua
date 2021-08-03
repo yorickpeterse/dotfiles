@@ -93,6 +93,8 @@ o.updatetime = 1000
 o.fillchars = { fold = ' ', diff = ' ' }
 o.printoptions = { number = 'n', header = '0' }
 o.regexpengine = 0
+o.list = true
+o.listchars = { tab = '  ', trail = '█', nbsp = '␣' }
 
 -- Gutentags {{{1
 g.gutentags_ctags_exclude = {
