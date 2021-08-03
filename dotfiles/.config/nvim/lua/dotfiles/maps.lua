@@ -5,7 +5,8 @@ local pairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local diag = require('dotfiles.diagnostics')
-local ts_builtin = require('telescope.builtin')
+local telescope_builtin = require('telescope.builtin')
+local treesitter_info = require('nvim-treesitter.info')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -139,18 +140,24 @@ map('<leader>e', diag.show_line_diagnostics)
 -- Telescope
 map('<leader>f', function()
   if fn.isdirectory(fn.join({ fn.getcwd(), '.git' }, '/')) == 1 then
-    ts_builtin.git_files()
+    telescope_builtin.git_files()
   else
-    ts_builtin.find_files()
+    telescope_builtin.find_files()
   end
 end)
 
 map('<leader>t', function()
   if util.has_lsp_clients() then
-    ts_builtin.lsp_document_symbols()
-  else
-    ts_builtin.current_buffer_tags()
+    telescope_builtin.lsp_document_symbols()
+    return
   end
+
+  if vim.tbl_contains(treesitter_info.installed_parsers(), vim.bo.ft) then
+    telescope_builtin.treesitter()
+    return
+  end
+
+  telescope_builtin.current_buffer_tags()
 end)
 
 map('<leader>b', cmd('Telescope buffers'))
