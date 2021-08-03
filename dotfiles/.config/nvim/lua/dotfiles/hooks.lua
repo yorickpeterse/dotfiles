@@ -16,6 +16,8 @@ au('yank', { 'TextYankPost * lua dotfiles.callbacks.yanked()' })
 -- Remove trailing whitespace
 au('trailing_whitespace', {
   [[BufWritePre * lua dotfiles.callbacks.remove_trailing_whitespace()]],
+  [[InsertEnter * setlocal nolist]],
+  [[InsertLeave * setlocal list]]
 })
 
 -- LSP and linting
