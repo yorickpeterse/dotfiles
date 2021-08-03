@@ -34,6 +34,7 @@ require('dotfiles.commands')
 require('dotfiles.hooks')
 require('dotfiles.comments')
 require('dotfiles.git')
+require('dotfiles.treesitter')
 require('dotfiles.telescope')
 
 _G.dotfiles = {
