@@ -2,6 +2,7 @@
 local reader = require('dotfiles.util').reader
 local uv = vim.loop
 local api = vim.api
+local fn = vim.fn
 
 local M = {}
 
@@ -42,16 +43,23 @@ local function new_state(title, total)
   return { title = title, total = total, done = 0, failed = {} }
 end
 
-local function run_hook(thing)
-  if type(thing) == 'string' then
-    vim.cmd(thing)
+local function run_hook(package)
+  local run = package.run
+  local cwd = fn.getcwd()
 
-    -- Redraw after the command so we don't get any "Press enter to continue"
-    -- prompts.
-    vim.cmd('redraw')
-  elseif type(thing) == 'function' then
-    thing()
+  vim.cmd('cd ' .. package.dir)
+
+  if type(run) == 'string' then
+    vim.cmd(run)
+  elseif type(run) == 'function' then
+    run(package)
   end
+
+  vim.cmd('cd ' .. cwd)
+
+  -- Redraw after the command so we don't get any "Press enter to continue"
+  -- prompts.
+  vim.cmd('redraw')
 end
 
 -- Runs a command.
@@ -148,7 +156,7 @@ local function install(package, state)
 
       progress(state)
       vim.cmd('packadd ' .. package.name)
-      run_hook(package.run)
+      run_hook(package)
     end,
     error = function(output)
       state.done = state.done + 1
@@ -169,7 +177,7 @@ local function update(package, state)
     success = function()
       state.done = state.done + 1
 
-      run_hook(package.run)
+      run_hook(package)
       progress(state)
     end,
     error = function(output)

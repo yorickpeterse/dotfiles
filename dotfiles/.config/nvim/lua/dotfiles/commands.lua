@@ -29,52 +29,6 @@ cmd(
   { nargs = '+' }
 )
 
--- FZF
-cmd(
-  'Files',
-  [[
-    call fzf#vim#files(
-      <q-args>,
-      {'options': ['--prompt=>> ', '--reverse', '--exact']},
-      <bang>0
-    )
-  ]],
-  { bang = true, nargs = '?', complete = 'dir'  }
-)
-
-cmd(
-  'BTags',
-  [[
-    call fzf#vim#buffer_tags(
-      <q-args>,
-      'rg --color=never --no-filename --no-line-number '
-        . fzf#shellescape(expand('%'))
-        . ' tags | sort -s -t \t -k 1,1',
-      {
-        'placeholder': '{2}:{3}',
-        'options': ['--prompt=>> ', '--reverse', '--no-sort', '--exact', '+i']
-      },
-      <bang>0
-    )
-  ]],
-  { bang = true, nargs = '*' }
-)
-
-cmd(
-  'Buffers',
-  [[
-    call fzf#vim#buffers(
-      <q-args>,
-      {
-        'placeholder': '{1}',
-        'options': ['--prompt=>> ', '--reverse', '--exact']
-      },
-      <bang>0
-    )
-  ]],
-  { bang = true, bar = true, nargs = '?', complete = 'buffer'  }
-)
-
 -- Git
 cmd('Review', 'lua dotfiles.callbacks.review()', { nargs = '?' })
 

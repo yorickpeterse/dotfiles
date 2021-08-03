@@ -6,8 +6,6 @@ use 'YorickPeterse/rust.vim'
 use 'tpope/vim-fugitive'
 use 'dag/vim-fish'
 use 'ludovicchabant/vim-gutentags'
-use 'junegunn/fzf'
-use 'junegunn/fzf.vim'
 use 'Vimjas/vim-python-pep8-indent'
 use 'yssl/QFEnter'
 use 'neovim/nvim-lspconfig'
@@ -22,5 +20,9 @@ use 'cespare/vim-toml'
 use 'b3nj5m1n/kommentary'
 use 'samoshkin/vim-mergetool'
 use 'sindrets/diffview.nvim'
+use 'nvim-lua/popup.nvim'
+use 'nvim-lua/plenary.nvim'
+use 'nvim-telescope/telescope.nvim'
+use { 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' }
 
 package.install()

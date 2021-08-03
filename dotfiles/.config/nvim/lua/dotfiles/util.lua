@@ -1,6 +1,7 @@
 -- Utility functions for my dotfiles.
 local api = vim.api
 local fn = vim.fn
+local lsp = vim.lsp
 local M = {}
 
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
@@ -63,6 +64,10 @@ function M.au(name, commands)
   })
 
   vim.cmd(cmd)
+end
+
+function M.has_lsp_clients(buffer)
+  return #lsp.buf_get_clients(buffer or api.nvim_get_current_buf()) > 0
 end
 
 return M

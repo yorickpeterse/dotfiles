@@ -5,6 +5,7 @@ local pairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local diag = require('dotfiles.diagnostics')
+local ts_builtin = require('telescope.builtin')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -116,11 +117,6 @@ au('dirvish', {
   'FileType dirvish nmap <silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
 })
 
--- FZF
-map('<leader>f', cmd('Files'))
-map('<leader>t', cmd('BTags'))
-map('<leader>b', cmd('Buffers'))
-
 -- Fugitive
 map('<leader>gs', cmd('vert rightbelow Git'))
 map('<leader>gd', cmd('Gdiffsplit'))
@@ -129,16 +125,35 @@ map('<leader>gd', cmd('Gdiffsplit'))
 map('<leader>h', lsp.buf.hover)
 map('<leader>r', lsp.buf.rename)
 map('<leader>d', function()
-  if #lsp.buf_get_clients(api.nvim_get_current_buf()) == 0 then
-    api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
-  else
+  if util.has_lsp_clients() then
     lsp.buf.definition()
+  else
+    api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
   end
 end)
 
 map('<leader>i', lsp.buf.references)
 map('<leader>a', lsp.buf.code_action)
 map('<leader>e', diag.show_line_diagnostics)
+
+-- Telescope
+map('<leader>f', function()
+  if fn.isdirectory(fn.join({ fn.getcwd(), '.git' }, '/')) == 1 then
+    ts_builtin.git_files()
+  else
+    ts_builtin.find_files()
+  end
+end)
+
+map('<leader>t', function()
+  if util.has_lsp_clients() then
+    ts_builtin.lsp_document_symbols()
+  else
+    ts_builtin.current_buffer_tags()
+  end
+end)
+
+map('<leader>b', cmd('Telescope buffers'))
 
 -- Terminals
 tmap('<C-[>', [[<C-\><C-n>]])

@@ -34,6 +34,7 @@ require('dotfiles.commands')
 require('dotfiles.hooks')
 require('dotfiles.comments')
 require('dotfiles.git')
+require('dotfiles.telescope')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -62,37 +63,6 @@ o.completefunc = 'v:lua.dotfiles.completion.start'
 
 -- Fugitive {{{1
 g.fugitive_dynamic_colors = 0
-
--- FZF {{{1
-e.FZF_DEFAULT_COMMAND = 'rg --files --follow'
-e.FZF_DEFAULT_OPTS = '--bind=tab:down,shift-tab:up'
-
-g.fzf_colors = {
-  ['fg'] = { 'fg', 'Normal' },
-  ['fg+'] = { 'fg', 'Normal' },
-  ['bg'] = { 'bg', 'Normal' },
-  ['bg+'] = { 'bg', 'Cursor' },
-  ['hl'] = { 'bg', 'WhiteOnYellow' },
-  ['hl+'] = { 'bg', 'WhiteOnYellow' },
-  ['info'] = { 'fg', 'Number' },
-  ['gutter'] = { 'bg', 'Normal' },
-  ['prompt'] = { 'fg', 'Normal' },
-  ['pointer'] = { 'fg', 'Normal' },
-  ['marker'] = { 'fg', 'Normal' },
-  ['spinner'] = { 'fg', 'Normal' },
-  ['header'] = { 'fg', 'Comment' },
-}
-
-g.fzf_layout = {
-  window = {
-    width = 0.7,
-    height = 0.6,
-    border = 'sharp',
-    highlight = 'VertSplit'
-  }
-}
-
-g.fzf_preview_window = ''
 
 -- Generic {{{1
 o.colorcolumn = '80'
