@@ -24,6 +24,10 @@ use 'nvim-lua/popup.nvim'
 use 'nvim-lua/plenary.nvim'
 use 'nvim-telescope/telescope.nvim'
 use { 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' }
-use { 'nvim-treesitter/nvim-treesitter', run = 'TSUpdate' }
+use {
+  'nvim-treesitter/nvim-treesitter',
+  -- Automatically install/update these parsers when installing/updating.
+  run = 'TSUpdate bash c fish go javascript lua python ruby rust'
+}
 
 package.install()
