@@ -30,7 +30,7 @@ cmd(
 )
 
 -- Git
-cmd('Review', 'lua dotfiles.callbacks.review()', { nargs = '?' })
+cmd('Review', 'lua dotfiles.callbacks.review(<f-args>)', { nargs = '?' })
 
 -- Terminals
 cmd('Term', 'lua dotfiles.callbacks.terminal("new")')
