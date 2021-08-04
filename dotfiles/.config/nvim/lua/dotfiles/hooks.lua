@@ -7,9 +7,6 @@ au('filetypes', {
   'BufRead,BufNewFile Dangerfile set filetype=ruby'
 })
 
--- FZF
-au('fzf', { 'User FzfStatusLine lua dotfiles.callbacks.fzf_statusline()' })
-
 -- Highlight yanked selections
 au('yank', { 'TextYankPost * lua dotfiles.callbacks.yanked()' })
 
