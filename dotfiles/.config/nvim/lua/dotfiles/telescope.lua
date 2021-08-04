@@ -9,6 +9,10 @@ local picker_defaults = {
   preview_title = false,
 }
 
+local function picker_opts(opts)
+  return vim.tbl_extend('force', picker_defaults, opts or {})
+end
+
 telescope.setup {
   defaults = {
     prompt_prefix = '> ',
@@ -50,7 +54,7 @@ telescope.setup {
     git_commits = picker_defaults,
     git_bcommits = picker_defaults,
     git_branches = picker_defaults,
-    treesitter = picker_defaults,
+    treesitter = picker_opts({ show_line = false }),
     reloader = picker_defaults,
   },
   extensions = {
