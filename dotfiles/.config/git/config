@@ -39,7 +39,6 @@
 [merge]
     tool = nvim
     prompt = false
-    conflictstyle = diff3
 
 [mergetool]
     keepBackup = false
