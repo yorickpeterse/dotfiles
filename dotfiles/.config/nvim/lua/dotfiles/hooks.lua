@@ -29,7 +29,9 @@ au('lsp', {
 })
 
 -- Fix diff highlights in fugitive
-au('fugitive', { 'BufAdd fugitive://* lua dotfiles.diff.fix_highlight()' })
+au('fugitive', {
+  'BufAdd fugitive://* lua require("dotfiles.diff").fix_highlight()'
+})
 
 -- Automatically create leading directories when writing a file. This makes it
 -- easier to create new files in non-existing directories.

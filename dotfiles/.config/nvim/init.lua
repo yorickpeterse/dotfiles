@@ -44,14 +44,12 @@ require('dotfiles.telescope')
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
   diagnostics = require('dotfiles.diagnostics'),
-  pairs = require('dotfiles.pairs'),
   lint = require('dotfiles.lint'),
   quickfix = require('dotfiles.quickfix'),
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
-  diff = require('dotfiles.diff'),
   callbacks = require('dotfiles.callbacks'),
   maps = require('dotfiles.maps'),
 }
