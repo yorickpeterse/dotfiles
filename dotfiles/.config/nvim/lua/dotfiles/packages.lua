@@ -25,7 +25,7 @@ use { 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' }
 use {
   'nvim-treesitter/nvim-treesitter',
   -- Automatically install/update these parsers when installing/updating.
-  run = 'TSUpdate bash c comment fish go javascript json lua python ruby rust toml'
+  run = 'silent TSUpdate bash c comment fish go javascript json lua python ruby rust toml'
 }
 
 package.install()
