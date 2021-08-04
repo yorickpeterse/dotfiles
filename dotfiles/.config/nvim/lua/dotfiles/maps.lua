@@ -118,9 +118,17 @@ au('dirvish', {
   'FileType dirvish nmap <silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
 })
 
--- Fugitive
+-- Fugitive/Git
 map('<leader>gs', cmd('vert rightbelow Git'))
 map('<leader>gd', cmd('Gdiffsplit'))
+
+map(']n', function()
+  util.restore_register('/', function() vim.cmd('silent! /<<< HEAD') end)
+end)
+
+map('[n', function()
+  util.restore_register('/', function() vim.cmd('silent! ?<<< HEAD') end)
+end)
 
 -- LSP
 map('<leader>h', lsp.buf.hover)
@@ -167,12 +175,10 @@ tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-map('<leader>qf', cmd('cfirst'))
-map('<leader>qn', cmd('cnext'))
-map('<leader>qp', cmd('cprev'))
-map('<leader>lf', cmd('lfirst'))
-map('<leader>ln', cmd('lnext'))
-map('<leader>lp', cmd('lprev'))
+map(']q', cmd('cnext'))
+map('[q', cmd('cprev'))
+map(']l', cmd('lnext'))
+map('[l', cmd('lprev'))
 
 -- Snippets
 ismap('<C-s>', { expr = true }, function()

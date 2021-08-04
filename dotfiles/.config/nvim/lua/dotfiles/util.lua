@@ -70,4 +70,11 @@ function M.has_lsp_clients(buffer)
   return #lsp.buf_get_clients(buffer or api.nvim_get_current_buf()) > 0
 end
 
+function M.restore_register(register, func)
+  local reg_val = fn.getreg(register)
+
+  func()
+  fn.setreg(register, reg_val)
+end
+
 return M
