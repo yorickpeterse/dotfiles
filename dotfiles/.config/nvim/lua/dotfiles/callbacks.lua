@@ -86,7 +86,9 @@ function M.format_buffer()
     local line, col =
       unpack(api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {}))
 
-    if line and col then
+    local max_line_index = api.nvim_buf_line_count(bufnr) - 1
+
+    if line and col and line <= max_line_index then
       api.nvim_win_set_cursor(window, { line + 1, col })
     end
   end
