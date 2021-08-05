@@ -11,9 +11,8 @@ require('diffview').setup {
   key_bindings = {
     disable_defaults = true,
     view = {
-      ['<leader>gf'] = cb('focus_files'),
-      ['<leader>gn'] = cb('select_next_entry'),
-      ['<leader>gp'] = cb('select_prev_entry'),
+      [']f'] = cb('select_next_entry'),
+      ['[f'] = cb('select_prev_entry'),
     },
     file_panel = {
       ['j'] = cb('next_entry'),
