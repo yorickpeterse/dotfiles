@@ -96,15 +96,6 @@ function M.format_buffer()
   api.nvim_buf_clear_namespace(bufnr, format_mark_ns, 0, -1)
 end
 
-function M.fzf_statusline()
-  vim.opt_local.number = false
-  vim.opt_local.relativenumber = false
-  vim.opt_local.statusline = 'FZF'
-  vim.opt_local.signcolumn = 'no'
-
-  vim.cmd('silent file FZF')
-end
-
 function M.review(rev)
   dv.open(rev)
 
