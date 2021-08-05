@@ -108,6 +108,8 @@ g.gutentags_ctags_exclude = {
   '*/locale/*',
   '*.json',
   '*.svg',
+  '*.scss',
+  '*.css',
   -- I use Treesitter for these languages, so don't index them.
   '*.rs',
   '*.lua',
