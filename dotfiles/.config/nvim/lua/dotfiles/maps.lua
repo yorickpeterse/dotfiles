@@ -54,6 +54,7 @@ local function imap(key, options, action) map_key('i', key, options, action) end
 local function smap(key, options, action) map_key('s', key, options, action) end
 local function tmap(key, options, action) map_key('t', key, options, action) end
 local function vmap(key, options, action) map_key('v', key, options, action) end
+local function xmap(key, options, action) map_key('x', key, options, action) end
 local function ismap(key, options, action)
   imap(key, options, action)
   smap(key, options, action)
@@ -76,7 +77,7 @@ map('<space>', '<nop>')
 map('<leader>w', window.pick)
 map('K', '<nop>')
 nmap('s', cmd('HopWord'))
-vmap('s', cmd('HopWord'))
+xmap('s', cmd('HopWord'))
 
 -- Allow copy/pasting using Control-c and Control-v
 vmap('<C-c>', '"+y')
