@@ -116,7 +116,7 @@ vmap('<tab>', '>')
 
 -- Dirvish
 au('dirvish', {
-  'FileType dirvish nmap <silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
+  'FileType dirvish nmap <buffer><silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
 })
 
 -- Fugitive/Git
