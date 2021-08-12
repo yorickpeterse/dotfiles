@@ -113,8 +113,7 @@ g.gutentags_ctags_exclude = {
   -- I use Treesitter for these languages, so don't index them.
   '*.rs',
   '*.lua',
-  '*.js',
-  '*.rb',
+  '*.js'
 }
 
 g.gutentags_file_list_command = 'rg --files'
