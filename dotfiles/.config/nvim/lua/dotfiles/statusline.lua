@@ -12,6 +12,7 @@ local modified = '%m'
 local readonly = '%r'
 local separator = '%='
 local active_hl = 'BlackOnLightYellow'
+local git_hl = 'WhiteOnBlue'
 
 local function diagnostic_count(buffer, kind)
   local amount = vim.lsp.diagnostic.get_count(buffer, kind)
@@ -32,7 +33,32 @@ function M.render()
   local window = vim.g.statusline_winid
   local active = window == api.nvim_get_current_win()
   local buffer = api.nvim_win_get_buf(window)
-  local name = ' ' .. icons.icon(vim.fn.bufname(buffer)) .. '%f '
+  local bufname = vim.fn.bufname(buffer)
+
+  if bufname == '' then
+    bufname = '[No Name]'
+  end
+
+  local git_info = ''
+
+  if vim.startswith(bufname, 'fugitive://') then
+    if bufname:find('.git//2/') then
+      git_info = highlight(' ' .. icons.icon('git') .. 'Remote ', git_hl)
+    elseif bufname:find('.git//3/') then
+      git_info = highlight(' ' .. icons.icon('git') .. 'Local ', git_hl)
+    end
+
+    -- Fugitive file paths can get quite long as they use absolute paths. Since
+    -- I don't care about the part before the .git/ directory, we'll just strip
+    -- that out.
+    local parts = vim.split(bufname, '/.git/', true)
+
+    if #parts == 2 then
+      bufname = 'fugitive://' .. parts[2]
+    end
+  end
+
+  local name = ' ' .. icons.icon(bufname) .. bufname .. ' '
   local has_qf_title, qf_title =
     pcall(api.nvim_win_get_var, window, 'quickfix_title')
 
@@ -46,6 +72,7 @@ function M.render()
     separator,
     highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
     highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
+    git_info,
   })
 end
 
