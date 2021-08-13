@@ -27,5 +27,6 @@ use {
   -- Automatically install/update these parsers when installing/updating.
   run = 'silent TSUpdate bash c comment fish go javascript json lua python ruby rust toml'
 }
+use 'whiteinge/diffconflicts'
 
 package.install()

@@ -39,15 +39,7 @@ function M.render()
     bufname = '[No Name]'
   end
 
-  local git_info = ''
-
   if vim.startswith(bufname, 'fugitive://') then
-    if bufname:find('.git//2/') then
-      git_info = highlight(' ' .. icons.icon('git') .. 'Remote ', git_hl)
-    elseif bufname:find('.git//3/') then
-      git_info = highlight(' ' .. icons.icon('git') .. 'Local ', git_hl)
-    end
-
     -- Fugitive file paths can get quite long as they use absolute paths. Since
     -- I don't care about the part before the .git/ directory, we'll just strip
     -- that out.
@@ -72,7 +64,6 @@ function M.render()
     separator,
     highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
     highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
-    git_info,
   })
 end
 

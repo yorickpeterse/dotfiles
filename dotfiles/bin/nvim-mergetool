@@ -2,7 +2,7 @@
 
 if set -q NVIM_LISTEN_ADDRESS
     nvr \
-        -c 'Gdiffsplit!' \
+        -c 'DiffConflicts' \
         -c 'setlocal bufhidden=delete' \
         --remote-tab-wait \
         $argv
@@ -10,5 +10,5 @@ if set -q NVIM_LISTEN_ADDRESS
     # Re-enter insert mode after the buffer is closed.
     nvr -c startinsert
 else
-    /usr/bin/nvim -c 'Gdiffsplit!' $argv
+    /usr/bin/nvim -c 'DiffConflicts' $argv
 end

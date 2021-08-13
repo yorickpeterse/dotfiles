@@ -3,8 +3,7 @@ local api = vim.api
 local wo = vim.wo
 
 -- The overrides to apply to the old diff.
-local override =
-  'DiffAdd:LightRedBackground,DiffChange:Disabled,DiffText:LightRedBackground'
+local override = 'DiffAdd:LightRedBackground,DiffChange:Disabled'
 
 -- This overrides DiffAdd in fugitive buffers, turning them into something that
 -- looks like DiffDelete (while allowing it to be highlighted differently).

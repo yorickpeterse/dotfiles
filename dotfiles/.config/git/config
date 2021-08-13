@@ -35,6 +35,7 @@
 
 [mergetool "nvim"]
     cmd = nvim-mergetool \"$MERGED\"
+    keepBackup = false
 
 [merge]
     tool = nvim
