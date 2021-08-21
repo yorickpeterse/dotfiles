@@ -176,10 +176,10 @@ tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-map(']q', cmd('cnext'))
-map('[q', cmd('cprev'))
-map(']l', cmd('lnext'))
-map('[l', cmd('lprev'))
+map(']q', cmd('try | cnext | catch | cfirst | catch | endtry'))
+map('[q', cmd('try | cprev | catch | clast | catch | endtry'))
+map(']l', cmd('try | lnext | catch | lfirst | catch | endtry'))
+map('[l', cmd('try | lprev | catch | llast | catch | endtry'))
 
 -- Snippets
 ismap('<C-s>', { expr = true }, function()
