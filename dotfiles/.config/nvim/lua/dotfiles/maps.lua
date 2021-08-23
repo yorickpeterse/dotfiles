@@ -16,6 +16,9 @@ local api = vim.api
 local lsp = vim.lsp
 local g = vim.g
 
+-- The debounce time to use for the various Telescope pickers.
+local telescope_debounce = 100
+
 local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
   local cmd = action
@@ -109,24 +112,24 @@ end
 
 function M.leader_f()
   if fn.isdirectory(fn.join({ fn.getcwd(), '.git' }, '/')) == 1 then
-    telescope_builtin.git_files()
+    telescope_builtin.git_files({ debounce = telescope_debounce })
   else
-    telescope_builtin.find_files()
+    telescope_builtin.find_files({ debounce = telescope_debounce })
   end
 end
 
 function M.leader_t()
   if util.has_lsp_clients() then
-    telescope_builtin.lsp_document_symbols()
+    telescope_builtin.lsp_document_symbols({ debounce = telescope_debounce })
     return
   end
 
   if parsers.has_parser() then
-    telescope_builtin.treesitter()
+    telescope_builtin.treesitter({ debounce = telescope_debounce })
     return
   end
 
-  telescope_builtin.current_buffer_tags()
+  telescope_builtin.current_buffer_tags({ debounce = telescope_debounce })
 end
 
 function M.control_s()
