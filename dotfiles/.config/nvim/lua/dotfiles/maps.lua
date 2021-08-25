@@ -164,7 +164,8 @@ g.maplocalleader = ' '
 map('<space>', '<nop>')
 map('<leader>w', func('leader_w'))
 map('<leader>s', cmd('update'))
-map('<leader><leader>', '<C-w>')
+map('<leader>c', cmd('quit'))
+map('<leader>v', cmd('vsplit'))
 
 map('K', '<nop>')
 nmap('s', cmd('HopWord'))
