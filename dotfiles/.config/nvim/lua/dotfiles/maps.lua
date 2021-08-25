@@ -176,10 +176,6 @@ vmap('<C-c>', '"+y')
 imap('<C-v>', '<Esc>"+pa')
 tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
 
--- Commenting
-nmap('<leader>c', '<Plug>kommentary_line_default<Esc>')
-vmap('<leader>c', '<Plug>kommentary_visual_default<Esc>')
-
 -- Code and pairs completion
 imap('<CR>', expr('enter'))
 
