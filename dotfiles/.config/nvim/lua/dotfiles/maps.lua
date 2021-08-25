@@ -163,6 +163,7 @@ g.maplocalleader = ' '
 -- Generic
 map('<space>', '<nop>')
 map('<leader>w', func('leader_w'))
+map('<leader>s', cmd('update'))
 map('<leader><leader>', '<C-w>')
 
 map('K', '<nop>')
