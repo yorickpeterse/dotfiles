@@ -11,6 +11,9 @@ lint.linter('markdown', {
   exe = function(path)
     return 'vale', { '--output', 'JSON', path }
   end,
+  enable = function()
+    return util.find_file('.vale.ini') ~= ''
+  end,
   parse = function(output)
     local decoded = util.json_decode(output)
     local items = {}
