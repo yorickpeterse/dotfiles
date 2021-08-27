@@ -1,8 +1,8 @@
 if exists('g:GuiLoaded')
-  GuiFont Source Code Pro:h7.5
+  GuiFont Source Code Pro:h8
   GuiTabline 0
   GuiPopupmenu 0
-  GuiLinespace 1
+  GuiLinespace 0
 
   " Mouse settings, mostly so copy-pasting in :term buffers is a bit easier
   set mouse=a
