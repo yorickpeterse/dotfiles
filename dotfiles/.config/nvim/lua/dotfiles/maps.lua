@@ -162,10 +162,10 @@ g.maplocalleader = ' '
 
 -- Generic
 map('<space>', '<nop>')
-map('<leader>w', func('leader_w'))
-map('<leader>s', cmd('update'))
-map('<leader>c', cmd('quit'))
-map('<leader>v', cmd('vsplit'))
+nmap('<leader>w', func('leader_w'))
+nmap('<leader>s', cmd('update'))
+nmap('<leader>c', cmd('quit'))
+nmap('<leader>v', cmd('vsplit'))
 
 nmap('s', cmd('HopWord'))
 xmap('s', cmd('HopWord'))
@@ -191,39 +191,39 @@ au('dirvish', {
 })
 
 -- Fugitive/Git
-map('<leader>gs', cmd('vert rightbelow Git'))
-map('<leader>gd', cmd('Gdiffsplit'))
+nmap('<leader>gs', cmd('vert rightbelow Git'))
+nmap('<leader>gd', cmd('Gdiffsplit'))
 
-map(']n', func('next_conflict'))
-map('[n', func('previous_conflict'))
+nmap(']n', func('next_conflict'))
+nmap('[n', func('previous_conflict'))
 
 -- LSP
-map('<leader>h', cmd('lua vim.lsp.buf.hover()'))
-map('<leader>r', cmd('lua vim.lsp.buf.rename()'))
-map('<leader>d', func('leader_d'))
+nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
+nmap('<leader>r', cmd('lua vim.lsp.buf.rename()'))
+nmap('<leader>d', func('leader_d'))
 
-map('<leader>i', cmd('lua vim.lsp.buf.references()'))
-map('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
-map('<leader>e', func('leader_e'))
+nmap('<leader>i', cmd('lua vim.lsp.buf.references()'))
+nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
+nmap('<leader>e', func('leader_e'))
 
 -- Searching
-map('K', cmd('silent grep! <cword>'))
-map('<leader>k', ':silent grep! ', { silent = false })
+nmap('K', cmd('silent grep! <cword>'))
+nmap('<leader>k', ':silent grep! ', { silent = false })
 
 -- Telescope
-map('<leader>f', func('leader_f'))
-map('<leader>t', func('leader_t'))
-map('<leader>b', cmd('Telescope buffers'))
+nmap('<leader>f', func('leader_f'))
+nmap('<leader>t', func('leader_t'))
+nmap('<leader>b', cmd('Telescope buffers'))
 
 -- Terminals
 tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-map(']q', cmd('try | cnext | catch | silent! cfirst | endtry'))
-map('[q', cmd('try | cprev | catch | silent! clast | endtry'))
-map(']l', cmd('try | lnext | catch | silent! lfirst | endtry'))
-map('[l', cmd('try | lprev | catch | silent! llast | endtry'))
+nmap(']q', cmd('try | cnext | catch | silent! cfirst | endtry'))
+nmap('[q', cmd('try | cprev | catch | silent! clast | endtry'))
+nmap(']l', cmd('try | lnext | catch | silent! lfirst | endtry'))
+nmap('[l', cmd('try | lprev | catch | silent! llast | endtry'))
 
 -- Snippets
 ismap('<C-s>', expr('control_s'))
