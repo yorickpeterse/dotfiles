@@ -167,6 +167,11 @@ nmap('<leader>s', cmd('update'))
 nmap('<leader>c', cmd('quit'))
 nmap('<leader>v', cmd('vsplit'))
 
+nmap('<C-j>', '<C-w>j')
+nmap('<C-k>', '<C-w>k')
+nmap('<C-l>', '<C-w>l')
+nmap('<C-h>', '<C-w>h')
+
 nmap('s', cmd('HopWord'))
 xmap('s', cmd('HopWord'))
 
