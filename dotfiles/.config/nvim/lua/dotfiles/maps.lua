@@ -167,7 +167,6 @@ map('<leader>s', cmd('update'))
 map('<leader>c', cmd('quit'))
 map('<leader>v', cmd('vsplit'))
 
-map('K', '<nop>')
 nmap('s', cmd('HopWord'))
 xmap('s', cmd('HopWord'))
 
@@ -206,6 +205,10 @@ map('<leader>d', func('leader_d'))
 map('<leader>i', cmd('lua vim.lsp.buf.references()'))
 map('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
 map('<leader>e', func('leader_e'))
+
+-- Searching
+map('K', cmd('silent grep! <cword>'))
+map('<leader>k', ':silent grep! ', { silent = false })
 
 -- Telescope
 map('<leader>f', func('leader_f'))
