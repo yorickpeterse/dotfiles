@@ -106,4 +106,15 @@ function M.review(rev)
   end
 end
 
+-- Moves back to the previous window when closing a quickfix window, unless we
+-- closed the quickfix window from another window (e.g. using `:cclose`).
+function M.close_quickfix()
+  local closed_win = tonumber(fn.expand('<afile>'))
+  local current_win = api.nvim_get_current_win()
+
+  if closed_win == current_win then
+    api.nvim_feedkeys(keycode('<C-w>p'), 'n', true)
+  end
+end
+
 return M
