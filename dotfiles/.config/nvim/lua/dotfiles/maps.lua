@@ -94,11 +94,11 @@ function M.previous_conflict()
   util.restore_register('/', function() vim.cmd('silent! ?<<< HEAD') end)
 end
 
-function M.leader_w()
+function M.pick_window()
   window.pick()
 end
 
-function M.leader_d()
+function M.definition()
   if util.has_lsp_clients() then
     lsp.buf.definition()
   else
@@ -106,11 +106,11 @@ function M.leader_d()
   end
 end
 
-function M.leader_e()
+function M.line_diagnostics()
   diag.show_line_diagnostics()
 end
 
-function M.leader_f()
+function M.telescope_files()
   if fn.isdirectory(fn.join({ fn.getcwd(), '.git' }, '/')) == 1 then
     telescope_builtin.git_files({ debounce = telescope_debounce })
   else
@@ -118,7 +118,7 @@ function M.leader_f()
   end
 end
 
-function M.leader_t()
+function M.telescope_symbols()
   if util.has_lsp_clients() then
     telescope_builtin.lsp_document_symbols({ debounce = telescope_debounce })
     return
@@ -132,7 +132,7 @@ function M.leader_t()
   telescope_builtin.current_buffer_tags({ debounce = telescope_debounce })
 end
 
-function M.control_s()
+function M.snippet_expand()
   if fn['vsnip#expandable']() then
     return keycode('<Plug>(vsnip-expand)')
   else
@@ -140,7 +140,7 @@ function M.control_s()
   end
 end
 
-function M.control_j()
+function M.snippet_jump_next()
   if fn['vsnip#jumpable'](1) then
     return keycode('<Plug>(vsnip-jump-next)')
   else
@@ -148,7 +148,7 @@ function M.control_j()
   end
 end
 
-function M.control_k()
+function M.snippet_jump_previous()
   if fn['vsnip#jumpable'](-1) then
     return keycode('<Plug>(vsnip-jump-prev)')
   else
@@ -180,7 +180,7 @@ g.maplocalleader = ' '
 
 -- Generic
 map('<space>', '<nop>')
-nmap('<leader>w', func('leader_w'))
+nmap('<leader>w', func('pick_window'))
 nmap('<leader>s', cmd('update'))
 nmap('<leader>c', cmd('quit'))
 nmap('<leader>v', cmd('vsplit'))
@@ -223,19 +223,19 @@ nmap('[n', func('previous_conflict'))
 -- LSP
 nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
 nmap('<leader>r', cmd('lua vim.lsp.buf.rename()'))
-nmap('<leader>d', func('leader_d'))
+nmap('<leader>d', func('definition'))
 
 nmap('<leader>i', cmd('lua vim.lsp.buf.references()'))
 nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
-nmap('<leader>e', func('leader_e'))
+nmap('<leader>e', func('line_diagnostics'))
 
 -- Searching
 nmap('K', cmd('silent grep! <cword>'))
 nmap('<leader>k', ':silent grep! ', { silent = false })
 
 -- Telescope
-nmap('<leader>f', func('leader_f'))
-nmap('<leader>t', func('leader_t'))
+nmap('<leader>f', func('telescope_files'))
+nmap('<leader>t', func('telescope_symbols'))
 nmap('<leader>b', cmd('Telescope buffers'))
 
 -- Terminals
@@ -251,8 +251,8 @@ nmap('<leader>l', func('toggle_loclist'))
 nmap('<leader>q', func('toggle_quickfix'))
 
 -- Snippets
-ismap('<C-s>', expr('control_s'))
-ismap('<C-j>', expr('control_j'))
-ismap('<C-k>', expr('control_k'))
+ismap('<C-s>', expr('snippet_expand'))
+ismap('<C-j>', expr('snippet_jump_next'))
+ismap('<C-k>', expr('snippet_jump_previous'))
 
 return M
