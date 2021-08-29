@@ -156,6 +156,24 @@ function M.control_k()
   end
 end
 
+function M.toggle_loclist()
+  local winid = api.nvim_get_current_win()
+
+  if #fn.filter(fn.getwininfo(winid), 'v:val.loclist') == 0 then
+    vim.cmd('silent! lwindow')
+  else
+    vim.cmd('silent! lclose')
+  end
+end
+
+function M.toggle_quickfix()
+  if #fn.filter(fn.getwininfo(), 'v:val.quickfix') == 0 then
+    vim.cmd('silent! cwindow')
+  else
+    vim.cmd('silent! cclose')
+  end
+end
+
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -229,6 +247,8 @@ nmap(']q', cmd('try | cnext | catch | silent! cfirst | endtry'))
 nmap('[q', cmd('try | cprev | catch | silent! clast | endtry'))
 nmap(']l', cmd('try | lnext | catch | silent! lfirst | endtry'))
 nmap('[l', cmd('try | lprev | catch | silent! llast | endtry'))
+nmap('<leader>l', func('toggle_loclist'))
+nmap('<leader>q', func('toggle_quickfix'))
 
 -- Snippets
 ismap('<C-s>', expr('control_s'))
