@@ -160,7 +160,7 @@ function M.toggle_loclist()
   local winid = api.nvim_get_current_win()
 
   if #fn.filter(fn.getwininfo(winid), 'v:val.loclist') == 0 then
-    vim.cmd('silent! lwindow')
+    vim.cmd('silent! lopen')
   else
     vim.cmd('silent! lclose')
   end
@@ -168,7 +168,7 @@ end
 
 function M.toggle_quickfix()
   if #fn.filter(fn.getwininfo(), 'v:val.quickfix') == 0 then
-    vim.cmd('silent! cwindow')
+    vim.cmd('silent! copen')
   else
     vim.cmd('silent! cclose')
   end
