@@ -38,6 +38,11 @@ element {
 
 element selected {
     border: 1;
+}
+
+element selected,
+element-icon selected,
+element-text selected {
     background-color: @background-selected;
 }
 

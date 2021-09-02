@@ -7,9 +7,8 @@ configuration {
     icon-theme: "Papirus";
     kb-remove-char-back: "BackSpace";
     kb-accept-entry: "Return";
-    kb-row-up: "Up,Control+k,ISO_Left_Tab";
+    kb-row-up: "Up,ISO_Left_Tab";
     kb-row-down: "Down,Control+j";
-    kb-mode-next: "Control+l";
     kb-mode-previous: "Control+h";
     kb-remove-to-eol: "";
     kb-cancel: "Escape,Control+q";
