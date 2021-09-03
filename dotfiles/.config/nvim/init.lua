@@ -34,8 +34,6 @@ require('dotfiles.linters.vale')
 
 require('dotfiles.lsp')
 require('dotfiles.window')
-require('dotfiles.commands')
-require('dotfiles.hooks')
 require('dotfiles.comments')
 require('dotfiles.git')
 require('dotfiles.treesitter')
@@ -50,8 +48,10 @@ _G.dotfiles = {
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
-  callbacks = require('dotfiles.callbacks'),
+  abbrev = require('dotfiles.abbrev'),
   maps = require('dotfiles.maps'),
+  commands = require('dotfiles.commands'),
+  hooks = require('dotfiles.hooks'),
 }
 
 -- Colorscheme {{{1
@@ -152,9 +152,6 @@ o.grepprg = 'rg --vimgrep'
 o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 o.incsearch = true
 o.hlsearch = false
-
--- Don't show the output window of grep
-vim.cmd('cnoreabbrev <expr> grep v:lua.dotfiles.callbacks.abbreviate_grep()')
 
 -- Statusline {{{1
 o.statusline = '%!v:lua.dotfiles.statusline.render()'

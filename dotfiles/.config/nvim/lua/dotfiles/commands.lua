@@ -1,3 +1,9 @@
+local M = {}
+local fn = vim.fn
+local dv = require('diffview')
+local dv_lib = require('diffview.lib')
+local diff = require('dotfiles.diff')
+
 local function cmd(name, action, flags)
   local flag_pairs = {}
 
@@ -21,21 +27,51 @@ local function cmd(name, action, flags)
   vim.cmd(def)
 end
 
+-- Finds all occurrences of text stored in register A, replacing it with the
+-- contents of register B.
+function M.find_replace_register(find, replace)
+  local cmd = '%s/\\V'
+    .. fn.escape(fn.getreg(find), '/'):gsub('\n', '\\n')
+    .. '/'
+    .. fn.escape(fn.getreg(replace), '/&'):gsub('\n', '\\r')
+    .. '/g'
+
+  print(cmd)
+
+  vim.cmd(cmd)
+end
+
+function M.review(rev)
+  dv.open(rev)
+
+  local view = dv_lib.get_current_diffview()
+
+  if view then
+    diff.fix_highlight(view.left_winid, { force = true })
+  end
+end
+
+function M.terminal(cmd)
+  vim.cmd(cmd)
+  vim.cmd('term')
+  vim.cmd('startinsert')
+end
+
 cmd('Tq', 'windo q')
 cmd('Init', 'e ~/.config/nvim/init.lua')
 cmd(
   'Replace',
-  'lua dotfiles.callbacks.find_replace_register(<f-args>)',
+  'lua dotfiles.commands.find_replace_register(<f-args>)',
   { nargs = '+' }
 )
 
 -- Git
-cmd('Review', 'lua dotfiles.callbacks.review(<f-args>)', { nargs = '?' })
+cmd('Review', 'lua dotfiles.commands.review(<f-args>)', { nargs = '?' })
 
 -- Terminals
-cmd('Term', 'lua dotfiles.callbacks.terminal("new")')
-cmd('Vterm', 'lua dotfiles.callbacks.terminal("vnew")')
-cmd('Tterm', 'lua dotfiles.callbacks.terminal("tabnew")')
+cmd('Term', 'lua dotfiles.commands.terminal("new")')
+cmd('Vterm', 'lua dotfiles.commands.terminal("vnew")')
+cmd('Tterm', 'lua dotfiles.commands.terminal("tabnew")')
 
 -- Package management
 cmd(
@@ -52,3 +88,5 @@ cmd(
   'lua dotfiles.workspace.open(<f-args>)',
   { nargs = '1', complete = 'customlist,v:lua.dotfiles.workspace.names' }
 )
+
+return M

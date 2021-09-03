@@ -5,5 +5,5 @@
 if getwininfo(win_getid())[0].loclist != 1
   wincmd J
 
-  au WinClosed <buffer> :lua dotfiles.callbacks.close_quickfix()
+  au WinClosed <buffer> :lua dotfiles.hooks.close_quickfix()
 endif
