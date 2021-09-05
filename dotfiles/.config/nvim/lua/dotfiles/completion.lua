@@ -344,7 +344,7 @@ function M.start(findstart, base)
     bufnr,
     'textDocument/completion',
     params,
-    function(err, _, result)
+    function(err, result)
       if err or not result then
         show_completions(start_pos, items)
         return
