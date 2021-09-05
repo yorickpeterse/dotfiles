@@ -25,12 +25,10 @@ local function done(bufnr, linter, client_id, output)
     end
 
     local method = 'textDocument/publishDiagnostics'
-    local result = {
-      uri = vim.uri_from_bufnr(bufnr),
-      diagnostics = items
-    }
+    local result = { uri = vim.uri_from_bufnr(bufnr), diagnostics = items }
+    local ctx = { method = method, client_id = client_id, bufnr = bufnr }
 
-    vim.lsp.handlers[method](nil, method, result, client_id, bufnr)
+    vim.lsp.handlers[method](nil, result, ctx)
   end)
 end
 
