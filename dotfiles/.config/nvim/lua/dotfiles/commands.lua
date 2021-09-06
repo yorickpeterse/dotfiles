@@ -1,8 +1,5 @@
 local M = {}
 local fn = vim.fn
-local dv = require('diffview')
-local dv_lib = require('diffview.lib')
-local diff = require('dotfiles.diff')
 
 local function cmd(name, action, flags)
   local flag_pairs = {}
@@ -41,16 +38,6 @@ function M.find_replace_register(find, replace)
   vim.cmd(cmd)
 end
 
-function M.review(rev)
-  dv.open(rev)
-
-  local view = dv_lib.get_current_diffview()
-
-  if view then
-    diff.fix_highlight(view.left_winid, { force = true })
-  end
-end
-
 function M.terminal(cmd)
   vim.cmd(cmd)
   vim.cmd('term')
@@ -64,9 +51,6 @@ cmd(
   'lua dotfiles.commands.find_replace_register(<f-args>)',
   { nargs = '+' }
 )
-
--- Git
-cmd('Review', 'lua dotfiles.commands.review(<f-args>)', { nargs = '?' })
 
 -- Terminals
 cmd('Term', 'lua dotfiles.commands.terminal("new")')

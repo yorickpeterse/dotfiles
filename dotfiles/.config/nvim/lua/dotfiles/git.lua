@@ -4,6 +4,7 @@ local cb = require('diffview.config').diffview_callback
 
 require('diffview').setup {
   diff_binaries = false,
+  enhanced_diff_hl = true,
   file_panel = {
     width = 40,
     use_icons = true
@@ -22,6 +23,8 @@ require('diffview').setup {
       ['U'] = cb('unstage_all'),
       ['X'] = cb('restore_entry'),
       ['R'] = cb('refresh_files'),
+      [']f'] = cb('select_next_entry'),
+      ['[f'] = cb('select_prev_entry'),
     }
   }
 }
