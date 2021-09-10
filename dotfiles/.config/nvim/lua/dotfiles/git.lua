@@ -5,9 +5,9 @@ local cb = require('diffview.config').diffview_callback
 require('diffview').setup {
   diff_binaries = false,
   enhanced_diff_hl = true,
+  use_icons = true,
   file_panel = {
     width = 40,
-    use_icons = true
   },
   key_bindings = {
     disable_defaults = true,
