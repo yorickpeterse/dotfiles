@@ -111,11 +111,7 @@ function M.line_diagnostics()
 end
 
 function M.telescope_files()
-  if fn.isdirectory(fn.join({ fn.getcwd(), '.git' }, '/')) == 1 then
-    telescope_builtin.git_files({ debounce = telescope_debounce })
-  else
-    telescope_builtin.find_files({ debounce = telescope_debounce })
-  end
+  telescope_builtin.find_files({ debounce = telescope_debounce, hidden = true })
 end
 
 function M.telescope_symbols()
