@@ -9,26 +9,9 @@ local type_mapping = {
   W = 'W '
 }
 
--- Trims a file path so it doesn't take up as much space in a list.
+-- Trims a file path
 local function trim_path(path)
-  local path = fn.fnamemodify(path, ':p:.')
-
-  -- Trimming a path outside the current working directory can lead to confusing
-  -- paths, so we don't.
-  if path:sub(1, 1) == '/' then
-    return path
-  end
-
-  local base = fn.split(path, '/')
-  local chunks = {}
-
-  for i = #base - 2, #base do
-    if base[i] then
-      table.insert(chunks, base[i])
-    end
-  end
-
-  return fn.join(chunks, '/')
+  return fn.fnamemodify(path, ':p:.')
 end
 
 -- Returns the quickfix or location list items, depending on what type of list
