@@ -38,12 +38,13 @@ telescope.setup {
         ['<s-tab>'] = actions.move_selection_previous,
       }
     },
+    file_ignore_patterns = {
+      '.git/',
+    }
   },
   pickers = {
     file_browser = picker_defaults,
-    find_files = picker_opts({
-      file_ignore_patterns = { '^.git$' }
-    }),
+    find_files = picker_defaults,
     git_files = picker_defaults,
     buffers = picker_defaults,
     tags = picker_defaults,
