@@ -16,9 +16,6 @@ local api = vim.api
 local lsp = vim.lsp
 local g = vim.g
 
--- The debounce time to use for the various Telescope pickers.
-local telescope_debounce = 100
-
 local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
   local cmd = action
@@ -111,21 +108,21 @@ function M.line_diagnostics()
 end
 
 function M.telescope_files()
-  telescope_builtin.find_files({ debounce = telescope_debounce, hidden = true })
+  telescope_builtin.find_files({ hidden = true })
 end
 
 function M.telescope_symbols()
   if util.has_lsp_clients() then
-    telescope_builtin.lsp_document_symbols({ debounce = telescope_debounce })
+    telescope_builtin.lsp_document_symbols()
     return
   end
 
   if parsers.has_parser() then
-    telescope_builtin.treesitter({ debounce = telescope_debounce })
+    telescope_builtin.treesitter()
     return
   end
 
-  telescope_builtin.current_buffer_tags({ debounce = telescope_debounce })
+  telescope_builtin.current_buffer_tags()
 end
 
 function M.snippet_expand()
