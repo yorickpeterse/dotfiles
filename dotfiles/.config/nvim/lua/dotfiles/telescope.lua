@@ -41,7 +41,9 @@ telescope.setup {
   },
   pickers = {
     file_browser = picker_defaults,
-    find_files = picker_defaults,
+    find_files = picker_opts({
+      file_ignore_patterns = { '^.git$' }
+    }),
     git_files = picker_defaults,
     buffers = picker_defaults,
     tags = picker_defaults,
