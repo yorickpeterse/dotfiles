@@ -151,8 +151,9 @@ end
 
 function M.toggle_loclist()
   local winid = api.nvim_get_current_win()
+  local list = fn.getloclist(winid, { winid = 0 })
 
-  if #fn.filter(fn.getwininfo(winid), 'v:val.loclist') == 0 then
+  if not list or list.winid == 0 then
     vim.cmd('silent! lopen')
   else
     vim.cmd('silent! lclose')
