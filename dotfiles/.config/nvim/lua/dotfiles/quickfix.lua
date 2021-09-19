@@ -63,7 +63,7 @@ function M.format(info)
     local item = items[list_index]
 
     if item then
-      local text = fn.trim(item.text)
+      local text = vim.split(fn.trim(item.text), "\n")[1]
       local location = item.location
 
       if text ~= '' then

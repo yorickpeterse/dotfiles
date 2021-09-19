@@ -78,30 +78,25 @@ function M.restore_register(register, func)
   fn.setreg(register, reg_val)
 end
 
-function M.set_diagnostics_location_list(bufnr, diagnostics)
+function M.set_diagnostics_location_list(bufnr)
   local items = {}
-  local winid = fn.bufwinnr(bufnr)
+  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
 
-  -- Multiple clients may produce diagnostics, so we add _all_ current
-  -- diagnostics to the location list; instead of the diagnostics for the
-  -- current callback.
-  for _, d in ipairs(diagnostics) do
-    if d.severity <= diag.severity.WARN then
-      if d.bufnr == bufnr then
-        table.insert(items, {
-          bufnr = d.bufnr,
-          lnum = d.lnum + 1,
-          col = d.col + 1,
-          text = vim.split(d.message, "\n")[1],
-          type = d.severity == diag.severity.WARN and 'W' or 'E'
-        })
-      end
-    end
+  for _, d in ipairs(diags) do
+    table.insert(items, {
+      bufnr = d.bufnr,
+      lnum = d.lnum + 1,
+      col = d.col + 1,
+      text = d.message,
+      type = d.severity == diag.severity.WARN and 'W' or 'E'
+    })
   end
 
   table.sort(items, function(a, b) return a.lnum < b.lnum end)
 
-  fn.setloclist(winid, {}, ' ', { title = 'Diagnostics', items = items })
+  for _, win in ipairs(fn.getbufinfo(bufnr)[1].windows) do
+    fn.setloclist(win, {}, ' ', { title = 'Diagnostics', items = items })
+  end
 end
 
 return M

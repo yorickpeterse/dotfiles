@@ -10,6 +10,9 @@ local diag = vim.diagnostic
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
 
+local diag_timeout = 100
+local diag_timeouts = {}
+
 function M.remove_trailing_whitespace()
   local line = fn.line('.')
   local col = fn.col('.')
@@ -71,16 +74,32 @@ function M.close_quickfix()
   end
 end
 
-function M.update_location_list()
+-- This callback gets called _a lot_. Populating the location list every time
+-- can sometimes lead to empty or out of sync location lists. To prevent this
+-- from happening we defer updating the location list.
+function M.set_location_list()
   local bufnr = fn.bufnr()
 
   if not util.has_lsp_clients(bufnr) then
     return
   end
 
-  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
+  if diag_timeouts[bufnr] then
+    diag_timeouts[bufnr]:stop()
+  else
+    -- Clear the cache when the buffer unloads
+    api.nvim_buf_attach(bufnr, false, {
+      on_detach = function()
+        diag_timeouts[bufnr] = nil
+      end
+    })
+  end
 
-  util.set_diagnostics_location_list(bufnr, diags)
+  local callback = function()
+    util.set_diagnostics_location_list(bufnr)
+  end
+
+  diag_timeouts[bufnr] = vim.defer_fn(callback, diag_timeout)
 end
 
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
@@ -104,9 +123,10 @@ au('trailing_whitespace', {
 au('lsp', {
   'BufWritePre *.rs lua dotfiles.hooks.format_buffer()',
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
+  'BufWritePost * lua dotfiles.lint.lint()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
-  'BufWinEnter * lua dotfiles.hooks.update_location_list()',
-  'BufWritePost * lua dotfiles.lint.lint()'
+  'BufWinEnter * lua dotfiles.hooks.set_location_list()',
+  'User DiagnosticsChanged lua dotfiles.hooks.set_location_list()',
 })
 
 -- Fix diff highlights in fugitive

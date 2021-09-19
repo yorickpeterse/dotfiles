@@ -40,55 +40,17 @@ local capabilities = lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
-do
-  diag.config({
-    underline = {
-      severity = { min = diag.severity.WARN }
-    },
-    signs = {
-      severity = { min = diag.severity.WARN }
-    },
-    severity_sort = true,
-    virtual_text = false,
-    update_in_insert = false
-  })
-
-  local show = diag.show
-  local timeout = 100
-  local timeouts = {}
-
-  -- This callback gets called _a lot_. Populating the location list every time
-  -- can sometimes lead to empty or out of sync location lists. To prevent this
-  -- from happening we defer updating the location list.
-  diag.show = function(namespace, bufnr, diagnostics, opts)
-    show(namespace, bufnr, diagnostics, opts)
-
-    -- Timers are stored per buffer and client, otherwise diagnostics produced
-    -- for one buffer/client may reset the timer of an unrelated buffer/client.
-    if timeouts[bufnr] == nil then
-      timeouts[bufnr] = {}
-
-      -- Clear the cache when the buffer unloads
-      vim.api.nvim_buf_attach(bufnr, false, {
-        on_detach = function()
-          timeouts[bufnr] = nil
-        end
-      })
-    end
-
-    if timeouts[bufnr][namespace] then
-      timeouts[bufnr][namespace]:stop()
-    end
-
-    local callback = function()
-      if diagnostics then
-        util.set_diagnostics_location_list(bufnr, diagnostics)
-      end
-    end
-
-    timeouts[bufnr][namespace] = vim.defer_fn(callback, timeout)
-  end
-end
+diag.config({
+  underline = {
+    severity = { min = diag.severity.WARN }
+  },
+  signs = {
+    severity = { min = diag.severity.WARN }
+  },
+  severity_sort = true,
+  virtual_text = false,
+  update_in_insert = false
+})
 
 -- Signs {{{1
 vim.cmd('sign define DiagnosticSignError text=E numhl=ErrorMsg texthl=ErrorMsg')
