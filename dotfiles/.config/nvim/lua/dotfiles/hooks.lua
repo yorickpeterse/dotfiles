@@ -1,5 +1,6 @@
 local M = {}
 local util = require('dotfiles.util')
+local lint = require('dotfiles.lint')
 local au = util.au
 local keycode = util.keycode
 local fn = vim.fn
@@ -79,8 +80,9 @@ end
 -- from happening we defer updating the location list.
 function M.set_location_list()
   local bufnr = fn.bufnr()
+  local ft = api.nvim_buf_get_option(bufnr, 'ft')
 
-  if not util.has_lsp_clients(bufnr) then
+  if not util.has_lsp_clients(bufnr) and not lint.available(ft) then
     return
   end
 

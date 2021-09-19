@@ -100,6 +100,11 @@ function M.linter(filetype, linter)
   table.insert(linters[filetype], linter)
 end
 
+-- Returns a boolean indicating if a linter is available for a file type.
+function M.available(filetype)
+  return linters[filetype] and #linters[filetype] > 0
+end
+
 -- Runs all linters for the current buffer.
 function M.lint()
   local bufnr = api.nvim_get_current_buf()
