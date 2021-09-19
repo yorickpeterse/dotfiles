@@ -1,12 +1,15 @@
 -- Configuration for NeoVim's LSP integration.
 
 local config = require('lspconfig')
+local lsp = vim.lsp
+local diag = vim.diagnostic
+local util = require('dotfiles.util')
 
 -- Markdown popup {{{1
 do
-  local default = vim.lsp.util.open_floating_preview
+  local default = lsp.util.open_floating_preview
 
-  vim.lsp.util.open_floating_preview = function(contents, syntax, opts)
+  lsp.util.open_floating_preview = function(contents, syntax, opts)
     local local_opts = {
       max_width = 120,
       max_height = 20,
@@ -21,9 +24,9 @@ end
 
 -- Floating window borders {{{1
 do
-  local default = vim.lsp.util.make_floating_popup_options
+  local default = lsp.util.make_floating_popup_options
 
-  vim.lsp.util.make_floating_popup_options = function(width, height, opts)
+  lsp.util.make_floating_popup_options = function(width, height, opts)
     local new_opts =
       vim.tbl_deep_extend('force', opts or {}, { border = 'single' })
 
@@ -32,58 +35,33 @@ do
 end
 
 -- Snippet support {{{1
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
 do
-  local severities = {
-    [vim.lsp.protocol.DiagnosticSeverity.Error] = 'E',
-    [vim.lsp.protocol.DiagnosticSeverity.Warning] = 'W',
-  }
+  diag.config({
+    underline = {
+      severity = { min = diag.severity.WARN }
+    },
+    signs = {
+      severity = { min = diag.severity.WARN }
+    },
+    severity_sort = true,
+    virtual_text = false,
+    update_in_insert = false
+  })
 
-  local function set_location_list(diagnostics, bufnr)
-    local items = {}
-
-    -- Multiple clients may produce diagnostics, so we add _all_ current
-    -- diagnostics to the location list; instead of the diagnostics for the
-    -- current callback.
-    for _, diag in ipairs(diagnostics) do
-      if diag.severity <= vim.lsp.protocol.DiagnosticSeverity.Warning then
-        table.insert(items, {
-          bufnr = bufnr,
-          lnum = diag.range.start.line + 1,
-          col = diag.range.start.character + 1,
-          text = vim.split(diag.message, "\n")[1],
-          type = severities[diag.severity or vim.lsp.protocol.DiagnosticSeverity.Error] or 'E',
-        })
-      end
-    end
-
-    table.sort(items, function(a, b) return a.lnum < b.lnum end)
-
-    vim.lsp.util.set_loclist(items, vim.fn.bufwinnr(bufnr))
-  end
-
-  vim.lsp.handlers['textDocument/publishDiagnostics'] =
-    vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-      underline = true,
-      virtual_text = false,
-      signs = true,
-      update_in_insert = false,
-      severity_sort = true
-    })
-
-  local display = vim.lsp.diagnostic.display
+  local show = diag.show
   local timeout = 100
   local timeouts = {}
 
   -- This callback gets called _a lot_. Populating the location list every time
   -- can sometimes lead to empty or out of sync location lists. To prevent this
   -- from happening we defer updating the location list.
-  vim.lsp.diagnostic.display = function(diagnostics, bufnr, client_id, config)
-    display(diagnostics, bufnr, client_id, config)
+  diag.show = function(namespace, bufnr, diagnostics, opts)
+    show(namespace, bufnr, diagnostics, opts)
 
     -- Timers are stored per buffer and client, otherwise diagnostics produced
     -- for one buffer/client may reset the timer of an unrelated buffer/client.
@@ -98,32 +76,23 @@ do
       })
     end
 
-    if timeouts[bufnr][client_id] then
-      timeouts[bufnr][client_id]:stop()
+    if timeouts[bufnr][namespace] then
+      timeouts[bufnr][namespace]:stop()
     end
 
     local callback = function()
       if diagnostics then
-        set_location_list(diagnostics, bufnr)
+        util.set_diagnostics_location_list(bufnr, diagnostics)
       end
     end
 
-    timeouts[bufnr][client_id] = vim.defer_fn(callback, timeout)
+    timeouts[bufnr][namespace] = vim.defer_fn(callback, timeout)
   end
 end
 
 -- Signs {{{1
-vim.cmd('sign define LspDiagnosticsSignError text=E numhl=ErrorMsg texthl=ErrorMsg')
-vim.cmd('sign define LspDiagnosticsSignWarning text=W numhl=Yellow texthl=Yellow')
-
-do
-  local default = vim.lsp.diagnostic.set_signs
-  local config = { severity_limit = 'Warning' }
-
-  vim.lsp.diagnostic.set_signs = function(diagnostics, bufnr, client_id, sign_ns, _)
-    default(diagnostics, bufnr, client_id, sign_ns, config)
-  end
-end
+vim.cmd('sign define DiagnosticSignError text=E numhl=ErrorMsg texthl=ErrorMsg')
+vim.cmd('sign define DiagnosticSignWarn text=W numhl=Yellow texthl=Yellow')
 
 -- Completion symbols {{{1
 local lsp_symbols = {
@@ -154,7 +123,7 @@ local lsp_symbols = {
 }
 
 for kind, symbol in pairs(lsp_symbols) do
-  local kinds = vim.lsp.protocol.CompletionItemKind
+  local kinds = lsp.protocol.CompletionItemKind
   local index = kinds[kind]
 
   if index ~= nil then

@@ -1,5 +1,6 @@
 local M = {}
 local api = vim.api
+local diag = vim.diagnostic
 local icons = require('dotfiles.icons')
 
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
@@ -15,10 +16,11 @@ local active_hl = 'BlackOnLightYellow'
 local git_hl = 'WhiteOnBlue'
 
 local function diagnostic_count(buffer, kind)
-  local amount = vim.lsp.diagnostic.get_count(buffer, kind)
+  local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
+  local amount = #diag.get(buffer, { severity = severity })
 
   if amount > 0 then
-    return forced_space .. kind:sub(1, 1) .. ': ' .. amount .. forced_space
+    return forced_space .. kind .. ': ' .. amount .. forced_space
   else
     return ''
   end
@@ -62,8 +64,8 @@ function M.render()
     modified,
     readonly,
     separator,
-    highlight(diagnostic_count(buffer, 'Warning'), 'WhiteOnYellow'),
-    highlight(diagnostic_count(buffer, 'Error'), 'WhiteOnRed'),
+    highlight(diagnostic_count(buffer, 'W'), 'WhiteOnYellow'),
+    highlight(diagnostic_count(buffer, 'E'), 'WhiteOnRed'),
   })
 end
 

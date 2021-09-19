@@ -3,6 +3,7 @@ local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
 local M = {}
+local diag = vim.diagnostic
 
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
 function M.reader(done)
@@ -75,6 +76,32 @@ function M.restore_register(register, func)
 
   func()
   fn.setreg(register, reg_val)
+end
+
+function M.set_diagnostics_location_list(bufnr, diagnostics)
+  local items = {}
+  local winid = fn.bufwinnr(bufnr)
+
+  -- Multiple clients may produce diagnostics, so we add _all_ current
+  -- diagnostics to the location list; instead of the diagnostics for the
+  -- current callback.
+  for _, d in ipairs(diagnostics) do
+    if d.severity <= diag.severity.WARN then
+      if d.bufnr == bufnr then
+        table.insert(items, {
+          bufnr = d.bufnr,
+          lnum = d.lnum + 1,
+          col = d.col + 1,
+          text = vim.split(d.message, "\n")[1],
+          type = d.severity == diag.severity.WARN and 'W' or 'E'
+        })
+      end
+    end
+  end
+
+  table.sort(items, function(a, b) return a.lnum < b.lnum end)
+
+  fn.setloclist(winid, {}, ' ', { title = 'Diagnostics', items = items })
 end
 
 return M

@@ -5,6 +5,7 @@ local keycode = util.keycode
 local fn = vim.fn
 local lsp = vim.lsp
 local api = vim.api
+local diag = vim.diagnostic
 
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
@@ -70,6 +71,18 @@ function M.close_quickfix()
   end
 end
 
+function M.update_location_list()
+  local bufnr = fn.bufnr()
+
+  if not util.has_lsp_clients(bufnr) then
+    return
+  end
+
+  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
+
+  util.set_diagnostics_location_list(bufnr, diags)
+end
+
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
@@ -92,6 +105,7 @@ au('lsp', {
   'BufWritePre *.rs lua dotfiles.hooks.format_buffer()',
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
+  'BufWinEnter * lua dotfiles.hooks.update_location_list()',
   'BufWritePost * lua dotfiles.lint.lint()'
 })
 

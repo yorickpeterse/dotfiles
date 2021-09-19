@@ -21,14 +21,6 @@ local error_hlgroup = 'ErrorMsg'
 -- the second line to it.
 local short_line_limit = 20
 
--- Shows the current line's diagnostics in a floating window.
-function M.show_line_diagnostics()
-  vim
-    .lsp
-    .diagnostic
-    .show_line_diagnostics({ severity_limit = 'Warning' }, vim.fn.bufnr(''))
-end
-
 -- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
   if echo_timer then

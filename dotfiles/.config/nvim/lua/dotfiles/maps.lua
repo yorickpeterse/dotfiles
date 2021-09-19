@@ -4,7 +4,6 @@ local completion = require('dotfiles.completion')
 local pairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
-local diag = require('dotfiles.diagnostics')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
 
@@ -15,6 +14,7 @@ local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
 local g = vim.g
+local diag = vim.diagnostic
 
 local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
@@ -104,7 +104,7 @@ function M.definition()
 end
 
 function M.line_diagnostics()
-  diag.show_line_diagnostics()
+  diag.show_line_diagnostics({ severity = { min = diag.severity.WARN } })
 end
 
 function M.telescope_files()
