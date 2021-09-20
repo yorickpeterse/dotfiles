@@ -91,10 +91,14 @@ au('trailing_whitespace', {
 au('lsp', {
   'BufWritePre *.rs lua dotfiles.hooks.format_buffer()',
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
-  'BufWritePost * lua dotfiles.lint.lint()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
   'BufWinEnter * lua dotfiles.location_list.populate()',
   'User DiagnosticsChanged lua dotfiles.location_list.populate()',
+})
+
+au('lint', {
+  'BufEnter * lua dotfiles.lint.lint()',
+  'BufWritePost * lua dotfiles.lint.lint()',
 })
 
 -- Fix diff highlights in fugitive
