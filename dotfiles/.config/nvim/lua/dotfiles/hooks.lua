@@ -1,18 +1,13 @@
 local M = {}
 local util = require('dotfiles.util')
-local lint = require('dotfiles.lint')
 local au = util.au
 local keycode = util.keycode
 local fn = vim.fn
 local lsp = vim.lsp
 local api = vim.api
-local diag = vim.diagnostic
 
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
-
-local diag_timeout = 100
-local diag_timeouts = {}
 
 function M.remove_trailing_whitespace()
   local line = fn.line('.')
@@ -75,35 +70,6 @@ function M.close_quickfix()
   end
 end
 
--- This callback gets called _a lot_. Populating the location list every time
--- can sometimes lead to empty or out of sync location lists. To prevent this
--- from happening we defer updating the location list.
-function M.set_location_list()
-  local bufnr = fn.bufnr()
-  local ft = api.nvim_buf_get_option(bufnr, 'ft')
-
-  if not util.has_lsp_clients(bufnr) and not lint.available(ft) then
-    return
-  end
-
-  if diag_timeouts[bufnr] then
-    diag_timeouts[bufnr]:stop()
-  else
-    -- Clear the cache when the buffer unloads
-    api.nvim_buf_attach(bufnr, false, {
-      on_detach = function()
-        diag_timeouts[bufnr] = nil
-      end
-    })
-  end
-
-  local callback = function()
-    util.set_diagnostics_location_list(bufnr)
-  end
-
-  diag_timeouts[bufnr] = vim.defer_fn(callback, diag_timeout)
-end
-
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
@@ -127,8 +93,8 @@ au('lsp', {
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
   'BufWritePost * lua dotfiles.lint.lint()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
-  'BufWinEnter * lua dotfiles.hooks.set_location_list()',
-  'User DiagnosticsChanged lua dotfiles.hooks.set_location_list()',
+  'BufWinEnter * lua dotfiles.location_list.populate()',
+  'User DiagnosticsChanged lua dotfiles.location_list.populate()',
 })
 
 -- Fix diff highlights in fugitive

@@ -6,6 +6,7 @@ local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
+local loclist = require('dotfiles.location_list')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -151,7 +152,13 @@ end
 
 function M.toggle_loclist()
   local winid = api.nvim_get_current_win()
-  local list = fn.getloclist(winid, { winid = 0 })
+  local bufnr = api.nvim_win_get_buf(winid)
+  local list = fn.getloclist(winid, { winid = 0, items = 0 })
+  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
+
+  if list and #list.items == 0 and #diags > 0 then
+    loclist.populate()
+  end
 
   if not list or list.winid == 0 then
     vim.cmd('silent! lopen')

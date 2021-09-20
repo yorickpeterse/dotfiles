@@ -49,6 +49,7 @@ _G.dotfiles = {
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
   abbrev = require('dotfiles.abbrev'),
+  location_list = require('dotfiles.location_list'),
   maps = require('dotfiles.maps'),
   commands = require('dotfiles.commands'),
   hooks = require('dotfiles.hooks'),
