@@ -1,7 +1,6 @@
 -- vim: set fdm=marker
 local g = vim.g
 local o = vim.opt
-local e = vim.env
 
 -- This ensures treesitter can work without double highlighting, while still
 -- allowing for legacy syntax highlighting where needed.
