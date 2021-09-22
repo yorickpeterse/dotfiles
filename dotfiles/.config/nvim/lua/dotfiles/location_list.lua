@@ -9,6 +9,17 @@ local diag = vim.diagnostic
 local timeout = 100
 local timeouts = {}
 
+function M.populate_sync(buf)
+  local bufnr = buf or fn.bufnr()
+  local ft = api.nvim_buf_get_option(bufnr, 'ft')
+
+  if not util.has_lsp_clients(bufnr) and not lint.available(ft) then
+    return
+  end
+
+  util.set_diagnostics_location_list(bufnr)
+end
+
 -- Populates the location list with diagnostics.
 function M.populate(buf)
   local bufnr = buf or fn.bufnr()

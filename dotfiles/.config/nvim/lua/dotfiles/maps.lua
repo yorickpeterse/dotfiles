@@ -62,6 +62,17 @@ local function expr(name)
   return { 'expr', 'v:lua.dotfiles.maps.' .. name .. '()' }
 end
 
+local function populate_missing_loclist_items()
+  local winid = api.nvim_get_current_win()
+  local bufnr = api.nvim_win_get_buf(winid)
+  local list = fn.getloclist(winid, { winid = 0, items = 0 })
+  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
+
+  if list and #list.items == 0 and #diags > 0 then
+    loclist.populate_sync()
+  end
+end
+
 function M.enter()
   return popup_visible() and completion.confirm() or pairs.enter()
 end
@@ -151,14 +162,10 @@ function M.snippet_jump_previous()
 end
 
 function M.toggle_loclist()
-  local winid = api.nvim_get_current_win()
-  local bufnr = api.nvim_win_get_buf(winid)
-  local list = fn.getloclist(winid, { winid = 0, items = 0 })
-  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
+  populate_missing_loclist_items()
 
-  if list and #list.items == 0 and #diags > 0 then
-    loclist.populate()
-  end
+  local winid = api.nvim_get_current_win()
+  local list = fn.getloclist(winid, { winid = 0, items = 0 })
 
   if not list or list.winid == 0 then
     vim.cmd('silent! lopen')
@@ -173,6 +180,16 @@ function M.toggle_quickfix()
   else
     vim.cmd('silent! cclose')
   end
+end
+
+function M.loclist_next()
+  populate_missing_loclist_items()
+  vim.cmd('try | silent! lnext | catch | silent! lfirst | endtry')
+end
+
+function M.loclist_prev()
+  populate_missing_loclist_items()
+  vim.cmd('try | silent! lprev | catch | silent! llast | endtry')
 end
 
 -- The leader key must be defined before any mappings are set.
@@ -244,10 +261,10 @@ tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-nmap(']q', cmd('try | cnext | catch | silent! cfirst | endtry'))
-nmap('[q', cmd('try | cprev | catch | silent! clast | endtry'))
-nmap(']l', cmd('try | lnext | catch | silent! lfirst | endtry'))
-nmap('[l', cmd('try | lprev | catch | silent! llast | endtry'))
+nmap(']q', cmd('try | silent! cnext | catch | silent! cfirst | endtry'))
+nmap('[q', cmd('try | silent! cprev | catch | silent! clast | endtry'))
+nmap(']l', func('loclist_next'))
+nmap('[l', func('loclist_prev'))
 nmap('<leader>l', func('toggle_loclist'))
 nmap('<leader>q', func('toggle_quickfix'))
 
