@@ -11,11 +11,6 @@ vim.cmd('syntax enable')
 g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
 
-g.NERDSpaceDelims = 1
-g.NERDDefaultAlign = 'left'
-g.NERDCustomDelimiters = { inko = { left = '#' } }
-g.NERDCreateDefaultMappings = 0
-
 g.qfenter_keymap = {
   vopen = { '<leader>v' }
 }
