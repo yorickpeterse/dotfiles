@@ -184,12 +184,12 @@ end
 
 function M.loclist_next()
   populate_missing_loclist_items()
-  vim.cmd('try | silent! lnext | catch | silent! lfirst | endtry')
+  vim.cmd('try | silent lnext | catch | silent! lfirst | endtry')
 end
 
 function M.loclist_prev()
   populate_missing_loclist_items()
-  vim.cmd('try | silent! lprev | catch | silent! llast | endtry')
+  vim.cmd('try | silent lprev | catch | silent! llast | endtry')
 end
 
 -- The leader key must be defined before any mappings are set.
