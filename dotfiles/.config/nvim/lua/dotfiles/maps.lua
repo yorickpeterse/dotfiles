@@ -261,8 +261,8 @@ tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-nmap(']q', cmd('try | silent! cnext | catch | silent! cfirst | endtry'))
-nmap('[q', cmd('try | silent! cprev | catch | silent! clast | endtry'))
+nmap(']q', cmd('try | silent cnext | catch | silent cfirst | endtry'))
+nmap('[q', cmd('try | silent cprev | catch | silent clast | endtry'))
 nmap(']l', func('loclist_next'))
 nmap('[l', func('loclist_prev'))
 nmap('<leader>l', func('toggle_loclist'))
