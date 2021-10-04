@@ -248,8 +248,8 @@ nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
 nmap('<leader>e', func('line_diagnostics'))
 
 -- Searching
-nmap('K', cmd('silent grep! <cword>'))
-nmap('<leader>k', ':silent grep! ', { silent = false })
+nmap('K', cmd('silent grep <cword>'))
+nmap('<leader>k', ':silent grep ', { silent = false })
 
 -- Telescope
 nmap('<leader>f', func('telescope_files'))
