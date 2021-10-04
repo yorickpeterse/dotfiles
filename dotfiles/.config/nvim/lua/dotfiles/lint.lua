@@ -38,6 +38,13 @@ local function lint(bufnr, path, linter, client_id)
     return
   end
 
+  -- When diff mode is enabled, chances are there are conflict markers, or the
+  -- syntax is invalid (depending on how the initial conflicts are handled). Any
+  -- linter errors produced at this time aren't useful.
+  if vim.wo.diff == 1 then
+    return
+  end
+
   local stdout = uv.new_pipe(false)
   local stderr = uv.new_pipe(false)
   local cmd, args = linter.exe(path)
