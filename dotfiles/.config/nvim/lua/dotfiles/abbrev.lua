@@ -15,7 +15,7 @@ function M.command(cmd, match)
   end
 end
 
-cabbrev('grep', 'silent grep')
+cabbrev('grep', 'silent grep!')
 cabbrev('Review', 'DiffviewOpen')
 
 return M
