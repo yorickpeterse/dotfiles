@@ -1,5 +1,5 @@
 local lint = require('dotfiles.lint')
-local severities = vim.lsp.protocol.DiagnosticSeverity
+local severities = vim.diagnostic.severity
 
 lint.linter('ruby', {
   name = 'ruby',
@@ -16,11 +16,11 @@ lint.linter('ruby', {
       -- /tmp/test.rb:1: warning: possibly useless use of + in void context
       -- /tmp/test.rb:2: syntax error, unexpected `end', expecting end-of-input
       local pattern = '([^:]+):(%d+): warning: (.+)'
-      local severity = severities.Warning
+      local severity = severities.WARN
 
       if line:find(': syntax error,', 1, true) then
         pattern = '([^:]+):(%d+): syntax error, (.+)'
-        severity = severities.Error
+        severity = severities.ERROR
       end
 
       local file, lnum, message = line:match(pattern)
@@ -28,16 +28,10 @@ lint.linter('ruby', {
       if file and line and message then
         table.insert(items, {
           source = 'ruby',
-          range = {
-            ['start'] = {
-              line = tonumber(lnum) - 1,
-              character = 0,
-            },
-            ['end'] = {
-              line = tonumber(lnum) - 1,
-              character = 1,
-            }
-          },
+          lnum = tonumber(lnum) - 1,
+          end_lnum = tonumber(lnum) - 1,
+          col = 0,
+          end_col = 1,
           message = message,
           severity = severity
         })

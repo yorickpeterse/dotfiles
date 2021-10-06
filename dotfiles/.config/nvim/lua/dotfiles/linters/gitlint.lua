@@ -32,18 +32,12 @@ lint.linter('gitcommit', {
       if line and message then
         table.insert(items, {
           source = 'gitlint',
-          range = {
-            ['start'] = {
-              line = tonumber(line) - 1,
-              character = 0
-            },
-            ['end'] = {
-              line = tonumber(line) - 1,
-              character = 0
-            }
-          },
+          lnum = tonumber(line) - 1,
+          end_lnum = tonumber(line) - 1,
+          col = 0,
+          end_col = 0,
           message = message,
-          severity = vim.lsp.protocol.DiagnosticSeverity.Error,
+          severity = vim.diagnostic.severity.ERROR,
         })
       end
     end

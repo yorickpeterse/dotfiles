@@ -1,8 +1,8 @@
 local lint = require('dotfiles.lint')
 
 local severities = {
-  E = vim.lsp.protocol.DiagnosticSeverity.Error,
-  W = vim.lsp.protocol.DiagnosticSeverity.Warning,
+  E = vim.diagnostic.severity.ERROR,
+  W = vim.diagnostic.severity.WARN,
 }
 
 lint.linter('python', {
@@ -20,16 +20,10 @@ lint.linter('python', {
       if lnum and message then
         table.insert(items, {
           source = 'flake8',
-          range = {
-            ['start'] = {
-              line = tonumber(lnum) - 1,
-              character = tonumber(column) - 1,
-            },
-            ['end'] = {
-              line = tonumber(lnum) - 1,
-              character = tonumber(column),
-            }
-          },
+          lnum = tonumber(lnum) - 1,
+          end_lnum = tonumber(lnum) - 1,
+          col = tonumber(column) - 1,
+          end_col = tonumber(column),
           message = message,
           severity = severities[kind] or severities.W
         })

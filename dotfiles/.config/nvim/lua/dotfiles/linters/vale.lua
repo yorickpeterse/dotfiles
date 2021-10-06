@@ -2,8 +2,8 @@ local lint = require('dotfiles.lint')
 local util = require('dotfiles.lint.util')
 
 local severities = {
-  error = vim.lsp.protocol.DiagnosticSeverity.Error,
-  warning = vim.lsp.protocol.DiagnosticSeverity.Warning,
+  error = vim.diagnostic.severity.ERROR,
+  warning = vim.diagnostic.severity.WARN,
 }
 
 lint.linter('markdown', {
@@ -22,16 +22,10 @@ lint.linter('markdown', {
       for _, item in ipairs(file_items) do
         table.insert(items, {
           source = 'vale',
-          range = {
-            ['start'] = {
-              line = item.Line - 1,
-              character = item.Span[1] - 1,
-            },
-            ['end'] = {
-              line = item.Line - 1,
-              character = item.Span[2] - 1,
-            },
-          },
+          lnum = item.Line - 1,
+          end_lnum = item.Line - 1,
+          col = item.Span[1] - 1,
+          end_col = item.Span[2] - 1,
           message = item.Message,
           severity = severities[item.Severity] or severities.warning,
         })

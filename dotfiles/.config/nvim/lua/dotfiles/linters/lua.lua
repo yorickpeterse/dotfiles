@@ -15,18 +15,12 @@ lint.linter('lua', {
       if lnum and message then
         table.insert(items, {
           source = 'lua',
-          range = {
-            ['start'] = {
-              line = tonumber(lnum) - 1,
-              character = 0,
-            },
-            ['end'] = {
-              line = tonumber(lnum) - 1,
-              character = 1,
-            }
-          },
+          lnum = tonumber(lnum) - 1,
+          end_lnum = tonumber(lnum) - 1,
+          col = 0,
+          end_col = 1,
           message = message,
-          severity = vim.lsp.protocol.DiagnosticSeverity.Error
+          severity = vim.diagnostic.severity.ERROR
         })
       end
     end

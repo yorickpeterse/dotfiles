@@ -3,12 +3,12 @@ local util = require('dotfiles.lint.util')
 local uv = vim.loop
 
 local severities = {
-  error = vim.lsp.protocol.DiagnosticSeverity.Error,
-  fatal = vim.lsp.protocol.DiagnosticSeverity.Error,
-  warning = vim.lsp.protocol.DiagnosticSeverity.Warning,
-  refactor = vim.lsp.protocol.DiagnosticSeverity.Warning,
-  convention = vim.lsp.protocol.DiagnosticSeverity.Warning,
-  info = vim.lsp.protocol.DiagnosticSeverity.Warning,
+  error = vim.diagnostic.severity.ERROR,
+  fatal = vim.diagnostic.severity.ERROR,
+  warning = vim.diagnostic.severity.WARN,
+  refactor = vim.diagnostic.severity.WARN,
+  convention = vim.diagnostic.severity.WARN,
+  info = vim.diagnostic.severity.WARN,
 }
 
 -- Returns `true` if RuboCop is located in the given Gemfile.lock.
@@ -62,16 +62,10 @@ lint.linter('ruby', {
       for _, diag in ipairs(file.offenses) do
         table.insert(items, {
           source = 'rubocop',
-          range = {
-            ['start'] = {
-              line = diag.location.start_line - 1,
-              character = diag.location.start_column - 1
-            },
-            ['end'] = {
-              line = diag.location.last_line - 1,
-              character = diag.location.last_column
-            },
-          },
+          lnum = diag.location.start_line - 1,
+          end_lnum = diag.location.last_line - 1,
+          col = diag.location.start_column - 1,
+          end_col = diag.location.last_column,
           message = diag.message,
           severity = severities[diag.severity],
         })

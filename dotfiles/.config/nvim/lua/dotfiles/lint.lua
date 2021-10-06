@@ -13,7 +13,7 @@ local M = {}
 local linters = {}
 
 -- Callback for parsing and publishing a linter's diagnostics.
-local function done(bufnr, linter, client_id, output)
+local function done(bufnr, linter, output)
   vim.schedule(function()
     local ok, items = pcall(linter.parse, output)
 
@@ -24,16 +24,12 @@ local function done(bufnr, linter, client_id, output)
       return
     end
 
-    local method = 'textDocument/publishDiagnostics'
-    local result = { uri = vim.uri_from_bufnr(bufnr), diagnostics = items }
-    local ctx = { method = method, client_id = client_id, bufnr = bufnr }
-
-    vim.lsp.handlers[method](nil, result, ctx)
+    vim.diagnostic.set(linter.namespace, bufnr, items, {})
   end)
 end
 
 -- Runs a single linter on a buffer.
-local function lint(bufnr, path, linter, client_id)
+local function lint(bufnr, path, linter)
   if not linter.enable() then
     return
   end
@@ -86,7 +82,7 @@ local function lint(bufnr, path, linter, client_id)
   local stream = linter.stream == 'stdout' and stdout or stderr
 
   stream:read_start(reader(function(output)
-    done(bufnr, linter, client_id, output)
+    done(bufnr, linter, output)
   end))
 end
 
@@ -96,13 +92,14 @@ function M.linter(filetype, linter)
     linters[filetype] = {}
   end
 
-  linter.stream = linter.stream or 'stdout'
-  linter.enable = linter.enable or function() return true end
-  linter.exit_codes = linter.exit_codes or { 0, 1 }
-
   assert(linter.name, 'Linters must define a name')
   assert(linter.exe, 'Linters must define an "exe" function')
   assert(linter.parse, 'Linters must define a "parse" function')
+
+  linter.stream = linter.stream or 'stdout'
+  linter.enable = linter.enable or function() return true end
+  linter.exit_codes = linter.exit_codes or { 0, 1 }
+  linter.namespace = api.nvim_create_namespace('linter_' .. linter.name)
 
   table.insert(linters[filetype], linter)
 end
@@ -118,11 +115,6 @@ function M.lint()
   local ft = api.nvim_buf_get_option(bufnr, 'filetype')
   local linters = linters[ft]
 
-  -- Language server clients need a unique ID. We don't set up an actual client
-  -- though, so instead we use fake IDs. The offset here is to reduce the
-  -- chances of the ID conflicting with an existing one. The value is arbitrary.
-  local client_id = 0xbeef
-
   if not linters then
     return
   end
@@ -130,7 +122,7 @@ function M.lint()
   local path = api.nvim_buf_get_name(bufnr)
 
   for i, linter in ipairs(linters) do
-    lint(bufnr, path, linter, client_id + i)
+    lint(bufnr, path, linter)
   end
 end
 
