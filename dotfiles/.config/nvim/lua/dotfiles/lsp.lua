@@ -93,6 +93,39 @@ for kind, symbol in pairs(lsp_symbols) do
   end
 end
 
+-- C/C++ {{{1
+config.clangd.setup {
+  capabilities = capabilities,
+  flags = {
+    allow_incremental_sync = true
+  },
+}
+
+-- Go {{{1
+config.gopls.setup {
+  capabilities = capabilities,
+  flags = {
+    allow_incremental_sync = true
+  },
+}
+
+-- vim: set foldmethod=marker:
+-- Python {{{1
+config.jedi_language_server.setup {
+  capabilities = capabilities,
+  flags = {
+    allow_incremental_sync = true
+  },
+  init_options = {
+    markupKindPreferred = 'markdown',
+    startupMessage = false,
+    diagnostics = {
+      -- Linting as you type is distracting, and thus is disabled.
+      didChange = false
+    }
+  }
+}
+
 -- Rust {{{1
 config.rust_analyzer.setup {
   root_dir = config.util.root_pattern('Cargo.toml', 'rustfmt.toml'),
@@ -126,28 +159,3 @@ config.rust_analyzer.setup {
   }
 }
 
--- Python {{{1
-config.jedi_language_server.setup {
-  capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
-  init_options = {
-    markupKindPreferred = 'markdown',
-    startupMessage = false,
-    diagnostics = {
-      -- Linting as you type is distracting, and thus is disabled.
-      didChange = false
-    }
-  }
-}
-
--- Go {{{1
-config.gopls.setup {
-  capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
-}
-
--- vim: set foldmethod=marker:
