@@ -109,7 +109,6 @@ config.gopls.setup {
   },
 }
 
--- vim: set foldmethod=marker:
 -- Python {{{1
 config.jedi_language_server.setup {
   capabilities = capabilities,
@@ -159,3 +158,4 @@ config.rust_analyzer.setup {
   }
 }
 
+-- vim: set foldmethod=marker:
