@@ -32,12 +32,12 @@ require('dotfiles.comments')
 require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
+require('dotfiles.quickfix')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
   diagnostics = require('dotfiles.diagnostics'),
   lint = require('dotfiles.lint'),
-  quickfix = require('dotfiles.quickfix'),
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
@@ -128,16 +128,6 @@ g.markdown_fenced_languages = { 'ruby', 'rust', 'sql', 'inko', 'yaml' }
 -- netrw {{{1
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
-
--- Quickfix {{{1
--- This is needed until https://github.com/neovim/neovim/pull/14909 is merged.
-vim.cmd([[
-  function! DotfilesQuickfixTextFunc(info)
-    return luaeval('dotfiles.quickfix.format(_A)', a:info)
-  endfunction
-]])
-
-o.quickfixtextfunc = 'DotfilesQuickfixTextFunc'
 
 -- Rust {{{1
 g.rust_recommended_style = 0

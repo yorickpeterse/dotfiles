@@ -18,16 +18,6 @@ function M.reader(done)
   end
 end
 
-function M.pad_right(string, pad_to)
-  local new = string
-
-  for i = #string, pad_to do
-    new = new .. ' '
-  end
-
-  return new
-end
-
 function M.error(message)
   vim.schedule(function()
     local chunks = {
