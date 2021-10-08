@@ -3,15 +3,6 @@ local Rule = require('nvim-autopairs.rule')
 
 pairs.setup()
 
--- Disable matching of single quotes in Rust.
-pairs.get_rule("'"):with_pair(function()
-  if vim.bo.filetype == 'rust' then
-    return false
-  end
-
-  return true
-end)
-
 -- When pressing a space after a pair, insert an extra space before the closing
 -- pair.
 local space_pairs = { '()', '[]', '{}' }
