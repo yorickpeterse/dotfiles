@@ -53,8 +53,12 @@ diag.config({
 })
 
 -- Signs {{{1
-vim.cmd('sign define DiagnosticSignError text=E numhl=ErrorMsg texthl=ErrorMsg')
-vim.cmd('sign define DiagnosticSignWarn text=W numhl=Yellow texthl=Yellow')
+vim.cmd([[
+  sign define DiagnosticSignError text=E numhl=DiagnosticError texthl=DiagnosticError
+  sign define DiagnosticSignWarn text=W numhl=DiagnosticWarn texthl=DiagnosticWarn
+  sign define DiagnosticSignHint text=H numhl=DiagnosticHint texthl=DiagnosticHint
+  sign define DiagnosticSignInfo text=H numhl=DiagnosticInfo texthl=DiagnosticInfo
+]])
 
 -- Completion symbols {{{1
 local lsp_symbols = {
