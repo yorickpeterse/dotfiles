@@ -68,7 +68,7 @@ function M.restore_register(register, func)
   fn.setreg(register, reg_val)
 end
 
-function M.is_insert_mode()
+function M.in_insert_mode()
   return api.nvim_get_mode().mode == 'i'
 end
 
@@ -91,6 +91,28 @@ function M.set_diagnostics_location_list(bufnr)
   for _, win in ipairs(fn.getbufinfo(bufnr)[1].windows) do
     fn.setloclist(win, {}, ' ', { title = 'Diagnostics', items = items })
   end
+end
+
+function M.buffer_cache(default)
+  local cache = {}
+  local mt = {
+    __index = function(table, buffer)
+      local val = default()
+      table[buffer] = val
+
+      api.nvim_buf_attach(buffer, false, {
+        on_detach = function()
+          table[buffer] = nil
+        end
+      })
+
+      return val
+    end
+  }
+
+  setmetatable(cache, mt)
+
+  return cache
 end
 
 return M

@@ -15,14 +15,21 @@ local readonly = '%r'
 local separator = '%='
 local active_hl = 'BlackOnLightYellow'
 local git_hl = 'WhiteOnBlue'
+local diag_counts = util.buffer_cache(function() return {} end)
 
 local function diagnostic_count(buffer, kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
   local amount = #diag.get(buffer, { severity = severity })
 
-  -- Don't update diagnostic counts when in insert mode, as this is distracting.
-  if util.is_insert_mode() then
-    return ''
+  -- When in insert mode, a language server may produce new diagnostics as we
+  -- type. Constantly updating the statusline in that case is distracting.
+  --
+  -- Here we ensure we keep displaying the previous value, only refreshing the
+  -- diagnostic count when leaving insert mode.
+  if util.in_insert_mode() then
+    amount = diag_counts[buffer][severity] or 0
+  else
+    diag_counts[buffer][severity] = amount
   end
 
   if amount > 0 then

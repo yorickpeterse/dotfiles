@@ -7,7 +7,7 @@ local lsp = vim.lsp
 local api = vim.api
 local diag = vim.diagnostic
 local timeout = 100
-local timeouts = {}
+local timeouts = util.buffer_cache(function() return nil end)
 
 function M.populate_sync(buf)
   local bufnr = buf or fn.bufnr()
@@ -21,7 +21,17 @@ function M.populate_sync(buf)
 end
 
 -- Populates the location list with diagnostics.
-function M.populate(buf)
+function M.populate(buf, ignore_mode)
+  -- If a language server produces diagnostics while typing, updating the
+  -- location list can be annoying.
+  --
+  -- To solve this, we don't update the location list in insert mode by default.
+  -- Using an InsertLeave hook we force updating the location list when exiting
+  -- insert mode.
+  if util.in_insert_mode() and not ignore_mode then
+    return
+  end
+
   local bufnr = buf or fn.bufnr()
   local ft = api.nvim_buf_get_option(bufnr, 'ft')
 
@@ -31,13 +41,6 @@ function M.populate(buf)
 
   if timeouts[bufnr] then
     timeouts[bufnr]:stop()
-  else
-    -- Clear the cache when the buffer unloads
-    api.nvim_buf_attach(bufnr, false, {
-      on_detach = function()
-        timeouts[bufnr] = nil
-      end
-    })
   end
 
   local callback = function()
