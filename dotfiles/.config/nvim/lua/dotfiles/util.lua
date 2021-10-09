@@ -68,6 +68,10 @@ function M.restore_register(register, func)
   fn.setreg(register, reg_val)
 end
 
+function M.is_insert_mode()
+  return api.nvim_get_mode().mode == 'i'
+end
+
 function M.set_diagnostics_location_list(bufnr)
   local items = {}
   local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })

@@ -4,6 +4,10 @@ local config = require('lspconfig')
 local lsp = vim.lsp
 local diag = vim.diagnostic
 local util = require('dotfiles.util')
+local flags = {
+  allow_incremental_sync = true,
+  debounce_text_changes = 150
+}
 
 -- Markdown popup {{{1
 do
@@ -120,25 +124,54 @@ end
 -- C/C++ {{{1
 config.clangd.setup {
   capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
+  flags = flags,
 }
 
 -- Go {{{1
 config.gopls.setup {
   capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
+  flags = flags,
 }
+
+-- Lua {{{1
+do
+  local rpath = vim.split(package.path, ';')
+
+  table.insert(rpath, 'lua/?.lua')
+  table.insert(rpath, 'lua/?/init.lua')
+
+  config.sumneko_lua.setup {
+    capabilities = capabilities,
+    flags = flags,
+    cmd = {
+      '/usr/bin/lua-language-server',
+      '-E',
+      '/usr/lib/lua-language-server/main.lua'
+    },
+    settings = {
+      Lua = {
+        runtime = {
+          version = 'LuaJIT',
+          path = rpath,
+        },
+        diagnostics = {
+          globals = { 'vim' },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file('', true),
+        },
+        telemetry = {
+          enable = false,
+        },
+      }
+    },
+  }
+end
 
 -- Python {{{1
 config.jedi_language_server.setup {
   capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
+  flags = flags,
   init_options = {
     markupKindPreferred = 'markdown',
     startupMessage = false,
@@ -153,9 +186,7 @@ config.jedi_language_server.setup {
 config.rust_analyzer.setup {
   root_dir = config.util.root_pattern('Cargo.toml', 'rustfmt.toml'),
   capabilities = capabilities,
-  flags = {
-    allow_incremental_sync = true
-  },
+  flags = flags,
   settings = {
     ["rust-analyzer"] = {
       diagnostics = {

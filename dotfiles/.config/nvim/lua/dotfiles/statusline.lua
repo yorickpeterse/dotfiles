@@ -2,6 +2,7 @@ local M = {}
 local api = vim.api
 local diag = vim.diagnostic
 local icons = require('dotfiles.icons')
+local util = require('dotfiles.util')
 
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
 -- get swallowed in statuslines. This kind of space doesn't.
@@ -18,6 +19,11 @@ local git_hl = 'WhiteOnBlue'
 local function diagnostic_count(buffer, kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
   local amount = #diag.get(buffer, { severity = severity })
+
+  -- Don't update diagnostic counts when in insert mode, as this is distracting.
+  if util.is_insert_mode() then
+    return ''
+  end
 
   if amount > 0 then
     return forced_space .. kind .. ': ' .. amount .. forced_space
