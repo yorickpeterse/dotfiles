@@ -73,9 +73,9 @@ end
 -- Deletes empty anonymous buffers when hiding them, so they don't pile up.
 function M.hide_buffer()
   local buffer = fn.bufnr()
-  local lines = api.nvim_buf_line_count(buffer)
+  local lines = fn.getbufline(buffer, 1, 1)
 
-  if fn.bufname(buffer) == '' and lines == 0 then
+  if fn.bufname(buffer) == '' and #lines[1] == 0 then
     -- The buffer is still in use at this point, so we must schedule the removal
     -- until after the hook finishes.
     vim.schedule(function()
