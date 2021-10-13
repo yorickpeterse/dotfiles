@@ -2,7 +2,9 @@
 
 local config = require('lspconfig')
 local lsp = vim.lsp
-local diag = vim.diagnostic
+local vim_diag = vim.diagnostic
+local api = vim.api
+local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
 local flags = {
   allow_incremental_sync = true,
@@ -44,17 +46,28 @@ local capabilities = lsp.protocol.make_client_capabilities()
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
-diag.config({
+vim_diag.config({
   underline = {
-    severity = { min = diag.severity.WARN }
+    severity = { min = vim_diag.severity.WARN }
   },
   signs = {
-    severity = { min = diag.severity.WARN }
+    severity = { min = vim_diag.severity.WARN }
   },
   severity_sort = true,
   virtual_text = false,
-  update_in_insert = false
+  update_in_insert = true
 })
+
+-- This ensures diagnostics are completely ignored when in insert mode, meaning
+-- we don't need to handle it on a case by case basis. For example, diagnostics
+-- displayed in the statusline aren't updated until leaving insert mode.
+lsp.handlers['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
+  if util.in_insert_mode() then
+    diag.cache(result, ctx, config)
+  else
+    lsp.diagnostic.on_publish_diagnostics(nil, result, ctx, config)
+  end
+end
 
 -- Signs {{{1
 vim.fn.sign_define({

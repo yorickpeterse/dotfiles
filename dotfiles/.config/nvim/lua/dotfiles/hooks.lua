@@ -93,7 +93,7 @@ au('lsp', {
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
   'BufWinEnter * lua dotfiles.location_list.populate()',
-  'InsertLeave * lua dotfiles.location_list.populate(vim.fn.bufnr(), true)',
+  'InsertLeave * lua dotfiles.diagnostics.flush()',
   'User DiagnosticsChanged lua dotfiles.location_list.populate()',
 })
 

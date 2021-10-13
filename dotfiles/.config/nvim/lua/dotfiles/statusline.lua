@@ -2,7 +2,6 @@ local M = {}
 local api = vim.api
 local diag = vim.diagnostic
 local icons = require('dotfiles.icons')
-local util = require('dotfiles.util')
 
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
 -- get swallowed in statuslines. This kind of space doesn't.
@@ -15,22 +14,10 @@ local readonly = '%r'
 local separator = '%='
 local active_hl = 'BlackOnLightYellow'
 local git_hl = 'WhiteOnBlue'
-local diag_counts = util.buffer_cache(function() return {} end)
 
 local function diagnostic_count(buffer, kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
   local amount = #diag.get(buffer, { severity = severity })
-
-  -- When in insert mode, a language server may produce new diagnostics as we
-  -- type. Constantly updating the statusline in that case is distracting.
-  --
-  -- Here we ensure we keep displaying the previous value, only refreshing the
-  -- diagnostic count when leaving insert mode.
-  if util.in_insert_mode() then
-    amount = diag_counts[buffer][severity] or 0
-  else
-    diag_counts[buffer][severity] = amount
-  end
 
   if amount > 0 then
     return forced_space .. kind .. ': ' .. amount .. forced_space

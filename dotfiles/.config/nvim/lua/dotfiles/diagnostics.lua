@@ -1,25 +1,37 @@
--- Echoing of LSP diagnostics in the commandline.
 local M = {}
+local util = require('dotfiles.util')
+local lsp = vim.lsp
 
 -- Location information about the last message printed. The format is
 -- `(did print, buffer number, line number)`.
 local last_echo = { false, -1, -1 }
-
--- The timer used for displaying a diagnostic in the commandline.
 local echo_timer = nil
-
--- The timer after which to display a diagnostic in the commandline.
 local echo_timeout = 250
-
--- The highlight group to use for warning messages.
 local warning_hlgroup = 'WarningMsg'
-
--- The highlight group to use for error messages.
 local error_hlgroup = 'ErrorMsg'
-
--- If the first diagnostic line has fewer than this many characters, also add
--- the second line to it.
 local short_line_limit = 20
+local diagnostics = util.buffer_cache(function() return {} end)
+
+-- Caches a diagnostics request, allowing us to defer publishing them until
+-- leaving insert mode.
+function M.cache(result, ctx, config)
+  local client = ctx.client_id
+  local uri = result.uri
+  local buffer = vim.uri_to_bufnr(uri)
+
+  diagnostics[buffer][client] = { nil, result, ctx, config }
+end
+
+-- Flushes all pending diagnostics to NeoVim's diagnostics handler.
+function M.flush()
+  for buffer, buffer_cache in pairs(diagnostics) do
+    for _, args in pairs(buffer_cache) do
+      lsp.diagnostic.on_publish_diagnostics(unpack(args))
+    end
+
+    diagnostics[buffer] = {}
+  end
+end
 
 -- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
