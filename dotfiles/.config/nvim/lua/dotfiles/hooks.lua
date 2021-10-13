@@ -70,6 +70,22 @@ function M.close_quickfix()
   end
 end
 
+-- Deletes empty anonymous buffers when hiding them, so they don't pile up.
+function M.hide_buffer()
+  local buffer = fn.bufnr()
+  local line = fn.getbufline(buffer, 1, 1)
+
+  if fn.bufname(buffer) == '' and #line[1] == 0 then
+    -- The buffer is still in use at this point, so we must schedule the removal
+    -- until after the hook finishes.
+    vim.schedule(function()
+      api.nvim_buf_delete(buffer, {})
+    end)
+  end
+end
+
+au('buffer_management', { 'BufWinLeave * lua dotfiles.hooks.hide_buffer()' })
+
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
