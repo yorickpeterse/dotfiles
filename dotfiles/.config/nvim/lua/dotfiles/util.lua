@@ -3,7 +3,6 @@ local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
 local M = {}
-local diag = vim.diagnostic
 
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
 function M.reader(done)
@@ -72,27 +71,6 @@ function M.in_insert_mode()
   return api.nvim_get_mode().mode == 'i'
 end
 
-function M.set_diagnostics_location_list(bufnr)
-  local items = {}
-  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
-
-  for _, d in ipairs(diags) do
-    table.insert(items, {
-      bufnr = d.bufnr,
-      lnum = d.lnum + 1,
-      col = d.col + 1,
-      text = d.message,
-      type = d.severity == diag.severity.WARN and 'W' or 'E'
-    })
-  end
-
-  table.sort(items, function(a, b) return a.lnum < b.lnum end)
-
-  for _, win in ipairs(fn.getbufinfo(bufnr)[1].windows) do
-    fn.setloclist(win, {}, ' ', { title = 'Diagnostics', items = items })
-  end
-end
-
 function M.buffer_cache(default)
   local cache = {}
   local mt = {
@@ -113,6 +91,19 @@ function M.buffer_cache(default)
   setmetatable(cache, mt)
 
   return cache
+end
+
+-- Returns the ID of the current window, or the ID of the target window if the
+-- current window is a location list window.
+function M.target_window()
+  local win = api.nvim_get_current_win()
+  local list = fn.getloclist(win, { filewinid = 0 })
+
+  if list.filewinid > 0 then
+    win = list.filewinid
+  end
+
+  return win
 end
 
 return M
