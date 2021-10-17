@@ -17,6 +17,9 @@ g.qfenter_keymap = {
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
+require('pqf').setup()
+require('mini.comment').setup()
+
 require('dotfiles.linters.flake8')
 require('dotfiles.linters.gitlint')
 require('dotfiles.linters.inko')
@@ -28,11 +31,9 @@ require('dotfiles.linters.vale')
 
 require('dotfiles.lsp')
 require('dotfiles.window')
-require('dotfiles.comments')
 require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
-require('dotfiles.quickfix')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),

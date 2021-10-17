@@ -1,7 +1,7 @@
 local package = require('dotfiles.package')
 local use = package.use
 
-use 'windwp/nvim-autopairs'
+use 'echasnovski/mini.nvim'
 use 'YorickPeterse/rust.vim'
 use 'tpope/vim-fugitive'
 use 'dag/vim-fish'
@@ -17,7 +17,6 @@ use 'https://gitlab.com/yorickpeterse/nvim-pqf'
 use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
 use 'justinmk/vim-dirvish'
-use 'b3nj5m1n/kommentary'
 use 'sindrets/diffview.nvim'
 use 'nvim-lua/popup.nvim'
 use 'nvim-lua/plenary.nvim'

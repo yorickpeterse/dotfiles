@@ -157,6 +157,10 @@ function M.toggle_quickfix()
   end
 end
 
+function M.single_quote()
+  return pairs.single_quote()
+end
+
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -183,6 +187,7 @@ tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
 imap('<CR>', expr('enter'))
+imap("'", expr('single_quote'), { noremap = true })
 
 imap('<tab>', expr('tab'))
 imap('<S-tab>', expr('shift_tab'))
