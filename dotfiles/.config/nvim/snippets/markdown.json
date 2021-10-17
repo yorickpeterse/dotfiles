@@ -16,5 +16,16 @@
         "prefix": [
             "ot"
         ]
+    },
+    "code": {
+        "description": "Inserts a fenced code block",
+        "body": [
+            "```${1:language}",
+            "${0}",
+            "```"
+        ],
+        "prefix": [
+            "fc"
+        ]
     }
 }
