@@ -1,0 +1,35 @@
+snippet aeq "Define an assert_eq! macro"
+	assert_eq!(${1}, ${0});
+snippet assert "Define an assert! macro"
+	assert!(${0});
+snippet test "Define a test function"
+	#[test]
+	fn test_${1:name}() {
+		${0}
+	}
+snippet tmod "Define a tests module"
+	#[cfg(test)]
+	mod tests {
+		use super::*;
+
+		#[test]
+		fn test_${1:name}() {
+			${0}
+		}
+	}
+snippet struct "Define a struct"
+	struct ${1:Name} {
+		${0}
+	}
+snippet fn "Define a function"
+	fn ${1:name}(${2}) {
+		${0}
+	}
+snippet fnself "Define an immutable instance method"
+	fn ${1:name}(&self) {
+		${0}
+	}
+snippet fnmself "Define a mutable instance method"
+	fn ${1:name}(&mut self) {
+		${0}
+	}

@@ -1,5 +1,5 @@
-local package = require('dotfiles.package')
-local use = package.use
+local pkg = require('dotfiles.package')
+local use = pkg.use
 
 use 'echasnovski/mini.nvim'
 use 'YorickPeterse/rust.vim'
@@ -9,7 +9,7 @@ use 'ludovicchabant/vim-gutentags'
 use 'Vimjas/vim-python-pep8-indent'
 use 'yssl/QFEnter'
 use 'neovim/nvim-lspconfig'
-use 'hrsh7th/vim-vsnip'
+use 'dcampos/nvim-snippy'
 use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
 use 'https://gitlab.com/yorickpeterse/nvim-grey'
 use 'https://gitlab.com/yorickpeterse/nvim-window'
@@ -29,4 +29,4 @@ use {
 }
 use 'whiteinge/diffconflicts'
 
-package.install()
+pkg.install()

@@ -1,0 +1,51 @@
+snippet def "Define a method"
+	def ${1:name}
+		$0
+	end
+snippet rspec "Define an RSpec test module"
+	# frozen_string_literal: true
+
+	require 'spec_helper'
+
+	RSpec.describe ${1:type} do
+		describe '${2:method}' do
+			$0
+		end
+	end
+snippet describe "Insert a describe block"
+	describe '${1:description}' do
+		${0}
+	end
+snippet it "Define an RSpec test"
+	it '${1:description}' do
+		$0
+	end
+snippet before "Insert a before block"
+	before do
+		$0
+	end
+snippet do "Insert a do/end block"
+	do
+		$0
+	end
+snippet ado "Insert a do/end block with arguments"
+	do |$1|
+		$0
+	end
+snippet mod "Define a new module"
+	module ${1:name}
+		$0
+	end
+snippet class "Define a new class"
+	class ${1:name}
+		$0
+	end
+snippet if "Insert an if expression"
+	if ${1:condition}
+		$0
+	end
+snippet pry "Insert a Pry binding"
+	require 'pry'; binding.pry
+snippet fst "Inserts a frozen string literal option"
+	# frozen_string_literal: true
+

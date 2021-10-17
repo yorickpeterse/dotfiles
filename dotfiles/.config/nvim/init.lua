@@ -142,6 +142,3 @@ g.qf_disable_statusline = true
 
 -- Tabline {{{1
 o.tabline = '%!v:lua.dotfiles.tabline.render()'
-
--- vsnip {{{1
-g.vsnip_snippet_dir = '/home/yorickpeterse/.config/nvim/snippets'

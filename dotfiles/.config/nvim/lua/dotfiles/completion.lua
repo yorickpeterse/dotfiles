@@ -2,6 +2,10 @@
 
 local lsp = vim.lsp
 local api = vim.api
+local util = require('dotfiles.util')
+local snippy = require('snippy')
+local snippy_shared = require('snippy.shared')
+local fn = vim.fn
 local M = {}
 
 -- This disables NeoVim's built-in snippet parser, just to make sure it never
@@ -56,7 +60,7 @@ local function completion_position()
   local pos = api.nvim_win_get_cursor(0)
   local line = api.nvim_get_current_line()
   local line_to_cursor = line:sub(1, pos[2])
-  local start_pos = vim.fn.match(line_to_cursor, '\\k*$') + 1
+  local start_pos = fn.match(line_to_cursor, '\\k*$') + 1
   local prefix = line_to_cursor:sub(start_pos)
 
   return { start_pos, prefix }
@@ -141,6 +145,23 @@ local function insert_text(text)
   move_cursor(line, column + #text)
 end
 
+-- Returns all the snippets for the current buffer.
+local function available_snippets()
+  snippy.read_snippets()
+
+  local snippets = {}
+
+  for _, scope in ipairs(snippy_shared.get_scopes()) do
+    if scope and snippy.snippets[scope] then
+      for _, snippet in pairs(snippy.snippets[scope]) do
+        table.insert(snippets, snippet)
+      end
+    end
+  end
+
+  return snippets
+end
+
 -- Inserts the final completion into the buffer.
 local function insert_completion(item)
   if item == nil then
@@ -158,10 +179,8 @@ local function insert_completion(item)
 
   remove_prefix(data.column, data.line, column, line)
 
-  if data.source == 'lsp' or data.source == 'vsnip' then
-    -- When completing an LSP symbol, the text inserted so far is a placeholder.
-    -- We need to replace this with the LSP snippet and expand it.
-    vim.fn['vsnip#anonymous'](data.expand)
+  if data.source == 'lsp' or data.source == 'snippet' then
+    snippy.expand_snippet(data.expand)
   else
     insert_text(item.word)
   end
@@ -179,36 +198,26 @@ local function snippet_completion_items(buffer, column, prefix)
     return snippets
   end
 
-  for _, source in ipairs(vim.fn['vsnip#source#find'](buffer)) do
-    for _, snippet in ipairs(source) do
-      for _, snippet_prefix in ipairs(snippet.prefix) do
-        if vim.startswith(snippet_prefix, prefix) then
-          if #snippet.description > 0 then
-            local menu = snippet.description
-          else
-            local menu = snippet.label
-          end
-
-          table.insert(
-            snippets,
-            {
-              word = snippet_prefix,
-              abbr = snippet_prefix,
-              kind = snippet_kind,
-              menu = menu,
-              dup = 1,
-              user_data = {
-                dotfiles = {
-                  expand = vim.fn.join(snippet.body, "\n"),
-                  source = 'vsnip',
-                  line = line,
-                  column = column - 1
-                }
-              }
+  for _, snippet in ipairs(available_snippets()) do
+    if vim.startswith(snippet.prefix, prefix) then
+      table.insert(
+        snippets,
+        {
+          word = snippet.prefix,
+          abbr = snippet.prefix,
+          kind = snippet_kind,
+          menu = snippet.description,
+          dup = 1,
+          user_data = {
+            dotfiles = {
+              expand = snippet,
+              source = 'snippet',
+              line = line,
+              column = column - 1
             }
-          )
-        end
-      end
+          }
+        }
+      )
     end
   end
 
@@ -236,9 +245,9 @@ function buffer_completion_items(column, prefix)
   local line = api.nvim_win_get_cursor(0)[1] - 1
 
   for _, buffer in ipairs(buffers) do
-    local lines = vim.fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
+    local lines = fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
 
-    for _, word in ipairs(vim.fn.split(lines, buffer_word_regex)) do
+    for _, word in ipairs(fn.split(lines, buffer_word_regex)) do
       if #word >= min_word_size and vim.startswith(word, prefix) then
         if words[word] then
           local data = words[word].user_data.dotfiles
@@ -303,7 +312,7 @@ local function show_completions(start_pos, items)
     end
   end
 
-  vim.fn.complete(start_pos, items)
+  fn.complete(start_pos, items)
 end
 
 -- Performs a fallback completion if a language server client isn't available.
@@ -391,11 +400,11 @@ end
 
 -- Confirms a completion.
 function M.confirm()
-  if vim.fn.pumvisible() == 1 then
+  if fn.pumvisible() == 1 then
     set_confirmed()
   end
 
-  return api.nvim_replace_termcodes('<C-y>', true, true, true)
+  return util.keycode('<C-y>')
 end
 
 -- Expands a completion.

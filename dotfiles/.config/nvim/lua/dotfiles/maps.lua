@@ -6,6 +6,7 @@ local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
+local snippy = require('snippy')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -126,26 +127,14 @@ function M.telescope_symbols()
 end
 
 function M.snippet_expand()
-  if fn['vsnip#expandable']() then
-    return keycode('<Plug>(vsnip-expand)')
-  else
-    return keycode('<C-s>')
+  if snippy.can_expand() then
+    snippy.expand()
   end
 end
 
 function M.snippet_jump_next()
-  if fn['vsnip#jumpable'](1) then
-    return keycode('<Plug>(vsnip-jump-next)')
-  else
-    return keycode('<C-j>')
-  end
-end
-
-function M.snippet_jump_previous()
-  if fn['vsnip#jumpable'](-1) then
-    return keycode('<Plug>(vsnip-jump-prev)')
-  else
-    return keycode('<C-k>')
+  if snippy.can_jump(1) then
+    snippy.next()
   end
 end
 
@@ -239,8 +228,7 @@ nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))
 nmap('<leader>q', func('toggle_quickfix'))
 
 -- Snippets
-ismap('<C-s>', expr('snippet_expand'))
-ismap('<C-j>', expr('snippet_jump_next'))
-ismap('<C-k>', expr('snippet_jump_previous'))
+ismap('<C-s>', func('snippet_expand'))
+ismap('<C-j>', func('snippet_jump_next'))
 
 return M
