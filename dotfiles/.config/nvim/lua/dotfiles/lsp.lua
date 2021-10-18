@@ -4,6 +4,7 @@ local config = require('lspconfig')
 local lsp = vim.lsp
 local vim_diag = vim.diagnostic
 local api = vim.api
+local fn = vim.fn
 local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
 local flags = {
@@ -62,7 +63,7 @@ vim_diag.config({
 -- we don't need to handle it on a case by case basis. For example, diagnostics
 -- displayed in the statusline aren't updated until leaving insert mode.
 lsp.handlers['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
-  if util.in_insert_mode() then
+  if fn.pumvisible() == 1 or util.in_insert_mode() then
     diag.cache(result, ctx, config)
   else
     lsp.diagnostic.on_publish_diagnostics(nil, result, ctx, config)
