@@ -1,5 +1,6 @@
 local M = {}
 local api = vim.api
+local fn = vim.fn
 local diag = vim.diagnostic
 local icons = require('dotfiles.icons')
 
@@ -35,7 +36,7 @@ function M.render()
   local window = vim.g.statusline_winid
   local active = window == api.nvim_get_current_win()
   local buffer = api.nvim_win_get_buf(window)
-  local bufname = vim.fn.bufname(buffer)
+  local bufname = fn.bufname(buffer)
 
   if bufname == '' then
     bufname = '[No Name]'
@@ -52,7 +53,12 @@ function M.render()
     end
   end
 
-  local name = ' ' .. icons.icon(bufname) .. bufname .. ' '
+  local icon = icons.icon(bufname)
+
+  -- Escape any literal percent signs so they aren't evaluated.
+  bufname = bufname:gsub('%%', '%%%%')
+
+  local name = ' ' .. icon .. bufname .. ' '
   local has_qf_title, qf_title =
     pcall(api.nvim_win_get_var, window, 'quickfix_title')
 
