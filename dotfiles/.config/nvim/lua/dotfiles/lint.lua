@@ -24,7 +24,9 @@ local function done(bufnr, linter, output)
       return
     end
 
-    vim.diagnostic.set(linter.namespace, bufnr, items, {})
+    if vim.fn.bufloaded(bufnr) == 1 then
+      vim.diagnostic.set(linter.namespace, bufnr, items, {})
+    end
   end)
 end
 

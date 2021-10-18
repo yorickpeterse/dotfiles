@@ -67,7 +67,13 @@ function set_location_list(bufnr)
 
   sort(items)
 
-  for _, win in ipairs(fn.getbufinfo(bufnr)[1].windows) do
+  local info = fn.getbufinfo(bufnr)[1]
+
+  if not info then
+    return
+  end
+
+  for _, win in ipairs(info.windows) do
     -- We only update the location list if the items are different. This ensures
     -- that we don't reset the actively selected item to the first item.
     if not same_items(win, items) then
