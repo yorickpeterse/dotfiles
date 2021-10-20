@@ -81,11 +81,7 @@ end
 -- Determines what text to initially insert when switching between completion
 -- candidates.
 local function filter_text(item)
-  if item.filterText ~= nil then
-    return item.filterText
-  else
-    return item.label
-  end
+  return item.insertText or item.filterText or item.label
 end
 
 -- Given a completion item for a snippet and text, returns the snippet's item.
