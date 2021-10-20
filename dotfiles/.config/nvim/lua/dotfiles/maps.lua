@@ -17,6 +17,32 @@ local lsp = vim.lsp
 local g = vim.g
 local diag = vim.diagnostic
 
+-- The LSP symbols to include when using Telescope.
+local ts_lsp_symbols = {}
+local ts_lsp_kinds = {
+  Class = true,
+  Constant = true,
+  Constructor = true,
+  Enum = true,
+  EnumMember = true,
+  Function = true,
+  Interface = true,
+  Method = true,
+  Module = true,
+  Reference = true,
+  Snippet = true,
+  Struct = true,
+  TypeParameter = true,
+  Unit = true,
+  Value = true
+}
+
+for _, kind in ipairs(vim.lsp.protocol.SymbolKind) do
+  if ts_lsp_kinds[kind] then
+    table.insert(ts_lsp_symbols, kind)
+  end
+end
+
 local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
   local cmd = action
@@ -114,7 +140,7 @@ end
 
 function M.telescope_symbols()
   if util.has_lsp_clients() then
-    telescope_builtin.lsp_document_symbols()
+    telescope_builtin.lsp_document_symbols({ symbols = ts_lsp_symbols })
     return
   end
 
