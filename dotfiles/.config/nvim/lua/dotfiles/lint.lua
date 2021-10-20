@@ -8,9 +8,11 @@ local reader = util.reader
 local error = util.error
 local api = vim.api
 local uv = vim.loop
+local fn = vim.fn
 
 local M = {}
 local linters = {}
+local linted_cache = util.buffer_cache(function() return false end)
 
 -- Callback for parsing and publishing a linter's diagnostics.
 local function done(bufnr, linter, output)
@@ -24,7 +26,7 @@ local function done(bufnr, linter, output)
       return
     end
 
-    if vim.fn.bufloaded(bufnr) == 1 then
+    if fn.bufloaded(bufnr) == 1 then
       vim.diagnostic.set(linter.namespace, bufnr, items, {})
     end
   end)
@@ -52,7 +54,7 @@ local function lint(bufnr, path, linter)
   local opts = {
     args = args,
     stdio = { nil, stdout, stderr },
-    cwd = vim.fn.getcwd(),
+    cwd = fn.getcwd(),
     detached = true
   }
 
@@ -109,6 +111,18 @@ end
 -- Returns a boolean indicating if a linter is available for a file type.
 function M.available(filetype)
   return linters[filetype] and #linters[filetype] > 0
+end
+
+-- Lints a newly opened buffer.
+function M.lint_on_enter()
+  local bufnr = api.nvim_get_current_buf()
+
+  if linted_cache[bufnr] then
+    return
+  end
+
+  linted_cache[bufnr] = true
+  M.lint()
 end
 
 -- Runs all linters for the current buffer.

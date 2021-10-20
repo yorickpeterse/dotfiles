@@ -98,7 +98,7 @@ au('lsp', {
 })
 
 au('lint', {
-  'BufEnter * lua dotfiles.lint.lint()',
+  'BufWinEnter * lua dotfiles.lint.lint_on_enter()',
   'BufWritePost * lua dotfiles.lint.lint()',
 })
 
