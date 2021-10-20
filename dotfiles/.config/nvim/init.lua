@@ -30,6 +30,7 @@ require('dotfiles.window')
 require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
+require('dotfiles.defer_diagnostics').setup()
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),

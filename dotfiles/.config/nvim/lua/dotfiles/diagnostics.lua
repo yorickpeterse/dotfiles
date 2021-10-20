@@ -1,6 +1,7 @@
 local M = {}
 local util = require('dotfiles.util')
 local lsp = vim.lsp
+local fn = vim.fn
 
 -- Location information about the last message printed. The format is
 -- `(did print, buffer number, line number)`.
@@ -10,28 +11,6 @@ local echo_timeout = 250
 local warning_hlgroup = 'WarningMsg'
 local error_hlgroup = 'ErrorMsg'
 local short_line_limit = 20
-local diagnostics = util.buffer_cache(function() return {} end)
-
--- Caches a diagnostics request, allowing us to defer publishing them until
--- leaving insert mode.
-function M.cache(result, ctx, config)
-  local client = ctx.client_id
-  local uri = result.uri
-  local buffer = vim.uri_to_bufnr(uri)
-
-  diagnostics[buffer][client] = { nil, result, ctx, config }
-end
-
--- Flushes all pending diagnostics to NeoVim's diagnostics handler.
-function M.flush()
-  for buffer, buffer_cache in pairs(diagnostics) do
-    for _, args in pairs(buffer_cache) do
-      lsp.diagnostic.on_publish_diagnostics(unpack(args))
-    end
-
-    diagnostics[buffer] = {}
-  end
-end
 
 -- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
@@ -41,7 +20,7 @@ function M.echo_diagnostic()
 
   echo_timer = vim.defer_fn(
     function()
-      local line = vim.fn.line('.') - 1
+      local line = fn.line('.') - 1
       local bufnr = vim.api.nvim_win_get_buf(0)
 
       if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then

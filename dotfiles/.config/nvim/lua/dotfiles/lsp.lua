@@ -59,17 +59,6 @@ vim_diag.config({
   update_in_insert = true
 })
 
--- This ensures diagnostics are completely ignored when in insert mode, meaning
--- we don't need to handle it on a case by case basis. For example, diagnostics
--- displayed in the statusline aren't updated until leaving insert mode.
-lsp.handlers['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
-  if fn.pumvisible() == 1 or util.in_insert_mode() then
-    diag.cache(result, ctx, config)
-  else
-    lsp.diagnostic.on_publish_diagnostics(nil, result, ctx, config)
-  end
-end
-
 -- Signs {{{1
 vim.fn.sign_define({
   {
