@@ -92,9 +92,8 @@ au('lsp', {
   'BufWritePre *.rs lua dotfiles.hooks.format_buffer()',
   'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
-  'BufWinEnter * lua dotfiles.location_list.populate()',
-  'InsertLeave * lua dotfiles.diagnostics.flush()',
-  'User DiagnosticsChanged lua dotfiles.location_list.populate()',
+  'BufWinEnter * lua dotfiles.location_list.enter_window()',
+  'User DiagnosticsChanged lua dotfiles.location_list.diagnostics_changed()',
 })
 
 au('lint', {
