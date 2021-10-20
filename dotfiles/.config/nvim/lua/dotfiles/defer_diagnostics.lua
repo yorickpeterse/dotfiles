@@ -75,7 +75,7 @@ function M.defer(result, ctx, config)
 end
 
 function M.flush()
-  local buffer = fn.bufnr(fn.expand('<afile>'))
+  local buffer = api.nvim_get_current_buf()
 
   for _, data in pairs(cached[buffer]) do
     pending[buffer][data.ctx.client_id] =
