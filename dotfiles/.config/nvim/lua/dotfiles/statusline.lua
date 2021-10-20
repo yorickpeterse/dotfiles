@@ -57,6 +57,7 @@ function M.render()
 
   -- Escape any literal percent signs so they aren't evaluated.
   bufname = bufname:gsub('%%', '%%%%')
+  bufname = fn.fnamemodify(bufname, ':.')
 
   local name = ' ' .. icon .. bufname .. ' '
   local has_qf_title, qf_title =
