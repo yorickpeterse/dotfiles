@@ -39,9 +39,10 @@ local confirmed_var = 'dotfiles_completion_confirmed'
 -- characters in e.g. identifiers (or other words I want to complete).
 local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
-local text_kind = 'Text'
-local snippet_kind = 'Snippet'
-local keyword_kind = 'Keyword'
+local kinds = lsp.protocol.CompletionItemKind
+local text_kind = kinds[kinds.Text]
+local snippet_kind = kinds[kinds.Snippet]
+local keyword_kind = kinds[kinds.Keyword]
 
 local function is_confirmed()
   return vim.b[confirmed_var] == true
@@ -160,10 +161,6 @@ end
 
 -- Inserts the final completion into the buffer.
 local function insert_completion(item)
-  if item == nil then
-    return
-  end
-
   if item.user_data == nil or item.user_data.dotfiles == nil then
     return
   end
@@ -413,7 +410,9 @@ function M.done()
     return
   end
 
-  return insert_completion(item)
+  if item then
+    return insert_completion(item)
+  end
 end
 
 return M

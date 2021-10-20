@@ -98,43 +98,6 @@ vim.fn.sign_define({
   },
 })
 
--- Completion symbols {{{1
-local lsp_symbols = {
-  Class = 'Class',
-  Color = 'Color',
-  Constant = 'Constant',
-  Constructor = 'Constructor',
-  Enum = 'Enum',
-  EnumMember = 'Member',
-  File = 'File',
-  Folder = 'Folder',
-  Function = 'Function',
-  Interface = 'Interface',
-  Keyword = 'Keyword',
-  Method = 'Method',
-  Module = 'Module',
-  Property = 'Property',
-  Snippet = 'Snippet',
-  Struct = 'Struct',
-  Text = 'Text',
-  Unit = 'Unit',
-  Value = 'Value',
-  Variable = 'Variable',
-  Namespace = 'Namespace',
-  Field = 'Field',
-  Number = 'Number',
-  TypeParameter = 'Type parameter'
-}
-
-for kind, symbol in pairs(lsp_symbols) do
-  local kinds = lsp.protocol.CompletionItemKind
-  local index = kinds[kind]
-
-  if index ~= nil then
-    kinds[index] = symbol
-  end
-end
-
 -- C/C++ {{{1
 config.clangd.setup {
   capabilities = capabilities,
