@@ -145,6 +145,11 @@ config.clangd.setup {
 config.gopls.setup {
   capabilities = capabilities,
   flags = flags,
+  settings = {
+    gopls = {
+      usePlaceholders = true
+    },
+  },
 }
 
 -- Lua {{{1
