@@ -54,6 +54,9 @@ vim_diag.config({
   signs = {
     severity = { min = vim_diag.severity.WARN }
   },
+  float = {
+    severity = { min = vim_diag.severity.WARN }
+  },
   severity_sort = true,
   virtual_text = false,
   update_in_insert = true

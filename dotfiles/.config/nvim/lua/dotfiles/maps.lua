@@ -131,7 +131,7 @@ function M.definition()
 end
 
 function M.line_diagnostics()
-  diag.show_line_diagnostics({ severity = { min = diag.severity.WARN } })
+  diag.open_float(0, { scope = 'line' })
 end
 
 function M.telescope_files()
