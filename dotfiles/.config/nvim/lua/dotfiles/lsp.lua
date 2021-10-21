@@ -161,10 +161,8 @@ config.rust_analyzer.setup {
   settings = {
     ["rust-analyzer"] = {
       diagnostics = {
-        -- Disable diagnostics while typing, as this is rather annoying.
-        -- Diagnostics are still produced when loading/writing a file.
-        enable = false,
-        enableExperimental = false
+        enable = true,
+        enableExperimental = true
       },
       inlayHints = {
         typeHints = false,
