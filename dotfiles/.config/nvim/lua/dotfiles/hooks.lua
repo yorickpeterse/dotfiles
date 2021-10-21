@@ -70,6 +70,15 @@ function M.close_quickfix()
   end
 end
 
+function M.toggle_list(enter)
+  if enter then
+    vim.w.list_enabled = vim.wo.list
+    vim.wo.list = false
+  else
+    vim.wo.list = vim.w.list_enabled
+  end
+end
+
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
@@ -82,9 +91,9 @@ au('yank', { 'TextYankPost * lua dotfiles.hooks.yanked()' })
 
 -- Remove trailing whitespace
 au('trailing_whitespace', {
-  [[BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()]],
-  [[InsertEnter * setlocal nolist]],
-  [[InsertLeave * setlocal list]]
+  'BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()',
+  'InsertEnter * lua dotfiles.hooks.toggle_list(true)',
+  'InsertLeave * lua dotfiles.hooks.toggle_list(false)'
 })
 
 -- LSP and linting

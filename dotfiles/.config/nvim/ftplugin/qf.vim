@@ -7,3 +7,5 @@ if getwininfo(win_getid())[0].loclist != 1
 
   au WinClosed <buffer> :lua dotfiles.hooks.close_quickfix()
 endif
+
+setlocal nolist
