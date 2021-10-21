@@ -74,7 +74,7 @@ function M.toggle_list(enter)
   if enter then
     vim.w.list_enabled = vim.wo.list
     vim.wo.list = false
-  else
+  elseif vim.w.list_enabled ~= nil then
     vim.wo.list = vim.w.list_enabled
   end
 end
