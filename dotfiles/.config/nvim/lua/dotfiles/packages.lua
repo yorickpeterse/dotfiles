@@ -14,6 +14,7 @@ use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
 use 'https://gitlab.com/yorickpeterse/nvim-grey'
 use 'https://gitlab.com/yorickpeterse/nvim-window'
 use 'https://gitlab.com/yorickpeterse/nvim-pqf'
+use 'https://gitlab.com/yorickpeterse/nvim-dd'
 use 'phaazon/hop.nvim'
 use 'kyazdani42/nvim-web-devicons'
 use 'justinmk/vim-dirvish'

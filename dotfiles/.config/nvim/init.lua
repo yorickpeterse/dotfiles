@@ -15,6 +15,7 @@ require('dotfiles.packages')
 
 require('pqf').setup()
 require('mini.comment').setup()
+require('dd').setup()
 
 require('dotfiles.linters.flake8')
 require('dotfiles.linters.gitlint')
@@ -30,7 +31,6 @@ require('dotfiles.window')
 require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
-require('dotfiles.defer_diagnostics').setup()
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
