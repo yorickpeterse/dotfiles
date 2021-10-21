@@ -112,7 +112,7 @@ g.gutentags_ctags_exclude = {
 
 g.gutentags_exclude_filetypes = { 'lua' }
 g.gutentags_file_list_command = 'rg --files'
-g.gutentags_ctags_extra_args = { '--exclude=@.gitignore', '--excmd=number' }
+g.gutentags_ctags_extra_args = { '--excmd=number' }
 
 -- Indentation {{{1
 o.expandtab = true
