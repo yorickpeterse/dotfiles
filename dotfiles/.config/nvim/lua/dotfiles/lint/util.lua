@@ -5,9 +5,9 @@ function M.json_decode(input)
   if input == '' then
     return {}
   else
-    local output = vim.fn.json_decode(input)
+    local output = vim.json.decode(input, { luanil = { object = true } })
 
-    if output == vim.NIL then
+    if output == nil then
       return {}
     else
       return output
