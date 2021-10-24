@@ -143,3 +143,4 @@ g.qf_disable_statusline = true
 
 -- Tabline {{{1
 o.tabline = '%!v:lua.dotfiles.tabline.render()'
+o.showtabline = 2

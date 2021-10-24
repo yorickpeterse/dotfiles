@@ -2,12 +2,11 @@ local M = {}
 local api = vim.api
 local fn = vim.fn
 local diag = vim.diagnostic
+local lsp = vim.lsp
 local icons = require('dotfiles.icons')
-
--- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
--- get swallowed in statuslines. This kind of space doesn't.
--- local forced_space = utf8.char(8194)
-local forced_space = string.char(226, 128, 130)
+local util = require('dotfiles.util')
+local highlight = util.statusline_highlight
+local forced_space = util.forced_space
 
 local preview = '%w'
 local modified = '%m'
@@ -27,11 +26,6 @@ local function diagnostic_count(buffer, kind)
   end
 end
 
-local function highlight(text, group)
-  return '%#' .. group .. '#' .. text .. '%*'
-end
-
--- Renders the status line.
 function M.render()
   local window = vim.g.statusline_winid
   local active = window == api.nvim_get_current_win()

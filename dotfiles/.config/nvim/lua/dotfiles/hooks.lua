@@ -103,6 +103,7 @@ au('lsp', {
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
   'BufWinEnter * lua dotfiles.location_list.enter_window()',
   'User DiagnosticsChanged lua dotfiles.location_list.diagnostics_changed()',
+  'User LspProgressUpdate redrawtabline',
 })
 
 au('lint', {
