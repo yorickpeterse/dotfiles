@@ -165,7 +165,7 @@ config.rust_analyzer.setup {
     ["rust-analyzer"] = {
       diagnostics = {
         enable = true,
-        enableExperimental = true
+        enableExperimental = false
       },
       inlayHints = {
         typeHints = false,
