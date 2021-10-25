@@ -56,7 +56,7 @@ function M.render()
     if bufname == '' then
       bufname = default_name
     else
-      bufname = fn.fnamemodify(bufname, ':t')
+      bufname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
     end
 
     local modified = fn.getbufvar(bufnr, '&mod')
