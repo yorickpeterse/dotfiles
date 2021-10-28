@@ -16,6 +16,10 @@ snippet describe "Insert a describe block"
 	describe '${1:description}' do
 		${0}
 	end
+snippet context "Insert a context block"
+	context '${1:description}' do
+		${0}
+	end
 snippet it "Define an RSpec test"
 	it '${1:description}' do
 		$0
@@ -32,7 +36,7 @@ snippet ado "Insert a do/end block with arguments"
 	do |$1|
 		$0
 	end
-snippet mod "Define a new module"
+snippet module "Define a new module"
 	module ${1:name}
 		$0
 	end
