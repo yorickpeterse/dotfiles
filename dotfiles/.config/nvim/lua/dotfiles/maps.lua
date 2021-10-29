@@ -88,6 +88,12 @@ local function expr(name)
   return { 'expr', 'v:lua.dotfiles.maps.' .. name .. '()' }
 end
 
+local function pair(key, func)
+  local action = { 'expr', 'v:lua.dotfiles.pairs.' .. func .. '()' }
+
+  imap(key, action, { noremap = true })
+end
+
 function M.enter()
   return popup_visible() and completion.confirm() or pairs.enter()
 end
@@ -172,10 +178,6 @@ function M.toggle_quickfix()
   end
 end
 
-function M.single_quote()
-  return pairs.single_quote()
-end
-
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -202,7 +204,22 @@ tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
 imap('<CR>', expr('enter'))
-imap("'", expr('single_quote'), { noremap = true })
+
+pair('<space>', 'space')
+pair('<bs>', 'backspace')
+
+pair('{', 'curly_open')
+pair('}', 'curly_close')
+
+pair('[', 'bracket_open')
+pair(']', 'bracket_close')
+
+pair('(', 'paren_open')
+pair(')', 'paren_close')
+
+pair("'", 'single_quote')
+pair('"', 'double_quote')
+pair('`', 'backtick')
 
 imap('<tab>', expr('tab'))
 imap('<S-tab>', expr('shift_tab'))
