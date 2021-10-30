@@ -5,6 +5,17 @@ local keycode = util.keycode
 local fn = vim.fn
 local api = vim.api
 
+-- When inserting a quote after one of these characters, always insert the
+-- closing quote.
+local force_closing_quote = {
+  ['('] = true,
+  ['['] = true,
+  ['{'] = true,
+  [' '] = true,
+  ['\t'] = true,
+  [','] = true,
+}
+
 -- When deleting a starting pair, also delete the closing pair if it directly
 -- follows the cursor.
 local backspace_open_pairs = {
@@ -27,17 +38,20 @@ local backspace_close_pairs = {
   ['`'] = '`'
 }
 
--- When entering a newline after one of these pairs, automatically indent the
--- line.
-local newline_pairs = {
-  ['{'] = true,
-  ['['] = true,
-  ['('] = true,
-}
-
--- When pressing a space after one of these opening pairs, insert a space after
--- the cursor if the next character is a closing pair.
-local space_pairs = {
+-- Pairs that need special handling when pressing space or enter.
+--
+-- When pressing enter in between two brackets, the curser is placed indented
+-- between the brackets like this:
+--
+--     {
+--       |
+--     }
+--
+-- When pressing space between two brackets, an extra space is added arounc the
+-- cursor like this:
+--
+--     [ | ]
+local brackets = {
   ['{'] = '}',
   ['['] = ']',
   ['('] = ')',
@@ -61,13 +75,8 @@ end
 
 local function pair(open, close)
   local before = peek(-1)
-  local after = peek()
 
   if before == '\\' then
-    return open
-  end
-
-  if #after > 0 and not is_space(after) and close ~= after then
     return open
   end
 
@@ -81,7 +90,7 @@ local function quote(kind)
 
   local before = peek(-1)
 
-  if #before > 0 and not is_space(before) then
+  if #before > 0 and not force_closing_quote[before] then
     return kind
   end
 
@@ -103,7 +112,10 @@ local function jump_over(thing)
 end
 
 function M.enter()
-  if newline_pairs[peek(-1)] then
+  local before = peek(-1)
+  local after = peek()
+
+  if brackets[before] == after then
     return keycode('<cr><C-o>O')
   end
 
@@ -114,7 +126,7 @@ function M.space()
   local before = peek(-1)
   local after = peek()
 
-  if space_pairs[before] == after then
+  if brackets[before] == after then
     return keycode('<space><space>') .. left
   end
 
@@ -126,7 +138,7 @@ function M.backspace()
   local after = peek()
 
   if is_space(before) and is_space(after) then
-    if space_pairs[peek(-2)] == peek(1) then
+    if brackets[peek(-2)] == peek(1) then
       return keycode('<bs><del>')
     end
   end
