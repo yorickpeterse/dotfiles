@@ -6,7 +6,7 @@ local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
-local snippy = require('snippy')
+local snippets = require('luasnip')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -158,16 +158,12 @@ function M.telescope_symbols()
   telescope_builtin.current_buffer_tags()
 end
 
-function M.snippet_expand()
-  if snippy.can_expand() then
-    snippy.expand()
-  end
+function M.control_s()
+  snippets.expand()
 end
 
-function M.snippet_jump_next()
-  if snippy.can_jump(1) then
-    snippy.next()
-  end
+function M.control_j()
+  snippets.jump(1)
 end
 
 function M.toggle_quickfix()
@@ -271,7 +267,7 @@ nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))
 nmap('<leader>q', func('toggle_quickfix'))
 
 -- Snippets
-ismap('<C-s>', func('snippet_expand'))
-ismap('<C-j>', func('snippet_jump_next'))
+ismap('<C-s>', func('control_s'))
+ismap('<C-j>', func('control_j'))
 
 return M

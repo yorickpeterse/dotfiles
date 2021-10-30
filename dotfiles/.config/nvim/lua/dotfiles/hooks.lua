@@ -13,7 +13,14 @@ function M.remove_trailing_whitespace()
   local line = fn.line('.')
   local col = fn.col('.')
 
-  vim.cmd([[%s/\s\+$//eg]])
+  -- In .snippets files, a line may start with just a tab so snippets can
+  -- include empty lines. In this case we don't want to remove the tab.
+  if vim.bo.ft == 'snippets' then
+    vim.cmd([[%s/ \+$//eg]])
+  else
+    vim.cmd([[%s/\s\+$//eg]])
+  end
+
   fn.cursor(line, col)
 end
 

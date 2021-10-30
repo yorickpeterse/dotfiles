@@ -3,8 +3,8 @@
 local lsp = vim.lsp
 local api = vim.api
 local util = require('dotfiles.util')
-local snippy = require('snippy')
-local snippy_shared = require('snippy.shared')
+local lsnip = require('luasnip')
+local lsnip_util = require('luasnip.util.util')
 local fn = vim.fn
 local M = {}
 
@@ -143,20 +143,26 @@ local function insert_text(text)
 end
 
 -- Returns all the snippets for the current buffer.
-local function available_snippets()
-  snippy.read_snippets()
+local function available_snippets(buffer)
+  local buf_ft = api.nvim_buf_get_option(buffer, 'ft')
+  local avail = {}
 
-  local snippets = {}
-
-  for _, scope in ipairs(snippy_shared.get_scopes()) do
-    if scope and snippy.snippets[scope] then
-      for _, snippet in pairs(snippy.snippets[scope]) do
-        table.insert(snippets, snippet)
+  for _, ft in ipairs(lsnip_util.get_snippet_filetypes(buf_ft)) do
+    if lsnip.snippets[ft] then
+      for index, snippet in pairs(lsnip.snippets[ft]) do
+        if not snippet.hidden then
+          table.insert(avail, {
+            prefix = snippet.trigger,
+            description = snippet.dscr[1],
+            index = index,
+            ft = ft
+          })
+        end
       end
     end
   end
 
-  return snippets
+  return avail
 end
 
 -- Inserts the final completion into the buffer.
@@ -172,8 +178,15 @@ local function insert_completion(item)
 
   remove_prefix(data.column, data.line, column, line)
 
-  if data.source == 'lsp' or data.source == 'snippet' then
-    snippy.expand_snippet(data.expand)
+  if data.source == 'lsp' then
+    lsnip.lsp_expand(data.expand)
+  elseif data.source == 'snippet' then
+    local snippet = lsnip.snippets[data.expand.ft][data.expand.index]
+
+    -- LuaSnip requires the trigger text to be present, so we must insert it
+    -- first.
+    insert_text(snippet.trigger)
+    snippet:trigger_expand(lsnip.session.current_nodes[api.nvim_get_current_buf()])
   else
     insert_text(item.word)
   end
@@ -191,7 +204,7 @@ local function snippet_completion_items(buffer, column, prefix)
     return snippets
   end
 
-  for _, snippet in ipairs(available_snippets()) do
+  for _, snippet in ipairs(available_snippets(buffer)) do
     if vim.startswith(snippet.prefix, prefix) then
       table.insert(
         snippets,

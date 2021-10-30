@@ -9,7 +9,7 @@ use 'ludovicchabant/vim-gutentags'
 use 'Vimjas/vim-python-pep8-indent'
 use 'yssl/QFEnter'
 use 'neovim/nvim-lspconfig'
-use 'dcampos/nvim-snippy'
+use 'L3MON4D3/LuaSnip'
 use { 'https://gitlab.com/inko-lang/inko.vim', branch = 'single-ownership' }
 use 'https://gitlab.com/yorickpeterse/nvim-grey'
 use 'https://gitlab.com/yorickpeterse/nvim-window'
