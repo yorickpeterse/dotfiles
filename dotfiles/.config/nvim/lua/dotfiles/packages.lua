@@ -1,7 +1,7 @@
 local pkg = require('dotfiles.package')
 local use = pkg.use
 
-use('echasnovski/mini.nvim')
+use('b3nj5m1n/kommentary')
 use('YorickPeterse/rust.vim')
 use('tpope/vim-fugitive')
 use('dag/vim-fish')

@@ -14,7 +14,6 @@ g.qfenter_keymap = {
 require('dotfiles.packages')
 
 require('pqf').setup()
-require('mini.comment').setup()
 require('dd').setup()
 
 require('dotfiles.linters.flake8')
@@ -32,6 +31,7 @@ require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
 require('dotfiles.snippets')
+require('dotfiles.comments')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
