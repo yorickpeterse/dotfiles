@@ -72,10 +72,6 @@ function M.restore_register(register, func)
   fn.setreg(register, reg_val)
 end
 
-function M.in_insert_mode()
-  return api.nvim_get_mode().mode == 'i'
-end
-
 function M.buffer_cache(default)
   local cache = {}
   local mt = {
