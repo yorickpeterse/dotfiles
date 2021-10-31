@@ -43,5 +43,5 @@ lint.linter('gitcommit', {
     end
 
     return items
-  end
+  end,
 })

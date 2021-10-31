@@ -12,7 +12,9 @@ local fn = vim.fn
 
 local M = {}
 local linters = {}
-local linted_cache = util.buffer_cache(function() return false end)
+local linted_cache = util.buffer_cache(function()
+  return false
+end)
 
 -- Callback for parsing and publishing a linter's diagnostics.
 local function done(bufnr, linter, output)
@@ -55,7 +57,7 @@ local function lint(bufnr, path, linter)
     args = args,
     stdio = { nil, stdout, stderr },
     cwd = fn.getcwd(),
-    detached = true
+    detached = true,
   }
 
   local handle
@@ -101,7 +103,9 @@ function M.linter(filetype, linter)
   assert(linter.parse, 'Linters must define a "parse" function')
 
   linter.stream = linter.stream or 'stdout'
-  linter.enable = linter.enable or function() return true end
+  linter.enable = linter.enable or function()
+    return true
+  end
   linter.exit_codes = linter.exit_codes or { 0, 1 }
   linter.namespace = api.nvim_create_namespace('linter_' .. linter.name)
 

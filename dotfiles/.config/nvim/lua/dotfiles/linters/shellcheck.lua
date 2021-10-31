@@ -28,5 +28,5 @@ lint.linter('sh', {
     end
 
     return items
-  end
+  end,
 })

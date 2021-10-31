@@ -33,11 +33,11 @@ lint.linter('ruby', {
           col = 0,
           end_col = 1,
           message = message,
-          severity = severity
+          severity = severity,
         })
       end
     end
 
     return items
-  end
+  end,
 })

@@ -25,11 +25,11 @@ lint.linter('python', {
           col = tonumber(column) - 1,
           end_col = tonumber(column),
           message = message,
-          severity = severities[kind] or severities.W
+          severity = severities[kind] or severities.W,
         })
       end
     end
 
     return items
-  end
+  end,
 })

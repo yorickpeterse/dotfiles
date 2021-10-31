@@ -9,7 +9,7 @@ local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
 local flags = {
   allow_incremental_sync = true,
-  debounce_text_changes = 150
+  debounce_text_changes = 150,
 }
 
 -- Markdown popup {{{1
@@ -20,7 +20,7 @@ do
     local local_opts = {
       max_width = 120,
       max_height = 20,
-      separator = false
+      separator = false,
     }
 
     local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
@@ -34,8 +34,11 @@ do
   local default = lsp.util.make_floating_popup_options
 
   lsp.util.make_floating_popup_options = function(width, height, opts)
-    local new_opts =
-      vim.tbl_deep_extend('force', opts or {}, { border = 'single' })
+    local new_opts = vim.tbl_deep_extend(
+      'force',
+      opts or {},
+      { border = 'single' }
+    )
 
     return default(width, height, new_opts)
   end
@@ -49,17 +52,17 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- Diagnostics {{{1
 vim_diag.config({
   underline = {
-    severity = { min = vim_diag.severity.WARN }
+    severity = { min = vim_diag.severity.WARN },
   },
   signs = {
-    severity = { min = vim_diag.severity.WARN }
+    severity = { min = vim_diag.severity.WARN },
   },
   float = {
-    severity = { min = vim_diag.severity.WARN }
+    severity = { min = vim_diag.severity.WARN },
   },
   severity_sort = true,
   virtual_text = false,
-  update_in_insert = true
+  update_in_insert = true,
 })
 
 -- Signs {{{1
@@ -68,44 +71,44 @@ vim.fn.sign_define({
     name = 'DiagnosticSignError',
     text = 'E',
     numhl = 'DiagnosticError',
-    texthl = 'DiagnosticError'
+    texthl = 'DiagnosticError',
   },
   {
     name = 'DiagnosticSignWarn',
     text = 'W',
     numhl = 'DiagnosticWarn',
-    texthl = 'DiagnosticWarn'
+    texthl = 'DiagnosticWarn',
   },
   {
     name = 'DiagnosticSignHint',
     text = 'H',
     numhl = 'DiagnosticHint',
-    texthl = 'DiagnosticHint'
+    texthl = 'DiagnosticHint',
   },
   {
     name = 'DiagnosticSignInfo',
     text = 'H',
     numhl = 'DiagnosticInfo',
-    texthl = 'DiagnosticInfo'
+    texthl = 'DiagnosticInfo',
   },
 })
 
 -- C/C++ {{{1
-config.clangd.setup {
+config.clangd.setup({
   capabilities = capabilities,
   flags = flags,
-}
+})
 
 -- Go {{{1
-config.gopls.setup {
+config.gopls.setup({
   capabilities = capabilities,
   flags = flags,
   settings = {
     gopls = {
-      usePlaceholders = true
+      usePlaceholders = true,
     },
   },
-}
+})
 
 -- Lua {{{1
 do
@@ -114,13 +117,13 @@ do
   table.insert(rpath, 'lua/?.lua')
   table.insert(rpath, 'lua/?/init.lua')
 
-  config.sumneko_lua.setup {
+  config.sumneko_lua.setup({
     capabilities = capabilities,
     flags = flags,
     cmd = {
       '/usr/bin/lua-language-server',
       '-E',
-      '/usr/lib/lua-language-server/main.lua'
+      '/usr/lib/lua-language-server/main.lua',
     },
     settings = {
       Lua = {
@@ -137,13 +140,13 @@ do
         telemetry = {
           enable = false,
         },
-      }
+      },
     },
-  }
+  })
 end
 
 -- Python {{{1
-config.jedi_language_server.setup {
+config.jedi_language_server.setup({
   capabilities = capabilities,
   flags = flags,
   init_options = {
@@ -151,38 +154,38 @@ config.jedi_language_server.setup {
     startupMessage = false,
     diagnostics = {
       -- Linting as you type is distracting, and thus is disabled.
-      didChange = false
-    }
-  }
-}
+      didChange = false,
+    },
+  },
+})
 
 -- Rust {{{1
-config.rust_analyzer.setup {
+config.rust_analyzer.setup({
   root_dir = config.util.root_pattern('Cargo.toml', 'rustfmt.toml'),
   capabilities = capabilities,
   flags = flags,
   settings = {
-    ["rust-analyzer"] = {
+    ['rust-analyzer'] = {
       diagnostics = {
         enable = true,
-        enableExperimental = false
+        enableExperimental = false,
       },
       inlayHints = {
         typeHints = false,
         chainingHints = false,
-        enable = false
+        enable = false,
       },
       server = {
-        path = "/usr/bin/rust-analyzer"
+        path = '/usr/bin/rust-analyzer',
       },
       lruCapacity = 64,
       completion = {
         postfix = {
-          enable = false
-        }
-      }
-    }
-  }
-}
+          enable = false,
+        },
+      },
+    },
+  },
+})
 
 -- vim: set foldmethod=marker:

@@ -20,11 +20,11 @@ lint.linter('lua', {
           col = 0,
           end_col = 1,
           message = message,
-          severity = vim.diagnostic.severity.ERROR
+          severity = vim.diagnostic.severity.ERROR,
         })
       end
     end
 
     return items
-  end
+  end,
 })

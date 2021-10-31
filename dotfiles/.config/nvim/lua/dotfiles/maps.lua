@@ -34,7 +34,7 @@ local ts_lsp_kinds = {
   Struct = true,
   TypeParameter = true,
   Unit = true,
-  Value = true
+  Value = true,
 }
 
 for _, kind in ipairs(vim.lsp.protocol.SymbolKind) do
@@ -62,15 +62,38 @@ local function map_key(kind, key, action, options)
   api.nvim_set_keymap(kind, key, cmd, opts)
 end
 
-local function unmap(key) api.nvim_del_keymap('', key) end
+local function unmap(key)
+  api.nvim_del_keymap('', key)
+end
 
-local function map(key, action, options) map_key('', key, action, options) end
-local function nmap(key, action, options) map_key('n', key, action, options) end
-local function imap(key, action, options) map_key('i', key, action, options) end
-local function smap(key, action, options) map_key('s', key, action, options) end
-local function tmap(key, action, options) map_key('t', key, action, options) end
-local function vmap(key, action, options) map_key('v', key, action, options) end
-local function xmap(key, action, options) map_key('x', key, action, options) end
+local function map(key, action, options)
+  map_key('', key, action, options)
+end
+
+local function nmap(key, action, options)
+  map_key('n', key, action, options)
+end
+
+local function imap(key, action, options)
+  map_key('i', key, action, options)
+end
+
+local function smap(key, action, options)
+  map_key('s', key, action, options)
+end
+
+local function tmap(key, action, options)
+  map_key('t', key, action, options)
+end
+
+local function vmap(key, action, options)
+  map_key('v', key, action, options)
+end
+
+local function xmap(key, action, options)
+  map_key('x', key, action, options)
+end
+
 local function ismap(key, action, options)
   imap(key, action, options)
   smap(key, action, options)
@@ -117,11 +140,15 @@ function M.tab()
 end
 
 function M.next_conflict()
-  util.restore_register('/', function() vim.cmd('silent! /<<< HEAD') end)
+  util.restore_register('/', function()
+    vim.cmd('silent! /<<< HEAD')
+  end)
 end
 
 function M.previous_conflict()
-  util.restore_register('/', function() vim.cmd('silent! ?<<< HEAD') end)
+  util.restore_register('/', function()
+    vim.cmd('silent! ?<<< HEAD')
+  end)
 end
 
 function M.pick_window()
@@ -226,7 +253,7 @@ vmap('<tab>', '>')
 -- Dirvish
 unmap('-')
 au('dirvish', {
-  'FileType dirvish nmap <buffer><silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>'
+  'FileType dirvish nmap <buffer><silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>',
 })
 
 -- Fugitive/Git

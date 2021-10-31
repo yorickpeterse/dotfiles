@@ -24,7 +24,7 @@ local backspace_open_pairs = {
   ['{'] = '}',
   ['"'] = '"',
   ["'"] = "'",
-  ['`'] = '`'
+  ['`'] = '`',
 }
 
 -- When deleting one of these closing pairs, also delete the opening pair if it
@@ -35,7 +35,7 @@ local backspace_close_pairs = {
   ['}'] = '{',
   ['"'] = '"',
   ["'"] = "'",
-  ['`'] = '`'
+  ['`'] = '`',
 }
 
 -- Pairs that need special handling when pressing space or enter.

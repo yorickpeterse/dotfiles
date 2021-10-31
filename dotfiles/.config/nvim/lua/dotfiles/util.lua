@@ -26,7 +26,7 @@ function M.error(message)
   vim.schedule(function()
     local chunks = {
       { 'error: ', 'ErrorMsg' },
-      { message }
+      { message },
     }
 
     api.nvim_echo(chunks, true, {})
@@ -51,11 +51,11 @@ function M.au(name, commands)
   local cmd = table.concat({
     'augroup dotfiles_',
     name,
-    "\n",
-    "autocmd!\n",
-    table.concat(cmds, "\n"),
-    "\n",
-    'augroup END'
+    '\n',
+    'autocmd!\n',
+    table.concat(cmds, '\n'),
+    '\n',
+    'augroup END',
   })
 
   vim.cmd(cmd)
@@ -82,11 +82,11 @@ function M.buffer_cache(default)
       api.nvim_buf_attach(buffer, false, {
         on_detach = function()
           table[buffer] = nil
-        end
+        end,
       })
 
       return val
-    end
+    end,
   }
 
   setmetatable(cache, mt)

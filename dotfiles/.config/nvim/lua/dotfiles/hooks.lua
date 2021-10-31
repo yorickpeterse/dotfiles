@@ -28,7 +28,7 @@ function M.yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
     timeout = 150,
-    on_visual = false
+    on_visual = false,
   })
 end
 
@@ -44,8 +44,13 @@ function M.format_buffer()
   for _, window in ipairs(windows) do
     local line, col = unpack(api.nvim_win_get_cursor(window))
 
-    marks[window] =
-      api.nvim_buf_set_extmark(bufnr, format_mark_ns, line - 1, col, {})
+    marks[window] = api.nvim_buf_set_extmark(
+      bufnr,
+      format_mark_ns,
+      line - 1,
+      col,
+      {}
+    )
   end
 
   lsp.buf.formatting_sync(nil, 1000)
@@ -53,8 +58,9 @@ function M.format_buffer()
   for _, window in ipairs(windows) do
     local mark = marks[window]
 
-    local line, col =
-      unpack(api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {}))
+    local line, col = unpack(
+      api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {})
+    )
 
     local max_line_index = api.nvim_buf_line_count(bufnr) - 1
 
@@ -90,7 +96,7 @@ au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
   'BufRead,BufNewFile *.rll set filetype=rll',
-  'BufRead,BufNewFile Dangerfile set filetype=ruby'
+  'BufRead,BufNewFile Dangerfile set filetype=ruby',
 })
 
 -- Highlight yanked selections
@@ -100,7 +106,7 @@ au('yank', { 'TextYankPost * lua dotfiles.hooks.yanked()' })
 au('trailing_whitespace', {
   'BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()',
   'InsertEnter * lua dotfiles.hooks.toggle_list(true)',
-  'InsertLeave * lua dotfiles.hooks.toggle_list(false)'
+  'InsertLeave * lua dotfiles.hooks.toggle_list(false)',
 })
 
 -- LSP and linting
@@ -120,7 +126,7 @@ au('lint', {
 
 -- Fix diff highlights in fugitive
 au('fugitive', {
-  'BufAdd fugitive://* lua require("dotfiles.diff").fix_highlight()'
+  'BufAdd fugitive://* lua require("dotfiles.diff").fix_highlight()',
 })
 
 -- Automatically create leading directories when writing a file. This makes it
@@ -133,7 +139,7 @@ au('grep_quickfix', { 'QuickFixCmdPost grep cwindow' })
 -- Highlight all search matches while searching, but not when done searching.
 au('search_highlight', {
   [[CmdlineEnter [/\?] :set hlsearch]],
-  [[CmdlineLeave [/\?] :set nohlsearch]]
+  [[CmdlineLeave [/\?] :set nohlsearch]],
 })
 
 return M

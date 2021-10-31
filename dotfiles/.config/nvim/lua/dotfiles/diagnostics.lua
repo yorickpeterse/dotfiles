@@ -20,63 +20,62 @@ function M.echo_diagnostic()
     echo_timer:stop()
   end
 
-  echo_timer = vim.defer_fn(
-    function()
-      local line = fn.line('.') - 1
-      local bufnr = api.nvim_win_get_buf(0)
+  echo_timer = vim.defer_fn(function()
+    local line = fn.line('.') - 1
+    local bufnr = api.nvim_win_get_buf(0)
 
-      if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then
-        return
+    if last_echo[1] and last_echo[2] == bufnr and last_echo[3] == line then
+      return
+    end
+
+    local diags = diag.get(
+      bufnr,
+      { lnum = line, severity = { min = diag.severity.WARN } }
+    )
+
+    if #diags == 0 then
+      -- If we previously echo'd a message, clear it out by echoing an empty
+      -- message.
+      if last_echo[1] then
+        last_echo = { false, -1, -1 }
+
+        api.nvim_command('echo ""')
       end
 
-      local diags =
-        diag.get(bufnr, { lnum = line, severity = { min = diag.severity.WARN } })
+      return
+    end
 
-      if #diags == 0 then
-        -- If we previously echo'd a message, clear it out by echoing an empty
-        -- message.
-        if last_echo[1] then
-          last_echo = { false, -1, -1 }
+    last_echo = { true, bufnr, line }
 
-          api.nvim_command('echo ""')
-        end
+    local first = diags[1]
+    local width = api.nvim_get_option('columns') - 15
+    local lines = vim.split(first.message, '\n')
+    local message = lines[1]
+    local trimmed = false
 
-        return
-      end
+    if #lines > 1 and #message <= short_line_limit then
+      message = message .. ' ' .. lines[2]
+    end
 
-      last_echo = { true, bufnr, line }
+    if width > 0 and #message >= width then
+      message = message:sub(1, width) .. '...'
+    end
 
-      local first = diags[1]
-      local width = api.nvim_get_option('columns') - 15
-      local lines = vim.split(first.message, "\n")
-      local message = lines[1]
-      local trimmed = false
+    local kind = 'warning'
+    local hlgroup = warning_hlgroup
 
-      if #lines > 1 and #message <= short_line_limit then
-        message = message .. ' ' .. lines[2]
-      end
+    if first.severity == lsp.protocol.DiagnosticSeverity.Error then
+      kind = 'error'
+      hlgroup = error_hlgroup
+    end
 
-      if width > 0 and #message >= width then
-        message = message:sub(1, width) .. '...'
-      end
+    local chunks = {
+      { kind .. ': ', hlgroup },
+      { message },
+    }
 
-      local kind = 'warning'
-      local hlgroup = warning_hlgroup
-
-      if first.severity == lsp.protocol.DiagnosticSeverity.Error then
-        kind = 'error'
-        hlgroup = error_hlgroup
-      end
-
-      local chunks = {
-        { kind .. ': ', hlgroup },
-        { message }
-      }
-
-      api.nvim_echo(chunks, false, {})
-    end,
-    echo_timeout
-  )
+    api.nvim_echo(chunks, false, {})
+  end, echo_timeout)
 end
 
 return M

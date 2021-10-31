@@ -54,8 +54,11 @@ function M.render()
   bufname = fn.fnamemodify(bufname, ':.')
 
   local name = ' ' .. icon .. bufname .. ' '
-  local has_qf_title, qf_title =
-    pcall(api.nvim_win_get_var, window, 'quickfix_title')
+  local has_qf_title, qf_title = pcall(
+    api.nvim_win_get_var,
+    window,
+    'quickfix_title'
+  )
 
   return table.concat({
     active and highlight(name, active_hl) or name,

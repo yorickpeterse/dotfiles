@@ -115,9 +115,9 @@ local function remove_prefix(start_col, start_line, stop_col, stop_line)
   local edit = {
     range = {
       ['start'] = { line = start_line, character = start_col },
-      ['end'] = { line = stop_line, character = stop_col }
+      ['end'] = { line = stop_line, character = stop_col },
     },
-    newText = ''
+    newText = '',
   }
 
   lsp.util.apply_text_edits({ edit }, buffer)
@@ -133,9 +133,9 @@ local function insert_text(text)
   local edit = {
     range = {
       ['start'] = { line = line, character = column },
-      ['end'] = { line = line, character = column }
+      ['end'] = { line = line, character = column },
     },
-    newText = text
+    newText = text,
   }
 
   lsp.util.apply_text_edits({ edit }, buffer)
@@ -155,7 +155,7 @@ local function available_snippets(buffer)
             prefix = snippet.trigger,
             description = snippet.dscr[1],
             index = index,
-            ft = ft
+            ft = ft,
           })
         end
       end
@@ -186,7 +186,9 @@ local function insert_completion(item)
     -- LuaSnip requires the trigger text to be present, so we must insert it
     -- first.
     insert_text(snippet.trigger)
-    snippet:trigger_expand(lsnip.session.current_nodes[api.nvim_get_current_buf()])
+    snippet:trigger_expand(
+      lsnip.session.current_nodes[api.nvim_get_current_buf()]
+    )
   else
     insert_text(item.word)
   end
@@ -206,29 +208,28 @@ local function snippet_completion_items(buffer, column, prefix)
 
   for _, snippet in ipairs(available_snippets(buffer)) do
     if vim.startswith(snippet.prefix, prefix) then
-      table.insert(
-        snippets,
-        {
-          word = snippet.prefix,
-          abbr = snippet.prefix,
-          kind = snippet_kind,
-          menu = snippet.description,
-          dup = 1,
-          user_data = {
-            dotfiles = {
-              expand = snippet,
-              source = 'snippet',
-              line = line,
-              column = column - 1
-            }
-          }
-        }
-      )
+      table.insert(snippets, {
+        word = snippet.prefix,
+        abbr = snippet.prefix,
+        kind = snippet_kind,
+        menu = snippet.description,
+        dup = 1,
+        user_data = {
+          dotfiles = {
+            expand = snippet,
+            source = 'snippet',
+            line = line,
+            column = column - 1,
+          },
+        },
+      })
     end
   end
 
   -- Sort the snippets alphabetically by their prefixes.
-  table.sort(snippets, function(a, b) return a.word < b.word end)
+  table.sort(snippets, function(a, b)
+    return a.word < b.word
+  end)
 
   return snippets
 end
@@ -270,9 +271,9 @@ function buffer_completion_items(column, prefix)
                 source = 'buffer',
                 count = 1,
                 line = line,
-                column = column - 1
-              }
-            }
+                column = column - 1,
+              },
+            },
           }
         end
       end
@@ -291,7 +292,9 @@ function buffer_completion_items(column, prefix)
     table.insert(items, item)
   end
 
-  table.sort(items, function(a, b) return a.word < b.word end)
+  table.sort(items, function(a, b)
+    return a.word < b.word
+  end)
 
   return items
 end
@@ -332,7 +335,9 @@ local function fallback_completion(prefix)
 
   -- This is so we can automatically insert and expand the first entry. This
   -- doesn't work reliably when returning the items directly.
-  vim.schedule(function() show_completions(start_pos, items) end)
+  vim.schedule(function()
+    show_completions(start_pos, items)
+  end)
 
   return -2
 end
@@ -365,10 +370,11 @@ function M.start(findstart, base)
         return
       end
 
-      local lsp_items = vim
-        .lsp
-        .util
-        .text_document_completion_list_to_complete_items(result, prefix)
+      local lsp_items =
+        vim.lsp.util.text_document_completion_list_to_complete_items(
+          result,
+          prefix
+        )
 
       -- Now that we have the items, we need to process them so the right text
       -- is inserted when changing the selected entry.
@@ -389,8 +395,8 @@ function M.start(findstart, base)
               expand = text_to_expand(completion),
               source = 'lsp',
               line = comp_line - 1,
-              column = start_pos - 1
-            }
+              column = start_pos - 1,
+            },
           }
 
           table.insert(items, item)

@@ -66,31 +66,30 @@ end
 local function spawn(opts)
   local handle
   local stderr = uv.new_pipe(false)
+  local options = {
+    args = opts.args,
+    stdio = { nil, nil, stderr },
+    detached = true,
+    env = { GIT_TERMINAL_PROMPT = '0' },
+  }
 
-  handle, _ = uv.spawn(
-    opts.cmd,
-    {
-      args = opts.args,
-      stdio = { nil, nil, stderr },
-      detached = true,
-      env = { GIT_TERMINAL_PROMPT = '0' }
-    },
-    function(code)
-      handle:close()
+  handle, _ = uv.spawn(opts.cmd, options, function(code)
+    handle:close()
 
-      if code == 0 then
-        vim.schedule(opts.success)
-        return
-      end
-
-      if opts.error then
-        stderr:read_start(reader(function(output)
-          stderr:close()
-          vim.schedule(function() opts.error(output) end)
-        end))
-      end
+    if code == 0 then
+      vim.schedule(opts.success)
+      return
     end
-  )
+
+    if opts.error then
+      stderr:read_start(reader(function(output)
+        stderr:close()
+        vim.schedule(function()
+          opts.error(output)
+        end)
+      end))
+    end
+  end)
 
   return handle ~= nil
 end
@@ -126,7 +125,9 @@ end
 
 -- Waits for all jobs to finish.
 local function wait(state)
-  vim.wait(timeout, function() return state.done == state.total end)
+  vim.wait(timeout, function()
+    return state.done == state.total
+  end)
   vim.cmd('helptags ALL')
   show_failures(state)
   api.nvim_echo({}, false, {})
@@ -165,7 +166,7 @@ local function install(package, state)
 
       package.enable = false
       state.failed[package.name] = output
-    end
+    end,
   })
 end
 
@@ -186,7 +187,7 @@ local function update(package, state)
       progress(state)
 
       state.failed[package.name] = output
-    end
+    end,
   })
 end
 
@@ -206,7 +207,7 @@ local function remove_directory(dir, state)
       progress(state)
 
       state.failed[dir] = output
-    end
+    end,
   })
 end
 
@@ -279,7 +280,7 @@ function M.use(spec)
     url = url,
     enable = true,
     branch = options.branch,
-    run = options.run
+    run = options.run,
   }
 
   table.insert(packages, package)
@@ -348,8 +349,10 @@ function M.clean()
   for _, dir in ipairs(vim.fn.readdir(root)) do
     local path = root .. dir
 
-    if not known[path]
-        and vim.fn.confirm('Remove ' .. path, "&Yes\n&No", 2) == 1 then
+    if
+      not known[path]
+      and vim.fn.confirm('Remove ' .. path, '&Yes\n&No', 2) == 1
+    then
       table.insert(confirmed, path)
     end
   end

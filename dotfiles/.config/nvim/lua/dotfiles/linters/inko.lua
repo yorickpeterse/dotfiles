@@ -66,5 +66,5 @@ lint.linter('inko', {
     end
 
     return items
-  end
+  end,
 })

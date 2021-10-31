@@ -6,7 +6,9 @@ local fn = vim.fn
 local api = vim.api
 local diag = vim.diagnostic
 local timeout = 100
-local updates = util.buffer_cache(function() return 0 end)
+local updates = util.buffer_cache(function()
+  return 0
+end)
 local jumped_var = 'loclist_jumped_after_update'
 local last_update_var = 'last_diagnostics_update'
 local changed_timer = nil
@@ -27,8 +29,11 @@ end
 local function update_window(win, diags)
   local bufnr = api.nvim_win_get_buf(win)
   local items = {}
-  local last_exists, last_value =
-    pcall(api.nvim_win_get_var, win, last_update_var)
+  local last_exists, last_value = pcall(
+    api.nvim_win_get_var,
+    win,
+    last_update_var
+  )
 
   -- If the diagnostics haven't changed since the last update, leave the
   -- location list as-is.
@@ -42,11 +47,13 @@ local function update_window(win, diags)
       lnum = d.lnum + 1,
       col = d.col + 1,
       text = d.message,
-      type = d.severity == diag.severity.WARN and 'W' or 'E'
+      type = d.severity == diag.severity.WARN and 'W' or 'E',
     })
   end
 
-  table.sort(items, function(a, b) return a.lnum < b.lnum end)
+  table.sort(items, function(a, b)
+    return a.lnum < b.lnum
+  end)
 
   api.nvim_win_set_var(win, last_update_var, updates[bufnr])
   api.nvim_win_set_var(win, jumped_var, false)

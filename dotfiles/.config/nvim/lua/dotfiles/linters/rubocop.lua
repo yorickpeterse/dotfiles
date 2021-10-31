@@ -73,5 +73,5 @@ lint.linter('ruby', {
     end
 
     return items
-  end
+  end,
 })

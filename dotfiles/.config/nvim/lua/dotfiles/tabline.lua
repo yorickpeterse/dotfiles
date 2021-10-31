@@ -76,21 +76,22 @@ function M.render()
 
     local modified = fn.getbufvar(bufnr, '&mod')
 
-    line = line .. table.concat({
-      '%',
-      tab,
-      'T',
-      '%#',
-      tab == fn.tabpagenr() and active_tab or inactive_tab,
-      '#',
-      ' ',
-      tab,
-      ': ',
-      icons.icon(bufname),
-      bufname,
-      ' ',
-      modified == 1 and '[+] ' or ''
-    })
+    line = line
+      .. table.concat({
+        '%',
+        tab,
+        'T',
+        '%#',
+        tab == fn.tabpagenr() and active_tab or inactive_tab,
+        '#',
+        ' ',
+        tab,
+        ': ',
+        icons.icon(bufname),
+        bufname,
+        ' ',
+        modified == 1 and '[+] ' or '',
+      })
   end
 
   return line .. '%#TabLineFill#' .. separator .. lsp_status()

@@ -2,7 +2,7 @@ local M = {}
 local api = vim.api
 local cb = require('diffview.config').diffview_callback
 
-require('diffview').setup {
+require('diffview').setup({
   diff_binaries = false,
   enhanced_diff_hl = true,
   use_icons = true,
@@ -25,8 +25,8 @@ require('diffview').setup {
       ['R'] = cb('refresh_files'),
       [']f'] = cb('select_next_entry'),
       ['[f'] = cb('select_prev_entry'),
-    }
-  }
-}
+    },
+  },
+})
 
 return M

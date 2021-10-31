@@ -2,15 +2,15 @@ local M = {}
 local icons = require('nvim-web-devicons')
 local fn = vim.fn
 
-icons.setup {
+icons.setup({
   override = {
-    ["Terminal"] = {
-      icon = "",
-      color = "#31B53E",
-      name = "Terminal"
+    ['Terminal'] = {
+      icon = '',
+      color = '#31B53E',
+      name = 'Terminal',
     },
   },
-}
+})
 
 -- Returns an icon for the given path name, padded with a trailing space.
 function M.icon(path)
@@ -29,8 +29,8 @@ function M.icon(path)
     base_name = 'git'
   end
 
-  local icon = icons.get_icon(base_name, ext_name) or
-    icons.get_icon(base_name:lower(), ext_name)
+  local icon = icons.get_icon(base_name, ext_name)
+    or icons.get_icon(base_name:lower(), ext_name)
 
   if icon then
     return icon .. ' '

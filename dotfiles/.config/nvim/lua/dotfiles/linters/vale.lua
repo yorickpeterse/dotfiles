@@ -33,5 +33,5 @@ lint.linter('markdown', {
     end
 
     return items
-  end
+  end,
 })

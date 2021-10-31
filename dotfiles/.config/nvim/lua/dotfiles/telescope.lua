@@ -13,7 +13,7 @@ local function picker_opts(opts)
   return vim.tbl_extend('force', picker_defaults, opts or {})
 end
 
-telescope.setup {
+telescope.setup({
   defaults = {
     prompt_prefix = '> ',
     sorting_strategy = 'ascending',
@@ -26,7 +26,7 @@ telescope.setup {
     borderchars = {
       prompt = { '─', '│', ' ', '│', '┌', '┐', '│', '│' },
       results = { '─', '│', '─', '│', '├', '┤', '┘', '└' },
-      preview = {  '─', '│', '─', '│', '┌', '┐', '┘', '└' },
+      preview = { '─', '│', '─', '│', '┌', '┐', '┘', '└' },
     },
     mappings = {
       i = {
@@ -36,11 +36,11 @@ telescope.setup {
       n = {
         ['<tab>'] = actions.move_selection_next,
         ['<s-tab>'] = actions.move_selection_previous,
-      }
+      },
     },
     file_ignore_patterns = {
       '.git/',
-    }
+    },
   },
   pickers = {
     file_browser = picker_defaults,
@@ -64,9 +64,9 @@ telescope.setup {
     fzf = {
       fuzzy = false,
       override_generic_sorter = true,
-      override_file_sorter = true
+      override_file_sorter = true,
     },
   },
-}
+})
 
 telescope.load_extension('fzf')
