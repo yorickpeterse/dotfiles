@@ -39,10 +39,4 @@ function M.icon(path)
   end
 end
 
-function M.by_name(name)
-  local icon = icons.get_icons()[name]
-
-  return icon and icon.icon or nil
-end
-
 return M

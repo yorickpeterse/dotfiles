@@ -11,13 +11,6 @@ local inactive_tab = 'TabLine'
 local default_name = '[No Name]'
 local separator = '%='
 local lsp_hl = 'TabLine'
-local lsp_icons = {
-  clangd = icons.by_name('c'),
-  gopls = icons.by_name('go'),
-  rust_analyzer = icons.by_name('rs'),
-  sumneko_lua = icons.by_name('lua'),
-  ['null-ls'] = '∅',
-}
 
 local function lsp_status()
   local statuses = {}
@@ -58,17 +51,14 @@ local function lsp_status()
 
   for _, name in ipairs(names) do
     local status = statuses[name]
-    local icon = lsp_icons[name]
     local text = name .. ': ' .. status
 
-    if icon then
-      text = icon .. ' ' .. text
-    end
-
-    table.insert(cells, highlight(text, lsp_hl))
+    table.insert(cells, text)
   end
 
-  return forced_space .. table.concat(cells, ' ') .. forced_space
+  return forced_space
+    .. highlight(table.concat(cells, ', '), lsp_hl)
+    .. forced_space
 end
 
 function M.render()
