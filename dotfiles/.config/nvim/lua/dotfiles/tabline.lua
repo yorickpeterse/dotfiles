@@ -16,7 +16,7 @@ local lsp_icons = {
   gopls = icons.by_name('go'),
   rust_analyzer = icons.by_name('rs'),
   sumneko_lua = icons.by_name('lua'),
-  ['null-ls'] = '',
+  ['null-ls'] = '',
 }
 
 local function lsp_status()
