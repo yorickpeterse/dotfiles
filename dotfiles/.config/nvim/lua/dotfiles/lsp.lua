@@ -1,5 +1,3 @@
--- Configuration for NeoVim's LSP integration.
-
 local config = require('lspconfig')
 local lsp = vim.lsp
 local vim_diag = vim.diagnostic
@@ -9,7 +7,7 @@ local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
 local flags = {
   allow_incremental_sync = true,
-  debounce_text_changes = 150,
+  debounce_text_changes = 500,
 }
 
 -- Markdown popup {{{1
@@ -144,6 +142,12 @@ do
     },
   })
 end
+
+-- null-ls {{{1
+config['null-ls'].setup({
+  capabilities = capabilities,
+  flags = flags,
+})
 
 -- Python {{{1
 config.jedi_language_server.setup({

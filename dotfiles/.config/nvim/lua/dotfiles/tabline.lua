@@ -16,6 +16,7 @@ local lsp_icons = {
   gopls = icons.by_name('go'),
   rust_analyzer = icons.by_name('rs'),
   sumneko_lua = icons.by_name('lua'),
+  ['null-ls'] = '',
 }
 
 local function lsp_status()
@@ -35,7 +36,7 @@ local function lsp_status()
 
   for _, client in ipairs(lsp.get_active_clients()) do
     if not statuses[client.name] then
-      statuses[client.name] = 'idle'
+      statuses[client.name] = 'active'
     end
   end
 
@@ -44,8 +45,19 @@ local function lsp_status()
   end
 
   local cells = {}
+  local names = {}
 
-  for name, status in pairs(statuses) do
+  -- This ensures clients are always displayed in a consistent order.
+  for name, _ in pairs(statuses) do
+    table.insert(names, name)
+  end
+
+  table.sort(names, function(a, b)
+    return a < b
+  end)
+
+  for _, name in ipairs(names) do
+    local status = statuses[name]
     local icon = lsp_icons[name]
     local text = name .. ': ' .. status
 

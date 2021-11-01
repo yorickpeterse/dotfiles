@@ -7,24 +7,16 @@ g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
 
 g.qfenter_keymap = {
-  vopen = { '<leader>v' }
+  vopen = { '<leader>v' },
 }
 
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
 require('pqf').setup()
-require('dd').setup()
+require('dd').setup({ timeout = 500 })
 
-require('dotfiles.linters.flake8')
-require('dotfiles.linters.gitlint')
-require('dotfiles.linters.inko')
-require('dotfiles.linters.lua')
-require('dotfiles.linters.rubocop')
-require('dotfiles.linters.ruby')
-require('dotfiles.linters.shellcheck')
-require('dotfiles.linters.vale')
-
+require('dotfiles.null_ls')
 require('dotfiles.lsp')
 require('dotfiles.window')
 require('dotfiles.git')
@@ -36,7 +28,6 @@ require('dotfiles.comments')
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
   diagnostics = require('dotfiles.diagnostics'),
-  lint = require('dotfiles.lint'),
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   tabline = require('dotfiles.tabline'),
@@ -46,7 +37,7 @@ _G.dotfiles = {
   maps = require('dotfiles.maps'),
   commands = require('dotfiles.commands'),
   hooks = require('dotfiles.hooks'),
-  pairs = require('dotfiles.pairs')
+  pairs = require('dotfiles.pairs'),
 }
 
 -- Colorscheme {{{1
@@ -77,7 +68,8 @@ o.cursorlineopt = 'number'
 o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
 o.clipboard = 'unnamed'
-o.diffopt = 'filler,vertical,internal,algorithm:patience,indent-heuristic,context:3'
+o.diffopt =
+  'filler,vertical,internal,algorithm:patience,indent-heuristic,context:3'
 o.lz = true
 o.showcmd = false
 o.pastetoggle = '<F2>'
@@ -109,7 +101,7 @@ g.gutentags_ctags_exclude = {
   -- I use Treesitter for these languages, so don't index them.
   '*.rs',
   '*.lua',
-  '*.js'
+  '*.js',
 }
 
 g.gutentags_exclude_filetypes = { 'lua' }

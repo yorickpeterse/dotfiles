@@ -9,21 +9,6 @@ local api = vim.api
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
 
-function M.remove_trailing_whitespace()
-  local line = fn.line('.')
-  local col = fn.col('.')
-
-  -- In .snippets files, a line may start with just a tab so snippets can
-  -- include empty lines. In this case we don't want to remove the tab.
-  if vim.bo.ft == 'snippets' then
-    vim.cmd([[%s/ \+$//eg]])
-  else
-    vim.cmd([[%s/\s\+$//eg]])
-  end
-
-  fn.cursor(line, col)
-end
-
 function M.yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
@@ -33,6 +18,10 @@ function M.yanked()
 end
 
 function M.format_buffer()
+  if not util.has_lsp_clients() then
+    return
+  end
+
   local bufnr = api.nvim_win_get_buf(0)
   local windows = fn.win_findbuf(bufnr)
   local marks = {}
@@ -99,29 +88,20 @@ au('filetypes', {
   'BufRead,BufNewFile Dangerfile set filetype=ruby',
 })
 
--- Highlight yanked selections
 au('yank', { 'TextYankPost * lua dotfiles.hooks.yanked()' })
 
--- Remove trailing whitespace
 au('trailing_whitespace', {
-  'BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()',
   'InsertEnter * lua dotfiles.hooks.toggle_list(true)',
   'InsertLeave * lua dotfiles.hooks.toggle_list(false)',
 })
 
 -- LSP and linting
 au('lsp', {
-  'BufWritePre *.rs lua dotfiles.hooks.format_buffer()',
-  'BufWritePre *.go lua dotfiles.hooks.format_buffer()',
+  'BufWritePre * lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
   'BufWinEnter * lua dotfiles.location_list.enter_window()',
   'User DiagnosticsChanged lua dotfiles.location_list.diagnostics_changed()',
   'User LspProgressUpdate redrawtabline',
-})
-
-au('lint', {
-  'BufWinEnter * lua dotfiles.lint.lint_on_enter()',
-  'BufWritePost * lua dotfiles.lint.lint()',
 })
 
 -- Fix diff highlights in fugitive

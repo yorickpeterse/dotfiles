@@ -1,21 +1,9 @@
+local ls = require('luasnip')
+local util = require('dotfiles.util')
 local fn = vim.fn
 local uv = vim.loop
 local startswith = vim.startswith
-local ls = require('luasnip')
 local parse = ls.parser.parse_snippet
-
-local function read(file)
-  local handle = io.open(file, 'r')
-  local data = handle:read('*all')
-
-  handle:close()
-
-  if data:sub(#data, #data) == '\n' then
-    data = data:sub(1, #data - 1)
-  end
-
-  return data
-end
 
 -- Parses a file containing Snipmate snippets.
 --
@@ -74,7 +62,7 @@ local function parse_files()
     local name = fn.fnamemodify(file, ':t:r')
     local snippets = {}
 
-    for _, snippet in ipairs(parse(file, read(file))) do
+    for _, snippet in ipairs(parse(file, util.read(file, true))) do
       table.insert(
         snippets,
         ls.parser.parse_snippet(

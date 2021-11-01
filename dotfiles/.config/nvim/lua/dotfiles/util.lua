@@ -2,6 +2,7 @@
 local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
+local uv = vim.loop
 local M = {}
 
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
@@ -109,6 +110,60 @@ end
 
 function M.statusline_highlight(text, group)
   return '%#' .. group .. '#' .. text .. '%*'
+end
+
+function M.read(path, remove_trailing_newline)
+  local file = assert(io.open(path, 'r'), 'Failed to open ' .. path)
+  local data = file:read('*all')
+
+  file:close()
+
+  if remove_trailing_newline and data:sub(#data, #data) == '\n' then
+    data = data:sub(1, #data - 1)
+  end
+
+  return data
+end
+
+function M.cached(table, key, func)
+  if table[key] == nil then
+    table[key] = func()
+  end
+
+  return table[key]
+end
+
+function M.file_exists(path)
+  local stat = vim.loop.fs_stat(path)
+  local kind = stat and stat.type
+
+  return kind == 'file'
+end
+
+function M.path_relative_to_lsp_root(client_id, path)
+  local client = lsp.get_client_by_id(client_id)
+  local root = client.config.root_dir or uv.cwd()
+
+  return table.concat({ root, path }, '/')
+end
+
+-- Returns an integer indicating if Bundler should be used for the given Gem.
+--
+-- This function returns one of the following integers:
+--
+-- - 0: don't use the Gem at all
+-- - 1: run the Gem without bundler
+-- - 2: run the Gem with bundler
+function M.use_bundler(gem, lockfile)
+  if not M.file_exists(lockfile) then
+    return 1
+  end
+
+  if M.read(lockfile, true):match(' ' .. gem .. ' ') ~= nil then
+    return 2
+  end
+
+  return 0
 end
 
 return M

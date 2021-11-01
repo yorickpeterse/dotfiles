@@ -348,10 +348,16 @@ function M.start(findstart, base)
   reset_confirmed()
 
   local bufnr = api.nvim_get_current_buf()
+  local lsp_completion = true
 
-  -- Don't do anything when there are no clients connected (= no language server
-  -- is used).
-  if #lsp.buf_get_clients(bufnr) == 0 then
+  for _, client in ipairs(lsp.buf_get_clients(bufnr)) do
+    if not client.resolved_capabilities.completion then
+      lsp_completion = false
+      break
+    end
+  end
+
+  if not lsp_completion then
     return fallback_completion(base)
   end
 

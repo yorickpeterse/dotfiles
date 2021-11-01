@@ -1,6 +1,5 @@
 local M = {}
 local util = require('dotfiles.util')
-local lint = require('dotfiles.lint')
 
 local fn = vim.fn
 local api = vim.api
@@ -102,7 +101,7 @@ function M.enter_window()
 
   -- If a buffer never produces diagnostics there's no point in updating the
   -- location list.
-  if not util.has_lsp_clients(bufnr) and not lint.available(bufnr) then
+  if not util.has_lsp_clients(bufnr) then
     return
   end
 
