@@ -42,7 +42,7 @@ function M.format_buffer()
     )
   end
 
-  lsp.buf.formatting_sync(nil, 1000)
+  lsp.buf.formatting_seq_sync(nil, 1000)
 
   for _, window in ipairs(windows) do
     local mark = marks[window]
