@@ -105,6 +105,16 @@ local function inko()
   }
 end
 
+local function trim_whitespace()
+  local disable = { lua = true, rust = true }
+
+  return nls.builtins.formatting.trim_whitespace.with({
+    runtime_condition = function(params)
+      return not disable[params.ft]
+    end,
+  })
+end
+
 nls.config({
   debounce = 500,
   sources = {
@@ -112,13 +122,11 @@ nls.config({
     rubocop(),
     gitlint(),
     inko(),
-
     nls.builtins.diagnostics.vale.with({
       runtime_condition = function(params)
         return util.file_exists(root_path(params.client_id, '.vale.ini'))
       end,
     }),
-
     nls.builtins.diagnostics.flake8,
     nls.builtins.diagnostics.shellcheck,
 
@@ -128,8 +136,7 @@ nls.config({
         return util.file_exists(root_path(params.client_id, 'stylua.toml'))
       end,
     }),
-
     nls.builtins.formatting.fish_indent,
-    nls.builtins.formatting.trim_whitespace,
+    trim_whitespace(),
   },
 })
