@@ -116,7 +116,7 @@ local function trim_whitespace()
 end
 
 nls.config({
-  debounce = 500,
+  debounce = 1000,
   sources = {
     -- Linters
     rubocop(),

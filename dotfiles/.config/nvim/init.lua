@@ -14,7 +14,7 @@ g.qfenter_keymap = {
 require('dotfiles.packages')
 
 require('pqf').setup()
-require('dd').setup({ timeout = 500 })
+require('dd').setup()
 
 require('dotfiles.null_ls')
 require('dotfiles.lsp')
