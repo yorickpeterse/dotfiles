@@ -9,6 +9,21 @@ local api = vim.api
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
 
+function M.remove_trailing_whitespace()
+  local line = fn.line('.')
+  local col = fn.col('.')
+
+  -- In .snippets files, a line may start with just a tab so snippets can
+  -- include empty lines. In this case we don't want to remove the tab.
+  if vim.bo.ft == 'snippets' then
+    vim.cmd([[%s/ \+$//eg]])
+  else
+    vim.cmd([[%s/\s\+$//eg]])
+  end
+
+  fn.cursor(line, col)
+end
+
 function M.yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
@@ -42,7 +57,7 @@ function M.format_buffer()
     )
   end
 
-  lsp.buf.formatting_seq_sync(nil, 5000)
+  lsp.buf.formatting_sync(nil, 5000)
 
   for _, window in ipairs(windows) do
     local mark = marks[window]
@@ -91,6 +106,7 @@ au('filetypes', {
 au('yank', { 'TextYankPost * lua dotfiles.hooks.yanked()' })
 
 au('trailing_whitespace', {
+  'BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()',
   'InsertEnter * lua dotfiles.hooks.toggle_list(true)',
   'InsertLeave * lua dotfiles.hooks.toggle_list(false)',
 })

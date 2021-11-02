@@ -17,10 +17,6 @@ local function rubocop_with_bundler(client_id)
   end)
 end
 
-local function enable_stylua(client_id)
-  return util.file_exists(root_path(client_id, 'stylua.toml'))
-end
-
 local function rubocop()
   local base_args = nls.builtins.diagnostics.rubocop._opts.args
 
@@ -127,22 +123,9 @@ nls.config({
     -- Formatters
     nls.builtins.formatting.stylua.with({
       runtime_condition = function(params)
-        return enable_stylua(params.client_id)
+        return util.file_exists(root_path(params.client_id, 'stylua.toml'))
       end,
     }),
     nls.builtins.formatting.fish_indent,
-    nls.builtins.formatting.trim_whitespace.with({
-      runtime_condition = function(params)
-        if params.ft == 'rust' then
-          return false
-        end
-
-        if params.ft == 'lua' and enable_stylua(params.client_id) then
-          return false
-        end
-
-        return true
-      end,
-    }),
   },
 })
