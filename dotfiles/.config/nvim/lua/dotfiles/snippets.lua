@@ -18,6 +18,7 @@ local function parse(file, source)
 
   while index <= #lines do
     local line = lines[index]
+    local advance = true
 
     if startswith(line, snippet_start) then
       local name = line:match('snippet (%w+)%s*')
@@ -32,6 +33,7 @@ local function parse(file, source)
         local line = lines[index]
 
         if startswith(line, snippet_start) then
+          advance = false
           break
         end
 
@@ -48,7 +50,9 @@ local function parse(file, source)
       )
     end
 
-    index = index + 1
+    if advance then
+      index = index + 1
+    end
   end
 
   return snippets
