@@ -7,6 +7,7 @@ local picker_defaults = {
   prompt_title = false,
   results_title = false,
   preview_title = false,
+  show_line = false,
 }
 
 local function picker_opts(opts)
@@ -57,7 +58,7 @@ telescope.setup({
     git_commits = picker_defaults,
     git_bcommits = picker_defaults,
     git_branches = picker_defaults,
-    treesitter = picker_opts({ show_line = false }),
+    treesitter = picker_defaults,
     reloader = picker_defaults,
   },
   extensions = {
