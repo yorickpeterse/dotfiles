@@ -62,6 +62,12 @@ local function run_hook(package)
   vim.cmd('redraw')
 end
 
+local function finish(state)
+  state.done = state.done + 1
+
+  progress(state)
+end
+
 -- Runs a command.
 local function spawn(opts)
   local handle
@@ -172,19 +178,25 @@ end
 
 -- Updates a single package
 local function update(package, state)
+  local kind = uv.fs_lstat(package.dir).type
+
+  -- If a symbolic link is used it means I'm managing the package myself (e.g.
+  -- it's linked to a local development version). In this case we don't want to
+  -- update it.
+  if kind == 'link' then
+    finish(state)
+    return
+  end
+
   spawn({
     cmd = 'git',
     args = { '-C', package.dir, 'pull' },
     success = function()
-      state.done = state.done + 1
-
       run_hook(package)
-      progress(state)
+      finish(state)
     end,
     error = function(output)
-      state.done = state.done + 1
-
-      progress(state)
+      finish(state)
 
       state.failed[package.name] = output
     end,
