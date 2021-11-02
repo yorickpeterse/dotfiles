@@ -348,16 +348,8 @@ function M.start(findstart, base)
   reset_confirmed()
 
   local bufnr = api.nvim_get_current_buf()
-  local lsp_completion = false
 
-  for _, client in ipairs(lsp.buf_get_clients(bufnr)) do
-    if client.resolved_capabilities.completion then
-      lsp_completion = true
-      break
-    end
-  end
-
-  if not lsp_completion then
+  if not util.has_lsp_clients_supporting(bufnr, 'completion') then
     return fallback_completion(base)
   end
 

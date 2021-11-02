@@ -166,4 +166,17 @@ function M.use_bundler(gem, lockfile)
   return 0
 end
 
+function M.has_lsp_clients_supporting(bufnr, capability)
+  local supported = false
+
+  for _, client in ipairs(lsp.buf_get_clients(bufnr)) do
+    if client.resolved_capabilities[capability] then
+      supported = true
+      break
+    end
+  end
+
+  return supported
+end
+
 return M
