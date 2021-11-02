@@ -174,7 +174,7 @@ end
 function M.telescope_symbols()
   local bufnr = api.nvim_get_current_buf()
 
-  if util.has_lsp_clients_supporting(bufnr, 'document_symbols') then
+  if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
     telescope_builtin.lsp_document_symbols({ symbols = ts_lsp_symbols })
     return
   end
