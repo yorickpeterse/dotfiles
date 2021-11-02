@@ -22,7 +22,6 @@ require('dotfiles.window')
 require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
-require('dotfiles.snippets')
 require('dotfiles.comments')
 
 _G.dotfiles = {

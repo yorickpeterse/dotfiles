@@ -6,7 +6,7 @@ local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
-local snippets = require('luasnip')
+local snippy = require('snippy')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -188,11 +188,15 @@ function M.telescope_symbols()
 end
 
 function M.control_s()
-  snippets.expand()
+  if snippy.can_expand() then
+    snippy.expand()
+  end
 end
 
 function M.control_j()
-  snippets.jump(1)
+  if snippy.can_jump(1) then
+    snippy.next()
+  end
 end
 
 function M.toggle_quickfix()
