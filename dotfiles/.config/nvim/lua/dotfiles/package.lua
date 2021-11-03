@@ -134,7 +134,6 @@ local function wait(state)
   vim.wait(timeout, function()
     return state.done == state.total
   end)
-  vim.cmd('helptags ALL')
   show_failures(state)
   api.nvim_echo({}, false, {})
 end
@@ -162,6 +161,7 @@ local function install(package, state)
       state.done = state.done + 1
 
       progress(state)
+      vim.cmd('helptags ' .. package.dir)
       vim.cmd('packadd ' .. package.name)
       run_hook(package)
     end,
@@ -192,6 +192,7 @@ local function update(package, state)
     cmd = 'git',
     args = { '-C', package.dir, 'pull' },
     success = function()
+      vim.cmd('helptags ' .. package.dir)
       run_hook(package)
       finish(state)
     end,
