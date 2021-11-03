@@ -169,7 +169,7 @@ end
 function M.has_lsp_clients_supporting(bufnr, capability)
   local supported = false
 
-  for _, client in ipairs(lsp.buf_get_clients(bufnr)) do
+  for _, client in pairs(lsp.buf_get_clients(bufnr)) do
     if client.resolved_capabilities[capability] then
       supported = true
       break
