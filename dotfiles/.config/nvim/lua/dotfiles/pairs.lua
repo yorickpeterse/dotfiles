@@ -178,6 +178,10 @@ function M.paren_close()
   return jump_over(')')
 end
 
+function M.angle_close()
+  return jump_over('>')
+end
+
 function M.single_quote()
   if vim.bo.ft == 'rust' then
     -- Rust uses single quotes for lifetimes. Having to delete the closing quote

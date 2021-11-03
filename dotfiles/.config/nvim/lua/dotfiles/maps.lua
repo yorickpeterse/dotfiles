@@ -246,6 +246,8 @@ pair(']', 'bracket_close')
 pair('(', 'paren_open')
 pair(')', 'paren_close')
 
+pair('>', 'angle_close')
+
 pair("'", 'single_quote')
 pair('"', 'double_quote')
 pair('`', 'backtick')
