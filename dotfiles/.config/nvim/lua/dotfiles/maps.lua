@@ -156,7 +156,9 @@ function M.pick_window()
 end
 
 function M.definition()
-  if util.has_lsp_clients() then
+  local bufnr = api.nvim_get_current_buf()
+
+  if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
     lsp.buf.definition()
   else
     api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
