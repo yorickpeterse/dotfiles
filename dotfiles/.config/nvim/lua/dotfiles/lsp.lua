@@ -165,7 +165,6 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
-  root_dir = config.util.root_pattern('Cargo.toml', 'rustfmt.toml'),
   capabilities = capabilities,
   flags = flags,
   settings = {
