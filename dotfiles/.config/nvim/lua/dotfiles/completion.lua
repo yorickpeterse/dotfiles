@@ -386,6 +386,10 @@ function M.start(findstart, base)
         end
       end
 
+      table.sort(items, function(a, b)
+        return a.word < b.word
+      end)
+
       show_completions(start_pos, items)
     end
   )
