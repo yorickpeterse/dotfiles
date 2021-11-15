@@ -15,6 +15,7 @@ require('dotfiles.packages')
 
 require('pqf').setup()
 require('dd').setup()
+require('hop').setup()
 
 require('dotfiles.null_ls')
 require('dotfiles.lsp')
