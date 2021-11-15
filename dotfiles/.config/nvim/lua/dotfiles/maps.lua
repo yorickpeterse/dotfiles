@@ -161,7 +161,7 @@ function M.definition()
   if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
     lsp.buf.definition()
   else
-    api.nvim_feedkeys(keycode('<C-]>'), 'n', true)
+    api.nvim_feedkeys(keycode('<C-]>'), 'm', true)
   end
 end
 
