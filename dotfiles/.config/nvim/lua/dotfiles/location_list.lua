@@ -12,6 +12,19 @@ local jumped_var = 'loclist_jumped_after_update'
 local last_update_var = 'last_diagnostics_update'
 local changed_timer = nil
 
+local signs = {
+  [diag.severity.ERROR] = 'E',
+  [diag.severity.WARN] = 'W',
+  [diag.severity.INFO] = 'I',
+  [diag.severity.HINT] = 'H'
+}
+
+local function switch_to_target_window(target)
+  if api.nvim_get_current_win() ~= target then
+    api.nvim_set_current_win(target)
+  end
+end
+
 local function first_jump_after_update()
   local win = util.target_window()
   local has_jumped, jumped = pcall(api.nvim_win_get_var, win, jumped_var)
@@ -46,12 +59,16 @@ local function update_window(win, diags)
       lnum = d.lnum + 1,
       col = d.col + 1,
       text = d.message,
-      type = d.severity == diag.severity.WARN and 'W' or 'E',
+      type = signs[d.severity] or 'E',
     })
   end
 
   table.sort(items, function(a, b)
-    return a.lnum < b.lnum
+    if a.lnum == b.lnum then
+      return a.col < b.col
+    else
+      return a.lnum < b.lnum
+    end
   end)
 
   api.nvim_win_set_var(win, last_update_var, updates[bufnr])
@@ -134,25 +151,37 @@ function M.toggle()
   end
 end
 
--- Jumps to the first or next item in the location list.
---
--- If the diagnostics have been updated and we haven't jumped yet, we jump to
--- the first selected entry; instead of the second one. If we jumped before, we
--- just jump to the next one.
+-- Jumps to the next location list item closest to the cursor.
 function M.next()
-  if first_jump_after_update() then
-    pcall(api.nvim_exec, 'lfirst', true)
-  elseif not pcall(api.nvim_exec, 'lnext', true) then
-    pcall(api.nvim_exec, 'lfirst', true)
+  local target = util.target_window()
+  local list = fn.getloclist(target, { idx = 0, size = 1 })
+
+  if list.size == 0 then
+    return
+  end
+
+  switch_to_target_window(target)
+
+  if list.idx == list.size then
+    api.nvim_exec('lfirst', true)
+  else
+    api.nvim_exec('lafter', true)
   end
 end
 
--- Jumps to the previous item in the location list.
+-- Jumps to the previous location list item closest to the cursor.
 function M.prev()
-  if first_jump_after_update() then
-    pcall(api.nvim_exec, 'llast', true)
-  elseif not pcall(api.nvim_exec, 'lprev', true) then
-    pcall(api.nvim_exec, 'llast', true)
+  local target = util.target_window()
+  local list = fn.getloclist(target, { size = 1 })
+
+  if list.size == 0 then
+    return
+  end
+
+  switch_to_target_window(target)
+
+  if not pcall(api.nvim_exec, 'lbefore', true) then
+    api.nvim_exec('llast', true)
   end
 end
 
