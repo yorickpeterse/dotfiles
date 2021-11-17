@@ -8,7 +8,6 @@ local timeout = 100
 local updates = util.buffer_cache(function()
   return 0
 end)
-local jumped_var = 'loclist_jumped_after_update'
 local last_update_var = 'last_diagnostics_update'
 local changed_timer = nil
 
@@ -22,19 +21,6 @@ local signs = {
 local function switch_to_target_window(target)
   if api.nvim_get_current_win() ~= target then
     api.nvim_set_current_win(target)
-  end
-end
-
-local function first_jump_after_update()
-  local win = util.target_window()
-  local has_jumped, jumped = pcall(api.nvim_win_get_var, win, jumped_var)
-
-  api.nvim_win_set_var(win, jumped_var, true)
-
-  if has_jumped then
-    return not jumped
-  else
-    return true
   end
 end
 
@@ -72,7 +58,6 @@ local function update_window(win, diags)
   end)
 
   api.nvim_win_set_var(win, last_update_var, updates[bufnr])
-  api.nvim_win_set_var(win, jumped_var, false)
 
   fn.setloclist(win, {}, ' ', { title = 'Diagnostics', items = items })
 end
