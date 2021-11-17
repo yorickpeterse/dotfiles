@@ -18,6 +18,10 @@ local signs = {
   [diag.severity.HINT] = 'H',
 }
 
+local function line_length(bufnr, lnum)
+  return #api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, false)[1]
+end
+
 local function switch_to_target_window(target)
   if api.nvim_get_current_win() ~= target then
     api.nvim_set_current_win(target)
@@ -39,11 +43,32 @@ local function update_window(win, diags)
     return
   end
 
+  local line_lengths = {}
+
   for _, d in ipairs(diags) do
+    local bufnr = d.bufnr
+    local lnum = d.lnum + 1
+    local col = d.col + 1
+
+    if not line_lengths[bufnr] then
+      line_lengths[bufnr] = {}
+    end
+
+    if not line_lengths[bufnr][lnum] then
+      line_lengths[bufnr][lnum] = line_length(bufnr, lnum)
+    end
+
+    -- Diagnostics may use column numbers that are out of bound. This usually
+    -- happens when a language server produces syntax errors, without clamping
+    -- the column numbers to the maximum column. This then messes up commands
+    -- such as `lafter`, as they won't be able to jump past an out-of-bounds
+    -- entry.
+    col = math.min(col, line_lengths[bufnr][lnum])
+
     table.insert(items, {
-      bufnr = d.bufnr,
-      lnum = d.lnum + 1,
-      col = d.col + 1,
+      bufnr = bufnr,
+      lnum = lnum,
+      col = col,
       text = d.message,
       type = signs[d.severity] or 'E',
     })
