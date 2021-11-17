@@ -15,7 +15,6 @@ require('dotfiles.packages')
 
 require('pqf').setup()
 require('dd').setup()
-require('hop').setup()
 
 require('dotfiles.null_ls')
 require('dotfiles.lsp')
@@ -24,6 +23,7 @@ require('dotfiles.git')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
 require('dotfiles.comments')
+require('dotfiles.hop')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
