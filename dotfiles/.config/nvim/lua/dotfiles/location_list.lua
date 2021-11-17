@@ -16,7 +16,7 @@ local signs = {
   [diag.severity.ERROR] = 'E',
   [diag.severity.WARN] = 'W',
   [diag.severity.INFO] = 'I',
-  [diag.severity.HINT] = 'H'
+  [diag.severity.HINT] = 'H',
 }
 
 local function switch_to_target_window(target)
@@ -164,8 +164,10 @@ function M.next()
 
   if list.idx == list.size then
     api.nvim_exec('lfirst', true)
-  else
-    api.nvim_exec('lafter', true)
+  elseif not pcall(api.nvim_exec, 'lafter', true) then
+    -- When the last item is selected, but the cursor is beyond it, `lafter`
+    -- will error. But if the cursor is on the same position, it won't.
+    api.nvim_exec('lfirst', true)
   end
 end
 
