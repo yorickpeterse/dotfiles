@@ -19,7 +19,9 @@ local signs = {
 }
 
 local function line_length(bufnr, lnum)
-  return #api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, false)[1]
+  local line = api.nvim_buf_get_lines(bufnr, lnum - 1, lnum, false)[1]
+
+  return line and #line or 0
 end
 
 local function switch_to_target_window(target)
