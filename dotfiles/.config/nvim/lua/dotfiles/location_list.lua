@@ -5,11 +5,9 @@ local fn = vim.fn
 local api = vim.api
 local diag = vim.diagnostic
 local timeout = 100
-local updates = util.buffer_cache(function()
-  return 0
+local timers = util.buffer_cache(function()
+  return false
 end)
-local last_update_var = 'last_diagnostics_update'
-local changed_timer = nil
 
 local signs = {
   [diag.severity.ERROR] = 'E',
@@ -33,18 +31,6 @@ end
 local function update_window(win, diags)
   local bufnr = api.nvim_win_get_buf(win)
   local items = {}
-  local last_exists, last_value = pcall(
-    api.nvim_win_get_var,
-    win,
-    last_update_var
-  )
-
-  -- If the diagnostics haven't changed since the last update, leave the
-  -- location list as-is.
-  if last_exists and last_value == updates[bufnr] then
-    return
-  end
-
   local line_lengths = {}
 
   for _, d in ipairs(diags) do
@@ -84,8 +70,6 @@ local function update_window(win, diags)
     end
   end)
 
-  api.nvim_win_set_var(win, last_update_var, updates[bufnr])
-
   fn.setloclist(win, {}, ' ', { title = 'Diagnostics', items = items })
 end
 
@@ -95,24 +79,12 @@ local function buffer_windows(bufnr)
   return info and info.windows or {}
 end
 
--- Updates the location lists of all windows that have a buffer with
--- diagnostics.
-local function update_all()
-  local all_diags = diag.get(nil, { severity = { min = diag.severity.WARN } })
-  local per_buffer = {}
+-- Updates the location lists of all windows to the given buffer
+local function update_all(bufnr)
+  local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
 
-  for _, diag in ipairs(all_diags) do
-    if not per_buffer[diag.bufnr] then
-      per_buffer[diag.bufnr] = {}
-    end
-
-    table.insert(per_buffer[diag.bufnr], diag)
-  end
-
-  for bufnr, _ in pairs(updates) do
-    for _, window in ipairs(buffer_windows(bufnr)) do
-      update_window(window, per_buffer[bufnr] or {})
-    end
+  for _, window in ipairs(buffer_windows(bufnr)) do
+    update_window(window, diags)
   end
 end
 
@@ -144,11 +116,15 @@ end
 -- This function may be called often, so we use a timer to coalesce many calls
 -- into a single update.
 function M.diagnostics_changed()
-  if changed_timer then
-    changed_timer:stop()
+  local bufnr = fn.bufnr(fn.expand('<afile>'))
+
+  if timers[bufnr] then
+    timers[bufnr]:stop()
   end
 
-  changed_timer = vim.defer_fn(update_all, timeout)
+  timers[bufnr] = vim.defer_fn(function()
+    update_all(bufnr)
+  end, timeout)
 end
 
 -- Toggles the location list.
@@ -196,24 +172,6 @@ function M.prev()
 
   if not pcall(api.nvim_exec, 'lbefore', true) then
     api.nvim_exec('llast', true)
-  end
-end
-
--- To prevent updating location lists with the same data, we keep track of what
--- buffers are updated. This way if a buffer isn't updated we don't mess with
--- its location list(s) and the actively selected items.
---
--- To support _any_ API that may produce diagnostics and not just language
--- server clients, we override `vim.diagnostic.set`.
---
--- TODO: remove once https://github.com/neovim/neovim/pull/16098 is merged
-do
-  local old = diag.set
-
-  diag.set = function(namespace, bufnr, diagnostics, opts)
-    old(namespace, bufnr, diagnostics, opts)
-
-    updates[bufnr] = updates[bufnr] + 1
   end
 end
 

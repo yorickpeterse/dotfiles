@@ -116,7 +116,7 @@ au('lsp', {
   'BufWritePre * lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
   'BufWinEnter * lua dotfiles.location_list.enter_window()',
-  'User DiagnosticsChanged lua dotfiles.location_list.diagnostics_changed()',
+  'DiagnosticChanged * lua dotfiles.location_list.diagnostics_changed()',
   'User LspProgressUpdate redrawtabline',
 })
 
