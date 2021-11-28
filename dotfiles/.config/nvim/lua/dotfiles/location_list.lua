@@ -81,6 +81,10 @@ end
 
 -- Updates the location lists of all windows to the given buffer
 local function update_all(bufnr)
+  if fn.bufexists(bufnr) == 0 then
+    return
+  end
+
   local diags = diag.get(bufnr, { severity = { min = diag.severity.WARN } })
 
   for _, window in ipairs(buffer_windows(bufnr)) do
