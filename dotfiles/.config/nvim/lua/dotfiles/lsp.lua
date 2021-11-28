@@ -157,8 +157,7 @@ config.jedi_language_server.setup({
     markupKindPreferred = 'markdown',
     startupMessage = false,
     diagnostics = {
-      -- Linting as you type is distracting, and thus is disabled.
-      didChange = false,
+      didChange = true,
     },
   },
 })
