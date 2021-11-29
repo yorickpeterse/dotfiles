@@ -209,6 +209,10 @@ function M.toggle_quickfix()
   end
 end
 
+function M.references()
+  lsp.buf.references({ includeDeclaration = false })
+end
+
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -278,7 +282,7 @@ nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
 nmap('<leader>r', cmd('lua vim.lsp.buf.rename()'))
 nmap('<leader>d', func('definition'))
 
-nmap('<leader>i', cmd('lua vim.lsp.buf.references()'))
+nmap('<leader>i', func('references'))
 nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
 nmap('<leader>e', func('line_diagnostics'))
 
