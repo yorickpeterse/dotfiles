@@ -1,6 +1,7 @@
 local pkg = require('dotfiles.package')
 local use = pkg.use
 
+use('nvim-lua/plenary.nvim')
 use('b3nj5m1n/kommentary')
 use('YorickPeterse/rust.vim')
 use('tpope/vim-fugitive')
@@ -20,7 +21,6 @@ use('kyazdani42/nvim-web-devicons')
 use('justinmk/vim-dirvish')
 use('sindrets/diffview.nvim')
 use('nvim-lua/popup.nvim')
-use('nvim-lua/plenary.nvim')
 use('nvim-telescope/telescope.nvim')
 use({ 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' })
 use({
