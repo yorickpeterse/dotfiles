@@ -35,7 +35,7 @@ do
     local new_opts = vim.tbl_deep_extend(
       'force',
       opts or {},
-      { border = 'single' }
+      { border = 'rounded' }
     )
 
     return default(width, height, new_opts)
