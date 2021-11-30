@@ -10,6 +10,12 @@ local flags = {
   debounce_text_changes = 1000,
 }
 
+local function on_attach(client, bufnr)
+  -- Redraw the tab line as soon as possible, so LSP client statuses show up;
+  -- instead of waiting until the first time they publish a progress message.
+  vim.cmd('redrawtabline')
+end
+
 -- Markdown popup {{{1
 do
   local default = lsp.util.open_floating_preview
@@ -93,12 +99,14 @@ vim.fn.sign_define({
 
 -- C/C++ {{{1
 config.clangd.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
 })
 
 -- Go {{{1
 config.gopls.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
   settings = {
@@ -116,6 +124,7 @@ do
   table.insert(rpath, 'lua/?/init.lua')
 
   config.sumneko_lua.setup({
+    on_attach = on_attach,
     capabilities = capabilities,
     flags = flags,
     cmd = {
@@ -145,12 +154,14 @@ end
 
 -- null-ls {{{1
 config['null-ls'].setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
 })
 
 -- Python {{{1
 config.jedi_language_server.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
   init_options = {
@@ -164,6 +175,7 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
   settings = {
