@@ -2,7 +2,6 @@ configuration {
     modi: "window,run,drun,combi";
     font: "Noto Sans 10";
     dpi: 192;
-    theme: "custom";
     show-icons: true;
     icon-theme: "Papirus";
     kb-remove-char-back: "BackSpace";
@@ -12,4 +11,11 @@ configuration {
     kb-mode-previous: "Control+h";
     kb-remove-to-eol: "";
     kb-cancel: "Escape,Control+q";
+
+    combi-hide-mode-prefix: true;
+    drun-display-format: "{name}";
+    window-format: "{t}";
+    window-thumbnail: false;
 }
+
+@theme "custom"

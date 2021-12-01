@@ -1,10 +1,3 @@
-configuration {
-    combi-hide-mode-prefix: true;
-    drun-display-format: "{name}";
-    window-format: "{t}";
-    window-thumbnail: false;
-}
-
 * {
     background-color: #383c4a;
     background-prompt: #404552;
@@ -48,6 +41,7 @@ element-text selected {
 
 element-icon {
     size: 40px;
+    margin: 0 10px 0 0;
 }
 
 inputbar {
