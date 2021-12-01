@@ -128,7 +128,11 @@ do
     on_attach = on_attach,
     capabilities = capabilities,
     flags = flags,
-    cmd = {},
+    cmd = {
+      '/usr/bin/lua-language-server',
+      '-E',
+      '/usr/lib/lua-language-server/main.lua',
+    },
     settings = {
       Lua = {
         runtime = {
