@@ -11,6 +11,10 @@ local flags = {
   debounce_text_changes = 1000,
 }
 
+local function default_cmd(name)
+  return require('lspconfig.server_configurations.' .. name).default_config.cmd
+end
+
 local function on_attach(client, bufnr)
   -- Redraw the tab line as soon as possible, so LSP client statuses show up;
   -- instead of waiting until the first time they publish a progress message.
@@ -102,7 +106,7 @@ vim.fn.sign_define({
 config.clangd.setup({
   on_new_config = function(config, root)
     config.cmd = bwrap({
-      cmd = { 'clangd', '--background-index' },
+      cmd = default_cmd('clangd'),
       read_write = { root, '~/.cache/clangd' },
     })
   end,
@@ -115,7 +119,7 @@ config.clangd.setup({
 config.gopls.setup({
   on_new_config = function(config, root)
     config.cmd = bwrap({
-      cmd = { 'gopls' },
+      cmd = default_cmd('gopls'),
       read_write = { root, '~/.cache/go-build', '~/go' },
       network = true,
     })
@@ -185,7 +189,7 @@ config['null-ls'].setup({
 config.jedi_language_server.setup({
   on_new_config = function(config, root)
     config.cmd = bwrap({
-      cmd = { 'jedi-language-server' },
+      cmd = default_cmd('jedi_language_server'),
       read_write = {
         root,
         '~/.cache/jedi',
@@ -210,7 +214,7 @@ config.jedi_language_server.setup({
 config.rust_analyzer.setup({
   on_new_config = function(config, root)
     config.cmd = bwrap({
-      cmd = { 'rust-analyzer' },
+      cmd = default_cmd('rust_analyzer'),
       read_write = {
         root,
         '~/.cargo',
