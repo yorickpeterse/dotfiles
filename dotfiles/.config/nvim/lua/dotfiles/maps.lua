@@ -170,7 +170,10 @@ function M.line_diagnostics()
 end
 
 function M.telescope_files()
-  telescope_builtin.find_files({ hidden = true })
+  telescope_builtin.find_files({
+    hidden = true,
+    find_command = { 'fd', '--type=f', '--strip-cwd-prefix' },
+  })
 end
 
 function M.telescope_symbols()
