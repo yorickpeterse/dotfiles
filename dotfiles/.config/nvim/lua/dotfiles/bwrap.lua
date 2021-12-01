@@ -109,9 +109,13 @@ function M.wrap(options)
   end
 
   for _, name in ipairs(env) do
-    table.insert(cmd, '--setenv')
-    table.insert(cmd, name)
-    table.insert(cmd, os.getenv(name))
+    local value = os.getenv(name)
+
+    if value then
+      table.insert(cmd, '--setenv')
+      table.insert(cmd, name)
+      table.insert(cmd, value)
+    end
   end
 
   if options.network then
