@@ -5,6 +5,7 @@ local api = vim.api
 local fn = vim.fn
 local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
+local bwrap = require('dotfiles.bwrap').wrap
 local flags = {
   allow_incremental_sync = true,
   debounce_text_changes = 1000,
@@ -99,6 +100,12 @@ vim.fn.sign_define({
 
 -- C/C++ {{{1
 config.clangd.setup({
+  on_new_config = function(config, root)
+    config.cmd = bwrap({
+      cmd = { 'clangd', '--background-index' },
+      read_write = { root, '~/.cache/clangd' },
+    })
+  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -106,6 +113,13 @@ config.clangd.setup({
 
 -- Go {{{1
 config.gopls.setup({
+  on_new_config = function(config, root)
+    config.cmd = bwrap({
+      cmd = { 'gopls' },
+      read_write = { root, '~/.cache/go-build', '~/go' },
+      network = true,
+    })
+  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -119,19 +133,27 @@ config.gopls.setup({
 -- Lua {{{1
 do
   local rpath = vim.split(package.path, ';')
+  local runtime_files = vim.api.nvim_list_runtime_paths()
 
   table.insert(rpath, 'lua/?.lua')
   table.insert(rpath, 'lua/?/init.lua')
 
   config.sumneko_lua.setup({
+    on_new_config = function(config, root)
+      config.cmd = bwrap({
+        cmd = {
+          '/usr/bin/lua-language-server',
+          '-E',
+          '/usr/lib/lua-language-server/main.lua',
+        },
+        read_write = { root },
+        read_only = vim.split(vim.o.packpath, ','),
+      })
+    end,
     on_attach = on_attach,
     capabilities = capabilities,
     flags = flags,
-    cmd = {
-      '/usr/bin/lua-language-server',
-      '-E',
-      '/usr/lib/lua-language-server/main.lua',
-    },
+    cmd = {},
     settings = {
       Lua = {
         runtime = {
@@ -142,7 +164,7 @@ do
           globals = { 'vim' },
         },
         workspace = {
-          library = vim.api.nvim_get_runtime_file('', true),
+          library = runtime_files,
         },
         telemetry = {
           enable = false,
@@ -161,6 +183,17 @@ config['null-ls'].setup({
 
 -- Python {{{1
 config.jedi_language_server.setup({
+  on_new_config = function(config, root)
+    config.cmd = bwrap({
+      cmd = { 'jedi-language-server' },
+      read_write = {
+        root,
+        '~/.cache/jedi',
+        '~/.config/pip',
+        '~/.local/lib',
+      },
+    })
+  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -175,6 +208,18 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
+  on_new_config = function(config, root)
+    config.cmd = bwrap({
+      cmd = { 'rust-analyzer' },
+      read_write = {
+        root,
+        '~/.cargo',
+        '~/.rustup',
+        '~/.config/rust-analyzer',
+      },
+      network = true,
+    })
+  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
