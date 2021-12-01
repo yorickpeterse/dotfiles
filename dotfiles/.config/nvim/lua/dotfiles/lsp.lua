@@ -5,15 +5,10 @@ local api = vim.api
 local fn = vim.fn
 local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
-local bwrap = require('dotfiles.bwrap').wrap
 local flags = {
   allow_incremental_sync = true,
   debounce_text_changes = 1000,
 }
-
-local function default_cmd(name)
-  return require('lspconfig.server_configurations.' .. name).default_config.cmd
-end
 
 local function on_attach(client, bufnr)
   -- Redraw the tab line as soon as possible, so LSP client statuses show up;
@@ -104,12 +99,6 @@ vim.fn.sign_define({
 
 -- C/C++ {{{1
 config.clangd.setup({
-  on_new_config = function(config, root)
-    config.cmd = bwrap({
-      cmd = default_cmd('clangd'),
-      read_write = { root, '~/.cache/clangd' },
-    })
-  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -117,13 +106,6 @@ config.clangd.setup({
 
 -- Go {{{1
 config.gopls.setup({
-  on_new_config = function(config, root)
-    config.cmd = bwrap({
-      cmd = default_cmd('gopls'),
-      read_write = { root, '~/.cache/go-build', '~/go' },
-      network = true,
-    })
-  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -143,17 +125,6 @@ do
   table.insert(rpath, 'lua/?/init.lua')
 
   config.sumneko_lua.setup({
-    on_new_config = function(config, root)
-      config.cmd = bwrap({
-        cmd = {
-          '/usr/bin/lua-language-server',
-          '-E',
-          '/usr/lib/lua-language-server/main.lua',
-        },
-        read_write = { root },
-        read_only = vim.split(vim.o.packpath, ','),
-      })
-    end,
     on_attach = on_attach,
     capabilities = capabilities,
     flags = flags,
@@ -187,17 +158,6 @@ config['null-ls'].setup({
 
 -- Python {{{1
 config.jedi_language_server.setup({
-  on_new_config = function(config, root)
-    config.cmd = bwrap({
-      cmd = default_cmd('jedi_language_server'),
-      read_write = {
-        root,
-        '~/.cache/jedi',
-        '~/.config/pip',
-        '~/.local/lib',
-      },
-    })
-  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
@@ -212,18 +172,6 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
-  on_new_config = function(config, root)
-    config.cmd = bwrap({
-      cmd = default_cmd('rust_analyzer'),
-      read_write = {
-        root,
-        '~/.cargo',
-        '~/.rustup',
-        '~/.config/rust-analyzer',
-      },
-      network = true,
-    })
-  end,
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
