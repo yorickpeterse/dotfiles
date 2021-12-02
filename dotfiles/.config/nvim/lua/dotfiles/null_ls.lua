@@ -107,6 +107,10 @@ end
 
 nls.config({
   debounce = 1000,
+  log = {
+    level = 'error',
+    use_console = false,
+  },
   sources = {
     -- Linters
     rubocop(),
