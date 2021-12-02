@@ -183,6 +183,7 @@ function M.telescope_symbols()
     telescope_builtin.lsp_document_symbols({
       symbols = ts_lsp_symbols,
       symbol_width = 50,
+      symbol_type_width = 16,
       timeout = 3000,
     })
 
