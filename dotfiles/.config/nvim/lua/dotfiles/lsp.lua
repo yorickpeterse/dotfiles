@@ -7,7 +7,7 @@ local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
 local flags = {
   allow_incremental_sync = true,
-  debounce_text_changes = 1000,
+  debounce_text_changes = 500,
 }
 
 local function on_attach(client, bufnr)
