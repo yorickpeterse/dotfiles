@@ -28,7 +28,6 @@ end
 
 function M.render()
   local window = vim.g.statusline_winid
-  local active = window == api.nvim_get_current_win()
   local buffer = api.nvim_win_get_buf(window)
   local bufname = fn.bufname(buffer)
 
@@ -61,7 +60,7 @@ function M.render()
   )
 
   return table.concat({
-    active and highlight(name, active_hl) or name,
+    name,
     has_qf_title and ' ' .. qf_title or '',
     ' ',
     preview,
