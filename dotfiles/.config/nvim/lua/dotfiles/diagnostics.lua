@@ -4,15 +4,31 @@ local lsp = vim.lsp
 local fn = vim.fn
 local diag = vim.diagnostic
 local api = vim.api
+local util = require('dotfiles.util')
 
 -- Location information about the last message printed. The format is
 -- `(did print, buffer number, line number)`.
 local last_echo = { false, -1, -1 }
 local echo_timer = nil
-local echo_timeout = 250
+local timeout = 250
 local warning_hlgroup = 'WarningMsg'
 local error_hlgroup = 'ErrorMsg'
 local short_line_limit = 20
+
+local underline_timers = util.buffer_cache(function()
+  return 0
+end)
+local underline_ns = api.nvim_create_namespace('dotfiles_underline')
+local underline_hl = {
+  [vim.diagnostic.severity.ERROR] = 'DiagnosticUnderlineError',
+  [vim.diagnostic.severity.WARN] = 'DiagnosticUnderlineWarn',
+  [vim.diagnostic.severity.INFO] = 'DiagnosticUnderlineInfo',
+  [vim.diagnostic.severity.HINT] = 'DiagnosticUnderlineHint',
+}
+
+local function reset_echo()
+  last_echo = { false, -1, -1 }
+end
 
 -- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
@@ -37,8 +53,7 @@ function M.echo_diagnostic()
       -- If we previously echo'd a message, clear it out by echoing an empty
       -- message.
       if last_echo[1] then
-        last_echo = { false, -1, -1 }
-
+        reset_echo()
         api.nvim_command('echo ""')
       end
 
@@ -64,7 +79,7 @@ function M.echo_diagnostic()
     local kind = 'warning'
     local hlgroup = warning_hlgroup
 
-    if first.severity == lsp.protocol.DiagnosticSeverity.Error then
+    if first.severity == diag.severity.ERROR then
       kind = 'error'
       hlgroup = error_hlgroup
     end
@@ -75,7 +90,45 @@ function M.echo_diagnostic()
     }
 
     api.nvim_echo(chunks, false, {})
-  end, echo_timeout)
+  end, timeout)
+end
+
+function M.underline()
+  local bufnr = api.nvim_win_get_buf(0)
+  local timer = underline_timers[bufnr]
+
+  if timer ~= 0 then
+    timer:stop()
+  end
+
+  underline_timers[bufnr] = vim.defer_fn(function()
+    local line = fn.line('.') - 1
+
+    local diags = diag.get(
+      bufnr,
+      { lnum = line, severity = { min = diag.severity.WARN } }
+    )
+
+    api.nvim_buf_clear_namespace(bufnr, underline_ns, 0, -1)
+
+    for _, diag in ipairs(diags) do
+      -- In case the start/end column is out of range, we just ignore the
+      -- diagnostic.
+      pcall(api.nvim_buf_set_extmark, bufnr, underline_ns, diag.lnum, diag.col, {
+        end_line = diag.end_lnum,
+        end_col = diag.end_col,
+        hl_group = underline_hl[diag.severity],
+        hl_mode = 'combine',
+        virt_text_pos = 'overlay',
+      })
+    end
+  end, timeout)
+end
+
+function M.refresh()
+  reset_echo()
+  M.echo_diagnostic()
+  M.underline()
 end
 
 return M

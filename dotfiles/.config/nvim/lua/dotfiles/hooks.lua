@@ -115,6 +115,8 @@ au('trailing_whitespace', {
 au('lsp', {
   'BufWritePre * lua dotfiles.hooks.format_buffer()',
   'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
+  'CursorMoved * lua dotfiles.diagnostics.underline()',
+  'DiagnosticChanged * lua dotfiles.diagnostics.refresh()',
   'BufWinEnter * lua dotfiles.location_list.enter_window()',
   'DiagnosticChanged * lua dotfiles.location_list.diagnostics_changed()',
   'User LspProgressUpdate redrawtabline',

@@ -55,9 +55,7 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
 vim_diag.config({
-  underline = {
-    severity = { min = vim_diag.severity.WARN },
-  },
+  underline = false,
   signs = {
     severity = { min = vim_diag.severity.WARN },
   },
@@ -73,26 +71,22 @@ vim_diag.config({
 vim.fn.sign_define({
   {
     name = 'DiagnosticSignError',
-    text = 'E',
-    numhl = 'DiagnosticError',
+    text = '|',
     texthl = 'DiagnosticError',
   },
   {
     name = 'DiagnosticSignWarn',
-    text = 'W',
-    numhl = 'DiagnosticWarn',
+    text = '|',
     texthl = 'DiagnosticWarn',
   },
   {
     name = 'DiagnosticSignHint',
-    text = 'H',
-    numhl = 'DiagnosticHint',
+    text = '|',
     texthl = 'DiagnosticHint',
   },
   {
     name = 'DiagnosticSignInfo',
-    text = 'H',
-    numhl = 'DiagnosticInfo',
+    text = '|',
     texthl = 'DiagnosticInfo',
   },
 })
