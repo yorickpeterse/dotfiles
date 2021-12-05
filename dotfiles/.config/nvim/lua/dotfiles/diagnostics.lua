@@ -104,6 +104,10 @@ function M.underline()
   underline_timers[bufnr] = vim.defer_fn(function()
     local line = fn.line('.') - 1
 
+    if not fn.bufexists(bufnr) then
+      return
+    end
+
     local diags = diag.get(
       bufnr,
       { lnum = line, severity = { min = diag.severity.WARN } }
@@ -112,11 +116,21 @@ function M.underline()
     api.nvim_buf_clear_namespace(bufnr, underline_ns, 0, -1)
 
     for _, diag in ipairs(diags) do
+      local start_col = diag.col
+      local end_col = diag.end_col
+
+      -- Some servers may use the same start/end column when producing syntax
+      -- errors. Since end columns are exclusive, we need to increment them so
+      -- they are highlighted.
+      if start_col == end_col then
+        end_col = end_col + 1
+      end
+
       -- In case the start/end column is out of range, we just ignore the
       -- diagnostic.
-      pcall(api.nvim_buf_set_extmark, bufnr, underline_ns, diag.lnum, diag.col, {
+      pcall(api.nvim_buf_set_extmark, bufnr, underline_ns, diag.lnum, start_col, {
         end_line = diag.end_lnum,
-        end_col = diag.end_col,
+        end_col = end_col,
         hl_group = underline_hl[diag.severity],
         hl_mode = 'combine',
         virt_text_pos = 'overlay',
