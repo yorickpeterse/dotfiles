@@ -104,7 +104,7 @@ function M.underline()
   underline_timers[bufnr] = vim.defer_fn(function()
     local line = fn.line('.') - 1
 
-    if not fn.bufexists(bufnr) then
+    if fn.bufexists(bufnr) == 0 then
       return
     end
 
