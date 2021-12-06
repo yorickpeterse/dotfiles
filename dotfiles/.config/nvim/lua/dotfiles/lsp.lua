@@ -71,25 +71,25 @@ vim_diag.config({
 vim.fn.sign_define({
   {
     name = 'DiagnosticSignError',
-    text = '|',
+    text = '❙',
     numhl = 'DiagnosticError',
     texthl = 'DiagnosticError',
   },
   {
     name = 'DiagnosticSignWarn',
-    text = '|',
+    text = '❙',
     numhl = 'DiagnosticWarn',
     texthl = 'DiagnosticWarn',
   },
   {
     name = 'DiagnosticSignHint',
-    text = '|',
+    text = '❙',
     numhl = 'DiagnosticHint',
     texthl = 'DiagnosticHint',
   },
   {
     name = 'DiagnosticSignInfo',
-    text = '|',
+    text = '❙',
     numhl = 'DiagnosticInfo',
     texthl = 'DiagnosticInfo',
   },
