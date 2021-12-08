@@ -54,7 +54,7 @@ function M.echo_diagnostic()
       -- message.
       if last_echo[1] then
         reset_echo()
-        api.nvim_command('echo ""')
+        api.nvim_echo({ { '', '' } }, false, {})
       end
 
       return
@@ -140,7 +140,8 @@ function M.underline()
 end
 
 function M.refresh()
-  reset_echo()
+  last_echo = { true, -1, -1 }
+
   M.echo_diagnostic()
   M.underline()
 end
