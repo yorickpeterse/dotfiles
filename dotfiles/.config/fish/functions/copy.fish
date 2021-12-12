@@ -1,3 +1,3 @@
 function copy -d 'Copy STDIN to the clipboard'
-    xclip -selection clipboard
+    wl-copy --trim-newline
 end
