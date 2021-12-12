@@ -1,0 +1,2 @@
+#!/usr/bin/env fish
+exec env NVIM_GTK_NO_HEADERBAR=1 /usr/bin/nvim-gtk $argv
