@@ -1,3 +1,3 @@
 function brightness
-    sudo ddcutil setvcp 10 $argv
+    echo $argv | tee /sys/class/backlight/ddcci9/brightness
 end
