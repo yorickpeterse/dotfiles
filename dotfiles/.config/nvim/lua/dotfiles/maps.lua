@@ -241,6 +241,14 @@ nmap('<C-h>', '<C-w>h')
 nmap('s', cmd('HopWord'))
 xmap('s', cmd('HopWord'))
 
+-- Use d/dd for actually deleting, while using dx for cutting the line.
+nmap('dx', 'dd', { noremap = true })
+
+nmap('d', '"_d', { noremap = true })
+nmap('d', '"_d', { noremap = true })
+xmap('d', '"_d', { noremap = true })
+nmap('dd', '"_dd', { noremap = true })
+
 -- Allow copy/pasting using Control-c and Control-v
 vmap('<C-c>', '"+y')
 imap('<C-v>', '<Esc>"+pa')
