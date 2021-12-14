@@ -279,10 +279,6 @@ au('dirvish', {
   'FileType dirvish nmap <buffer><silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>',
 })
 
--- Fugitive/Git
-nmap('<leader>gs', cmd('vert rightbelow Git'))
-nmap('<leader>gd', cmd('Gdiffsplit'))
-
 nmap(']n', func('next_conflict'))
 nmap('[n', func('previous_conflict'))
 
@@ -297,7 +293,7 @@ nmap('<leader>e', func('line_diagnostics'))
 
 -- Searching
 nmap('K', cmd('silent grep! <cword>'))
-nmap('<leader>k', ':silent grep! ', { silent = false })
+nmap('<leader>g', ':silent grep! ', { silent = false })
 
 -- Telescope
 nmap('<leader>f', func('telescope_files'))
