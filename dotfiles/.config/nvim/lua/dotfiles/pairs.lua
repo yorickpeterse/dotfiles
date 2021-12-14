@@ -14,6 +14,7 @@ local force_closing_quote = {
   [' '] = true,
   ['\t'] = true,
   [','] = true,
+  ['&'] = true,
 }
 
 -- When deleting a starting pair, also delete the closing pair if it directly
