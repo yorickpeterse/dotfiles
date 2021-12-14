@@ -47,14 +47,18 @@ function M.format_buffer()
   -- using the same buffer.
   for _, window in ipairs(windows) do
     local line, col = unpack(api.nvim_win_get_cursor(window))
-
-    marks[window] = api.nvim_buf_set_extmark(
+    local ok, result = pcall(
+      api.nvim_buf_set_extmark,
       bufnr,
       format_mark_ns,
       line - 1,
       col,
       {}
     )
+
+    if ok then
+      marks[window] = result
+    end
   end
 
   lsp.buf.formatting_sync(nil, 5000)
