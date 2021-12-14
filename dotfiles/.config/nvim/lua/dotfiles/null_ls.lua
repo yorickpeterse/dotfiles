@@ -105,7 +105,7 @@ local function inko()
   }
 end
 
-nls.config({
+nls.setup({
   debounce = 1000,
   log = {
     level = 'error',
