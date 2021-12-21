@@ -9,6 +9,10 @@ local function flatten_document_symbols(symbols, scope)
   local items = {}
 
   for _, symbol in ipairs(symbols) do
+    symbol.scope = scope
+
+    table.insert(items, symbol)
+
     if symbol.children then
       local new_scope = vim.deepcopy(scope)
 
@@ -17,10 +21,6 @@ local function flatten_document_symbols(symbols, scope)
       for _, item in ipairs(flatten_document_symbols(symbol.children, new_scope)) do
         table.insert(items, item)
       end
-    else
-      symbol.scope = scope
-
-      table.insert(items, symbol)
     end
   end
 
@@ -48,7 +48,7 @@ local function lsp_symbols_entry_maker(opts)
     hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
     items = {
       { width = opts.symbol_width or 50 },
-      { width = opts.symbol_type_width or 16 },
+      { width = opts.symbol_type_width or 10 },
       { remaining = true },
     },
   })
@@ -57,32 +57,24 @@ local function lsp_symbols_entry_maker(opts)
     return displayer({
       entry.symbol_name,
       entry.symbol_type:lower(),
-      entry.symbol_scope or '',
+      { entry.symbol_scope, 'TelescopeResultsComment' },
     })
   end
 
   return function(entry)
-    local filename = entry.filename or vim.api.nvim_buf_get_name(entry.bufnr)
-    local symbol_type = entry.kind
-    local symbol_name = entry.text
-    local symbol_scope = entry.scope or ''
-    local ordinal = symbol_name
-      .. ' '
-      .. (symbol_type or 'unknown')
-      .. ' '
-      .. symbol_scope
+    local ordinal = entry.text .. ' ' .. entry.kind .. ' ' .. entry.scope
 
     return {
       valid = true,
       value = entry,
       ordinal = ordinal,
       display = make_display,
-      filename = filename,
+      filename = entry.filename,
       lnum = entry.lnum,
       col = entry.col,
-      symbol_name = symbol_name,
-      symbol_type = symbol_type,
-      symbol_scope = entry.scope,
+      symbol_name = entry.text,
+      symbol_type = entry.kind,
+      symbol_scope = entry.scope or '',
       start = entry.start,
       finish = entry.finish,
     }
@@ -104,14 +96,16 @@ function M.lsp_document_symbols(opts)
       local locations = {}
 
       for _, result in pairs(response) do
-        for _, symbol in ipairs(flatten_document_symbols(result.result, {})) do
-          table.insert(locations, lsp_symbol_to_location(bufnr, symbol))
+        if result.result then
+          for _, symbol in ipairs(flatten_document_symbols(result.result, {})) do
+            table.insert(locations, lsp_symbol_to_location(bufnr, symbol))
+          end
         end
       end
 
       locations = utils.filter_symbols(locations, opts)
 
-      if #locations == 0 then
+      if not locations or #locations == 0 then
         return
       end
 

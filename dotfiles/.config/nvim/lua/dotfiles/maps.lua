@@ -183,13 +183,10 @@ function M.telescope_symbols()
   if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
     pickers.lsp_document_symbols({
       symbols = ts_lsp_symbols,
-      symbol_width = 50,
-      symbol_type_width = 16,
       previewer = false,
       prompt_title = false,
       results_title = false,
       preview_title = false,
-      show_line = false,
     })
 
     return
