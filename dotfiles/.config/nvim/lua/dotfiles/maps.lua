@@ -7,6 +7,7 @@ local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
 local snippy = require('snippy')
+local pickers = require('dotfiles.telescope.pickers')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -180,11 +181,15 @@ function M.telescope_symbols()
   local bufnr = api.nvim_get_current_buf()
 
   if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
-    telescope_builtin.lsp_document_symbols({
+    pickers.lsp_document_symbols({
       symbols = ts_lsp_symbols,
       symbol_width = 50,
       symbol_type_width = 16,
-      timeout = 3000,
+      previewer = false,
+      prompt_title = false,
+      results_title = false,
+      preview_title = false,
+      show_line = false,
     })
 
     return
