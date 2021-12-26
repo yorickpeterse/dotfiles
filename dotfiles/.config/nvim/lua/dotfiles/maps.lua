@@ -224,6 +224,37 @@ function M.references()
   lsp.buf.references({ includeDeclaration = false })
 end
 
+-- Shows all implementations of an interface.
+--
+-- The function `vim.lsp.buf.implementation()` automatically jumps to the first
+-- location, which I don't like.
+function M.implementations()
+  local bufnr = api.nvim_get_current_buf()
+  local params = lsp.util.make_position_params()
+
+  lsp.buf_request_all(
+    bufnr,
+    'textDocument/implementation',
+    params,
+    function(response)
+      for _, result in ipairs(response) do
+        if result.result then
+          local items = result.result
+
+          if not vim.tbl_islist(result.result) then
+            items = { items }
+          end
+
+          if #items > 0 then
+            lsp.util.set_qflist(lsp.util.locations_to_items(items))
+            vim.cmd('copen')
+          end
+        end
+      end
+    end
+  )
+end
+
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -294,10 +325,11 @@ nmap('[n', func('previous_conflict'))
 
 -- LSP
 nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
-nmap('<leader>r', cmd('lua vim.lsp.buf.rename()'))
+nmap('<leader>R', cmd('lua vim.lsp.buf.rename()'))
 nmap('<leader>d', func('definition'))
 
-nmap('<leader>i', func('references'))
+nmap('<leader>r', func('references'))
+nmap('<leader>i', func('implementations'))
 nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
 nmap('<leader>e', func('line_diagnostics'))
 
