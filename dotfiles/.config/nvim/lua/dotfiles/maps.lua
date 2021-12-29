@@ -325,7 +325,7 @@ nmap('[n', func('previous_conflict'))
 
 -- LSP
 nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
-nmap('<leader>R', cmd('lua vim.lsp.buf.rename()'))
+nmap('<leader>n', cmd('lua vim.lsp.buf.rename()'))
 nmap('<leader>d', func('definition'))
 
 nmap('<leader>r', func('references'))
