@@ -62,7 +62,7 @@ local function lsp_symbols_entry_maker(opts)
   end
 
   return function(entry)
-    local ordinal = entry.text .. ' ' .. entry.kind .. ' ' .. entry.scope
+    local ordinal = entry.text .. ' ' .. entry.scope
 
     return {
       valid = true,
