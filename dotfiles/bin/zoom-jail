@@ -2,12 +2,9 @@
 
 set uid (id -u)
 set optional_binds
-set devices /dev/usb/hiddev0 /dev/usb/hiddev1 /dev/usb/hiddev2 /div/video0
 
-for device in $devices
-    if test -e $device
-        set -a optional_binds --dev-bind $device $device
-    end
+for device in /dev/{video,media,usb/hiddev}*
+    set -a optional_binds --dev-bind $device $device
 end
 
 bwrap --unshare-all \
