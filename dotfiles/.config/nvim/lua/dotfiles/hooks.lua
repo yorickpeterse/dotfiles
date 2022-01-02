@@ -100,6 +100,25 @@ function M.toggle_list(enter)
   end
 end
 
+-- Deletes empty anonymous buffers when hiding them, so they don't pile up.
+function M.remove_buffer()
+  local buffer = fn.bufnr()
+  local lines = fn.getbufline(buffer, 1, 1)
+  local ft = api.nvim_buf_get_option(buffer, 'ft')
+
+  if fn.bufname(buffer) == '' and #lines[1] == 0 and ft ~= 'qf' then
+    -- The buffer is still in use at this point, so we must schedule the removal
+    -- until after the hook finishes.
+    vim.schedule(function()
+      if fn.bufloaded(buffer) then
+        api.nvim_buf_delete(buffer, {})
+      end
+    end)
+  end
+end
+
+au('buffer_management', { 'BufWinLeave * lua dotfiles.hooks.remove_buffer()' })
+
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 
 au('filetypes', {
