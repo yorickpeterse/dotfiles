@@ -97,8 +97,9 @@ end
 
 -- Returns the ID of the current window, or the ID of the target window if the
 -- current window is a location list window.
-function M.target_window()
-  local win = api.nvim_get_current_win()
+function M.target_window(win)
+  win = win or api.nvim_get_current_win()
+
   local list = fn.getloclist(win, { filewinid = 0 })
 
   if list.filewinid > 0 then

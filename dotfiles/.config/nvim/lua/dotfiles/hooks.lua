@@ -91,6 +91,39 @@ function M.close_quickfix()
   end
 end
 
+-- Opens a quickfix or location list item in the previous window, optionally
+-- splitting it first.
+function M.open_quickfix_item(split_cmd)
+  local prev_win = 0
+  local line = fn.line('.')
+  local list = fn.getloclist(0, { items = 0, filewinid = 0 })
+  local err_cmd = 'cc'
+
+  if list.filewinid > 0 then
+    -- The current window is a location list window.
+    if #list.items == 0 then
+      return
+    end
+
+    err_cmd = 'll'
+    prev_win = list.filewinid
+  else
+    if #fn.getqflist() == 0 then
+      return
+    end
+
+    prev_win = util.target_window(fn.win_getid(fn.winnr('#')))
+  end
+
+  api.nvim_set_current_win(prev_win)
+
+  if split_cmd then
+    vim.cmd(split_cmd)
+  end
+
+  vim.cmd(err_cmd .. line)
+end
+
 function M.toggle_list(enter)
   if enter then
     vim.w.list_enabled = vim.wo.list
@@ -103,15 +136,24 @@ end
 -- Deletes empty anonymous buffers when hiding them, so they don't pile up.
 function M.remove_buffer()
   local buffer = fn.bufnr()
-  local lines = fn.getbufline(buffer, 1, 1)
   local ft = api.nvim_buf_get_option(buffer, 'ft')
 
-  if fn.bufname(buffer) == '' and #lines[1] == 0 and ft ~= 'qf' then
+  if ft == 'qf' or ft == 'help' then
+    return
+  end
+
+  if fn.bufname(buffer) ~= '' then
+    return
+  end
+
+  local lines = fn.getbufline(buffer, 1, 1)
+
+  if #lines == 0 or #lines[1] == 0 then
     -- The buffer is still in use at this point, so we must schedule the removal
     -- until after the hook finishes.
     vim.schedule(function()
       if fn.bufloaded(buffer) then
-        api.nvim_buf_delete(buffer, {})
+        pcall(api.nvim_buf_delete, buffer, {})
       end
     end)
   end

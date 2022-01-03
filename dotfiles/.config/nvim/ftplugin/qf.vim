@@ -9,3 +9,6 @@ if getwininfo(win_getid())[0].loclist != 1
 endif
 
 setlocal nolist
+
+nnoremap <silent> <buffer> <CR> :lua dotfiles.hooks.open_quickfix_item()<CR>
+nnoremap <silent> <buffer> <leader>v :lua dotfiles.hooks.open_quickfix_item('vsplit')<CR>
