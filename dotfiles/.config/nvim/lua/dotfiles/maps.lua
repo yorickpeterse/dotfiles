@@ -246,7 +246,10 @@ function M.implementations()
           end
 
           if #items > 0 then
-            lsp.util.set_qflist(lsp.util.locations_to_items(items))
+            fn.setqflist({}, ' ', {
+              title = 'Implementations',
+              items = lsp.util.locations_to_items(items),
+            })
             vim.cmd('copen')
           end
         end
