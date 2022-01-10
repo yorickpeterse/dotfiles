@@ -1,7 +1,4 @@
 local M = {}
-
-local util = require('dotfiles.util')
-local keycode = util.keycode
 local fn = vim.fn
 local api = vim.api
 
@@ -57,6 +54,10 @@ local brackets = {
   ['['] = ']',
   ['('] = ')',
 }
+
+local function keycode(string)
+  return api.nvim_replace_termcodes(string, true, true, true)
+end
 
 local keep_undo = keycode('<C-g>U')
 local left = keep_undo .. keycode('<left>')
