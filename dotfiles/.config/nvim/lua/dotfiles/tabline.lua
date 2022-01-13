@@ -1,6 +1,7 @@
 local fn = vim.fn
 local M = {}
 local lsp = vim.lsp
+local api = vim.api
 local icons = require('dotfiles.icons')
 local util = require('dotfiles.util')
 local highlight = util.statusline_highlight
@@ -64,10 +65,9 @@ end
 function M.render()
   local line = ''
 
-  for tab = 1, fn.tabpagenr('$') do
-    local winnr = fn.tabpagewinnr(tab)
-    local buflist = fn.tabpagebuflist(tab)
-    local bufnr = buflist[winnr]
+  for _, tab in ipairs(api.nvim_list_tabpages()) do
+    local win = api.nvim_tabpage_get_win(tab)
+    local bufnr = api.nvim_win_get_buf(win)
     local bufname = fn.bufname(bufnr)
 
     if bufname == '' then
@@ -76,7 +76,7 @@ function M.render()
       bufname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
     end
 
-    local modified = fn.getbufvar(bufnr, '&mod')
+    local modified = api.nvim_buf_get_option(bufnr, 'mod')
 
     line = line
       .. table.concat({
@@ -92,7 +92,7 @@ function M.render()
         icons.icon(bufname),
         bufname,
         ' ',
-        modified == 1 and '[+] ' or '',
+        modified and '[+] ' or '',
       })
   end
 
