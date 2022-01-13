@@ -2,27 +2,33 @@ local M = {}
 local error = require('dotfiles.util').error
 
 local workspaces = {
-  ['inko'] = '~/Projects/inko/inko',
-  ['gitlab'] = '~/Projects/gitlab/gdk-ee/gitlab',
-  ['release tools'] = '~/Projects/gitlab/release-tools',
-  ['config'] = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
+  ['inko'] = {
+    path = '~/Projects/inko/inko',
+    terminal = true,
+  },
+  ['config'] = {
+    path = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
+    terminal = false,
+  },
 }
 
-local function open(path, title)
-  vim.cmd('cd ' .. path)
+local function open(title, workspace)
+  vim.cmd('cd ' .. workspace.path)
   vim.go.titlestring = title
 
-  vim.cmd('Tterm')
-  vim.cmd('stopinsert')
-  vim.cmd('silent file Terminal')
-  vim.cmd('tabprev')
+  if workspace.terminal then
+    vim.cmd('Tterm')
+    vim.cmd('stopinsert')
+    vim.cmd('silent file Terminal')
+    vim.cmd('tabprev')
+  end
 end
 
 function M.open(name)
-  local path = workspaces[name]
+  local workspace = workspaces[name]
 
-  if path then
-    open(path, name)
+  if workspace then
+    open(name, workspace)
   else
     error('Invalid workspace name: "' .. name .. '"')
   end
