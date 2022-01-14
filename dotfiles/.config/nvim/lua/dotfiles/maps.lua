@@ -170,6 +170,10 @@ function M.line_diagnostics()
   diag.open_float(0, { scope = 'line' })
 end
 
+function M.workspace_diagnostics()
+  diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
+end
+
 function M.telescope_files()
   telescope_builtin.find_files({
     hidden = true,
@@ -330,6 +334,7 @@ nmap('[n', func('previous_conflict'))
 nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
 nmap('<leader>n', cmd('lua vim.lsp.buf.rename()'))
 nmap('<leader>d', func('definition'))
+nmap('<leader>z', func('workspace_diagnostics'))
 
 nmap('<leader>r', func('references'))
 nmap('<leader>i', func('implementations'))
