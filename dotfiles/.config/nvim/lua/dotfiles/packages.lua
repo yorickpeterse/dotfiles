@@ -19,7 +19,6 @@ use('phaazon/hop.nvim')
 use('kyazdani42/nvim-web-devicons')
 use('justinmk/vim-dirvish')
 use('sindrets/diffview.nvim')
-use('nvim-lua/popup.nvim')
 use('nvim-telescope/telescope.nvim')
 use({ 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' })
 use({
