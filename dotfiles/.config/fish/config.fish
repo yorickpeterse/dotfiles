@@ -1,13 +1,15 @@
 set -x CHRUBY_ROOT /usr
 
-source /usr/share/chruby/chruby.fish
-source /usr/share/chruby/auto.fish
+if test -d /usr/share/chruby
+    source /usr/share/chruby/chruby.fish
+end
+
 source $HOME/.config/fish/private.fish
 
 set -x EDITOR $HOME/bin/nvim
 set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ivm/bin $PATH
-set -x DISABLE_SPRING '1'
-set -x NOKOGIRI_USE_SYSTEM_LIBRARIES 'true'
+set -x DISABLE_SPRING 1
+set -x NOKOGIRI_USE_SYSTEM_LIBRARIES true
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
 set -x BUNDLE_DISABLE_VERSION_CHECK 1
 set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
@@ -33,5 +35,7 @@ set fish_pager_color_progress normal --bold
 set fish_pager_color_completion normal
 set fish_pager_color_description $fish_color_comment
 
-chruby_reset
-chruby (cat $HOME/.ruby-version)
+if test -d /usr/share/chruby
+    chruby_reset
+    chruby (cat $HOME/.ruby-version)
+end
