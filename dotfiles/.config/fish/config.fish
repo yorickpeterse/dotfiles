@@ -4,7 +4,9 @@ if test -d /usr/share/chruby
     source /usr/share/chruby/chruby.fish
 end
 
-source $HOME/.config/fish/private.fish
+if test -e
+    source $HOME/.config/fish/private.fish
+end
 
 set -x EDITOR $HOME/bin/nvim
 set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ivm/bin $PATH
