@@ -4,7 +4,7 @@ if test -d /usr/share/chruby
     source /usr/share/chruby/chruby.fish
 end
 
-if test -e
+if test -e $HOME/.config/fish/private.fish
     source $HOME/.config/fish/private.fish
 end
 
