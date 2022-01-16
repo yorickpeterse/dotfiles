@@ -8,8 +8,9 @@ if test -e $HOME/.config/fish/private.fish
     source $HOME/.config/fish/private.fish
 end
 
+fish_add_path $HOME/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/.local/share/ivm/bin
+
 set -x EDITOR $HOME/bin/nvim
-set -x PATH $HOME/.cargo/bin $HOME/bin $HOME/.local/bin $HOME/.local/share/ivm/bin $PATH
 set -x DISABLE_SPRING 1
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES true
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
