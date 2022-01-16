@@ -31,13 +31,9 @@ set fish_color_end normal
 set fish_color_search_match --background=dddddd
 set fish_color_match normal
 set fish_color_autosuggestion $fish_color_comment
+set fish_color_valid_path
 
 set fish_pager_color_prefix normal --bold
 set fish_pager_color_progress normal --bold
 set fish_pager_color_completion normal
 set fish_pager_color_description $fish_color_comment
-
-if test -d /usr/share/chruby
-    chruby_reset
-    chruby (cat $HOME/.ruby-version)
-end
