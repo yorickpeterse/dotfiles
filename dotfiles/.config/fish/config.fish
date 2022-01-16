@@ -1,9 +1,3 @@
-set -x CHRUBY_ROOT /usr
-
-if test -d /usr/share/chruby
-    source /usr/share/chruby/chruby.fish
-end
-
 if test -e $HOME/.config/fish/private.fish
     source $HOME/.config/fish/private.fish
 end
@@ -38,3 +32,7 @@ set fish_pager_color_prefix normal --bold
 set fish_pager_color_progress normal --bold
 set fish_pager_color_completion normal
 set fish_pager_color_description $fish_color_comment
+
+if test -e $HOME/.ruby-version
+    rbv (cat $HOME/.ruby-version)
+end
