@@ -159,7 +159,17 @@ function M.remove_buffer()
   end
 end
 
-au('buffer_management', { 'BufWinLeave * lua dotfiles.hooks.remove_buffer()' })
+-- Remove when/if https://github.com/elihunter173/dirbuf.nvim/issues/8 is fixed
+function M.dirbuf_enter()
+  if vim.bo.ft == 'dirbuf' then
+    vim.bo.bufhidden = 'wipe'
+  end
+end
+
+au('buffer_management', {
+  'BufWinLeave * lua dotfiles.hooks.remove_buffer()',
+  'BufWinEnter * lua dotfiles.hooks.dirbuf_enter()',
+})
 
 au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
 

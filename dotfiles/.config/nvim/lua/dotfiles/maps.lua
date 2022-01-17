@@ -321,12 +321,6 @@ imap('<S-tab>', expr('shift_tab'))
 vmap('<s-tab>', '<')
 vmap('<tab>', '>')
 
--- Dirvish
-unmap('-')
-au('dirvish', {
-  'FileType dirvish nmap <buffer><silent><leader>v <cmd>call dirvish#open("vsplit", 0)<CR>',
-})
-
 nmap(']n', func('next_conflict'))
 nmap('[n', func('previous_conflict'))
 
