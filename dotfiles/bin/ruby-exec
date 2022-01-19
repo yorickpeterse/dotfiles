@@ -7,7 +7,7 @@ function switch_version
         set ruby_version ~/.ruby-version
     end
 
-    chruby (cat $ruby_version)
+    rbv (cat $ruby_version)
 
     exec $argv
 end
