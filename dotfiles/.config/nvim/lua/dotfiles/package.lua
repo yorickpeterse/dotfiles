@@ -161,8 +161,8 @@ local function install(package, state)
       state.done = state.done + 1
 
       progress(state)
-      vim.cmd('helptags ' .. package.dir)
       vim.cmd('packadd ' .. package.name)
+      vim.cmd('helptags ' .. package.dir .. '/doc')
       run_hook(package)
     end,
     error = function(output)
@@ -192,7 +192,7 @@ local function update(package, state)
     cmd = 'git',
     args = { '-C', package.dir, 'pull' },
     success = function()
-      vim.cmd('helptags ' .. package.dir)
+      vim.cmd('helptags ' .. package.dir .. '/doc')
       run_hook(package)
       finish(state)
     end,
