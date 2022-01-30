@@ -85,6 +85,15 @@ local function filter_text(item)
   return item.insertText or item.filterText or item.label
 end
 
+--- Returns the text to display in the completion menu.
+local function menu_text(item)
+  if item.insertTextFormat == 2 then
+    return snippy.get_repr(item.textEdit.newText)
+  else
+    return item.label
+  end
+end
+
 -- Given a completion item for a snippet and text, returns the snippet's item.
 local function snippet_from_binary_completion(items)
   local first = items[1]
@@ -370,6 +379,7 @@ function M.start(findstart, base)
           -- want. So instead we'll display the filter text, and fall back to
           -- the label.
           item.word = filter_text(completion)
+          item.abbr = menu_text(completion)
 
           item.user_data = {
             dotfiles = {
