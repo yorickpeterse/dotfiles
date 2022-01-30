@@ -281,6 +281,9 @@ nmap('<C-h>', '<C-w>h')
 nmap('s', cmd('HopWord'))
 xmap('s', cmd('HopWord'))
 
+-- dirbuf maps this, which is annoying.
+unmap('-')
+
 -- Use d/dd for actually deleting, while using dx for cutting the line.
 nmap('dx', 'dd', { noremap = true })
 
