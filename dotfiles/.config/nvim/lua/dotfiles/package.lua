@@ -143,6 +143,14 @@ local function installed(package)
   return #vim.fn.readdir(package.dir) > 0
 end
 
+local function helptags(package)
+  local docs = package.dir .. '/doc'
+
+  if fn.isdirectory(docs) == 1 then
+    vim.cmd('helptags ' .. docs)
+  end
+end
+
 -- Installs a single package.
 local function install(package, state)
   local args = { 'clone', package.url, '--depth=1' }
@@ -162,7 +170,7 @@ local function install(package, state)
 
       progress(state)
       vim.cmd('packadd ' .. package.name)
-      vim.cmd('helptags ' .. package.dir .. '/doc')
+      helptags(package)
       run_hook(package)
     end,
     error = function(output)
@@ -192,7 +200,7 @@ local function update(package, state)
     cmd = 'git',
     args = { '-C', package.dir, 'pull' },
     success = function()
-      vim.cmd('helptags ' .. package.dir .. '/doc')
+      helptags(package)
       run_hook(package)
       finish(state)
     end,
