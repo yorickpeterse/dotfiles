@@ -1,3 +1,4 @@
+local M = {}
 local fn = vim.fn
 local nls = require('null-ls')
 local helpers = require('null-ls.helpers')
@@ -17,7 +18,7 @@ local function rubocop_with_bundler(client_id)
   end)
 end
 
-local function rubocop()
+function M.rubocop()
   local base_args = nls.builtins.diagnostics.rubocop._opts.args
 
   return nls.builtins.diagnostics.rubocop.with({
@@ -37,7 +38,7 @@ local function rubocop()
   })
 end
 
-local function gitlint()
+function M.gitlint()
   return {
     method = nls.methods.DIAGNOSTICS,
     filetypes = { 'gitcommit' },
@@ -62,7 +63,7 @@ local function gitlint()
   }
 end
 
-local function inko()
+function M.inko()
   return {
     method = nls.methods.DIAGNOSTICS,
     filetypes = { 'inko' },
@@ -105,31 +106,4 @@ local function inko()
   }
 end
 
-nls.setup({
-  debounce = 1000,
-  log = {
-    level = 'error',
-    use_console = false,
-  },
-  sources = {
-    -- Linters
-    rubocop(),
-    gitlint(),
-    inko(),
-    nls.builtins.diagnostics.vale.with({
-      runtime_condition = function(params)
-        return util.file_exists(root_path(params.client_id, '.vale.ini'))
-      end,
-    }),
-    nls.builtins.diagnostics.flake8,
-    nls.builtins.diagnostics.shellcheck,
-
-    -- Formatters
-    nls.builtins.formatting.stylua.with({
-      runtime_condition = function(params)
-        return util.file_exists(root_path(params.client_id, 'stylua.toml'))
-      end,
-    }),
-    nls.builtins.formatting.fish_indent,
-  },
-})
+return M

@@ -5,6 +5,7 @@ local api = vim.api
 local fn = vim.fn
 local diag = require('dotfiles.diagnostics')
 local util = require('dotfiles.util')
+local nls = require('null-ls')
 local flags = {
   allow_incremental_sync = true,
   debounce_text_changes = 500,
@@ -152,11 +153,40 @@ do
 end
 
 -- null-ls {{{1
-config['null-ls'].setup({
-  on_attach = on_attach,
-  capabilities = capabilities,
-  flags = flags,
-})
+do
+  local sources = require('dotfiles.null_ls')
+  local root_path = util.path_relative_to_lsp_root
+
+  nls.setup({
+    on_attach = on_attach,
+    debounce = 1000,
+    log = {
+      level = 'error',
+      use_console = false,
+    },
+    sources = {
+      -- Linters
+      sources.rubocop(),
+      sources.gitlint(),
+      sources.inko(),
+      nls.builtins.diagnostics.vale.with({
+        runtime_condition = function(params)
+          return util.file_exists(root_path(params.client_id, '.vale.ini'))
+        end,
+      }),
+      nls.builtins.diagnostics.flake8,
+      nls.builtins.diagnostics.shellcheck,
+
+      -- Formatters
+      nls.builtins.formatting.stylua.with({
+        runtime_condition = function(params)
+          return util.file_exists(root_path(params.client_id, 'stylua.toml'))
+        end,
+      }),
+      nls.builtins.formatting.fish_indent,
+    },
+  })
+end
 
 -- Python {{{1
 config.jedi_language_server.setup({

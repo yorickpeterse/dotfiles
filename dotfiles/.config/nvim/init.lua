@@ -16,7 +16,6 @@ require('dotfiles.packages')
 require('pqf').setup()
 require('dd').setup()
 
-require('dotfiles.null_ls')
 require('dotfiles.lsp')
 require('dotfiles.window')
 require('dotfiles.git')
