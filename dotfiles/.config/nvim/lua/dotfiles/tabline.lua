@@ -65,8 +65,8 @@ end
 function M.render()
   local line = ''
 
-  for _, tab in ipairs(api.nvim_list_tabpages()) do
-    local win = api.nvim_tabpage_get_win(tab)
+  for index, tab_handle in ipairs(api.nvim_list_tabpages()) do
+    local win = api.nvim_tabpage_get_win(tab_handle)
     local bufnr = api.nvim_win_get_buf(win)
     local bufname = fn.bufname(bufnr)
 
@@ -81,13 +81,13 @@ function M.render()
     line = line
       .. table.concat({
         '%',
-        tab,
+        index,
         'T',
         '%#',
-        tab == fn.tabpagenr() and active_tab or inactive_tab,
+        index == fn.tabpagenr() and active_tab or inactive_tab,
         '#',
         ' ',
-        tab,
+        index,
         ': ',
         icons.icon(bufname),
         bufname,
