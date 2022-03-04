@@ -87,7 +87,7 @@ end
 
 --- Returns the text to display in the completion menu.
 local function menu_text(item)
-  if item.insertTextFormat == 2 then
+  if item.insertTextFormat == 2 and item.textEdit then
     return snippy.get_repr(item.textEdit.newText)
   else
     return item.label
