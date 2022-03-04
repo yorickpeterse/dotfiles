@@ -79,7 +79,7 @@ o.shortmess = 'atOIcF'
 o.inccommand = 'nosplit'
 o.scrollback = 1000
 o.updatetime = 1000
-o.fillchars = { fold = ' ', diff = ' ' }
+o.fillchars = { fold = ' ', diff = '╱' }
 o.printoptions = { number = 'n', header = '0' }
 o.regexpengine = 0
 o.list = true
