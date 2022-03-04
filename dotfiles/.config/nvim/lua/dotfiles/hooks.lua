@@ -189,9 +189,9 @@ au('lsp', {
   'User LspProgressUpdate redrawtabline',
 })
 
--- Fix diff highlights in fugitive
-au('fugitive', {
+au('diffs', {
   'BufAdd fugitive://* lua require("dotfiles.diff").fix_highlight()',
+  'BufEnter diffview:///panels* set cursorlineopt+=line',
 })
 
 -- Automatically create leading directories when writing a file. This makes it
