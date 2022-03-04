@@ -20,6 +20,7 @@ local backspace_open_pairs = {
   ['('] = ')',
   ['['] = ']',
   ['{'] = '}',
+  ['<'] = '>',
   ['"'] = '"',
   ["'"] = "'",
   ['`'] = '`',
@@ -31,6 +32,7 @@ local backspace_close_pairs = {
   [')'] = '(',
   [']'] = '[',
   ['}'] = '{',
+  ['>'] = '<',
   ['"'] = '"',
   ["'"] = "'",
   ['`'] = '`',
@@ -178,6 +180,14 @@ end
 
 function M.paren_close()
   return jump_over(')')
+end
+
+function M.angle_open()
+  if not is_space(peek(-1)) then
+    return pair('<', '>')
+  end
+
+  return '<'
 end
 
 function M.angle_close()

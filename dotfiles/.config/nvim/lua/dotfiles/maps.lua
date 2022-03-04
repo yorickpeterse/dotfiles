@@ -312,6 +312,7 @@ pair(']', 'bracket_close')
 pair('(', 'paren_open')
 pair(')', 'paren_close')
 
+pair('<', 'angle_open')
 pair('>', 'angle_close')
 
 pair("'", 'single_quote')
