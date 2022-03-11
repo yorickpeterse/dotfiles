@@ -183,7 +183,9 @@ function M.paren_close()
 end
 
 function M.angle_open()
-  if not is_space(peek(-1)) then
+  local prev = peek(-1)
+
+  if not is_space(prev) and prev ~= '<' then
     return pair('<', '>')
   end
 
