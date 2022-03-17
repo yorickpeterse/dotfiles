@@ -132,6 +132,7 @@ o.hlsearch = false
 
 -- Statusline {{{1
 o.statusline = '%!v:lua.dotfiles.statusline.render()'
+o.laststatus = 3
 g.qf_disable_statusline = true
 
 -- Tabline {{{1
