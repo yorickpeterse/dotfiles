@@ -8,7 +8,6 @@ local util = require('dotfiles.util')
 local highlight = util.statusline_highlight
 local forced_space = util.forced_space
 
-local lsp_hl = 'TabLine'
 local preview = '%w'
 local modified = '%m'
 local readonly = '%r'
@@ -71,9 +70,7 @@ local function lsp_status()
     table.insert(cells, text)
   end
 
-  return forced_space
-    .. highlight(table.concat(cells, ', '), lsp_hl)
-    .. forced_space
+  return forced_space .. table.concat(cells, ', ') .. forced_space
 end
 
 function M.render()
