@@ -186,7 +186,6 @@ au('lsp', {
   'DiagnosticChanged * lua dotfiles.diagnostics.refresh()',
   'BufWinEnter * lua dotfiles.location_list.enter_window()',
   'DiagnosticChanged * lua dotfiles.location_list.diagnostics_changed()',
-  'User LspProgressUpdate redrawtabline',
 })
 
 au('diffs', {
