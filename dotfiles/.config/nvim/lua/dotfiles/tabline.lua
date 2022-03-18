@@ -23,8 +23,6 @@ function M.render()
       bufname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
     end
 
-    local modified = api.nvim_buf_get_option(bufnr, 'mod')
-
     line = line
       .. table.concat({
         '%',
@@ -39,7 +37,6 @@ function M.render()
         icons.icon(bufname),
         bufname,
         ' ',
-        modified and '[+] ' or '',
       })
   end
 
