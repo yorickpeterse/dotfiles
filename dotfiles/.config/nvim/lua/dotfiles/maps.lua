@@ -252,6 +252,17 @@ end)
 nmap('K', cmd('silent grep! <cword>'))
 nmap('<leader>g', ':silent grep! ', { silent = false })
 
+-- Remap n/N so jumping to search results adds padding automatically
+nmap('n', function()
+  api.nvim_feedkeys('n', 'n', true)
+  vim.schedule(util.scroll_if_near_edge)
+end)
+
+nmap('N', function()
+  api.nvim_feedkeys('N', 'n', true)
+  vim.schedule(util.scroll_if_near_edge)
+end)
+
 -- Telescope
 nmap('<leader>f', function()
   telescope_builtin.find_files({
@@ -290,8 +301,16 @@ tmap('<C-[>', [[<C-\><C-n>]])
 tmap('<C-]>', [[<C-\><C-n>]])
 
 -- Quickfix
-nmap(']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
-nmap('[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
+nmap(']q', function()
+  api.nvim_exec('try | silent cnext | catch | silent! cfirst | endtry', true)
+  util.scroll_if_near_edge()
+end)
+
+nmap('[q', function()
+  api.nvim_exec('try | silent cprev | catch | silent! clast | endtry', true)
+  util.scroll_if_near_edge()
+end)
+
 nmap(']l', cmd('lua dotfiles.location_list.next()'))
 nmap('[l', cmd('lua dotfiles.location_list.prev()'))
 nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))

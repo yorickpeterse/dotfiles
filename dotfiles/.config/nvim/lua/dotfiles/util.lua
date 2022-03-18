@@ -160,4 +160,24 @@ function M.has_lsp_clients_supporting(bufnr, capability)
   return supported
 end
 
+function M.scroll_if_near_edge()
+  local lnum = fn.getpos('.')[2]
+  local first_line = fn.line('w0')
+  local last_line = fn.line('w$')
+  local command = nil
+
+  if lnum == first_line then
+    command = '<C-y>'
+  elseif lnum == last_line then
+    command = '<C-e>'
+  else
+    return
+  end
+
+  -- This manually unrolled loop is webscale
+  api.nvim_feedkeys(M.keycode(command), 'n', true)
+  api.nvim_feedkeys(M.keycode(command), 'n', true)
+  api.nvim_feedkeys(M.keycode(command), 'n', true)
+end
+
 return M

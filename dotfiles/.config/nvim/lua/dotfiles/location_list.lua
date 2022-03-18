@@ -161,6 +161,8 @@ function M.next()
     -- will error. But if the cursor is on the same position, it won't.
     api.nvim_exec('lfirst', true)
   end
+
+  util.scroll_if_near_edge()
 end
 
 -- Jumps to the previous location list item closest to the cursor.
@@ -177,6 +179,8 @@ function M.prev()
   if not pcall(api.nvim_exec, 'lbefore', true) then
     api.nvim_exec('llast', true)
   end
+
+  util.scroll_if_near_edge()
 end
 
 return M
