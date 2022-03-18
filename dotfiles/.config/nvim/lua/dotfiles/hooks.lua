@@ -206,6 +206,7 @@ au('lsp', {
   { 'DiagnosticChanged', '*', diag.refresh },
   { 'BufWinEnter', '*', loclist.enter_window },
   { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
+  { 'User', 'LspProgressUpdate', 'redrawtabline' },
 })
 
 au('diffs', {
