@@ -1,15 +1,34 @@
 local M = {}
 local util = require('dotfiles.util')
-local au = util.au
 local keycode = util.keycode
 local fn = vim.fn
 local lsp = vim.lsp
 local api = vim.api
+local comp = require('dotfiles.completion')
+local diag = require('dotfiles.diagnostics')
+local loclist = require('dotfiles.location_list')
+local diff = require('dotfiles.diff')
 
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
 
-function M.remove_trailing_whitespace()
+local function au(name, commands)
+  local group = api.nvim_create_augroup(name, { clear = true })
+
+  for _, command in ipairs(commands) do
+    local event = command[1]
+    local patt = command[2]
+    local action = command[3]
+
+    if type(action) == 'string' then
+      api.nvim_create_autocmd(event, { pattern = patt, command = action })
+    else
+      api.nvim_create_autocmd(event, { pattern = patt, callback = action })
+    end
+  end
+end
+
+local function remove_trailing_whitespace()
   local line = fn.line('.')
   local col = fn.col('.')
 
@@ -24,7 +43,7 @@ function M.remove_trailing_whitespace()
   fn.cursor(line, col)
 end
 
-function M.yanked()
+local function yanked()
   vim.highlight.on_yank({
     higroup = 'Visual',
     timeout = 150,
@@ -32,7 +51,7 @@ function M.yanked()
   })
 end
 
-function M.format_buffer()
+local function format_buffer()
   if not util.has_lsp_clients() then
     return
   end
@@ -124,17 +143,19 @@ function M.open_quickfix_item(split_cmd)
   vim.cmd(err_cmd .. line)
 end
 
-function M.toggle_list(enter)
-  if enter then
-    vim.w.list_enabled = vim.wo.list
-    vim.wo.list = false
-  elseif vim.w.list_enabled ~= nil then
+local function enable_list()
+  vim.w.list_enabled = vim.wo.list
+  vim.wo.list = false
+end
+
+local function disable_list()
+  if vim.w.list_enabled ~= nil then
     vim.wo.list = vim.w.list_enabled
   end
 end
 
 -- Deletes empty anonymous buffers when hiding them, so they don't pile up.
-function M.remove_buffer()
+local function remove_buffer()
   local buffer = fn.bufnr()
   local ft = api.nvim_buf_get_option(buffer, 'ft')
 
@@ -160,50 +181,53 @@ function M.remove_buffer()
 end
 
 au('buffer_management', {
-  'BufWinLeave * lua dotfiles.hooks.remove_buffer()',
+  { 'BufWinLeave', '*', remove_buffer },
 })
 
-au('completion', { 'CompleteDonePre * lua dotfiles.completion.done()' })
-
-au('filetypes', {
-  'BufRead,BufNewFile *.rll set filetype=rll',
-  'BufRead,BufNewFile Dangerfile set filetype=ruby',
+au('completion', {
+  { 'CompleteDonePre', '*', comp.done },
 })
 
-au('yank', { 'TextYankPost * lua dotfiles.hooks.yanked()' })
+au('yank', {
+  { 'TextYankPost', '*', yanked },
+})
 
 au('trailing_whitespace', {
-  'BufWritePre * lua dotfiles.hooks.remove_trailing_whitespace()',
-  'InsertEnter * lua dotfiles.hooks.toggle_list(true)',
-  'InsertLeave * lua dotfiles.hooks.toggle_list(false)',
+  { 'BufWritePre', '*', remove_trailing_whitespace },
+  { 'InsertEnter', '*', enable_list },
+  { 'InsertLeave', '*', disable_list },
 })
 
 -- LSP and linting
 au('lsp', {
-  'BufWritePre * lua dotfiles.hooks.format_buffer()',
-  'CursorMoved * lua dotfiles.diagnostics.echo_diagnostic()',
-  'CursorMoved * lua dotfiles.diagnostics.underline()',
-  'DiagnosticChanged * lua dotfiles.diagnostics.refresh()',
-  'BufWinEnter * lua dotfiles.location_list.enter_window()',
-  'DiagnosticChanged * lua dotfiles.location_list.diagnostics_changed()',
+  { 'BufWritePre', '*', format_buffer },
+  { 'CursorMoved', '*', diag.echo_diagnostic },
+  { 'CursorMoved', '*', diag.underline },
+  { 'DiagnosticChanged', '*', diag.refresh },
+  { 'BufWinEnter', '*', loclist.enter_window },
+  { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
 })
 
 au('diffs', {
-  'BufAdd fugitive://* lua require("dotfiles.diff").fix_highlight()',
-  'BufEnter diffview:///panels* set cursorlineopt+=line',
+  { 'BufAdd', 'fugitive://*', diff.fix_highlight },
+  { 'BufEnter', 'diffview:///panels*', 'set cursorlineopt+=line' },
 })
 
 -- Automatically create leading directories when writing a file. This makes it
 -- easier to create new files in non-existing directories.
-au('create_dirs', { "BufWritePre * call mkdir(expand('<afile>:p:h'), 'p')" })
+au('create_dirs', {
+  { 'BufWritePre', '*', "call mkdir(expand('<afile>:p:h'), 'p')" },
+})
 
 -- Open the quickfix window at the bottom when using `:grep`.
-au('grep_quickfix', { 'QuickFixCmdPost grep cwindow' })
+au('grep_quickfix', {
+  { 'QuickFixCmdPost', 'grep', 'cwindow' },
+})
 
 -- Highlight all search matches while searching, but not when done searching.
 au('search_highlight', {
-  [[CmdlineEnter [/\?] :set hlsearch]],
-  [[CmdlineLeave [/\?] :set nohlsearch]],
+  { 'CmdlineEnter', '[/?]', ':set hlsearch' },
+  { 'CmdlineLeave', '[/?]', ':set nohlsearch' },
 })
 
 return M

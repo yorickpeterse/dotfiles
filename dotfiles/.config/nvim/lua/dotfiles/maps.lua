@@ -11,7 +11,6 @@ local pickers = require('dotfiles.telescope.pickers')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
-local au = util.au
 local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
