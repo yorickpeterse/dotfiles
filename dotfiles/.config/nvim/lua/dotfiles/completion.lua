@@ -147,7 +147,7 @@ local function insert_text(text)
     newText = text,
   }
 
-  lsp.util.apply_text_edits({ edit }, buffer)
+  lsp.util.apply_text_edits({ edit }, buffer, 'utf-8')
   move_cursor(line, column + #text)
 end
 
