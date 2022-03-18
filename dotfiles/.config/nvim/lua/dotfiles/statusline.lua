@@ -15,9 +15,9 @@ local separator = '%='
 local active_hl = 'BlackOnLightYellow'
 local git_hl = 'WhiteOnBlue'
 
-local function diagnostic_count(kind)
+local function diagnostic_count(buffer, kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
-  local amount = #diag.get(nil, { severity = severity })
+  local amount = #diag.get(buffer, { severity = severity })
 
   if amount > 0 then
     return forced_space .. kind .. ': ' .. amount .. forced_space
@@ -67,8 +67,8 @@ function M.render()
     modified,
     readonly,
     separator,
-    highlight(diagnostic_count('W'), 'WhiteOnYellow'),
-    highlight(diagnostic_count('E'), 'WhiteOnRed'),
+    highlight(diagnostic_count(buffer, 'W'), 'WhiteOnYellow'),
+    highlight(diagnostic_count(buffer, 'E'), 'WhiteOnRed'),
   })
 end
 
