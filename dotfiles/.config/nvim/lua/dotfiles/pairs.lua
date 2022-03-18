@@ -57,13 +57,9 @@ local brackets = {
   ['('] = ')',
 }
 
-local function keycode(string)
-  return api.nvim_replace_termcodes(string, true, true, true)
-end
-
-local keep_undo = keycode('<C-g>U')
-local left = keep_undo .. keycode('<left>')
-local right = keep_undo .. keycode('<right>')
+local keep_undo = '<C-g>U'
+local left = keep_undo .. '<left>'
+local right = keep_undo .. '<right>'
 
 local function is_space(val)
   return val == ' ' or val == '\t'
@@ -84,7 +80,7 @@ local function pair(open, close)
     return open
   end
 
-  return keycode(open .. close) .. left
+  return open .. close .. left
 end
 
 local function quote(kind)
@@ -120,10 +116,10 @@ function M.enter()
   local after = peek()
 
   if brackets[before] == after then
-    return keycode('<cr><C-o>O')
+    return '<cr><C-o>O'
   end
 
-  return keycode('<cr>')
+  return '<cr>'
 end
 
 function M.space()
@@ -131,10 +127,10 @@ function M.space()
   local after = peek()
 
   if brackets[before] == after then
-    return keycode('<space><space>') .. left
+    return '<space><space>' .. left
   end
 
-  return keycode('<space>')
+  return '<space>'
 end
 
 function M.backspace()
@@ -143,19 +139,19 @@ function M.backspace()
 
   if is_space(before) and is_space(after) then
     if brackets[peek(-2)] == peek(1) then
-      return keycode('<bs><del>')
+      return '<bs><del>'
     end
   end
 
   if backspace_open_pairs[before] == after then
-    return keycode('<bs><del>')
+    return '<bs><del>'
   end
 
   if backspace_close_pairs[before] == peek(-2) then
-    return keycode('<bs><bs>')
+    return '<bs><bs>'
   end
 
-  return keycode('<bs>')
+  return '<bs>'
 end
 
 function M.curly_open()
