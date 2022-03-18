@@ -129,7 +129,7 @@ local function remove_prefix(start_col, start_line, stop_col, stop_line)
     newText = '',
   }
 
-  lsp.util.apply_text_edits({ edit }, buffer)
+  lsp.util.apply_text_edits({ edit }, buffer, 'utf-8')
   move_cursor(start_line, start_col)
 end
 
