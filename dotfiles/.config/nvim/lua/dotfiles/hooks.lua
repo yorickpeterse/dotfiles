@@ -141,7 +141,6 @@ function M.open_quickfix_item(split_cmd)
   end
 
   vim.cmd(err_cmd .. line)
-  util.scroll_if_near_edge()
 end
 
 local function enable_list()

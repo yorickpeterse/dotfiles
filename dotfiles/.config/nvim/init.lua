@@ -82,6 +82,7 @@ o.mouse = ''
 o.shortmess = 'atOIcF'
 o.inccommand = 'nosplit'
 o.scrollback = 1000
+o.scrolloff = 2
 o.updatetime = 1000
 o.fillchars = { fold = ' ', diff = '╱' }
 o.printoptions = { number = 'n', header = '0' }
