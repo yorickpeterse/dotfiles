@@ -1,7 +1,6 @@
 require('nvim-window').setup({
   border = 'none',
   normal_hl = 'BlackOnLightYellow',
-  -- stylua: ignore start
   chars = {
     'a',
     'r',
@@ -30,5 +29,4 @@ require('nvim-window').setup({
     'x',
     'z',
   },
-  -- stylua: ignore end
 })
