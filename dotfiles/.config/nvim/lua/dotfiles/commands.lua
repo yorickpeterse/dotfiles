@@ -40,6 +40,9 @@ end
 
 function M.terminal(cmd)
   vim.cmd(cmd)
+
+  vim.wo.scrolloff = 0
+
   vim.cmd('term')
   vim.cmd('startinsert')
 end
