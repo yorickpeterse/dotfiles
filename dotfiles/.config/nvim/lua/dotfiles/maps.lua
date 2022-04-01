@@ -232,7 +232,7 @@ nmap('<leader>i', function()
           if #items > 0 then
             fn.setqflist({}, ' ', {
               title = 'Implementations',
-              items = lsp.util.locations_to_items(items),
+              items = lsp.util.locations_to_items(items, 'utf-8'),
             })
             vim.cmd('copen')
           end
