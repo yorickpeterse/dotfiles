@@ -286,8 +286,7 @@ end)
 nmap('<leader>b', cmd('Telescope buffers'))
 
 -- Terminals
-tmap('<C-[>', [[<C-\><C-n>]])
-tmap('<C-]>', [[<C-\><C-n>]])
+tmap('<Esc>', [[<C-\><C-n>]])
 
 -- Quickfix
 nmap(']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
