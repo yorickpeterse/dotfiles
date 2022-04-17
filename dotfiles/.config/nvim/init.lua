@@ -1,6 +1,7 @@
 -- vim: set fdm=marker
 local g = vim.g
 local o = vim.opt
+local fn = vim.fn
 
 -- Settings to set before loading plugins {{{1
 g.python3_host_prog = '/usr/bin/python'
@@ -111,6 +112,20 @@ g.gutentags_ctags_exclude = {
 g.gutentags_exclude_filetypes = { 'lua' }
 g.gutentags_file_list_command = 'rg --files'
 g.gutentags_ctags_extra_args = { '--excmd=number' }
+
+-- GUI {{{1
+if fn['exists']('g:GtkGuiLoaded') then
+  o.mouse = 'a'
+  o.mousemodel = 'popup'
+
+  fn['rpcnotify'](1, 'Gui', 'Font', 'Source code Pro 8')
+  fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
+  fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
+  fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
+  fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
+end
+
+print('test')
 
 -- Indentation {{{1
 o.expandtab = true
