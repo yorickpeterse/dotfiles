@@ -114,7 +114,7 @@ g.gutentags_file_list_command = 'rg --files'
 g.gutentags_ctags_extra_args = { '--excmd=number' }
 
 -- GUI {{{1
-if fn['exists']('g:GtkGuiLoaded') then
+if fn['exists']('g:GtkGuiLoaded') == 1 then
   o.mouse = 'a'
   o.mousemodel = 'popup'
 
