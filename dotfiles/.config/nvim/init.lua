@@ -125,8 +125,6 @@ if fn['exists']('g:GtkGuiLoaded') == 1 then
   fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
 end
 
-print('test')
-
 -- Indentation {{{1
 o.expandtab = true
 o.shiftwidth = 4
