@@ -267,9 +267,7 @@ nmap('<leader>t', function()
     pickers.lsp_document_symbols({
       symbols = ts_lsp_symbols,
       previewer = false,
-      prompt_title = false,
       results_title = false,
-      preview_title = false,
     })
 
     return

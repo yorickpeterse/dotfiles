@@ -4,10 +4,8 @@ local sorters = require('telescope.sorters')
 
 local picker_defaults = {
   previewer = false,
-  prompt_title = false,
-  results_title = false,
-  preview_title = false,
   show_line = false,
+  results_title = false,
 }
 
 local function picker_opts(opts)

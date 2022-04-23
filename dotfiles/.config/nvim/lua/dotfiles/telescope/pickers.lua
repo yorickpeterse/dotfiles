@@ -18,7 +18,9 @@ local function flatten_document_symbols(symbols, scope)
 
       table.insert(new_scope, symbol.name)
 
-      for _, item in ipairs(flatten_document_symbols(symbol.children, new_scope)) do
+      for _, item in
+        ipairs(flatten_document_symbols(symbol.children, new_scope))
+      do
         table.insert(items, item)
       end
     end
@@ -110,7 +112,7 @@ function M.lsp_document_symbols(opts)
       end
 
       pickers.new(opts, {
-        prompt_title = 'LSP document symbols',
+        prompt_title = 'Document symbols',
         finder = finders.new_table({
           results = locations,
           entry_maker = lsp_symbols_entry_maker(opts),
