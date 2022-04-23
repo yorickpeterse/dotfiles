@@ -28,5 +28,6 @@ use({
 })
 use('whiteinge/diffconflicts')
 use('jose-elias-alvarez/null-ls.nvim')
+use('stevearc/dressing.nvim')
 
 pkg.install()

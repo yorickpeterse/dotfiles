@@ -28,6 +28,7 @@ require('dotfiles.treesitter')
 require('dotfiles.telescope')
 require('dotfiles.comments')
 require('dotfiles.hop')
+require('dotfiles.dressing')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
