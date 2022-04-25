@@ -32,6 +32,7 @@ set fish_pager_color_prefix normal --bold
 set fish_pager_color_progress normal --bold
 set fish_pager_color_completion normal
 set fish_pager_color_description $fish_color_comment
+set fish_pager_color_selected_background --background=dddddd
 
 if test -e $HOME/.ruby-version
     rbv (cat $HOME/.ruby-version)
