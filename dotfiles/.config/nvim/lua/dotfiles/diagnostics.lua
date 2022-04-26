@@ -30,6 +30,15 @@ local function reset_echo()
   last_echo = { false, -1, -1 }
 end
 
+local function echo(chunks)
+  -- To work around https://github.com/neovim/neovim/issues/18274
+  if api.nvim_get_mode().mode == 'c' then
+    return
+  end
+
+  api.nvim_echo(chunks, false, {})
+end
+
 -- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
   if echo_timer then
@@ -54,7 +63,7 @@ function M.echo_diagnostic()
       -- message.
       if last_echo[1] then
         reset_echo()
-        api.nvim_echo({ { '', '' } }, false, {})
+        echo({ { '', '' } })
       end
 
       return
@@ -89,7 +98,7 @@ function M.echo_diagnostic()
       { message },
     }
 
-    api.nvim_echo(chunks, false, {})
+    echo(chunks)
   end, timeout)
 end
 
