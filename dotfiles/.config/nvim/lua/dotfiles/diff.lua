@@ -10,18 +10,14 @@ local override = 'DiffAdd:LightRedBackground,DiffChange:Disabled'
 --
 -- This hack ensures that deletions in the previous version of a diff show up
 -- as actual deletions, not additions (relative to the current version).
-function M.fix_highlight(id, options)
-  options = options or { force = false }
-
-  local window_id = id or api.nvim_get_current_win()
+function M.fix_highlight()
+  local window_id = api.nvim_get_current_win()
   local nr = api.nvim_win_get_buf(window_id)
   local name = api.nvim_buf_get_name(nr)
   local winhl = wo[window_id].winhl
 
-  if not options.force then
-    if not wo[window_id].diff or winhl:match(override) then
-      return
-    end
+  if not wo[window_id].diff or winhl:match(override) then
+    return
   end
 
   if winhl == '' then
