@@ -1,5 +1,4 @@
 local M = {}
-local util = require('dotfiles.util')
 local lsp = vim.lsp
 local fn = vim.fn
 local diag = vim.diagnostic
