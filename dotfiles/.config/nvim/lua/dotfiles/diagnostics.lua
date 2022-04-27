@@ -31,8 +31,12 @@ local function reset_echo()
 end
 
 local function echo(chunks)
-  -- To work around https://github.com/neovim/neovim/issues/18274
-  if api.nvim_get_mode().mode == 'c' then
+  -- To work around https://github.com/neovim/neovim/issues/18274. We also skip
+  -- INSERT mode echo'ing, as this results in `-- INSERT --` flickering (e.g.
+  -- when using `vim.input()` with a floating window).
+  local mode = api.nvim_get_mode().mode
+
+  if mode == 'c' or mode == 'i' then
     return
   end
 
