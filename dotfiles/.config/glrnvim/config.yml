@@ -1,0 +1,7 @@
+---
+backend: kitty
+nvim_exe_path: /usr/bin/nvim
+fonts:
+  - Source Code Pro
+font_size: 8
+load_term_conf: true
