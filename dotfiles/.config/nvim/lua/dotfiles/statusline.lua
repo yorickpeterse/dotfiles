@@ -3,7 +3,6 @@ local api = vim.api
 local fn = vim.fn
 local diag = vim.diagnostic
 local lsp = vim.lsp
-local icons = require('dotfiles.icons')
 local util = require('dotfiles.util')
 local highlight = util.statusline_highlight
 local forced_space = util.forced_space
@@ -46,22 +45,31 @@ function M.render()
     end
   end
 
-  local icon = icons.icon(bufname)
-
   -- Escape any literal percent signs so they aren't evaluated.
   bufname = bufname:gsub('%%', '%%%%')
   bufname = fn.fnamemodify(bufname, ':.')
 
-  local name = ' ' .. icon .. bufname .. ' '
+  local type = vim.bo[buffer].ft
+  local name = ''
   local has_qf_title, qf_title = pcall(
     api.nvim_win_get_var,
     window,
     'quickfix_title'
   )
 
+  if type ~= '' then
+    type = ' [' .. type .. ']'
+  end
+
+  if has_qf_title then
+    name = ' ' .. qf_title
+  else
+    name = ' ' .. bufname
+  end
+
   return table.concat({
     name,
-    has_qf_title and ' ' .. qf_title or '',
+    type,
     ' ',
     preview,
     modified,
