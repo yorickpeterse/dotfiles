@@ -2,7 +2,6 @@ local fn = vim.fn
 local M = {}
 local lsp = vim.lsp
 local api = vim.api
-local icons = require('dotfiles.icons')
 local util = require('dotfiles.util')
 local highlight = util.statusline_highlight
 local forced_space = util.forced_space
@@ -68,12 +67,17 @@ function M.render()
   for index, tab_handle in ipairs(api.nvim_list_tabpages()) do
     local win = api.nvim_tabpage_get_win(tab_handle)
     local bufnr = api.nvim_win_get_buf(win)
+    local tabname = ''
     local bufname = fn.bufname(bufnr)
 
-    if bufname == '' then
-      bufname = default_name
+    if index == 1 then
+      tabname = 'Code'
     else
-      bufname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
+      if bufname == '' then
+        tabname = default_name
+      else
+        tabname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
+      end
     end
 
     line = line
@@ -87,8 +91,7 @@ function M.render()
         ' ',
         index,
         ': ',
-        icons.icon(bufname),
-        bufname,
+        tabname,
         ' ',
       })
   end
