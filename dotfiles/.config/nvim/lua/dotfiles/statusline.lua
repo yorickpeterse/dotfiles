@@ -49,17 +49,12 @@ function M.render()
   bufname = bufname:gsub('%%', '%%%%')
   bufname = fn.fnamemodify(bufname, ':.')
 
-  local type = vim.bo[buffer].ft
   local name = ''
   local has_qf_title, qf_title = pcall(
     api.nvim_win_get_var,
     window,
     'quickfix_title'
   )
-
-  if type ~= '' then
-    type = ' [' .. type .. ']'
-  end
 
   if has_qf_title then
     name = ' ' .. qf_title
@@ -69,7 +64,6 @@ function M.render()
 
   return table.concat({
     name,
-    type,
     ' ',
     preview,
     modified,
