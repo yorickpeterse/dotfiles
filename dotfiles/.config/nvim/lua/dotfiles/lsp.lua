@@ -17,6 +17,8 @@ local function on_attach(client, bufnr)
   vim.cmd('redrawtabline')
 end
 
+lsp.set_log_level('ERROR')
+
 -- Markdown popup {{{1
 do
   local default = lsp.util.open_floating_preview
