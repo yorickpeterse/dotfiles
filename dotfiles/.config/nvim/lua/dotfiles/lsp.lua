@@ -191,6 +191,7 @@ do
         end,
       }),
       nls.builtins.formatting.fish_indent,
+      nls.builtins.formatting.black,
     },
   })
 end
