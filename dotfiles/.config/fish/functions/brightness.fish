@@ -5,6 +5,6 @@ function brightness
 
         echo $new_value | tee /sys/class/backlight/intel_backlight/brightness
     else
-        echo $argv[1] | tee /sys/class/backlight/ddcci9/brightness
+        echo $argv[1] | tee /sys/class/backlight/ddcci*/brightness
     end
 end
