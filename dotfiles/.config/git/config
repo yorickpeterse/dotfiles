@@ -33,12 +33,8 @@
 [diff "color"]
     commit = yellow normal bold
 
-[mergetool "nvim"]
-    cmd = nvim-mergetool \"$MERGED\"
-    keepBackup = false
-
 [merge]
-    tool = nvim
+    tool = nvimdiff1
     prompt = false
 
 [mergetool]

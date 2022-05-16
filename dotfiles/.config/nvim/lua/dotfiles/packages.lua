@@ -26,7 +26,6 @@ use({
   -- Automatically install/update these parsers when installing/updating.
   run = 'silent TSUpdate bash c comment fish go javascript json lua python ruby rust toml yaml',
 })
-use('whiteinge/diffconflicts')
 use('jose-elias-alvarez/null-ls.nvim')
 use('stevearc/dressing.nvim')
 
