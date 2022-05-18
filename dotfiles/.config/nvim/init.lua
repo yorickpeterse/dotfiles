@@ -35,6 +35,7 @@ _G.dotfiles = {
   diagnostics = require('dotfiles.diagnostics'),
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
+  winbar = require('dotfiles.winbar'),
   tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
   abbrev = require('dotfiles.abbrev'),
@@ -86,7 +87,17 @@ o.inccommand = 'nosplit'
 o.scrollback = 1000
 o.scrolloff = 2
 o.updatetime = 1000
-o.fillchars = { fold = ' ', diff = '╱' }
+o.fillchars = {
+  fold = ' ',
+  diff = '╱',
+  wbr = '─',
+  horiz = ' ',
+  horizup = '│',
+  horizdown = '│',
+  vertright = '│',
+  vertleft = '│',
+  verthoriz = '│',
+}
 o.printoptions = { number = 'n', header = '0' }
 o.regexpengine = 0
 o.list = true
@@ -151,9 +162,12 @@ o.hlsearch = false
 
 -- Statusline {{{1
 o.statusline = '%!v:lua.dotfiles.statusline.render()'
-o.laststatus = 2
+o.laststatus = 3
 g.qf_disable_statusline = true
+
+-- Window bar {{{1
+o.winbar = '%!v:lua.dotfiles.winbar.render()'
 
 -- Tabline {{{1
 o.tabline = '%!v:lua.dotfiles.tabline.render()'
-o.showtabline = 2
+o.showtabline = 1
