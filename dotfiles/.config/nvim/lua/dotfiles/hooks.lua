@@ -80,7 +80,15 @@ local function format_buffer()
     end
   end
 
-  lsp.buf.formatting_sync(nil, 5000)
+  lsp.buf.format({
+    filter = function(clients)
+      return vim.tbl_filter(function(client)
+        return client.name ~= 'sumneko_lua'
+      end, clients)
+    end,
+    bufnr = bufnr,
+    timeout_ms = 5000,
+  })
 
   for _, window in ipairs(windows) do
     local mark = marks[window]
