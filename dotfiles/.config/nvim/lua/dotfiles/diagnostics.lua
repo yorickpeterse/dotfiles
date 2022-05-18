@@ -77,11 +77,11 @@ function M.echo_diagnostic()
     local first = diags[1]
     local width = api.nvim_get_option('columns') - 15
     local lines = vim.split(first.message, '\n')
-    local message = lines[1]
+    local message = vim.trim(lines[1])
     local trimmed = false
 
     if #lines > 1 and #message <= short_line_limit then
-      message = message .. ' ' .. lines[2]
+      message = message .. ' ' .. vim.trim(lines[2])
     end
 
     if width > 0 and #message >= width then
