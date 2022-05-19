@@ -1,4 +1,7 @@
 local M = {}
+local default_name = '[No Name]'
+local fn = vim.fn
+local api = vim.api
 local lsp = vim.lsp
 local diag = vim.diagnostic
 local util = require('dotfiles.util')
@@ -7,10 +10,12 @@ local forced_space = util.forced_space
 
 local separator = '%='
 local active_hl = 'BlackOnLightYellow'
+local active_tab = 'StatusLineTab'
+local inactive_tab = 'StatusLine'
 
-local function diagnostic_count(buffer, kind)
+local function diagnostic_count(kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
-  local amount = #diag.get(buffer, { severity = severity })
+  local amount = #diag.get(nil, { severity = severity })
 
   if amount > 0 then
     return forced_space .. kind .. ': ' .. amount .. forced_space
@@ -66,12 +71,54 @@ local function lsp_status()
   return forced_space .. table.concat(cells, ', ') .. forced_space
 end
 
+local function tabline()
+  local line = ''
+  local pages = api.nvim_list_tabpages()
+
+  if #pages == 1 then
+    return ''
+  end
+
+  for index, tab_handle in ipairs(pages) do
+    local win = api.nvim_tabpage_get_win(tab_handle)
+    local bufnr = api.nvim_win_get_buf(win)
+    local tabname = ''
+    local bufname = fn.bufname(bufnr)
+
+    if index == 1 then
+      tabname = 'Code'
+    else
+      if bufname == '' then
+        tabname = default_name
+      else
+        tabname = fn.fnamemodify(bufname, ':t'):gsub('%%', '%%%%')
+      end
+    end
+
+    line = line
+      .. table.concat({
+        '%#',
+        index == fn.tabpagenr() and active_tab or inactive_tab,
+        '#',
+        ' ',
+        index,
+        ': ',
+        tabname,
+        ' ',
+        '%*',
+      })
+  end
+
+  return line
+end
+
 function M.render()
   return table.concat({
+    tabline(),
     separator,
     lsp_status(),
-    highlight(diagnostic_count(nil, 'W'), 'WhiteOnYellow'),
-    highlight(diagnostic_count(nil, 'E'), 'WhiteOnRed'),
+    highlight(diagnostic_count('W'), 'WhiteOnYellow'),
+    highlight(diagnostic_count('E'), 'WhiteOnRed'),
   })
 end
 

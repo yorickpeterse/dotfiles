@@ -36,7 +36,6 @@ _G.dotfiles = {
   package = require('dotfiles.package'),
   statusline = require('dotfiles.statusline'),
   winbar = require('dotfiles.winbar'),
-  tabline = require('dotfiles.tabline'),
   workspace = require('dotfiles.workspace'),
   abbrev = require('dotfiles.abbrev'),
   location_list = require('dotfiles.location_list'),
@@ -169,5 +168,5 @@ g.qf_disable_statusline = true
 o.winbar = '%!v:lua.dotfiles.winbar.render()'
 
 -- Tabline {{{1
-o.tabline = '%!v:lua.dotfiles.tabline.render()'
-o.showtabline = 1
+o.tabline = ''
+o.showtabline = 0
