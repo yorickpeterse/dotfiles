@@ -1,10 +1,14 @@
 #!/usr/bin/env fish
 
-if set -q NVIM_LISTEN_ADDRESS
-    nvr -cc vsplit -c "setlocal bufhidden=delete" --remote-wait $argv
+if set -q NVIM
+    if set -q argv[1]
+        nvr -cc vsplit -c "setlocal bufhidden=delete" --remote-wait $argv
 
-    # Re-enter insert mode after the buffer is closed.
-    nvr -c startinsert
+        # Re-enter insert mode after the buffer is closed.
+        nvr -c startinsert
+    else
+        echo "Nested nvim sessions need an argument"
+    end
 else
     exec /usr/bin/nvim $argv
 end
