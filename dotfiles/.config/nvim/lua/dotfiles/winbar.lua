@@ -40,6 +40,14 @@ function M.render()
     end
   end
 
+  if vim.startswith(bufname, 'term://') then
+    local parts = vim.split(bufname, '//', true)
+
+    if #parts == 3 then
+      bufname = 'term://' .. parts[3]
+    end
+  end
+
   -- Escape any literal percent signs so they aren't evaluated.
   bufname = bufname:gsub('%%', '%%%%')
   bufname = fn.fnamemodify(bufname, ':.')
