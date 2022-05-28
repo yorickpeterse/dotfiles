@@ -81,10 +81,8 @@ local function format_buffer()
   end
 
   lsp.buf.format({
-    filter = function(clients)
-      return vim.tbl_filter(function(client)
-        return client.name ~= 'sumneko_lua'
-      end, clients)
+    filter = function(client)
+      return client.name ~= 'sumneko_lua'
     end,
     bufnr = bufnr,
     timeout_ms = 5000,
