@@ -105,6 +105,7 @@ nmap('<leader>w', window.pick)
 nmap('<leader>s', cmd('update'))
 nmap('<leader>c', cmd('quit'))
 nmap('<leader>v', cmd('vsplit'))
+nmap('<leader>F', lsp.buf.format)
 
 nmap('<C-j>', '<C-w>j')
 nmap('<C-k>', '<C-w>k')
