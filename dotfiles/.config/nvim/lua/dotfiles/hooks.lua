@@ -21,9 +21,15 @@ local function au(name, commands)
     local action = command[3]
 
     if type(action) == 'string' then
-      api.nvim_create_autocmd(event, { pattern = patt, command = action })
+      api.nvim_create_autocmd(
+        event,
+        { pattern = patt, command = action, group = group }
+      )
     else
-      api.nvim_create_autocmd(event, { pattern = patt, callback = action })
+      api.nvim_create_autocmd(
+        event,
+        { pattern = patt, callback = action, group = group }
+      )
     end
   end
 end
