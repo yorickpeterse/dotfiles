@@ -13,7 +13,7 @@ local diff = require('dotfiles.diff')
 local format_mark_ns = api.nvim_create_namespace('')
 
 local function au(name, commands)
-  local group = api.nvim_create_augroup(name, { clear = true })
+  local group = api.nvim_create_augroup('dotfiles_' .. name, { clear = true })
 
   for _, command in ipairs(commands) do
     local event = command[1]
