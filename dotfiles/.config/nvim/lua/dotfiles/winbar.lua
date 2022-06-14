@@ -9,18 +9,15 @@ function M.render()
   local window = vim.g.statusline_winid
   local buffer = api.nvim_win_get_buf(window)
   local bufname = fn.bufname(buffer)
-  local optional_space = ''
   local modified = ''
   local readonly = ''
   local active_hl = ''
 
   if vim.bo[buffer].readonly then
-    optional_space = ' '
     readonly = '[RO]'
   end
 
   if vim.bo[buffer].modified then
-    optional_space = ' '
     modified = '[+]'
   end
 
@@ -70,7 +67,6 @@ function M.render()
     ' ',
     modified,
     readonly,
-    optional_space,
     '%#WinBarFill#',
   })
 end
