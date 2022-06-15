@@ -9,8 +9,8 @@ local util = require('dotfiles.util')
 local last_echo = { false, -1, -1 }
 local echo_timer = nil
 local timeout = 250
-local warning_hlgroup = 'StatusLineWarningMsg'
-local error_hlgroup = 'StatusLineErrorMsg'
+local warning_hlgroup = 'WarningMsg'
+local error_hlgroup = 'ErrorMsg'
 local short_line_limit = 20
 local underline_timers = util.buffer_cache(function()
   return 0
