@@ -1,5 +1,4 @@
 local M = {}
-local lsp = vim.lsp
 local fn = vim.fn
 local diag = vim.diagnostic
 local api = vim.api
@@ -10,10 +9,9 @@ local util = require('dotfiles.util')
 local last_echo = { false, -1, -1 }
 local echo_timer = nil
 local timeout = 250
-local warning_hlgroup = 'WarningMsg'
-local error_hlgroup = 'ErrorMsg'
+local warning_hlgroup = 'StatusLineWarningMsg'
+local error_hlgroup = 'StatusLineErrorMsg'
 local short_line_limit = 20
-
 local underline_timers = util.buffer_cache(function()
   return 0
 end)
@@ -25,24 +23,14 @@ local underline_hl = {
   [vim.diagnostic.severity.HINT] = 'DiagnosticUnderlineHint',
 }
 
+-- The diagnostic to display/echo.
+M.diagnostic = nil
+
 local function reset_echo()
   last_echo = { false, -1, -1 }
+  M.diagnostic = nil
 end
 
-local function echo(chunks)
-  -- To work around https://github.com/neovim/neovim/issues/18274. We also skip
-  -- INSERT mode echo'ing, as this results in `-- INSERT --` flickering (e.g.
-  -- when using `vim.input()` with a floating window).
-  local mode = api.nvim_get_mode().mode
-
-  if mode == 'c' or mode == 'i' then
-    return
-  end
-
-  api.nvim_echo(chunks, false, {})
-end
-
--- Prints the first diagnostic for the current line.
 function M.echo_diagnostic()
   if echo_timer then
     echo_timer:stop()
@@ -62,11 +50,8 @@ function M.echo_diagnostic()
     )
 
     if #diags == 0 then
-      -- If we previously echo'd a message, clear it out by echoing an empty
-      -- message.
       if last_echo[1] then
         reset_echo()
-        echo({ { '', '' } })
       end
 
       return
@@ -78,7 +63,6 @@ function M.echo_diagnostic()
     local width = api.nvim_get_option('columns') - 15
     local lines = vim.split(first.message, '\n')
     local message = vim.trim(lines[1])
-    local trimmed = false
 
     if #lines > 1 and #message <= short_line_limit then
       message = message .. ' ' .. vim.trim(lines[2])
@@ -96,12 +80,9 @@ function M.echo_diagnostic()
       hlgroup = error_hlgroup
     end
 
-    local chunks = {
-      { kind .. ': ', hlgroup },
-      { message },
-    }
+    M.diagnostic = util.statusline_highlight(kind .. ': ', hlgroup) .. message
 
-    echo(chunks)
+    vim.cmd('redrawstatus')
   end, timeout)
 end
 

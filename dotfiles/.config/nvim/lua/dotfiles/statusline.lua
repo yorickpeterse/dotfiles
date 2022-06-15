@@ -5,6 +5,7 @@ local api = vim.api
 local lsp = vim.lsp
 local diag = vim.diagnostic
 local util = require('dotfiles.util')
+local diags = require('dotfiles.diagnostics')
 local highlight = util.statusline_highlight
 local forced_space = util.forced_space
 
@@ -41,7 +42,7 @@ local function lsp_status()
 
   for _, client in ipairs(lsp.get_active_clients()) do
     if not statuses[client.name] then
-      statuses[client.name] = 'active'
+      statuses[client.name] = 'idle'
     end
   end
 
@@ -112,11 +113,20 @@ local function tabline()
   return line
 end
 
+local function line_diagnostic()
+  if diags.diagnostic then
+    return diags.diagnostic .. forced_space
+  else
+    return ''
+  end
+end
+
 function M.render()
   return table.concat({
-    tabline(),
+    line_diagnostic(),
     separator,
     lsp_status(),
+    tabline(),
     highlight(diagnostic_count('W'), 'WhiteOnYellow'),
     highlight(diagnostic_count('E'), 'WhiteOnRed'),
   })
