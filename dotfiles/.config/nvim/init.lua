@@ -90,6 +90,7 @@ o.fillchars = {
   fold = ' ',
   diff = '╱',
   wbr = '─',
+  msgsep = '─',
   horiz = ' ',
   horizup = '│',
   horizdown = '│',
