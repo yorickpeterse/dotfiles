@@ -1,4 +1,3 @@
--- vim: set fdm=marker
 local g = vim.g
 local o = vim.opt
 local fn = vim.fn
