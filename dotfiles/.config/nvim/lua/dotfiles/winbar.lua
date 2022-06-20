@@ -57,9 +57,9 @@ function M.render()
   )
 
   if has_qf_title then
-    name = ' ' .. qf_title
+    name = qf_title
   else
-    name = ' ' .. bufname
+    name = bufname
   end
 
   return table.concat({
