@@ -296,7 +296,11 @@ nmap(']l', cmd('lua dotfiles.location_list.next()'))
 nmap('[l', cmd('lua dotfiles.location_list.prev()'))
 nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))
 nmap('<leader>q', function()
-  if #fn.filter(fn.getwininfo(), 'v:val.quickfix') == 0 then
+  local vals = vim.tbl_filter(function(info)
+    return info.quickfix == 1 and info.loclist == 0
+  end, fn.getwininfo())
+
+  if #vals == 0 then
     vim.cmd('silent! copen')
   else
     vim.cmd('silent! cclose')
