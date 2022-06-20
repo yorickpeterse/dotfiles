@@ -124,7 +124,14 @@ end
 
 -- Deletes empty anonymous buffers when hiding them, so they don't pile up.
 local function remove_buffer()
-  local buffer = fn.bufnr()
+  local buffer = api.nvim_get_current_buf()
+
+  -- Only remove the buffer if the buffer being closed is the buffer that was
+  -- active.
+  if buffer ~= tonumber(fn.expand('<abuf>')) then
+    return
+  end
+
   local ft = api.nvim_buf_get_option(buffer, 'ft')
 
   if ft == 'qf' or ft == 'help' then
