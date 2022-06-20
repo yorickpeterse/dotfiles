@@ -111,50 +111,6 @@ local function format_buffer()
   api.nvim_buf_clear_namespace(bufnr, format_mark_ns, 0, -1)
 end
 
--- Moves back to the previous window when closing a quickfix window, unless we
--- closed the quickfix window from another window (e.g. using `:cclose`).
-function M.close_quickfix()
-  local closed_win = tonumber(fn.expand('<afile>'))
-  local current_win = api.nvim_get_current_win()
-
-  if closed_win == current_win then
-    api.nvim_feedkeys(keycode('<C-w>p'), 'n', true)
-  end
-end
-
--- Opens a quickfix or location list item in the previous window, optionally
--- splitting it first.
-function M.open_quickfix_item(split_cmd)
-  local prev_win = 0
-  local line = fn.line('.')
-  local list = fn.getloclist(0, { items = 0, filewinid = 0 })
-  local err_cmd = 'cc'
-
-  if list.filewinid > 0 then
-    -- The current window is a location list window.
-    if #list.items == 0 then
-      return
-    end
-
-    err_cmd = 'll'
-    prev_win = list.filewinid
-  else
-    if #fn.getqflist() == 0 then
-      return
-    end
-
-    prev_win = util.target_window(fn.win_getid(fn.winnr('#')))
-  end
-
-  api.nvim_set_current_win(prev_win)
-
-  if split_cmd then
-    vim.cmd(split_cmd)
-  end
-
-  vim.cmd(err_cmd .. line)
-end
-
 local function enable_list()
   vim.w.list_enabled = vim.wo.list
   vim.wo.list = false

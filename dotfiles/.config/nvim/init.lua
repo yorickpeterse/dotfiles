@@ -42,6 +42,7 @@ _G.dotfiles = {
   commands = require('dotfiles.commands'),
   hooks = require('dotfiles.hooks'),
   pairs = require('dotfiles.pairs'),
+  quickfix = require('dotfiles.quickfix'),
 }
 
 -- Colorscheme {{{1
