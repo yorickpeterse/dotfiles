@@ -1,7 +1,7 @@
 local M = {}
 
 local completion = require('dotfiles.completion')
-local pairs = require('dotfiles.pairs')
+local dpairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
@@ -92,7 +92,7 @@ local function cmd(string)
 end
 
 local function pair(key, func)
-  return imap(key, pairs[func], { remap = false, expr = true })
+  return imap(key, dpairs[func], { remap = false, expr = true })
 end
 
 -- The leader key must be defined before any mappings are set.
@@ -133,7 +133,7 @@ tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
 imap('<CR>', function()
-  return popup_visible() and completion.confirm() or pairs.enter()
+  return popup_visible() and completion.confirm() or dpairs.enter()
 end, { expr = true })
 
 pair('<space>', 'space')
