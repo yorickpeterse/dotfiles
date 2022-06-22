@@ -102,6 +102,7 @@ o.printoptions = { number = 'n', header = '0' }
 o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
+o.winheight = 5
 
 -- Gutentags {{{1
 g.gutentags_ctags_exclude = {
