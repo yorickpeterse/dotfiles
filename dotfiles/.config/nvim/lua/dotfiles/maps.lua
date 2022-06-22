@@ -8,6 +8,7 @@ local telescope_builtin = require('telescope.builtin')
 local parsers = require('nvim-treesitter.parsers')
 local snippy = require('snippy')
 local pickers = require('dotfiles.telescope.pickers')
+local quickfix = require('dotfiles.quickfix')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -295,17 +296,7 @@ nmap('[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
 nmap(']l', cmd('lua dotfiles.location_list.next()'))
 nmap('[l', cmd('lua dotfiles.location_list.prev()'))
 nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))
-nmap('<leader>q', function()
-  local vals = vim.tbl_filter(function(info)
-    return info.quickfix == 1 and info.loclist == 0
-  end, fn.getwininfo())
-
-  if #vals == 0 then
-    vim.cmd('silent! copen')
-  else
-    vim.cmd('silent! cclose')
-  end
-end)
+nmap('<leader>q', quickfix.toggle)
 
 -- Snippets
 ismap('<C-s>', function()
