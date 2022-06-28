@@ -7,7 +7,9 @@ require('diffview').setup({
   enhanced_diff_hl = true,
   use_icons = true,
   file_panel = {
-    width = 40,
+    win_config = {
+      width = 40,
+    },
   },
   key_bindings = {
     disable_defaults = true,
