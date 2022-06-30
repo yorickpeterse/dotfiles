@@ -55,11 +55,14 @@ function M.toggle()
   end, fn.getwininfo())
 
   if #vals == 0 then
-    vim.cmd('silent! botright copen')
+    vim.cmd('silent! copen')
   else
     vim.cmd('silent! cclose')
+    M.resize()
   end
+end
 
+function M.resize()
   -- Normally opening the quickfix window using `botright copen` or `wincmd J`
   -- resizes the window(s) above it. If those windows happen to be location
   -- lists, they end up with weird sizes over time.
