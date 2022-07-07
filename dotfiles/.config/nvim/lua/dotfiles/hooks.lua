@@ -7,7 +7,6 @@ local api = vim.api
 local comp = require('dotfiles.completion')
 local diag = require('dotfiles.diagnostics')
 local loclist = require('dotfiles.location_list')
-local diff = require('dotfiles.diff')
 
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
@@ -184,7 +183,6 @@ au('lsp', {
 })
 
 au('diffs', {
-  { 'BufAdd', 'fugitive://*', diff.fix_highlight },
   { 'BufEnter', 'diffview:///panels*', 'set cursorlineopt+=line' },
 })
 

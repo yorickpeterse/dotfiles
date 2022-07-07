@@ -54,9 +54,6 @@ o.completeopt = 'menu'
 o.complete = { '.', 'b' }
 o.completefunc = 'v:lua.dotfiles.completion.start'
 
--- Fugitive {{{1
-g.fugitive_dynamic_colors = 0
-
 -- Generic {{{1
 o.colorcolumn = '80'
 o.number = true

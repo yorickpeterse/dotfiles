@@ -17,6 +17,5 @@ end
 
 cabbrev('grep', 'silent grep!')
 cabbrev('Review', 'DiffviewOpen')
-cabbrev('git', 'vert rightbelow Git')
 
 return M

@@ -4,7 +4,6 @@ local use = pkg.use
 use('nvim-lua/plenary.nvim')
 use('b3nj5m1n/kommentary')
 use('YorickPeterse/rust.vim')
-use('tpope/vim-fugitive')
 use('dag/vim-fish')
 use('ludovicchabant/vim-gutentags')
 use('Vimjas/vim-python-pep8-indent')

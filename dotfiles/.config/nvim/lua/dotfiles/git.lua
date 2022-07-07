@@ -1,6 +1,6 @@
 local M = {}
 local api = vim.api
-local cb = require('diffview.config').diffview_callback
+local actions = require('diffview.actions')
 
 require('diffview').setup({
   diff_binaries = false,
@@ -14,19 +14,19 @@ require('diffview').setup({
   key_bindings = {
     disable_defaults = true,
     view = {
-      [']f'] = cb('select_next_entry'),
-      ['[f'] = cb('select_prev_entry'),
+      [']f'] = actions.select_next_entry,
+      ['[f'] = actions.select_prev_entry,
     },
     file_panel = {
-      ['j'] = cb('next_entry'),
-      ['k'] = cb('prev_entry'),
-      ['<CR>'] = cb('select_entry'),
-      ['-'] = cb('toggle_stage_entry'),
-      ['U'] = cb('unstage_all'),
-      ['X'] = cb('restore_entry'),
-      ['R'] = cb('refresh_files'),
-      [']f'] = cb('select_next_entry'),
-      ['[f'] = cb('select_prev_entry'),
+      ['j'] = actions.next_entry,
+      ['k'] = actions.prev_entry,
+      ['<CR>'] = actions.select_entry,
+      ['-'] = actions.toggle_stage_entry,
+      ['U'] = actions.unstage_all,
+      ['X'] = actions.restore_entry,
+      ['R'] = actions.refresh_files,
+      [']f'] = actions.select_next_entry,
+      ['[f'] = actions.select_prev_entry,
     },
   },
 })
