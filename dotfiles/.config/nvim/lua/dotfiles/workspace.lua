@@ -8,7 +8,7 @@ local workspaces = {
   },
   ['config'] = {
     path = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
-    terminal = false,
+    terminal = true,
   },
 }
 
