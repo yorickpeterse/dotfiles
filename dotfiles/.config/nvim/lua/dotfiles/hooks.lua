@@ -40,9 +40,9 @@ local function remove_trailing_whitespace()
   -- In .snippets files, a line may start with just a tab so snippets can
   -- include empty lines. In this case we don't want to remove the tab.
   if vim.bo.ft == 'snippets' then
-    vim.cmd([[%s/ \+$//eg]])
+    vim.cmd([[silent! %s/ \+$//eg]])
   else
-    vim.cmd([[%s/\s\+$//eg]])
+    vim.cmd([[silent! %s/\s\+$//eg]])
   end
 
   fn.cursor(line, col)
@@ -71,14 +71,8 @@ local function format_buffer()
   -- using the same buffer.
   for _, window in ipairs(windows) do
     local line, col = unpack(api.nvim_win_get_cursor(window))
-    local ok, result = pcall(
-      api.nvim_buf_set_extmark,
-      bufnr,
-      format_mark_ns,
-      line - 1,
-      col,
-      {}
-    )
+    local ok, result =
+      pcall(api.nvim_buf_set_extmark, bufnr, format_mark_ns, line - 1, col, {})
 
     if ok then
       marks[window] = result
@@ -96,9 +90,8 @@ local function format_buffer()
   for _, window in ipairs(windows) do
     local mark = marks[window]
 
-    local line, col = unpack(
-      api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {})
-    )
+    local line, col =
+      unpack(api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {}))
 
     local max_line_index = api.nvim_buf_line_count(bufnr) - 1
 
