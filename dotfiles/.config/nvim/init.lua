@@ -10,10 +10,6 @@ g.qfenter_keymap = {
   vopen = { '<leader>v' },
 }
 
--- Enable filetype.lua
-g.do_filetype_lua = 1
-g.did_load_filetypes = 0
-
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
