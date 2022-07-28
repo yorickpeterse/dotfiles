@@ -35,11 +35,8 @@ do
   local default = lsp.util.make_floating_popup_options
 
   lsp.util.make_floating_popup_options = function(width, height, opts)
-    local new_opts = vim.tbl_deep_extend(
-      'force',
-      opts or {},
-      { border = 'rounded' }
-    )
+    local new_opts =
+      vim.tbl_deep_extend('force', opts or {}, { border = 'rounded' })
 
     return default(width, height, new_opts)
   end
@@ -152,10 +149,7 @@ do
 
   nls.setup({
     debounce = 1000,
-    log = {
-      level = 'error',
-      use_console = false,
-    },
+    log_level = 'off',
     sources = {
       -- Linters
       sources.rubocop(),

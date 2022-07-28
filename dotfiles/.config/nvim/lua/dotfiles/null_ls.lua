@@ -64,11 +64,16 @@ function M.gitlint()
 end
 
 function M.inko()
+  local cmd = 'inko'
+
   return {
     method = nls.methods.DIAGNOSTICS,
     filetypes = { 'inko' },
+    condition = function()
+      return fn.executable(cmd) == 1
+    end,
     generator = helpers.generator_factory({
-      command = 'inko',
+      command = cmd,
       args = function(params)
         local args = { 'build', '--format', 'json', '--check', '$FILENAME' }
 
