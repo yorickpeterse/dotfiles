@@ -1,0 +1,7 @@
+[Unit]
+Description=Remove left-over screenshots
+Wants=screenshots.timer
+
+[Service]
+Type=oneshot
+ExecStart=find %h/Pictures/Screenshots -name '*.png' -delete
