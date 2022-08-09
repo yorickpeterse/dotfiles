@@ -138,6 +138,7 @@ imap('<CR>', function()
 end, { expr = true })
 
 pair('<space>', 'space')
+pair('<S-space>', 'space')
 pair('<bs>', 'backspace')
 
 pair('{', 'curly_open')
