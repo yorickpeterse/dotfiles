@@ -80,6 +80,10 @@ local function pair(open, close)
     return open
   end
 
+  if peek() == open then
+    return right
+  end
+
   return open .. close .. left
 end
 
