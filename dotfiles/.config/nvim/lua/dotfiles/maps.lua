@@ -140,6 +140,7 @@ end, { expr = true })
 pair('<space>', 'space')
 pair('<S-space>', 'space')
 pair('<bs>', 'backspace')
+pair('<S-bs>', 'backspace')
 
 pair('{', 'curly_open')
 pair('}', 'curly_close')
