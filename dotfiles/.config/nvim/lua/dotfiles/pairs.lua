@@ -80,10 +80,6 @@ local function pair(open, close)
     return open
   end
 
-  if peek() == open then
-    return right
-  end
-
   return open .. close .. left
 end
 
@@ -175,6 +171,10 @@ function M.bracket_close()
 end
 
 function M.paren_open()
+  if peek() == '(' then
+    return right
+  end
+
   return pair('(', ')')
 end
 
