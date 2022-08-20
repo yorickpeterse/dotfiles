@@ -1,27 +1,7 @@
-snippet def "Define a method"
-	def ${1:name} {
-		$0
-	}
-snippet get "Define a getter method"
-	def ${1:name} -> ${2:Type} {
-		@$1
-	}
-snippet set "Define a setter method"
-	def ${1:name}=(value: ${2:Type}) -> $2 {
-		@$1 = value
-	}
 snippet eq "Insert an equal assertion"
-	try assert_equal(${1:left}, ${2:right})
+	t.equal(${1:left}, ${2:right})
 snippet aneq "Insert a not-equal assertion"
-	try assert_not_equal(${1:left}, ${2:right})
-snippet do "Insert a closure"
-	do ($1) {
-		$0
-	}
-snippet fn "Insert a lambda"
-	fn ($1) {
-		$0
-	}
+	t.not_equal(${1:left}, ${2:right})
 snippet trait "Define a new trait"
 	trait ${1:name} {
 		$0
@@ -34,3 +14,9 @@ snippet impl "Reopens a class"
 	impl ${1:name} {
 		$0
 	}
+snippet match "Insert a match expression"
+	match ${1:expr} {
+	  $0
+	}
+snippet case "Insert a match case"
+	case ${1:pattern} -> ${2:body}
