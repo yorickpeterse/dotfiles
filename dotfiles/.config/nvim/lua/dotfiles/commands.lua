@@ -47,7 +47,6 @@ function M.terminal(cmd)
   vim.cmd('startinsert')
 end
 
-cmd('Tq', 'windo q')
 cmd('Init', 'e ~/.config/nvim/init.lua')
 cmd(
   'Replace',
