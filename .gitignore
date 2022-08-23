@@ -6,6 +6,7 @@ dotfiles/.config/fish/fishd.*
 dotfiles/.config/fish/private.fish
 dotfiles/.config/fish/fish_history
 dotfiles/.config/fish/fish_variables
+dotfiles/.config/git/local
 
 dotfiles/.config/nvim/spell
 dotfiles/.config/nvim/.netrwhist
