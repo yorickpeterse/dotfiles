@@ -1,4 +1,3 @@
-local M = {}
 local util = require('dotfiles.util')
 local keycode = util.keycode
 local fn = vim.fn
@@ -195,5 +194,3 @@ au('search_highlight', {
   { 'CmdlineEnter', '[/?]', ':set hlsearch' },
   { 'CmdlineLeave', '[/?]', ':set nohlsearch' },
 })
-
-return M

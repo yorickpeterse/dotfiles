@@ -24,6 +24,7 @@ require('dotfiles.telescope')
 require('dotfiles.comments')
 require('dotfiles.hop')
 require('dotfiles.dressing')
+require('dotfiles.hooks')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -36,7 +37,6 @@ _G.dotfiles = {
   location_list = require('dotfiles.location_list'),
   maps = require('dotfiles.maps'),
   commands = require('dotfiles.commands'),
-  hooks = require('dotfiles.hooks'),
   pairs = require('dotfiles.pairs'),
   quickfix = require('dotfiles.quickfix'),
 }
