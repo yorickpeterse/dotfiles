@@ -67,7 +67,7 @@ function M.inko()
   local cmd = 'inko'
 
   return {
-    method = nls.methods.DIAGNOSTICS,
+    method = nls.methods.DIAGNOSTICS_ON_SAVE,
     filetypes = { 'inko' },
     condition = function()
       return fn.executable(cmd) == 1
@@ -75,11 +75,11 @@ function M.inko()
     generator = helpers.generator_factory({
       command = cmd,
       args = function(params)
-        local args = { 'build', '--format', 'json', '--check', '$FILENAME' }
+        local args = { 'check', '--format', 'json', '$FILENAME' }
 
-        if params.bufname:match('/tests/test/') then
+        if params.bufname:match('/test/') then
           local tests = fn.fnamemodify(
-            fn.finddir('tests', fn.fnamemodify(params.bufname, ':h') .. ';'),
+            fn.finddir('test', fn.fnamemodify(params.bufname, ':h') .. ';'),
             ':p'
           )
 
@@ -95,18 +95,36 @@ function M.inko()
       to_temp_file = false,
       from_stderr = true,
       format = 'json',
-      on_output = helpers.diagnostics.from_json({
-        attributes = {
-          row = 'line',
-          col = 'column',
-          message = 'message',
-          severity = 'level',
-        },
-        severities = {
-          error = helpers.diagnostics.severities.error,
-          warning = helpers.diagnostics.severities.warning,
-        },
-      }),
+      on_output = function(params)
+        local diagnostics = {}
+
+        for _, diag in ipairs(params.output) do
+          table.insert(diagnostics, {
+            row = diag.lines[1],
+            end_row = diag.lines[2],
+            col = diag.columns[1],
+            end_col = diag.columns[2] + 1,
+            severity = helpers.diagnostics.severities[diag.level],
+            message = diag.message,
+          })
+        end
+
+        return diagnostics
+      end,
+      cwd = function(params)
+        if params.bufname:match('/libstd/') then
+          local libstd = fn.fnamemodify(
+            fn.finddir('libstd', fn.fnamemodify(params.bufname, ':h') .. ';'),
+            ':p'
+          )
+
+          if libstd ~= '' then
+            return libstd
+          end
+        end
+
+        return params.root
+      end,
     }),
   }
 end
