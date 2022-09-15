@@ -94,9 +94,16 @@ function M.inko()
       to_stdin = false,
       to_temp_file = false,
       from_stderr = true,
+      use_cache = false,
       format = 'json',
       on_output = function(params)
         local diagnostics = {}
+
+        -- Ignore the missing file error when opening a buffer not yet written
+        -- to disk.
+        if #params.output == 1 and params.output[1].id == 'invalid-file' then
+          return diagnostics
+        end
 
         for _, diag in ipairs(params.output) do
           table.insert(diagnostics, {
