@@ -1,0 +1,33 @@
+#!/usr/bin/env fish
+#
+# Usage: nvim-mergetool LOCAL REMOTE MERGED
+#
+# This script opens a new tab in NeoVim containing the LOCAL and REMOTE files,
+# with the REMOTE buffer set to read-only, diagnostics disabled in both, and the
+# active window set to the one containing the LOCAL file.
+#
+# The result is something that mimics nvimdiff1 but a bit better, with support
+# for both new and nested NeoVim instances.
+if set -q NVIM
+    nvr -c tabnew
+    nvr -c 'setlocal ro' $argv[2]
+    nvr -c vsplit
+    nvr -c 'wincmd H' \
+        -c 'windo setlocal bufhidden=delete' \
+        -c 'windo lua vim.diagnostic.disable(0)' \
+        -c 'windo diffthis' \
+        -c 'wincmd h' \
+        --remote-wait $argv[1]
+else
+    # We open the files in reverse order so -c options apply to the REMOTE file.
+    /usr/bin/nvim \
+        -c 'setlocal ro' \
+        -c 'wincmd L' \
+        -c 'windo lua vim.diagnostic.disable(0)' \
+        -c 'wincmd h' \
+        -d $argv[2] $argv[1]
+end
+
+# Git monitors the MERGED file, so we have to copy the changes made to LOCAL to
+# this file.
+cp $argv[1] $argv[3]

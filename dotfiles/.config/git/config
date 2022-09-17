@@ -29,11 +29,15 @@
     commit = yellow normal bold
 
 [merge]
-    tool = nvimdiff1
+    tool = nvim
     prompt = false
 
 [mergetool]
     keepBackup = false
+    hideResolved = true
+
+[mergetool "nvim"]
+    cmd = nvim-mergetool $LOCAL $REMOTE $MERGED
 
 [alias]
     today = log --since=\"1 day ago\" --author=\"Yorick Peterse\" --pretty=oneline
@@ -52,10 +56,10 @@
     allowedSignersFile = "~/.config/git/allowed_signers"
 
 [protocol]
-	version = 2
+    version = 2
 
 [fetch]
-	prune = true
+    prune = true
 
 [pull]
     rebase = false
