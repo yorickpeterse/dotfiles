@@ -96,6 +96,7 @@ function M.inko()
       from_stderr = true,
       use_cache = false,
       format = 'json',
+      multiple_files = true,
       on_output = function(params)
         local diagnostics = {}
 
@@ -113,6 +114,7 @@ function M.inko()
             end_col = diag.columns[2] + 1,
             severity = helpers.diagnostics.severities[diag.level],
             message = diag.message,
+            filename = diag.file,
           })
         end
 
