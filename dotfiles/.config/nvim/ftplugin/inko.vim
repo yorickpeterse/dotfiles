@@ -1,0 +1,1 @@
+setlocal formatexpr={->1}
