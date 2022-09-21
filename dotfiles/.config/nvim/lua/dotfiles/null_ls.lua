@@ -69,7 +69,7 @@ function M.inko()
   return {
     method = nls.methods.DIAGNOSTICS_ON_SAVE,
     filetypes = { 'inko' },
-    condition = function()
+    condition = function(a, b)
       return fn.executable(cmd) == 1
     end,
     generator = helpers.generator_factory({
@@ -100,9 +100,7 @@ function M.inko()
       on_output = function(params)
         local diagnostics = {}
 
-        -- Ignore the missing file error when opening a buffer not yet written
-        -- to disk.
-        if #params.output == 1 and params.output[1].id == 'invalid-file' then
+        if fn.filereadable(params.bufname) == 0 then
           return diagnostics
         end
 
