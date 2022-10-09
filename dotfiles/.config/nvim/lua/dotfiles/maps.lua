@@ -113,9 +113,6 @@ nmap('<C-k>', '<C-w>k')
 nmap('<C-l>', '<C-w>l')
 nmap('<C-h>', '<C-w>h')
 
-nmap('s', cmd('HopWord'))
-xmap('s', cmd('HopWord'))
-
 -- dirbuf maps this, which is annoying.
 unmap('-')
 
