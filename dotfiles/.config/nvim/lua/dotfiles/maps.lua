@@ -9,6 +9,7 @@ local parsers = require('nvim-treesitter.parsers')
 local snippy = require('snippy')
 local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
+local pounce = require('pounce')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -112,6 +113,17 @@ nmap('<C-j>', '<C-w>j')
 nmap('<C-k>', '<C-w>k')
 nmap('<C-l>', '<C-w>l')
 nmap('<C-h>', '<C-w>h')
+
+nmap('s', pounce.pounce)
+xmap('s', pounce.pounce)
+
+nmap('S', function()
+  pounce.pounce({ do_repeat = true })
+end)
+
+xmap('S', function()
+  pounce.pounce({ do_repeat = true })
+end)
 
 -- dirbuf maps this, which is annoying.
 unmap('-')

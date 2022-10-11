@@ -26,5 +26,6 @@ use({
 })
 use('jose-elias-alvarez/null-ls.nvim')
 use('stevearc/dressing.nvim')
+use('rlane/pounce.nvim')
 
 pkg.install()

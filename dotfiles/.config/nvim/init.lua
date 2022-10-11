@@ -24,6 +24,7 @@ require('dotfiles.telescope')
 require('dotfiles.comments')
 require('dotfiles.dressing')
 require('dotfiles.hooks')
+require('dotfiles.pounce')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
