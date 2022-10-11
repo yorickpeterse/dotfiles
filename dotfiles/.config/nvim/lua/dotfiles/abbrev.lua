@@ -17,6 +17,6 @@ end
 
 cabbrev('grep', 'silent grep!')
 cabbrev('Review', 'DiffviewOpen')
-cabbrev('Tq', 'tabclose \\| tabprev')
+cabbrev('Tq', 'tabclose')
 
 return M
