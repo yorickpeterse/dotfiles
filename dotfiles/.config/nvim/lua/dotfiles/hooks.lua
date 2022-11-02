@@ -60,7 +60,7 @@ local function format_buffer()
     return
   end
 
-  local bufnr = api.nvim_win_get_buf(0)
+  local bufnr = tonumber(fn.expand('<abuf>'))
   local windows = fn.win_findbuf(bufnr)
   local marks = {}
 
