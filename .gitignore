@@ -12,3 +12,6 @@ dotfiles/.config/nvim/spell
 dotfiles/.config/nvim/.netrwhist
 dotfiles/.pry/themes/*.prytheme.rb
 !dotfiles/.pry/themes/paper.prytheme.rb
+
+dotfiles/.local/share/applications
+!dotfiles/.local/share/applications/nvim.desktop
