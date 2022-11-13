@@ -1,7 +1,0 @@
-#!/usr/bin/env fish
-
-exec konsole \
-    --hide-menubar \
-    --hide-tabbar \
-    --separate \
-    --profile=NeoVim -e nvim $argv
