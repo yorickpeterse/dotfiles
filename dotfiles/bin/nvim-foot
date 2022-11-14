@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+
+# VTE_VERSION is needed for NeoVim to enable `guisp`.
+exec foot -o scrollback.lines=0 env VTE_VERSION=6800 nvim $argv
