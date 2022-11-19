@@ -133,6 +133,7 @@ do
         },
         workspace = {
           library = runtime_files,
+          checkThirdParty = false,
         },
         telemetry = {
           enable = false,
