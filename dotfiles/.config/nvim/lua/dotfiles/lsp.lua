@@ -149,7 +149,7 @@ do
   local root_path = util.path_relative_to_lsp_root
 
   nls.setup({
-    debounce = 1000,
+    debounce = 2000,
     log_level = 'off',
     sources = {
       -- Linters
