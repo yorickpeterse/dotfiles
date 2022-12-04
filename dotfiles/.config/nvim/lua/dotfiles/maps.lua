@@ -146,6 +146,10 @@ imap('<CR>', function()
   return popup_visible() and completion.confirm() or dpairs.enter()
 end, { expr = true })
 
+imap('<Esc>', function()
+  return popup_visible() and '<C-e>' or '<Esc>'
+end, { expr = true })
+
 pair('<space>', 'space')
 pair('<S-space>', 'space')
 pair('<bs>', 'backspace')
