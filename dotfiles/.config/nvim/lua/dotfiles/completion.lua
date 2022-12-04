@@ -82,7 +82,13 @@ end
 -- Determines what text to initially insert when switching between completion
 -- candidates.
 local function filter_text(item)
-  return item.insertText or item.filterText or item.label
+  if item.insertTextFormat == 2 and item.insertText then
+    return snippy.get_repr(item.insertText)
+  elseif item.insertText then
+    return item.insertText
+  else
+    return item.label
+  end
 end
 
 --- Returns the text to display in the completion menu.
