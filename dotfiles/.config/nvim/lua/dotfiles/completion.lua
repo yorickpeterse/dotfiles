@@ -86,6 +86,8 @@ local function filter_text(item)
     return snippy.get_repr(item.insertText)
   elseif item.insertText then
     return item.insertText
+  elseif item.insertTextFormat == 2 and item.textEdit then
+    return snippy.get_repr(item.textEdit.newText)
   else
     return item.label
   end
