@@ -1,12 +1,11 @@
 [Desktop Entry]
-Name=nvim
-GenericName=Text editor
-Comment=NeoVim in Foot
-Exec=/home/yorickpeterse/bin/nvim-foot %F
-TryExec=/home/yorickpeterse/bin/nvim-foot
-Terminal=false
+Name=NeovimGtk
+Comment=Gtk GUI for Neovim text editor
+Exec=env NVIM_GTK_NO_HEADERBAR=1 nvim-gtk -- %F
+Icon=org.daa.NeovimGtk
 Type=Application
-Icon=nvim
-Categories=Utility;TextEditor;
+Terminal=false
+Categories=GTK;Utility;TextEditor;
+StartupNotify=true
 MimeType=text/english;text/plain;text/x-makefile;text/x-c++hdr;text/x-c++src;text/x-chdr;text/x-csrc;text/x-java;text/x-moc;text/x-pascal;text/x-tcl;text/x-tex;application/x-shellscript;text/x-c;text/x-c++;
-Keywords=nvim;vim;neovim;
+Keywords=vim;nvim;neovim
