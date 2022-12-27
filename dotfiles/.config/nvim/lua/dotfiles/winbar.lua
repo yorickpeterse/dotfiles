@@ -3,7 +3,6 @@ local api = vim.api
 local fn = vim.fn
 
 local separator = '%='
-local active_hl = 'BlackOnLightYellow'
 
 function M.render()
   local window = vim.g.statusline_winid
@@ -11,7 +10,6 @@ function M.render()
   local bufname = fn.bufname(buffer)
   local modified = ''
   local readonly = ''
-  local active_hl = ''
 
   if vim.bo[buffer].readonly then
     readonly = '[RO]'
@@ -39,11 +37,8 @@ function M.render()
   bufname = fn.fnamemodify(bufname, ':.')
 
   local name = ''
-  local has_qf_title, qf_title = pcall(
-    api.nvim_win_get_var,
-    window,
-    'quickfix_title'
-  )
+  local has_qf_title, qf_title =
+    pcall(api.nvim_win_get_var, window, 'quickfix_title')
 
   if has_qf_title then
     name = qf_title

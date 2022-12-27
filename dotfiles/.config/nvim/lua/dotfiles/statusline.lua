@@ -10,7 +10,6 @@ local highlight = util.statusline_highlight
 local forced_space = util.forced_space
 
 local separator = '%='
-local active_hl = 'BlackOnLightYellow'
 local active_tab = 'StatusLineTab'
 local inactive_tab = 'StatusLine'
 
