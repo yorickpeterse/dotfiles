@@ -12,15 +12,14 @@ function M.render()
   local readonly = ''
 
   if vim.bo[buffer].readonly then
-    readonly = '[RO]'
+    readonly = ' [RO]'
   end
 
   if vim.bo[buffer].modified then
-    modified = '[+]'
+    modified = ' [+]'
   end
 
   if bufname == '' then
-    option_panel = ' '
     bufname = '[No Name]'
   end
 
@@ -47,10 +46,11 @@ function M.render()
   end
 
   return table.concat({
-    name,
     ' ',
+    name,
     modified,
     readonly,
+    ' ',
     '%#WinBarFill#',
   })
 end
