@@ -19,11 +19,7 @@ use('elihunter173/dirbuf.nvim')
 use('sindrets/diffview.nvim')
 use('nvim-telescope/telescope.nvim')
 use({ 'nvim-telescope/telescope-fzf-native.nvim', run = '!make' })
-use({
-  'nvim-treesitter/nvim-treesitter',
-  -- Automatically install/update these parsers when installing/updating.
-  run = 'silent TSUpdate bash c comment fish go javascript json lua python ruby rust toml yaml',
-})
+use({ 'nvim-treesitter/nvim-treesitter', run = 'silent TSUpdate' })
 use('jose-elias-alvarez/null-ls.nvim')
 use('stevearc/dressing.nvim')
 use('rlane/pounce.nvim')
