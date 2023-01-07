@@ -1,7 +1,9 @@
 require('dressing').setup({
   input = {
-    winblend = 0,
     anchor = 'NW',
+    win_options = {
+      winblend = 0,
+    },
     override = function(conf)
       -- The window is placed one cell to the right of the cursor. This can look
       -- out of place. For example:
