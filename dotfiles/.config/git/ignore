@@ -21,3 +21,4 @@ tags.files
 .*.rustfmt
 .bundle
 .netrwhist
+.cache
