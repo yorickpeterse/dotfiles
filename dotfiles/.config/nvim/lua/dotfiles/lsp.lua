@@ -114,7 +114,7 @@ do
   table.insert(rpath, 'lua/?.lua')
   table.insert(rpath, 'lua/?/init.lua')
 
-  config.sumneko_lua.setup({
+  config.lua_ls.setup({
     capabilities = capabilities,
     flags = flags,
     cmd = {
