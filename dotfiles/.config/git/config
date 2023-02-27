@@ -9,10 +9,10 @@
 [core]
     autocrlf = input
     filemode = false
-    excludesfile = /home/yorickpeterse/.config/git/ignore
+    excludesfile = ~/.config/git/ignore
     ignorecase = false
     pager = /usr/share/git/diff-highlight/diff-highlight | less -RS
-    attributesfile = /home/yorickpeterse/.config/git/attributes
+    attributesfile = ~/.config/git/attributes
 
 [github]
     user = yorickpeterse
