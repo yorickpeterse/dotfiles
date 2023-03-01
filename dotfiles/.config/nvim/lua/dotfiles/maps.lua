@@ -273,7 +273,7 @@ nmap('<leader>g', ':silent grep! ', { silent = false })
 nmap('<leader>f', function()
   telescope_builtin.find_files({
     hidden = true,
-    find_command = { 'fd', '--type=f', '--strip-cwd-prefix' },
+    find_command = { 'rg', '--files', '--color', 'never' },
   })
 end)
 
