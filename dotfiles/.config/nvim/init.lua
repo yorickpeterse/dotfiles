@@ -160,6 +160,9 @@ o.statusline = '%!v:lua.dotfiles.statusline.render()'
 o.laststatus = 3
 g.qf_disable_statusline = true
 
+-- RPM spec files {{{1
+g.no_spec_maps = true
+
 -- Window bar {{{1
 o.winbar = '%!v:lua.dotfiles.winbar.render()'
 
