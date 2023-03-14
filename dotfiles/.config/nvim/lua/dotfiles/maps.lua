@@ -147,7 +147,7 @@ imap('<CR>', function()
 end, { expr = true })
 
 imap('<Esc>', function()
-  return popup_visible() and '<C-e>' or '<Esc>'
+  return popup_visible() and '<C-e><Esc>' or '<Esc>'
 end, { expr = true })
 
 pair('<space>', 'space')
