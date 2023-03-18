@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Fedora
+GenericName=Terminal entering Fedora
+Comment=Terminal entering Fedora
+Category=Distrobox;System;Utility"
+Exec=gnome-terminal --profile Fedora -- /usr/bin/distrobox enter --no-workdir fedora
+Icon=/var/home/yorickpeterse/.local/share/icons/distrobox/fedora.svg
+Keywords=distrobox;
+NoDisplay=false
+Terminal=false
+TryExec=/usr/bin/distrobox
+Type=Application
