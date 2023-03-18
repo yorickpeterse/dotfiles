@@ -14,3 +14,5 @@ dotfiles/.pry/themes/*.prytheme.rb
 !dotfiles/.pry/themes/paper.prytheme.rb
 
 dotfiles/.local/share/applications/mimeinfo.cache
+dotfiles/.config/systemd/user/*.target.wants/
+dotfiles/.config/systemd/user/breaks.service
