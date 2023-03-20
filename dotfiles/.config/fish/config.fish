@@ -2,7 +2,7 @@ if test -e $HOME/.config/fish/private.fish
     source $HOME/.config/fish/private.fish
 end
 
-fish_add_path $HOME/bin $HOME/.cargo/bin $HOME/.local/bin $HOME/.local/share/ivm/bin
+fish_add_path --path ~/bin ~/.cargo/bin ~/.local/bin ~/.local/share/ivm/bin
 
 set -x EDITOR $HOME/bin/nvim
 set -x DISABLE_SPRING 1
