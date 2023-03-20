@@ -191,6 +191,7 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
+  cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
   capabilities = capabilities,
   flags = flags,
   settings = {
@@ -203,9 +204,6 @@ config.rust_analyzer.setup({
         typeHints = false,
         chainingHints = false,
         enable = false,
-      },
-      server = {
-        path = '/usr/bin/rust-analyzer',
       },
       lruCapacity = 64,
       completion = {
