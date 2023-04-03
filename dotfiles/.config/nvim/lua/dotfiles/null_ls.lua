@@ -119,14 +119,14 @@ function M.inko()
         return diagnostics
       end,
       cwd = function(params)
-        if params.bufname:match('/libstd/') then
-          local libstd = fn.fnamemodify(
-            fn.finddir('libstd', fn.fnamemodify(params.bufname, ':h') .. ';'),
+        if params.bufname:match('/std/') then
+          local std = fn.fnamemodify(
+            fn.finddir('std', fn.fnamemodify(params.bufname, ':h') .. ';'),
             ':p'
           )
 
-          if libstd ~= '' then
-            return libstd
+          if std ~= '' then
+            return std
           end
         end
 
