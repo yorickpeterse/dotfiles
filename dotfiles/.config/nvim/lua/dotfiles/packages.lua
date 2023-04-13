@@ -23,5 +23,6 @@ use({ 'nvim-treesitter/nvim-treesitter', run = 'silent TSUpdate' })
 use('jose-elias-alvarez/null-ls.nvim')
 use('stevearc/dressing.nvim')
 use('rlane/pounce.nvim')
+use('rhysd/vim-llvm')
 
 pkg.install()
