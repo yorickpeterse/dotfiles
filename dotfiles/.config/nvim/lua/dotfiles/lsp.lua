@@ -13,6 +13,15 @@ local flags = {
 
 lsp.set_log_level('ERROR')
 
+local capabilities = lsp.protocol.make_client_capabilities()
+
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+local function on_attach(client, bufnr)
+  -- Disabled due to https://github.com/neovim/neovim/issues/23164
+  client.server_capabilities.semanticTokensProvider = nil
+end
+
 -- Markdown popup {{{1
 do
   local default = lsp.util.open_floating_preview
@@ -41,11 +50,6 @@ do
     return default(width, height, new_opts)
   end
 end
-
--- Snippet support {{{1
-local capabilities = lsp.protocol.make_client_capabilities()
-
-capabilities.textDocument.completion.completionItem.snippetSupport = true
 
 -- Diagnostics {{{1
 vim_diag.config({
@@ -91,12 +95,14 @@ vim.fn.sign_define({
 
 -- C/C++ {{{1
 config.clangd.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
 })
 
 -- Go {{{1
 config.gopls.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
   settings = {
@@ -115,6 +121,7 @@ do
   table.insert(rpath, 'lua/?/init.lua')
 
   config.lua_ls.setup({
+    on_attach = on_attach,
     capabilities = capabilities,
     flags = flags,
     cmd = {
@@ -178,6 +185,7 @@ end
 
 -- Python {{{1
 config.jedi_language_server.setup({
+  on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
   init_options = {
@@ -191,6 +199,7 @@ config.jedi_language_server.setup({
 
 -- Rust {{{1
 config.rust_analyzer.setup({
+  on_attach = on_attach,
   cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
   capabilities = capabilities,
   flags = flags,
