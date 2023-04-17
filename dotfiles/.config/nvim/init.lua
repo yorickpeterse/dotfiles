@@ -92,7 +92,6 @@ o.fillchars = {
   vertleft = '│',
   verthoriz = '│',
 }
-o.printoptions = { number = 'n', header = '0' }
 o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
