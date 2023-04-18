@@ -97,28 +97,6 @@ o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 
--- Gutentags {{{1
-g.gutentags_ctags_exclude = {
-  'target',
-  'tmp',
-  'node_modules',
-  'public',
-  '*/fixtures/*',
-  '*/locale/*',
-  '*.json',
-  '*.svg',
-  '*.scss',
-  '*.css',
-  -- I use Treesitter for these languages, so don't index them.
-  '*.rs',
-  '*.lua',
-  '*.js',
-}
-
-g.gutentags_exclude_filetypes = { 'lua' }
-g.gutentags_file_list_command = 'rg --files'
-g.gutentags_ctags_extra_args = { '--excmd=number' }
-
 -- GUI {{{1
 if fn['exists']('g:GtkGuiLoaded') == 1 then
   o.mouse = 'a'
