@@ -125,6 +125,8 @@ xmap('S', function()
   pounce.pounce({ do_repeat = true })
 end)
 
+vmap('y', 'ygv<Esc>')
+
 -- dirbuf maps this, which is annoying.
 unmap('-')
 
