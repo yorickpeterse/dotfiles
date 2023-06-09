@@ -75,18 +75,21 @@ function M.inko()
     generator = helpers.generator_factory({
       command = cmd,
       args = function(params)
-        local args = { 'check', '--format', 'json', '$FILENAME' }
+        local path = fn.fnamemodify(params.bufname, ':p')
+        local src = util.find_directory('src', params.bufname)
+        local test = util.find_directory('test', params.bufname)
+        local args = { 'check', '--format', 'json' }
 
-        if params.bufname:match('/test/') then
-          local tests = fn.fnamemodify(
-            fn.finddir('test', fn.fnamemodify(params.bufname, ':h') .. ';'),
-            ':p'
-          )
+        -- If the file resides in ./src or ./test, we'll run `inko check`
+        -- instead of `inko check FILE`. This way any imports in e.g.
+        -- `src/main.inko` are taken into account.
+        if not vim.startswith(path, src) and not vim.startswith(path, test) then
+          table.insert(args, '$FILENAME')
+        end
 
-          if tests ~= '' then
-            table.insert(args, '--include')
-            table.insert(args, tests)
-          end
+        if vim.startswith(path, test) and test ~= '' then
+          table.insert(args, '--include')
+          table.insert(args, test)
         end
 
         return args

@@ -290,7 +290,7 @@ function M.use(spec)
     url = url .. '.git'
   end
 
-  local name_chunks = vim.split(path, '/', true)
+  local name_chunks = vim.split(path, '/', { trimempty = false })
   local name = name_chunks[#name_chunks]:gsub('\\.git', '')
 
   assert(name, 'No package name could be derived from ' .. vim.inspect(path))

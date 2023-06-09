@@ -160,4 +160,10 @@ function M.has_lsp_clients_supporting(bufnr, capability)
   return supported
 end
 
+function M.find_directory(name, relative_to)
+  local path = fn.finddir(name, fn.fnamemodify(relative_to, ':h') .. ';')
+
+  return fn.fnamemodify(path, ':p')
+end
+
 return M
