@@ -76,16 +76,8 @@ function M.inko()
       command = cmd,
       args = function(params)
         local path = fn.fnamemodify(params.bufname, ':p')
-        local src = util.find_directory('src', params.bufname)
         local test = util.find_directory('test', params.bufname)
-        local args = { 'check', '--format', 'json' }
-
-        -- If the file resides in ./src or ./test, we'll run `inko check`
-        -- instead of `inko check FILE`. This way any imports in e.g.
-        -- `src/main.inko` are taken into account.
-        if not vim.startswith(path, src) and not vim.startswith(path, test) then
-          table.insert(args, '$FILENAME')
-        end
+        local args = { 'check', '--format', 'json', '$FILENAME' }
 
         if vim.startswith(path, test) and test ~= '' then
           table.insert(args, '--include')
