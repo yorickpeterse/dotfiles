@@ -102,7 +102,7 @@ if fn['exists']('g:GtkGuiLoaded') == 1 then
   o.mouse = 'a'
   o.mousemodel = 'popup'
 
-  fn['rpcnotify'](1, 'Gui', 'Font', 'Source code Pro 8')
+  fn['rpcnotify'](1, 'Gui', 'Font', 'SauceCodePro Nerd Font 8')
   fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
   fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
   fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
