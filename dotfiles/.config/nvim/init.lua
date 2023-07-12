@@ -6,10 +6,6 @@ local fn = vim.fn
 g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
 
-g.qfenter_keymap = {
-  vopen = { '<leader>v' },
-}
-
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
