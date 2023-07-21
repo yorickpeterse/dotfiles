@@ -6,6 +6,10 @@ local fn = vim.fn
 g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
 
+-- Disable matchparen, as I don't use it and sometimes leads to errors when
+-- opening quickfix windows (https://github.com/neovim/neovim/issues/17157).
+g.loaded_matchparen = 1
+
 -- Config files and plugins {{{1
 require('dotfiles.packages')
 
