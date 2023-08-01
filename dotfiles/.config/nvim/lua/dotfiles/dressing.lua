@@ -1,6 +1,5 @@
 require('dressing').setup({
   input = {
-    anchor = 'NW',
     win_options = {
       winblend = 0,
     },
@@ -26,6 +25,7 @@ require('dressing').setup({
       --         |                   |
       --         +-------------------+
       conf.col = 0
+      conf.row = 4
 
       return conf
     end,
