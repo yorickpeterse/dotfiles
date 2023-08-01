@@ -137,6 +137,7 @@ do
         },
         diagnostics = {
           globals = { 'vim' },
+          disable = { 'missing-fields' },
         },
         workspace = {
           library = runtime_files,
