@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=NeoVim
 Comment=The NeoVim text editor
-Exec=/usr/bin/distrobox-enter -n fedora -- fish -c 'env NVIM_GTK_NO_HEADERBAR=1 /usr/bin/nvim-gtk -- %F'
+Exec=/var/home/yorickpeterse/bin/nvim-gtk '%F'
 Icon=org.daa.NeovimGtk
 Type=Application
 Terminal=false
