@@ -98,15 +98,21 @@ o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 
 -- GUI {{{1
-if fn['exists']('g:GtkGuiLoaded') == 1 then
-  o.mouse = 'a'
-  o.mousemodel = 'popup'
+do
+  local font = 'SauceCodePro Nerd Font'
+  local size = '8'
 
-  fn['rpcnotify'](1, 'Gui', 'Font', 'SauceCodePro Nerd Font 8')
-  fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
-  fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
-  fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
-  fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
+  o.guifont = font .. ':h' .. size
+  o.guifontwide = 'Noto Color Emoji:h' .. size
+  o.linespace = 0
+
+  if fn['exists']('g:GtkGuiLoaded') == 1 then
+    fn['rpcnotify'](1, 'Gui', 'Font', font .. ' ' .. size)
+    fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
+    fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
+    fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
+    fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
+  end
 end
 
 -- Indentation {{{1
