@@ -99,7 +99,7 @@ o.winheight = 5
 
 -- GUI {{{1
 do
-  local font = 'SauceCodePro Nerd Font'
+  local font = 'Source Code Pro'
   local size = '8'
 
   o.guifont = font .. ':h' .. size
