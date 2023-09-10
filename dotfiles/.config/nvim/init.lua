@@ -137,6 +137,8 @@ o.grepprg = 'rg --vimgrep'
 o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 o.incsearch = true
 o.hlsearch = false
+o.ignorecase = true
+o.smartcase = true
 
 -- Statusline {{{1
 o.statusline = '%!v:lua.dotfiles.statusline.render()'
