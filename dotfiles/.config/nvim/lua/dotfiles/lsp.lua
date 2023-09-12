@@ -11,7 +11,7 @@ local flags = {
   debounce_text_changes = 500,
 }
 
-lsp.set_log_level('ERROR')
+lsp.set_log_level('OFF')
 
 local capabilities = lsp.protocol.make_client_capabilities()
 
