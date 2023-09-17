@@ -148,6 +148,12 @@ local function remove_buffer()
   end
 end
 
+local function create_dirs(info)
+  if not vim.startswith(info.match, 'oil:') then
+    fn.mkdir(fn.expand('<afile>:p:h'), 'p')
+  end
+end
+
 au('buffer_management', {
   { 'BufWinLeave', '*', remove_buffer },
 })
@@ -183,7 +189,7 @@ au('diffs', {
 -- Automatically create leading directories when writing a file. This makes it
 -- easier to create new files in non-existing directories.
 au('create_dirs', {
-  { 'BufWritePre', '*', "call mkdir(expand('<afile>:p:h'), 'p')" },
+  { 'BufWritePre', '*', create_dirs },
 })
 
 -- Open the quickfix window at the bottom when using `:grep`.

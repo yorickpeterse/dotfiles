@@ -26,6 +26,7 @@ require('dotfiles.dressing')
 require('dotfiles.hooks')
 require('dotfiles.pounce')
 require('dotfiles.devicons')
+require('dotfiles.oil')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
