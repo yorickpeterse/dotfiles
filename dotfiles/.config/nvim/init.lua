@@ -27,6 +27,8 @@ require('dotfiles.hooks')
 require('dotfiles.pounce')
 require('dotfiles.devicons')
 require('dotfiles.oil')
+require('dotfiles.linters')
+require('dotfiles.formatters')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -97,6 +99,7 @@ o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
+o.formatexpr = "v:lua.require('conform').formatexpr()"
 
 -- GUI {{{1
 do

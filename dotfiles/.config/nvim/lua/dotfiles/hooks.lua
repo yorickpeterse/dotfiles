@@ -6,6 +6,8 @@ local api = vim.api
 local comp = require('dotfiles.completion')
 local diag = require('dotfiles.diagnostics')
 local loclist = require('dotfiles.location_list')
+local lint = require('lint')
+local conform = require('conform')
 
 -- The namespace to use for restoring cursors after formatting a buffer.
 local format_mark_ns = api.nvim_create_namespace('')
@@ -56,52 +58,14 @@ local function yanked()
 end
 
 local function format_buffer()
-  if not util.has_lsp_clients() then
-    return
-  end
-
-  local bufnr = tonumber(fn.expand('<abuf>'))
-  local windows = fn.win_findbuf(bufnr)
-  local marks = {}
-
-  -- Until https://github.com/neovim/neovim/issues/14645 is solved, I use this
-  -- code to ensure the cursor position is properly restored after formatting a
-  -- buffer. The approach used supports restoring cursors for different windows
-  -- using the same buffer.
-  for _, window in ipairs(windows) do
-    local line, col = unpack(api.nvim_win_get_cursor(window))
-    local ok, result =
-      pcall(api.nvim_buf_set_extmark, bufnr, format_mark_ns, line - 1, col, {})
-
-    if ok then
-      marks[window] = result
-    end
-  end
-
-  lsp.buf.format({
+  conform.format({
+    bufnr = tonumber(fn.expand('<abuf>')),
+    timeout_ms = 5000,
+    lsp_fallback = true,
     filter = function(client)
       return client.name ~= 'sumneko_lua'
     end,
-    bufnr = bufnr,
-    timeout_ms = 5000,
   })
-
-  for _, window in ipairs(windows) do
-    local mark = marks[window]
-
-    if mark and bufnr then
-      local line, col =
-        unpack(api.nvim_buf_get_extmark_by_id(bufnr, format_mark_ns, mark, {}))
-
-      local max_line_index = api.nvim_buf_line_count(bufnr) - 1
-
-      if line and col and line <= max_line_index then
-        api.nvim_win_set_cursor(window, { line + 1, col })
-      end
-    end
-  end
-
-  api.nvim_buf_clear_namespace(bufnr, format_mark_ns, 0, -1)
 end
 
 local function enable_list()
@@ -154,6 +118,13 @@ local function create_dirs(info)
   end
 end
 
+local function lint_buffer()
+  -- Without vim.schedule(), this callback won't work for BufReadPost.
+  vim.schedule(function()
+    lint.try_lint()
+  end)
+end
+
 au('buffer_management', {
   { 'BufWinLeave', '*', remove_buffer },
 })
@@ -180,6 +151,8 @@ au('lsp', {
   { 'DiagnosticChanged', '*', diag.refresh },
   { 'BufWinEnter', '*', loclist.enter_window },
   { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
+  { 'BufWritePost', '*', lint_buffer },
+  { 'BufReadPost', '*', lint_buffer },
 })
 
 au('diffs', {
