@@ -119,10 +119,7 @@ local function create_dirs(info)
 end
 
 local function lint_buffer()
-  -- Without vim.schedule(), this callback won't work for BufReadPost.
-  vim.schedule(function()
-    lint.try_lint()
-  end)
+  lint.try_lint()
 end
 
 au('buffer_management', {
@@ -152,7 +149,6 @@ au('lsp', {
   { 'BufWinEnter', '*', loclist.enter_window },
   { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
   { 'BufWritePost', '*', lint_buffer },
-  { 'BufReadPost', '*', lint_buffer },
 })
 
 au('diffs', {
