@@ -99,7 +99,6 @@ o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
-o.formatexpr = "v:lua.require('conform').formatexpr()"
 
 -- GUI {{{1
 do
