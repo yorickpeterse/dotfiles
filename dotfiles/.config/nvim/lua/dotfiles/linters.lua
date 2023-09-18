@@ -75,15 +75,17 @@ do
       local items = vim.json.decode(output) or {}
 
       for _, diag in ipairs(items) do
-        table.insert(diagnostics, {
-          source = 'inko',
-          lnum = diag.lines[1] - 1,
-          end_lnum = diag.lines[2] - 1,
-          col = diag.columns[1] - 1,
-          end_col = diag.columns[2],
-          severity = severities[diag.level],
-          message = diag.message,
-        })
+        if diag.file == bufname then
+          table.insert(diagnostics, {
+            source = 'inko',
+            lnum = diag.lines[1] - 1,
+            end_lnum = diag.lines[2] - 1,
+            col = diag.columns[1] - 1,
+            end_col = diag.columns[2],
+            severity = severities[diag.level],
+            message = diag.message,
+          })
+        end
       end
 
       return diagnostics
