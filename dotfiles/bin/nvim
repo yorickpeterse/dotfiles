@@ -2,7 +2,7 @@
 
 if set -q NVIM
     if set -q argv[1]
-        nvr -cc vsplit -c "setlocal bufhidden=delete" --remote-wait $argv
+        nvr -cc vsplit -c "setlocal bufhidden=wipe" --remote-wait $argv
 
         # Re-enter insert mode after the buffer is closed.
         nvr -c startinsert

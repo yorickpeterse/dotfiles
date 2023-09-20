@@ -13,7 +13,7 @@ if set -q NVIM
     nvr -c 'setlocal ro' $argv[2]
     nvr -c vsplit
     nvr -c 'wincmd H' \
-        -c 'windo setlocal bufhidden=delete' \
+        -c 'windo setlocal bufhidden=wipe' \
         -c 'windo lua vim.diagnostic.disable(0)' \
         -c 'windo diffthis' \
         -c 'wincmd h' \
