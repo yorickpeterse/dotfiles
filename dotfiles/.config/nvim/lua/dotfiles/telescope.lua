@@ -1,6 +1,7 @@
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
+local strategies = require('telescope.pickers.layout_strategies')
 
 local picker_defaults = {
   previewer = false,
@@ -12,15 +13,41 @@ local function picker_opts(opts)
   return vim.tbl_extend('force', picker_defaults, opts or {})
 end
 
+strategies.horizontal_merged = function(picker, cols, lines, config)
+  local layout = strategies.horizontal(picker, cols, lines, config)
+
+  layout.prompt.title = ''
+  layout.prompt.borderchars =
+    { '─', '│', '─', '│', '╭', '╮', '│', '│' }
+
+  layout.results.title = ''
+  layout.results.borderchars =
+    { '─', '│', '─', '│', '├', '┤', '╯', '╰' }
+
+  layout.results.line = layout.results.line - 1
+  layout.results.height = layout.results.height + 1
+
+  if layout.preview then
+    layout.results.borderchars[7] = '┴'
+    layout.prompt.borderchars[6] = '┬'
+    layout.preview.title = ''
+    layout.preview.borderchars =
+      { '─', '│', '─', ' ', '─', '╮', '╯', '─' }
+  end
+
+  return layout
+end
+
 telescope.setup({
   defaults = {
     prompt_prefix = '> ',
     sorting_strategy = 'ascending',
-    layout_strategy = 'center',
+    layout_strategy = 'horizontal_merged',
     layout_config = {
       prompt_position = 'top',
       width = 0.7,
       height = 0.6,
+      preview_width = 0.5,
     },
     borderchars = {
       prompt = { '─', '│', '─', '│', '╭', '╮', '│', '│' },
