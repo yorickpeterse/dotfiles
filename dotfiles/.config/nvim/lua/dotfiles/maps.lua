@@ -265,7 +265,7 @@ nmap('<leader>e', function()
 end)
 
 -- Searching
-nmap('K', cmd('silent grep! <cword>'))
+nmap('K', cmd([[silent grep! '\b<cword>\b']]))
 nmap('<leader>g', ':silent grep! ', { silent = false })
 
 -- Telescope
