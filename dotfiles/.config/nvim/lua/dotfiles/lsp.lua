@@ -167,7 +167,7 @@ config.jedi_language_server.setup({
 -- Rust {{{1
 config.rust_analyzer.setup({
   on_attach = on_attach,
-  cmd = { 'rustup', 'run', 'stable', 'rust-analyzer' },
+  cmd = { 'rust-analyzer' },
   capabilities = capabilities,
   flags = flags,
   settings = {
