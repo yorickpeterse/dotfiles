@@ -5,6 +5,7 @@ local sorters = require('telescope.sorters')
 local picker_defaults = {
   previewer = false,
   show_line = false,
+  prompt_title = false,
   results_title = false,
 }
 
@@ -16,16 +17,15 @@ telescope.setup({
   defaults = {
     prompt_prefix = '> ',
     sorting_strategy = 'ascending',
-    layout_strategy = 'center',
+    layout_strategy = 'bottom_pane',
     layout_config = {
-      prompt_position = 'top',
-      width = 0.7,
-      height = 0.6,
+      prompt_position = 'bottom',
+      height = { 0.4, max = 40, min = 5 },
     },
     borderchars = {
-      prompt = { '─', '│', '─', '│', '╭', '╮', '│', '│' },
-      results = { '─', '│', '─', '│', '│', '│', '╯', '╰' },
-      preview = { '─', '│', '─', '│', '╭', '╮', '╯', '╰' },
+      prompt = { '─', ' ', '─', ' ', ' ', ' ', '─', '─' },
+      results = { '─', ' ', '─', ' ', '─', '─', ' ', ' ' },
+      preview = { '─', ' ', '─', '│', '┬', '─', '─', '╰' },
     },
     mappings = {
       i = {
