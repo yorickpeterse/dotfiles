@@ -284,6 +284,7 @@ nmap('<leader>t', function()
       symbols = ts_lsp_symbols,
       previewer = false,
       results_title = false,
+      prompt_title = false,
     })
 
     return
