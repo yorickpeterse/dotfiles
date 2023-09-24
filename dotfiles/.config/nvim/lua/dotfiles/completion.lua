@@ -203,14 +203,15 @@ local function snippet_completion_items(buffer, column, prefix)
   -- TextEdit lines are 0 based, but nvim starts at 1
   local line = api.nvim_win_get_cursor(0)[1] - 1
   local snippets = {}
-
   local before_prefix = (
     api.nvim_buf_get_lines(buffer, line, line + 1, false)[1] or ''
   ):sub(column - 1, column - 1)
 
-  -- Snippet suggestions should only be provided if the input text isn't
-  -- preceded by a dot.
-  if before_prefix == '.' or prefix == '' then
+  -- Only trigger snippet completion if we have a search term, and the term is
+  -- either at the start of the line or preceded by whitespace.
+  if
+    (before_prefix ~= '' and not before_prefix:match('%s')) or prefix == ''
+  then
     return snippets
   end
 
