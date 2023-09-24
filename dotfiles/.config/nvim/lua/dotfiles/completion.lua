@@ -204,9 +204,13 @@ local function snippet_completion_items(buffer, column, prefix)
   local line = api.nvim_win_get_cursor(0)[1] - 1
   local snippets = {}
 
-  -- When the input is `.|`, where | is the cursor, we don't want to trigger
-  -- completion of snippets.
-  if prefix == '' then
+  local before_prefix = (
+    api.nvim_buf_get_lines(buffer, line, line + 1, false)[1] or ''
+  ):sub(column - 1, column - 1)
+
+  -- Snippet suggestions should only be provided if the input text isn't
+  -- preceded by a dot.
+  if before_prefix == '.' or prefix == '' then
     return snippets
   end
 
@@ -242,6 +246,10 @@ end
 function buffer_completion_items(column, prefix)
   local buffers = {}
   local processed = {}
+
+  if prefix == '' then
+    return {}
+  end
 
   for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
     local buffer = api.nvim_win_get_buf(window)
