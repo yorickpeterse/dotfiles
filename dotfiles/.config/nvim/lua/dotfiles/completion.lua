@@ -37,6 +37,30 @@ local text_kind = kinds[kinds.Text]
 local snippet_kind = kinds[kinds.Snippet]
 local keyword_kind = kinds[kinds.Keyword]
 
+local function summarize(text)
+  local lines = vim.split(text, '\n', { trimempty = true })
+  local summary = ''
+
+  for idx = 1, 3 do
+    local line = lines[idx]
+
+    if line then
+      summary = summary .. ' ' .. vim.trim(line)
+    end
+  end
+
+  return summary:match('[^%.]+') or ''
+end
+
+local function strip_markdown(text)
+  return text
+    :gsub('`', '')
+    :gsub(' %[', ' ')
+    :gsub('%]%[[^%]]+%]', '')
+    :gsub('%]%([^%)]+%)', '')
+    :gsub('%] ', ' ')
+end
+
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -67,15 +91,6 @@ local function filter_text(item)
     return item.label
   else
     return item.insertText
-  end
-end
-
--- Returns the text to display in the completion menu.
-local function menu_text(item)
-  if item.insertTextFormat == 2 and item.textEdit then
-    return snippy.get_repr(item.textEdit.newText)
-  else
-    return item.label
   end
 end
 
@@ -258,8 +273,8 @@ local function show_picker(prefix, items)
   local displayer = entry_display.create({
     separator = ' ',
     items = {
-      { width = 50 },
-      { width = 15 },
+      { width = 40 },
+      { width = 20 },
       { remaining = true },
     },
   })
@@ -270,10 +285,16 @@ local function show_picker(prefix, items)
       return {
         value = item,
         display = function(entry)
+          local name = entry.value.label
+          local desc = strip_markdown(entry.value.desc)
+          local kind = util.lsp_icons[entry.value.kind]
+            .. ' '
+            .. entry.value.kind:lower()
+
           return displayer({
-            { entry.value.label, 'TelescopeResultsIdentifier' },
-            entry.value.kind:lower(),
-            { entry.value.desc, 'TelescopeResultsComment' },
+            { name, 'TelescopeResultsIdentifier' },
+            kind,
+            { desc, 'TelescopeResultsComment' },
           })
         end,
         ordinal = item.filter,
@@ -398,12 +419,12 @@ function M.start()
           local docs = completion.documentation
 
           if docs and docs.value then
-            desc = vim.split(docs.value, '\n', { trimempty = true })[1]
+            desc = summarize(docs.value)
           end
 
           table.insert(items, {
             filter = filter,
-            label = menu_text(completion),
+            label = filter,
             insert = text_to_expand(completion),
             kind = kinds[completion.kind],
             desc = desc,

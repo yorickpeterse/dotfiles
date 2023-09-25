@@ -3,6 +3,7 @@ local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
 local utils = require('telescope.utils')
 local conf = require('telescope.config').values
+local util = require('dotfiles.util')
 local M = {}
 
 local function flatten_document_symbols(symbols, scope)
@@ -49,16 +50,20 @@ local function lsp_symbols_entry_maker(opts)
     separator = ' ',
     hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
     items = {
-      { width = opts.symbol_width or 50 },
-      { width = opts.symbol_type_width or 10 },
+      { width = opts.symbol_width or 40 },
+      { width = opts.symbol_type_width or 20 },
       { remaining = true },
     },
   })
 
   local make_display = function(entry)
+    local kind = util.lsp_icons[entry.symbol_type]
+      .. ' '
+      .. entry.symbol_type:lower()
+
     return displayer({
       entry.symbol_name,
-      entry.symbol_type:lower(),
+      kind,
       { entry.symbol_scope, 'TelescopeResultsComment' },
     })
   end
@@ -111,15 +116,17 @@ function M.lsp_document_symbols(opts)
         return
       end
 
-      pickers.new(opts, {
-        prompt_title = 'Document symbols',
-        finder = finders.new_table({
-          results = locations,
-          entry_maker = lsp_symbols_entry_maker(opts),
-        }),
-        previewer = conf.qflist_previewer(opts),
-        sorter = conf.generic_sorter(opts),
-      }):find()
+      pickers
+        .new(opts, {
+          prompt_title = 'Document symbols',
+          finder = finders.new_table({
+            results = locations,
+            entry_maker = lsp_symbols_entry_maker(opts),
+          }),
+          previewer = conf.qflist_previewer(opts),
+          sorter = conf.generic_sorter(opts),
+        })
+        :find()
     end
   )
 end

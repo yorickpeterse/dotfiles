@@ -53,8 +53,9 @@ telescope.setup({
     layout_strategy = 'horizontal_merged',
     layout_config = {
       prompt_position = 'top',
-      width = 0.7,
-      height = 0.6,
+      width = 0.6,
+      height = 0.5,
+      preview_width = 0.5,
     },
     preview = {
       hide_on_startup = true,
