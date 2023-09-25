@@ -186,6 +186,9 @@ config.rust_analyzer.setup({
         postfix = {
           enable = false,
         },
+        autoself = {
+          enable = false,
+        },
       },
     },
   },
