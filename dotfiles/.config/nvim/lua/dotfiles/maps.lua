@@ -142,7 +142,7 @@ tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
 imap('<CR>', function()
-  return popup_visible() and completion.confirm() or dpairs.enter()
+  return dpairs.enter()
 end, { expr = true })
 
 imap('<Esc>', function()
@@ -172,17 +172,18 @@ pair('`', 'backtick')
 
 imap('<tab>', function()
   if popup_visible() then
-    return '<C-n>'
+    api.nvim_feedkeys(keycode('<C-n>'), 'n', true)
+    return
   end
 
   local col = fn.col('.') - 1
 
   if col == 0 or api.nvim_get_current_line():sub(col, col):match('%s') then
-    return '<tab>'
+    api.nvim_feedkeys(keycode('<tab>'), 'n', true)
   else
-    return '<C-x><C-U>'
+    completion.start()
   end
-end, { expr = true })
+end)
 
 imap('<S-tab>', function()
   return popup_visible() and '<C-p>' or '<S-tab>'

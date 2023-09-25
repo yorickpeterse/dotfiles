@@ -3,7 +3,6 @@ local keycode = util.keycode
 local fn = vim.fn
 local lsp = vim.lsp
 local api = vim.api
-local comp = require('dotfiles.completion')
 local diag = require('dotfiles.diagnostics')
 local loclist = require('dotfiles.location_list')
 local lint = require('lint')
@@ -62,6 +61,7 @@ local function format_buffer()
     bufnr = tonumber(fn.expand('<abuf>')),
     timeout_ms = 5000,
     lsp_fallback = true,
+    quiet = true,
     filter = function(client)
       return client.name ~= 'sumneko_lua'
     end,
@@ -124,10 +124,6 @@ end
 
 au('buffer_management', {
   { 'BufWinLeave', '*', remove_buffer },
-})
-
-au('completion', {
-  { 'CompleteDonePre', '*', comp.done },
 })
 
 au('yank', {

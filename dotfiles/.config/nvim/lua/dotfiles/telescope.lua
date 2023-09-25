@@ -1,6 +1,7 @@
 local telescope = require('telescope')
 local actions = require('telescope.actions')
 local sorters = require('telescope.sorters')
+local layout = require('telescope.actions.layout')
 
 local picker_defaults = {
   previewer = false,
@@ -22,6 +23,9 @@ telescope.setup({
       prompt_position = 'bottom',
       height = { 0.4, max = 40, min = 5 },
     },
+    preview = {
+      hide_on_startup = true,
+    },
     borderchars = {
       prompt = { '─', ' ', '─', ' ', ' ', ' ', '─', '─' },
       results = { '─', ' ', '─', ' ', '─', '─', ' ', ' ' },
@@ -31,6 +35,7 @@ telescope.setup({
       i = {
         ['<tab>'] = actions.move_selection_next,
         ['<s-tab>'] = actions.move_selection_previous,
+        ['<C-p>'] = layout.toggle_preview,
       },
       n = {
         ['<tab>'] = actions.move_selection_next,
