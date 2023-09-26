@@ -221,7 +221,15 @@ function buffer_completion_items(column, prefix)
 end
 
 local function show_picker(prefix, items)
+  local results = #items
+  local max_results = 10
+
   local opts = {
+    layout_strategy = 'completion',
+    layout_config = {
+      width = 80,
+      height = (results >= max_results and max_results or results) + 4,
+    },
     show_line = false,
     prompt_title = false,
     results_title = false,

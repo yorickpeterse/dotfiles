@@ -49,6 +49,31 @@ strats.horizontal_merged = function(
   return layout
 end
 
+strats.completion = function(picker, max_columns, max_lines, layout_config)
+  local layout = strats.cursor(picker, max_columns, max_lines, layout_config)
+
+  layout.prompt.title = ''
+  layout.prompt.borderchars =
+    { '─', '│', '─', '│', '╭', '╮', '╯', '╰' }
+
+  layout.results.title = ''
+  layout.results.borderchars =
+    { '─', '│', '─', '│', '├', '┤', '╯', '╰' }
+
+  if layout.preview then
+    layout.prompt.width = layout.prompt.width + layout.preview.width + 2
+    layout.preview.line = layout.preview.line + 2
+    layout.preview.height = layout.preview.height - 2
+    layout.preview.width = layout.preview.width + 1
+    layout.preview.col = layout.preview.col - 1
+    layout.preview.title = ''
+    layout.preview.borderchars =
+      { '─', '│', '─', '│', '┬', '┤', '╯', '┴' }
+  end
+
+  return layout
+end
+
 telescope.setup({
   defaults = {
     prompt_prefix = '> ',
@@ -56,9 +81,9 @@ telescope.setup({
     layout_strategy = 'horizontal_merged',
     layout_config = {
       prompt_position = 'top',
-      width = 0.7,
+      width = 0.5,
       height = 0.5,
-      preview_width = 0.6,
+      preview_width = 0.5,
     },
     preview = {
       hide_on_startup = true,
