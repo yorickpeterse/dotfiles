@@ -3,7 +3,6 @@ local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
 local utils = require('telescope.utils')
 local conf = require('telescope.config').values
-local util = require('dotfiles.util')
 local M = {}
 
 local function flatten_document_symbols(symbols, scope)
@@ -51,19 +50,13 @@ local function lsp_symbols_entry_maker(opts)
     hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
     items = {
       { width = opts.symbol_width or 40 },
-      { width = opts.symbol_type_width or 20 },
       { remaining = true },
     },
   })
 
   local make_display = function(entry)
-    local kind = util.lsp_icons[entry.symbol_type]
-      .. ' '
-      .. entry.symbol_type:lower()
-
     return displayer({
       entry.symbol_name,
-      kind,
       { entry.symbol_scope, 'TelescopeResultsComment' },
     })
   end

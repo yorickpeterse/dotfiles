@@ -37,30 +37,6 @@ local text_kind = kinds[kinds.Text]
 local snippet_kind = kinds[kinds.Snippet]
 local keyword_kind = kinds[kinds.Keyword]
 
-local function summarize(text)
-  local lines = vim.split(text, '\n', { trimempty = true })
-  local summary = ''
-
-  for idx = 1, 3 do
-    local line = lines[idx]
-
-    if line then
-      summary = summary .. ' ' .. vim.trim(line)
-    end
-  end
-
-  return summary:match('[^%.]+') or ''
-end
-
-local function strip_markdown(text)
-  return text
-    :gsub('`', '')
-    :gsub(' %[', ' ')
-    :gsub('%]%[[^%]]+%]', '')
-    :gsub('%]%([^%)]+%)', '')
-    :gsub('%] ', ' ')
-end
-
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -169,7 +145,10 @@ local function snippet_completion_items(buffer, column, prefix)
         label = snippet.prefix,
         insert = snippet,
         kind = snippet_kind,
-        desc = snippet.description,
+        docs = {
+          kind = 'plain',
+          value = snippet.description,
+        },
         source = 'snippet',
         line = line,
         column = column,
@@ -217,7 +196,6 @@ function buffer_completion_items(column, prefix)
             insert = word,
             kind = text_kind,
             source = 'buffer',
-            desc = '',
             count = 1,
             line = line,
             column = column,
@@ -270,11 +248,26 @@ local function show_picker(prefix, items)
     end,
   })
 
+  local name_size = 0
+
+  for _, item in pairs(items) do
+    local size = api.nvim_strwidth(item.label)
+
+    if size > name_size then
+      name_size = size
+    end
+  end
+
+  name_size = name_size + 2
+
+  if name_size > 40 then
+    name_size = 40
+  end
+
   local displayer = entry_display.create({
     separator = ' ',
     items = {
-      { width = 40 },
-      { width = 20 },
+      { width = name_size },
       { remaining = true },
     },
   })
@@ -285,16 +278,9 @@ local function show_picker(prefix, items)
       return {
         value = item,
         display = function(entry)
-          local name = entry.value.label
-          local desc = strip_markdown(entry.value.desc)
-          local kind = util.lsp_icons[entry.value.kind]
-            .. ' '
-            .. entry.value.kind:lower()
-
           return displayer({
-            { name, 'TelescopeResultsIdentifier' },
-            kind,
-            { desc, 'TelescopeResultsComment' },
+            entry.value.label,
+            { entry.value.detail or '', 'TelescopeResultsComment' },
           })
         end,
         ordinal = item.filter,
@@ -415,20 +401,14 @@ function M.start()
         if item.kind ~= keyword_kind then
           local completion = item.user_data.nvim.lsp.completion_item
           local filter = filter_text(completion)
-          local desc = ''
-          local docs = completion.documentation
-
-          if docs and docs.value then
-            desc = summarize(docs.value)
-          end
 
           table.insert(items, {
             filter = filter,
             label = filter,
             insert = text_to_expand(completion),
             kind = kinds[completion.kind],
-            desc = desc,
-            docs = docs,
+            docs = completion.documentation,
+            detail = completion.detail,
             source = 'lsp',
             line = line,
             column = column,

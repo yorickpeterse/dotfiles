@@ -5,34 +5,6 @@ local lsp = vim.lsp
 local uv = vim.loop
 local M = {}
 
-M.lsp_icons = {
-  Text = '󰉿',
-  Method = '󰆧',
-  Function = '󰊕',
-  Constructor = '',
-  Field = '󰜢',
-  Variable = '󰀫',
-  Class = '󰠱',
-  Interface = '',
-  Module = '',
-  Property = '󰜢',
-  Unit = '󰑭',
-  Value = '󰎠',
-  Enum = '',
-  Keyword = '󰌋',
-  Snippet = '',
-  Color = '󰏘',
-  File = '󰈙',
-  Reference = '󰈇',
-  Folder = '󰉋',
-  EnumMember = '',
-  Constant = '󰏿',
-  Struct = '󰙅',
-  Event = '',
-  Operator = '󰆕',
-  TypeParameter = '',
-}
-
 -- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
 -- get swallowed in statuslines. This kind of space doesn't.
 -- local forced_space = utf8.char(8194)
