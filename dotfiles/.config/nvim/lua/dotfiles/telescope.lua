@@ -36,11 +36,14 @@ strats.horizontal_merged = function(
   layout.results.height = layout.results.height + 1
 
   if layout.preview then
+    layout.prompt.width = layout.prompt.width + layout.preview.width + 2
+    layout.preview.line = layout.preview.line + 2
+    layout.preview.height = layout.preview.height - 2
     layout.preview.width = layout.preview.width + 1
     layout.preview.col = layout.preview.col - 1
     layout.preview.title = ''
     layout.preview.borderchars =
-      { '─', '│', '─', '│', '┬', '╮', '╯', '┴' }
+      { '─', '│', '─', '│', '┬', '┤', '╯', '┴' }
   end
 
   return layout
@@ -53,9 +56,9 @@ telescope.setup({
     layout_strategy = 'horizontal_merged',
     layout_config = {
       prompt_position = 'top',
-      width = 0.6,
+      width = 0.7,
       height = 0.5,
-      preview_width = 0.5,
+      preview_width = 0.6,
     },
     preview = {
       hide_on_startup = true,
