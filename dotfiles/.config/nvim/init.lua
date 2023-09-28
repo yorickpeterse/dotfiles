@@ -10,9 +10,12 @@ g.python_host_prog = '/usr/bin/python2'
 -- opening quickfix windows (https://github.com/neovim/neovim/issues/17157).
 g.loaded_matchparen = 1
 
--- Config files and plugins {{{1
 require('dotfiles.packages')
 
+-- Colorscheme {{{1
+vim.cmd('color grey')
+
+-- Config files and plugins {{{1
 require('pqf').setup()
 require('dd').setup()
 
@@ -45,9 +48,6 @@ _G.dotfiles = {
   quickfix = require('dotfiles.quickfix'),
 }
 
--- Colorscheme {{{1
-vim.cmd('color grey')
-
 -- Code completion {{{1
 o.pumheight = 30
 o.completeopt = 'menu'
@@ -64,6 +64,7 @@ o.synmaxcol = 256
 o.termguicolors = true
 o.textwidth = 80
 o.wrap = false
+o.linebreak = true
 o.cursorcolumn = false
 o.cursorline = true
 o.cursorlineopt = 'number'

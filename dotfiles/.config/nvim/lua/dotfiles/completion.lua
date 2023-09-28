@@ -88,6 +88,12 @@ local function snippet_from_binary_completion(items)
   end
 end
 
+-- Returns an item that matches the given prefix exactly, if any.
+local function exact_match(prefix, items)
+  for _, item in ipairs(items) do
+  end
+end
+
 local function remove_text(text, line, column)
   local bufnr = api.nvim_get_current_buf()
 
@@ -221,15 +227,14 @@ function buffer_completion_items(column, prefix)
 end
 
 local function show_picker(prefix, items)
-  local results = #items
-  local max_results = 10
-
+  local hl = 'Normal:Pmenu,EndOfBuffer:Pmenu'
   local opts = {
     layout_strategy = 'completion',
-    layout_config = {
-      width = 80,
-      height = (results >= max_results and max_results or results) + 4,
-    },
+    default_text = #prefix > 0 and prefix or '',
+    prompt_prefix = '',
+    entry_prefix = '',
+    multi_icon = '',
+    selection_caret = '',
     show_line = false,
     prompt_title = false,
     results_title = false,
@@ -238,19 +243,22 @@ local function show_picker(prefix, items)
 
   local previewer = previewers.new_buffer_previewer({
     title = 'Documentation',
-    define_preview = function(picker, entry, status)
+    define_preview = function(self, entry, status)
       local docs = entry.value.docs
+
+      api.nvim_win_set_option(self.state.winid, 'winhl', hl)
 
       if docs and docs.value then
         local lines = vim.split(docs.value, '\n', { trimempty = true })
 
         if docs.kind == 'markdown' then
-          api.nvim_buf_set_option(picker.state.bufnr, 'ft', 'markdown')
-          api.nvim_win_set_option(picker.state.winid, 'conceallevel', 2)
-          api.nvim_win_set_option(picker.state.winid, 'wrap', true)
-          lsp.util.stylize_markdown(picker.state.bufnr, lines, {})
+          api.nvim_buf_set_option(self.state.bufnr, 'ft', 'markdown')
+          api.nvim_win_set_option(self.state.winid, 'conceallevel', 2)
+          api.nvim_win_set_option(self.state.winid, 'wrap', true)
+          api.nvim_win_set_option(self.state.winid, 'linebreak', true)
+          lsp.util.stylize_markdown(self.state.bufnr, lines, {})
         else
-          api.nvim_buf_set_lines(picker.state.bufnr, 0, -1, false, lines)
+          api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
         end
       end
     end,
@@ -312,26 +320,42 @@ local function show_picker(prefix, items)
     api.nvim_feedkeys('a', 'n', true)
   end
 
-  pickers
-    .new(opts, {
-      finder = finder,
-      previewer = previewer,
-      sorter = tele_conf.values.generic_sorter(),
-      attach_mappings = function(bufnr, map)
-        actions.select_default:replace(function()
-          actions.close(bufnr)
+  local picker = pickers.new(opts, {
+    finder = finder,
+    previewer = previewer,
+    sorter = tele_conf.values.generic_sorter(),
+    attach_mappings = function(bufnr, map)
+      actions.select_default:replace(function()
+        actions.close(bufnr)
 
-          local entry = action_state.get_selected_entry()
+        local entry = action_state.get_selected_entry()
 
-          if entry then
-            insert_completion(prefix, entry.value)
-          end
-        end)
+        if entry then
+          insert_completion(prefix, entry.value)
+        end
+      end)
 
-        return true
-      end,
-    })
-    :find()
+      return true
+    end,
+  })
+
+  local create_layout = picker.create_layout
+
+  picker.create_layout = function(self)
+    local layout = create_layout(self)
+    local mount = layout.mount
+    local update = layout.update
+
+    layout.mount = function(self)
+      mount(self)
+      api.nvim_win_set_option(self.prompt.winid, 'winhl', hl)
+      api.nvim_win_set_option(self.results.winid, 'winhl', hl)
+    end
+
+    return layout
+  end
+
+  picker:find()
 end
 
 -- Shows the completions in the completion menu.
@@ -363,6 +387,13 @@ local function show_completions(prefix, items)
       insert_completion(prefix, snippet)
       return
     end
+  end
+
+  local exact = exact_match(prefix, items)
+
+  if exact then
+    insert_completion(prefix, exact)
+    return
   end
 
   show_picker(prefix, items)

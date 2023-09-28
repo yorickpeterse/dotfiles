@@ -26,15 +26,22 @@ do
   local default = lsp.util.open_floating_preview
 
   lsp.util.open_floating_preview = function(contents, syntax, opts)
-    local local_opts = {
-      max_width = 120,
-      max_height = 20,
-      separator = false,
-    }
+    opts = opts or {}
+    opts =
+      vim.tbl_deep_extend('force', opts, { max_width = 120, max_height = 20 })
 
-    local combined_opts = vim.tbl_deep_extend('force', opts or {}, local_opts)
+    -- This makes the separator between the definition and description look a
+    -- bit better, instead of it looking like a distracting black line.
+    local buf, win = default(contents, syntax, opts)
+    local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
 
-    return default(contents, syntax, combined_opts)
+    for i, line in ipairs(lines) do
+      if vim.startswith(line, '─') and vim.endswith(line, '─') then
+        api.nvim_buf_add_highlight(buf, -1, 'TelescopeBorder', i - 1, 0, -1)
+      end
+    end
+
+    return buf, win
   end
 end
 
@@ -43,8 +50,11 @@ do
   local default = lsp.util.make_floating_popup_options
 
   lsp.util.make_floating_popup_options = function(width, height, opts)
-    local new_opts =
-      vim.tbl_deep_extend('force', opts or {}, { border = 'rounded' })
+    local new_opts = vim.tbl_deep_extend(
+      'force',
+      opts or {},
+      { border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } }
+    )
 
     return default(width, height, new_opts)
   end
