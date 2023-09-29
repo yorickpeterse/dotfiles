@@ -91,6 +91,9 @@ end
 -- Returns an item that matches the given prefix exactly, if any.
 local function exact_match(prefix, items)
   for _, item in ipairs(items) do
+    if item.filter == prefix then
+      return item
+    end
   end
 end
 
@@ -389,6 +392,10 @@ local function show_completions(prefix, items)
     end
   end
 
+  -- If multiple matches exist but one of them matches the prefix exactly,
+  -- favour the one that matches exactly. This way if you type `x.map[TAB]` and
+  -- the candidates are `map` and `map_foo`, then it picks `map`, based on the
+  -- assumption that's probably what you wanted.
   local exact = exact_match(prefix, items)
 
   if exact then
