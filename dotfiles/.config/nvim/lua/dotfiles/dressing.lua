@@ -23,5 +23,11 @@ require('dressing').setup({
   },
   select = {
     backend = { 'telescope' },
+    telescope = {
+      layout_strategy = 'grey',
+      prompt_title = false,
+      results_title = false,
+      preview_title = false,
+    },
   },
 })
