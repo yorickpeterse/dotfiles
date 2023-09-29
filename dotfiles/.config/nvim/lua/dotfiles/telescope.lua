@@ -61,8 +61,8 @@ strats.completion = function(self, max_columns, max_lines, layout_config)
   local line = cursor_line
   local col = cursor_col
 
-  if #self.default_text > 0 then
-    col = col - api.nvim_strwidth(self.default_text) -- + 1
+  if self.default_text and #self.default_text > 0 then
+    col = col - api.nvim_strwidth(self.default_text)
   end
 
   local above = false
@@ -151,7 +151,7 @@ telescope.setup({
     layout_strategy = 'grey',
     layout_config = {
       prompt_position = 'top',
-      width = 0.6,
+      width = { 0.6, max = 135 },
       height = 0.5,
       preview_width = 0.6,
     },
