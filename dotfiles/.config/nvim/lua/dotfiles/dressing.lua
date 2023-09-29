@@ -31,7 +31,8 @@ require('dressing').setup({
   select = {
     backend = { 'telescope' },
     telescope = {
-      layout_strategy = 'grey',
+      layout_strategy = 'completion',
+      layout_config = { overlay = false },
       prompt_title = false,
       results_title = false,
       preview_title = false,

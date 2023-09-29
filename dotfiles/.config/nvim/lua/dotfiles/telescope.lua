@@ -61,6 +61,11 @@ strats.completion = function(self, max_columns, max_lines, layout_config)
   local line = cursor_line
   local col = cursor_col
 
+  if self.layout_config.overlay == false then
+    line = line + 1 + border
+    col = col + 1
+  end
+
   if self.default_text and #self.default_text > 0 then
     col = col - api.nvim_strwidth(self.default_text)
   end
@@ -88,6 +93,10 @@ strats.completion = function(self, max_columns, max_lines, layout_config)
   --     text|
   if max_lines >= 20 and ((line + height - (border * 2)) > max_lines) then
     above = true
+  end
+
+  if above and self.layout_config.overlay == false then
+    line = line - 2 - (border * 2)
   end
 
   local top_right = col + width
