@@ -50,11 +50,18 @@ do
   local default = lsp.util.make_floating_popup_options
 
   lsp.util.make_floating_popup_options = function(width, height, opts)
-    local new_opts = vim.tbl_deep_extend(
-      'force',
-      opts or {},
-      { border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' } }
-    )
+    local new_opts = vim.tbl_deep_extend('force', opts or {}, {
+      border = {
+        ' ', -- top left
+        ' ', -- top
+        ' ', -- top right
+        ' ', -- right
+        ' ', -- bottom right
+        ' ', -- bottom
+        ' ', -- bottom left
+        ' ', -- left
+      },
+    })
 
     return default(width, height, new_opts)
   end
