@@ -15,6 +15,13 @@ require('dressing').setup({
       ' ', -- left
     },
     override = function(conf)
+      -- Trim surrounding whitespace and trailing colons from the prompt.
+      conf.title = vim.trim(conf.title)
+
+      if vim.endswith(conf.title, ':') then
+        conf.title = conf.title:sub(1, -2)
+      end
+
       conf.col = -1
       conf.row = 2
 
