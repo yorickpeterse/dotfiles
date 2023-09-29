@@ -328,6 +328,8 @@ local function show_picker(prefix, items)
     previewer = previewer,
     sorter = tele_conf.values.generic_sorter(),
     attach_mappings = function(bufnr, map)
+      map('i', '<Esc>', actions.close)
+      map('i', '<C-{>', actions.close)
       actions.select_default:replace(function()
         actions.close(bufnr)
 
