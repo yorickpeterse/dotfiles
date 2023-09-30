@@ -22,6 +22,5 @@ use('stevearc/oil.nvim')
 use('stevearc/conform.nvim')
 use('stevearc/dressing.nvim')
 use('rlane/pounce.nvim')
-use('rhysd/vim-llvm')
 
 pkg.install()
