@@ -2,7 +2,7 @@ local pkg = require('dotfiles.package')
 local use = pkg.use
 
 use('nvim-lua/plenary.nvim')
-use('b3nj5m1n/kommentary')
+use('numToStr/Comment.nvim')
 use('YorickPeterse/rust.vim')
 use('dag/vim-fish')
 use('Vimjas/vim-python-pep8-indent')
