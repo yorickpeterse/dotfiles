@@ -36,6 +36,16 @@ local kinds = lsp.protocol.CompletionItemKind
 local text_kind = kinds[kinds.Text]
 local snippet_kind = kinds[kinds.Snippet]
 local keyword_kind = kinds[kinds.Keyword]
+local module_kind = kinds[kinds.Module]
+
+local ignored_kinds = {
+  -- Keyword completion isn't really useful.
+  [kinds[kinds.Keyword]] = true,
+
+  -- Not sure what these are meant for, but rust-analyzer sometimes produces
+  -- these for nightly-only macros.
+  [kinds[kinds.Reference]] = true,
+}
 
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
@@ -85,15 +95,6 @@ local function snippet_from_binary_completion(items)
 
   if first.kind == text_kind and second.kind == snippet_kind then
     return second
-  end
-end
-
--- Returns an item that matches the given prefix exactly, if any.
-local function exact_match(prefix, items)
-  for _, item in ipairs(items) do
-    if item.filter == prefix then
-      return item
-    end
   end
 end
 
@@ -398,11 +399,35 @@ local function show_completions(prefix, items)
   -- favour the one that matches exactly. This way if you type `x.map[TAB]` and
   -- the candidates are `map` and `map_foo`, then it picks `map`, based on the
   -- assumption that's probably what you wanted.
-  local exact = exact_match(prefix, items)
+  for _, item in ipairs(items) do
+    if item.filter == prefix then
+      insert_completion(prefix, item)
+      return
+    end
+  end
 
-  if exact then
-    insert_completion(prefix, exact)
-    return
+  -- If we only have a few candidates, and our prefix is close enough to of one
+  -- of the items, we insert that item.
+  if #items <= 5 then
+    local close = {}
+
+    for _, item in ipairs(items) do
+      if
+        -- If the canditates list includes a module reference and a bunch of
+        -- others (e.g. variables), in 9 out of 10 cases I don't care about the
+        -- module reference, so we ignore it here to make completing e.g.
+        -- variables easier.
+        item.kind ~= module_kind
+        and (#item.filter == 2 or (#prefix / #item.filter) * 100 >= 65)
+      then
+        table.insert(close, item)
+      end
+    end
+
+    if #close == 1 then
+      insert_completion(prefix, close[1])
+      return
+    end
   end
 
   show_picker(prefix, items)
@@ -445,8 +470,7 @@ function M.start()
       -- Now that we have the items, we need to process them so the right text
       -- is inserted when changing the selected entry.
       for _, item in ipairs(lsp_items) do
-        -- Keywords are ignored as I find them too distracting.
-        if item.kind ~= keyword_kind then
+        if not ignored_kinds[item.kind] then
           local completion = item.user_data.nvim.lsp.completion_item
           local filter = filter_text(completion)
 
