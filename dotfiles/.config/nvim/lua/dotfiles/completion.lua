@@ -37,6 +37,7 @@ local text_kind = kinds[kinds.Text]
 local snippet_kind = kinds[kinds.Snippet]
 local keyword_kind = kinds[kinds.Keyword]
 local module_kind = kinds[kinds.Module]
+local variable_kind = kinds[kinds.Variable]
 
 local ignored_kinds = {
   -- Keyword completion isn't really useful.
@@ -390,6 +391,16 @@ local function show_completions(prefix, items)
 
     if snippet then
       insert_completion(prefix, snippet)
+      return
+    end
+
+    -- If the entries are a variable and a module, we favour the variable, as
+    -- variable completion occurs more frequently than module completion.
+    if items[1].kind == variable_kind and items[2].kind == module_kind then
+      insert_completion(prefix, items[1])
+      return
+    elseif items[1].kind == module_kind and items[2].kind == variable_kind then
+      insert_completion(prefix, items[2])
       return
     end
   end
