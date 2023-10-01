@@ -350,7 +350,6 @@ local function show_picker(prefix, items)
   picker.create_layout = function(self)
     local layout = create_layout(self)
     local mount = layout.mount
-    local update = layout.update
 
     layout.mount = function(self)
       mount(self)

@@ -8,9 +8,6 @@ local loclist = require('dotfiles.location_list')
 local lint = require('lint')
 local conform = require('conform')
 
--- The namespace to use for restoring cursors after formatting a buffer.
-local format_mark_ns = api.nvim_create_namespace('')
-
 local function au(name, commands)
   local group = api.nvim_create_augroup('dotfiles_' .. name, { clear = true })
 
@@ -136,7 +133,6 @@ au('trailing_whitespace', {
   { 'InsertLeave', '*', disable_list },
 })
 
--- LSP and linting
 au('lsp', {
   { 'BufWritePre', '*', format_buffer },
   { 'CursorMoved', '*', diag.echo_diagnostic },
@@ -149,6 +145,39 @@ au('lsp', {
 
 au('diffs', {
   { 'BufEnter', 'diffview:///panels*', 'set cursorlineopt+=line' },
+})
+
+-- The window bar highlight changing from WinBar to WinBarNC when opening
+-- Telescope is distracting. This ensures it remains the same when
+-- Telescope is opened.
+au('telescope', {
+  {
+    'User',
+    'TelescopeFindPre',
+    function()
+      local win_id = api.nvim_get_current_win()
+      local buf_id = api.nvim_win_get_buf(win_id)
+      local winhl = 'WinBarNC:WinBar'
+      local old_winhl = api.nvim_win_get_option(win_id, 'winhl')
+
+      if old_winhl and #old_winhl > 0 then
+        winhl = old_winhl .. ',' .. winhl
+      end
+
+      api.nvim_win_set_option(win_id, 'winhl', winhl)
+      api.nvim_create_autocmd({ 'BufEnter' }, {
+        buffer = buf_id,
+        callback = function(event)
+          local winhl = api
+            .nvim_win_get_option(win_id, 'winhl')
+            :gsub(',?WinBarNC:WinBar', '')
+
+          api.nvim_win_set_option(win_id, 'winhl', winhl)
+          return true
+        end,
+      })
+    end,
+  },
 })
 
 -- Automatically create leading directories when writing a file. This makes it
