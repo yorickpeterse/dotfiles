@@ -172,6 +172,8 @@ telescope.setup({
         ['<tab>'] = actions.move_selection_next,
         ['<s-tab>'] = actions.move_selection_previous,
         ['<C-p>'] = layout.toggle_preview,
+        ['<Esc>'] = actions.close,
+        ['<C-{>'] = actions.close,
       },
       n = {
         ['<tab>'] = actions.move_selection_next,
