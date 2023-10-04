@@ -21,8 +21,7 @@ local diag = vim.diagnostic
 local keymap = vim.keymap
 
 -- The LSP symbols to include when using Telescope.
-local ts_lsp_symbols = {}
-local ts_lsp_kinds = {
+local ts_lsp_symbols = {
   Class = true,
   Constant = true,
   Constructor = true,
@@ -39,12 +38,6 @@ local ts_lsp_kinds = {
   Unit = true,
   Value = true,
 }
-
-for _, kind in ipairs(vim.lsp.protocol.SymbolKind) do
-  if ts_lsp_kinds[kind] then
-    table.insert(ts_lsp_symbols, kind)
-  end
-end
 
 local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
@@ -279,9 +272,12 @@ end)
 
 nmap('<leader>t', function()
   local bufnr = api.nvim_get_current_buf()
+  local ft = api.nvim_buf_get_option(bufnr, 'ft')
 
   if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
-    pickers.lsp_document_symbols({
+    pickers.lsp_document_symbols(bufnr, {
+      -- Lua exposes variables as constants for some weird reason
+      ignore_scoped_constants = ft == 'lua',
       symbols = ts_lsp_symbols,
       previewer = false,
       results_title = false,

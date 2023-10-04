@@ -1,7 +1,6 @@
 local pickers = require('telescope.pickers')
 local entry_display = require('telescope.pickers.entry_display')
 local finders = require('telescope.finders')
-local utils = require('telescope.utils')
 local conf = require('telescope.config').values
 local M = {}
 
@@ -29,51 +28,29 @@ local function flatten_document_symbols(symbols, scope)
   return items
 end
 
-local function lsp_symbol_to_location(bufnr, symbol)
-  return {
-    bufnr = bufnr,
-    filename = vim.api.nvim_buf_get_name(bufnr),
-    lnum = symbol.selectionRange.start.line + 1,
-    col = symbol.selectionRange.start.character + 1,
-    kind = vim.lsp.protocol.SymbolKind[symbol.kind] or 'Unknown',
-    text = symbol.name,
-    scope = vim.fn.join(symbol.scope, '/'),
-  }
-end
-
-local function lsp_symbols_entry_maker(opts)
-  opts = opts or {}
-
-  local bufnr = opts.bufnr or vim.api.nvim_get_current_buf()
+local function lsp_symbols_entry_maker()
   local displayer = entry_display.create({
     separator = ' ',
-    hl_chars = { ['['] = 'TelescopeBorder', [']'] = 'TelescopeBorder' },
     items = {
-      { width = opts.symbol_width or 40 },
+      { width = 40 },
       { remaining = true },
     },
   })
 
-  local make_display = function(entry)
-    return displayer({
-      entry.symbol_name,
-      { entry.symbol_scope, 'TelescopeResultsComment' },
-    })
-  end
-
   return function(entry)
-    local ordinal = entry.text .. ' ' .. entry.scope
-
     return {
-      valid = true,
       value = entry,
-      ordinal = ordinal,
-      display = make_display,
+      ordinal = entry.text .. ' ' .. entry.scope,
+      display = function(entry)
+        return displayer({
+          entry.symbol_name,
+          { entry.symbol_scope, 'TelescopeResultsComment' },
+        })
+      end,
       filename = entry.filename,
       lnum = entry.lnum,
       col = entry.col,
       symbol_name = entry.text,
-      symbol_type = entry.kind,
       symbol_scope = entry.scope or '',
       start = entry.start,
       finish = entry.finish,
@@ -82,28 +59,47 @@ local function lsp_symbols_entry_maker(opts)
 end
 
 -- A picker that shows LSP document symbols along with their surrounding scope.
-function M.lsp_document_symbols(opts)
+function M.lsp_document_symbols(bufnr, opts)
   opts = opts or {}
-
-  local bufnr = vim.api.nvim_get_current_buf()
-  local params = { textDocument = vim.lsp.util.make_text_document_params() }
 
   vim.lsp.buf_request_all(
     bufnr,
     'textDocument/documentSymbol',
-    params,
+    { textDocument = vim.lsp.util.make_text_document_params() },
     function(response)
       local locations = {}
 
       for _, result in pairs(response) do
         if result.result then
           for _, symbol in ipairs(flatten_document_symbols(result.result, {})) do
-            table.insert(locations, lsp_symbol_to_location(bufnr, symbol))
+            table.insert(locations, {
+              bufnr = bufnr,
+              filename = vim.api.nvim_buf_get_name(bufnr),
+              lnum = symbol.selectionRange.start.line + 1,
+              col = symbol.selectionRange.start.character + 1,
+              kind = vim.lsp.protocol.SymbolKind[symbol.kind] or 'Unknown',
+              text = symbol.name,
+              scope = vim.fn.join(symbol.scope, '/'),
+              start = symbol.selectionRange.start.line + 1,
+              finish = symbol.selectionRange['end'].line + 1,
+            })
           end
         end
       end
 
-      locations = utils.filter_symbols(locations, opts)
+      if opts.symbols then
+        locations = vim.tbl_filter(function(item)
+          if
+            item.kind == 'Constant'
+            and opts.ignore_scoped_constants
+            and #item.scope > 0
+          then
+            return false
+          end
+
+          return opts.symbols[item.kind] == true
+        end, locations)
+      end
 
       if not locations or #locations == 0 then
         return
@@ -114,7 +110,7 @@ function M.lsp_document_symbols(opts)
           prompt_title = 'Document symbols',
           finder = finders.new_table({
             results = locations,
-            entry_maker = lsp_symbols_entry_maker(opts),
+            entry_maker = lsp_symbols_entry_maker(),
           }),
           previewer = conf.qflist_previewer(opts),
           sorter = conf.generic_sorter(opts),

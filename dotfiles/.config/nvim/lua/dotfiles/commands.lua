@@ -33,8 +33,6 @@ function M.find_replace_register(find, replace)
     .. fn.escape(fn.getreg(replace), '/&'):gsub('\n', '\\r')
     .. '/g'
 
-  print(cmd)
-
   vim.cmd(cmd)
 end
 
