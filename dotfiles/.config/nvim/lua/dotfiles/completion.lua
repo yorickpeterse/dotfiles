@@ -99,9 +99,7 @@ local function snippet_from_binary_completion(items)
   end
 end
 
-local function remove_text(text, line, column)
-  local bufnr = api.nvim_get_current_buf()
-
+local function remove_text(bufnr, text, line, column)
   api.nvim_buf_set_text(bufnr, line - 1, column, line - 1, column + #text, {})
   api.nvim_win_set_cursor(0, { line, column })
 end
@@ -125,10 +123,17 @@ end
 
 -- Inserts the final completion into the buffer.
 local function insert_completion(prefix, item)
+  local bufnr = api.nvim_get_current_buf()
+
+  remove_text(bufnr, prefix, item.line, item.column)
+
+  if item.additional_edits then
+    lsp.util.apply_text_edits(item.additional_edits, bufnr, 'utf-8')
+  end
+
   if item.source == 'lsp' or item.source == 'snippet' then
-    snippy.expand_snippet(item.insert, prefix)
+    snippy.expand_snippet(item.insert)
   else
-    remove_text(prefix, item.line, item.column)
     api.nvim_put({ item.insert }, '', false, true)
   end
 end
@@ -486,8 +491,9 @@ function M.start()
 
           table.insert(items, {
             filter = filter,
-            label = filter,
+            label = completion.label or filter,
             insert = text_to_expand(completion),
+            additional_edits = completion.additionalTextEdits,
             kind = kinds[completion.kind],
             docs = completion.documentation,
             detail = completion.detail,
