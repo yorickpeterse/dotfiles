@@ -10,6 +10,7 @@ local snippy = require('snippy')
 local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
+local loclist = require('dotfiles.location_list')
 
 local keycode = util.keycode
 local popup_visible = util.popup_visible
@@ -43,10 +44,6 @@ local function map_key(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
 
   keymap.set(kind, key, action, opts)
-end
-
-local function unmap(key)
-  keymap.del('', key)
 end
 
 local function map(key, action, options)
@@ -185,21 +182,9 @@ end, { expr = true })
 vmap('<s-tab>', '<')
 vmap('<tab>', '>')
 
-nmap(']n', function()
-  util.restore_register('/', function()
-    vim.cmd('silent! /<<< HEAD')
-  end)
-end)
-
-nmap('[n', function()
-  util.restore_register('/', function()
-    vim.cmd('silent! ?<<< HEAD')
-  end)
-end)
-
 -- LSP
-nmap('<leader>h', cmd('lua vim.lsp.buf.hover()'))
-nmap('<leader>n', cmd('lua vim.lsp.buf.rename()'))
+nmap('<leader>h', vim.lsp.buf.hover)
+nmap('<leader>n', vim.lsp.buf.rename)
 nmap('<leader>d', function()
   local bufnr = api.nvim_get_current_buf()
 
@@ -252,8 +237,7 @@ nmap('<leader>i', function()
   )
 end)
 
-nmap('<leader>a', cmd('lua vim.lsp.buf.code_action()'))
-
+nmap('<leader>a', vim.lsp.buf.code_action)
 nmap('<leader>e', function()
   diag.open_float(0, { scope = 'line' })
 end)
@@ -295,7 +279,7 @@ nmap('<leader>t', function()
   telescope_builtin.current_buffer_tags()
 end)
 
-nmap('<leader>b', cmd('Telescope buffers'))
+nmap('<leader>b', telescope_builtin.buffers)
 
 -- Terminals
 tmap('<Esc>', [[<C-\><C-n>]])
@@ -306,9 +290,9 @@ tmap('<S-space>', '<space>')
 nmap(']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
 nmap('[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
 
-nmap(']l', cmd('lua dotfiles.location_list.next()'))
-nmap('[l', cmd('lua dotfiles.location_list.prev()'))
-nmap('<leader>l', cmd('lua dotfiles.location_list.toggle()'))
+nmap(']l', loclist.next)
+nmap('[l', loclist.prev)
+nmap('<leader>l', loclist.toggle)
 nmap('<leader>q', quickfix.toggle)
 
 -- Snippets
