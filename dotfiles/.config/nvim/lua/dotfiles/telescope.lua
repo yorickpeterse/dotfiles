@@ -113,16 +113,15 @@ strats.completion = function(self, max_columns, max_lines, layout_config)
 
   prompt.line = line
   prompt.borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+  results.borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
   prompt.col = col
   prompt.height = prompt_height
   prompt.width = width
 
   if above then
-    results.line = prompt.line - result_height - border
-    results.borderchars = { ' ', ' ', '─', ' ', ' ', ' ', ' ', ' ' }
+    results.line = prompt.line - result_height - (border * 2)
   else
-    results.line = prompt.line + prompt.height + border
-    results.borderchars = { '─', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
+    results.line = prompt.line + prompt.height + (border * 2)
   end
 
   results.col = col
@@ -130,18 +129,13 @@ strats.completion = function(self, max_columns, max_lines, layout_config)
   results.height = result_height
 
   if show_preview then
-    preview.width = math.ceil(width * 0.7)
-    results.width = math.ceil(width - preview.width)
+    preview.width = math.ceil(width * 0.7) - (border * 2)
+    results.width = math.ceil(width * 0.3)
     preview.title = false
-    preview.col = results.col + results.width
+    preview.col = results.col + results.width + (border * 2)
     preview.line = results.line
     preview.height = results.height
-  end
-
-  if above then
-    preview.borderchars = { ' ', ' ', '─', '│', ' ', ' ', ' ', '┴' }
-  else
-    preview.borderchars = { '─', ' ', ' ', '│', '┬', ' ', ' ', ' ' }
+    preview.borderchars = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' }
   end
 
   return {

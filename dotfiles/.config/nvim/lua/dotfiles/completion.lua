@@ -237,7 +237,6 @@ function buffer_completion_items(column, prefix)
 end
 
 local function show_picker(prefix, items)
-  local hl = 'Normal:Pmenu,EndOfBuffer:Pmenu'
   local opts = {
     layout_strategy = 'completion',
     default_text = #prefix > 0 and prefix or '',
@@ -255,8 +254,6 @@ local function show_picker(prefix, items)
     title = 'Documentation',
     define_preview = function(self, entry, status)
       local docs = entry.value.docs
-
-      api.nvim_win_set_option(self.state.winid, 'winhl', hl)
 
       if docs and docs.value then
         local lines = vim.split(docs.value, '\n', { trimempty = true })
@@ -359,8 +356,6 @@ local function show_picker(prefix, items)
 
     layout.mount = function(self)
       mount(self)
-      api.nvim_win_set_option(self.prompt.winid, 'winhl', hl)
-      api.nvim_win_set_option(self.results.winid, 'winhl', hl)
     end
 
     return layout
