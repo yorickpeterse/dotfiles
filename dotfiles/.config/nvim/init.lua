@@ -10,6 +10,9 @@ g.python_host_prog = '/usr/bin/python2'
 -- opening quickfix windows (https://github.com/neovim/neovim/issues/17157).
 g.loaded_matchparen = 1
 
+-- Enable faster loading of Lua modules.
+vim.loader.enable()
+
 require('dotfiles.packages')
 
 -- Colorscheme {{{1
