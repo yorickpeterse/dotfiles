@@ -4,7 +4,7 @@ require('dressing').setup({
       winblend = 0,
       winhighlight = 'NormalFloat:TelescopePromptNormal,'
         .. 'FloatBorder:TelescopePromptBorder,'
-        .. 'FloatTitle:TelescopeTitle',
+        .. 'FloatTitle:TelescopePromptTitle',
     },
     title_pos = 'left',
     border = {
