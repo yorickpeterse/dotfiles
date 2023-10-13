@@ -2,35 +2,26 @@ local M = {}
 local error = require('dotfiles.util').error
 
 local workspaces = {
-  ['inko'] = {
-    path = '~/Projects/inko/inko',
-    terminal = true,
-  },
-  ['config'] = {
-    path = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
-    terminal = true,
-  },
+  inko = '~/Projects/inko/inko',
+  config = '~/Projects/general/dotfiles/dotfiles/.config/nvim',
+  website = '~/Projects/websites/yorickpeterse.com',
 }
 
-local function open(title, workspace)
-  vim.cmd('cd ' .. workspace.path)
-  vim.go.titlestring = title
-
-  if workspace.terminal then
-    vim.cmd('Tterm')
-    vim.cmd('stopinsert')
-    vim.cmd('silent file Terminal')
-    vim.cmd('tabprev')
-  end
+function M.cd(path)
+  vim.cmd.cd(path)
+  vim.cmd.Tterm()
+  vim.cmd.stopinsert()
+  vim.cmd('silent file Terminal')
+  vim.cmd.tabprev()
 end
 
 function M.open(name)
-  local workspace = workspaces[name]
+  local path = workspaces[name]
 
-  if workspace then
-    open(name, workspace)
+  if path then
+    M.cd(path)
   else
-    error('Invalid workspace name: "' .. name .. '"')
+    error(string.format("The workspace '%s' is undefined", name))
   end
 end
 

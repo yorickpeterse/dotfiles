@@ -1,55 +1,44 @@
+local package = require('dotfiles.package')
+local workspace = require('dotfiles.workspace')
 local M = {}
-local fn = vim.fn
 
-local function cmd(name, action, flags)
-  local flag_pairs = {}
-
-  if flags then
-    for flag, value in pairs(flags) do
-      if value == true then
-        table.insert(flag_pairs, '-' .. flag)
-      else
-        table.insert(flag_pairs, '-' .. flag .. '=' .. value)
-      end
-    end
-  end
-
-  action = action:gsub('\n%s*', ' ')
-
-  local def = table.concat(
-    { 'command!', table.concat(flag_pairs, ' '), name, action },
-    ' '
-  )
-
-  vim.cmd(def)
+local function cmd(name, func, opts)
+  vim.api.nvim_create_user_command(name, func, opts or {})
 end
 
-function M.terminal(cmd)
+local function terminal(cmd)
   vim.cmd(cmd)
   vim.wo.scrolloff = 0
   vim.cmd('term')
   vim.cmd('startinsert')
 end
 
--- Terminals
-cmd('Term', 'lua dotfiles.commands.terminal("new")')
-cmd('Vterm', 'lua dotfiles.commands.terminal("vnew")')
-cmd('Tterm', 'lua dotfiles.commands.terminal("tabnew")')
+cmd('Term', function()
+  terminal('new')
+end)
 
--- Package management
-cmd(
-  'PackageUpdate',
-  'lua dotfiles.package.update(<f-args>)',
-  { nargs = '?', complete = 'customlist,v:lua.dotfiles.package.names' }
-)
-cmd('PackageClean', 'lua dotfiles.package.clean()')
-cmd('PackageEdit', 'e ~/.config/nvim/lua/dotfiles/packages.lua')
+cmd('Vterm', function()
+  terminal('vnew')
+end)
 
--- Workspace management
-cmd(
-  'Workspace',
-  'lua dotfiles.workspace.open(<f-args>)',
-  { nargs = '1', complete = 'customlist,v:lua.dotfiles.workspace.names' }
-)
+cmd('Tterm', function()
+  terminal('tabnew')
+end)
+
+cmd('PackageUpdate', function(data)
+  package.update(data.fargs[1])
+end, { nargs = '?', complete = package.names })
+
+cmd('PackageClean', function()
+  package.clean()
+end)
+
+cmd('Workspace', function(data)
+  workspace.open(data.fargs[1])
+end, { nargs = 1, complete = workspace.names })
+
+cmd('Cd', function(data)
+  workspace.cd(data.fargs[1])
+end, { nargs = 1, complete = 'file' })
 
 return M
