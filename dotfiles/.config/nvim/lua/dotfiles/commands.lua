@@ -24,33 +24,12 @@ local function cmd(name, action, flags)
   vim.cmd(def)
 end
 
--- Finds all occurrences of text stored in register A, replacing it with the
--- contents of register B.
-function M.find_replace_register(find, replace)
-  local cmd = '%s/\\V'
-    .. fn.escape(fn.getreg(find), '/'):gsub('\n', '\\n')
-    .. '/'
-    .. fn.escape(fn.getreg(replace), '/&'):gsub('\n', '\\r')
-    .. '/g'
-
-  vim.cmd(cmd)
-end
-
 function M.terminal(cmd)
   vim.cmd(cmd)
-
   vim.wo.scrolloff = 0
-
   vim.cmd('term')
   vim.cmd('startinsert')
 end
-
-cmd('Init', 'e ~/.config/nvim/init.lua')
-cmd(
-  'Replace',
-  'lua dotfiles.commands.find_replace_register(<f-args>)',
-  { nargs = '+' }
-)
 
 -- Terminals
 cmd('Term', 'lua dotfiles.commands.terminal("new")')
