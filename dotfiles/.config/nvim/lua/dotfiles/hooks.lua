@@ -116,7 +116,7 @@ local function create_dirs(info)
 end
 
 local function lint_buffer()
-  lint.try_lint()
+  lint.try_lint(nil, { ignore_errors = true })
 end
 
 au('buffer_management', {
