@@ -28,6 +28,13 @@ require('diffview').setup({
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
     },
+    file_history_panel = {
+      { 'n', '<CR>', actions.select_entry },
+      { 'n', 'j', actions.next_entry },
+      { 'n', 'k', actions.prev_entry },
+      { 'n', ']f', actions.select_next_entry },
+      { 'n', '[f', actions.select_prev_entry },
+    },
   },
 })
 
