@@ -147,6 +147,9 @@ o.hlsearch = false
 o.ignorecase = true
 o.smartcase = true
 
+-- Statuscolumn {{{1
+o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
+
 -- Statusline {{{1
 o.statusline = '%!v:lua.dotfiles.statusline.render()'
 o.laststatus = 3
