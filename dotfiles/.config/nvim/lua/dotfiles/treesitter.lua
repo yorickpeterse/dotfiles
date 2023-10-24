@@ -19,4 +19,13 @@ require('nvim-treesitter.configs').setup({
     disable = { 'ruby', 'rust', 'c' },
     additional_vim_regex_highlighting = false,
   },
+  indent = {
+    enable = true,
+    disable = function(lang, bufnr)
+      -- Indent is only enabled for Python, such that no extra plugins are
+      -- needed to get PEP8 indentation. For other languages indentation doesn't
+      -- work very well, so we disable it there.
+      return lang ~= 'python'
+    end,
+  },
 })
