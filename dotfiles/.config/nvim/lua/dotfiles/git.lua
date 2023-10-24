@@ -1,4 +1,3 @@
-local M = {}
 local api = vim.api
 local actions = require('diffview.actions')
 
@@ -37,5 +36,3 @@ require('diffview').setup({
     },
   },
 })
-
-return M
