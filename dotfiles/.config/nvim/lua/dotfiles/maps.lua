@@ -70,10 +70,6 @@ local function vmap(key, action, options)
   map_key('v', key, action, options)
 end
 
-local function xmap(key, action, options)
-  map_key('x', key, action, options)
-end
-
 local function ismap(key, action, options)
   imap(key, action, options)
   smap(key, action, options)
@@ -106,14 +102,8 @@ nmap('<C-h>', '<C-w>h')
 map('H', '^')
 map('L', 'g_')
 
-nmap('s', pounce.pounce)
-xmap('s', pounce.pounce)
-
-nmap('S', function()
-  pounce.pounce({ do_repeat = true })
-end)
-
-xmap('S', function()
+map('s', pounce.pounce)
+map('S', function()
   pounce.pounce({ do_repeat = true })
 end)
 
@@ -121,11 +111,9 @@ vmap('y', 'ygv<Esc>')
 
 -- Use d/dd for actually deleting, while using dx for cutting the line.
 nmap('dx', 'dd', { noremap = true })
-
-nmap('d', '"_d', { noremap = true })
-nmap('d', '"_d', { noremap = true })
-xmap('d', '"_d', { noremap = true })
 nmap('dd', '"_dd', { noremap = true })
+nmap('d', '"_d', { noremap = true })
+vmap('d', '"_d', { noremap = true })
 
 -- Allow copy/pasting using Control-c and Control-v
 vmap('<C-c>', '"+y')
