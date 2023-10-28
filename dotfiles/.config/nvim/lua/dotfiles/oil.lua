@@ -11,7 +11,7 @@ require('oil').setup({
   keymaps = {
     ['g?'] = 'actions.show_help',
     ['<CR>'] = 'actions.select',
-    ['<C-l>'] = 'actions.refresh',
+    ['<C-r>'] = 'actions.refresh',
     ['-'] = 'actions.parent',
     ['_'] = 'actions.open_cwd',
     ['`'] = 'actions.cd',
@@ -20,4 +20,5 @@ require('oil').setup({
     ['gx'] = 'actions.open_external',
     ['g.'] = 'actions.toggle_hidden',
   },
+  use_default_keymaps = false,
 })
