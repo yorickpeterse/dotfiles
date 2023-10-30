@@ -1,3 +1,4 @@
+ivm
 neovim-gtk-git
 neovim-remote
 ruby-install
