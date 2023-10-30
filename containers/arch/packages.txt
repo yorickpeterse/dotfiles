@@ -30,6 +30,7 @@ openssh
 pacman-contrib
 python
 python-pip
+python-poetry
 ripgrep
 rustup
 shellcheck
