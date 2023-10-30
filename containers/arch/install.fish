@@ -53,6 +53,7 @@ rm -rf /tmp/yay
 
 section 'Configuring Rust'
 run rustup install stable
+run rustup component add rust-src rust-analyzer clippy rustfmt
 
 if ! type -q ~/.cargo/bin/ivm
     run cargo install ivm
