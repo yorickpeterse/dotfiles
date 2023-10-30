@@ -27,6 +27,7 @@ lm_sensors
 lua-language-server
 neovim
 openssh
+pacman-contrib
 python
 python-pip
 ripgrep
