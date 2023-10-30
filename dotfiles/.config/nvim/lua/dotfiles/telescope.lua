@@ -175,7 +175,7 @@ telescope.setup({
       },
     },
     file_ignore_patterns = {
-      '.git/',
+      '%.git/',
     },
   },
   pickers = {
