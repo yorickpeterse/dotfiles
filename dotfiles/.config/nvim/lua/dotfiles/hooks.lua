@@ -141,6 +141,7 @@ au('lsp', {
   { 'BufWinEnter', '*', loclist.enter_window },
   { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
   { 'BufWritePost', '*', lint_buffer },
+  { 'User', 'LspProgressUpdate', 'redrawstatus' },
 })
 
 au('diffs', {
