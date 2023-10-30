@@ -1,0 +1,4 @@
+neovim-gtk-git
+neovim-remote
+ruby-install
+vale

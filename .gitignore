@@ -16,3 +16,6 @@ dotfiles/.pry/themes/*.prytheme.rb
 dotfiles/.local/share/applications/mimeinfo.cache
 dotfiles/.config/systemd/user/*.target.wants/
 dotfiles/.config/systemd/user/breaks.service
+
+dotfiles/.cargo/*
+!dotfiles/.cargo/config.toml

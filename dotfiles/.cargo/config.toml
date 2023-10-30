@@ -1,0 +1,5 @@
+[registries.crates-io]
+protocol = 'sparse'
+
+[build]
+rustflags = ['-C', 'link-arg=-fuse-ld=lld']

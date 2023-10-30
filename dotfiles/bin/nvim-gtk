@@ -1,4 +1,8 @@
 #!/usr/bin/env fish
 
-exec /usr/bin/distrobox-enter -n fedora \
-    -- fish -c "env NVIM_GTK_NO_HEADERBAR=1 /usr/bin/nvim-gtk -- $argv"
+if [ "$CONTAINER_ID" = '' ]
+    exec /usr/bin/distrobox-enter -n arch \
+        -- fish -c "env NVIM_GTK_NO_HEADERBAR=1 /usr/bin/nvim-gtk -- $argv"
+else
+    exec env NVIM_GTK_NO_HEADERBAR=1 /usr/bin/nvim-gtk -- $argv
+end

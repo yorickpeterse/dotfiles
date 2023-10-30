@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+if [ "$CONTAINER_ID" = fedora ]
+    exec /usr/share/git-core/contrib/diff-highlight $argv
+else
+    exec /usr/share/git/diff-highlight/diff-highlight $argv
+end

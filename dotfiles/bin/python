@@ -1,2 +1,0 @@
-#!/usr/bin/env fish
-exec python3 $argv

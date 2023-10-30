@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+
+exec /usr/bin/gnome-terminal --profile Arch \
+    -- /usr/bin/distrobox enter --no-workdir arch

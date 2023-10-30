@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Arch
+GenericName=Terminal entering Arch Linux
+Comment=Terminal entering Arch Linux
+Category=Distrobox;System;Utility"
+Exec=/var/home/yorickpeterse/bin/arch-terminal
+Icon=/var/home/yorickpeterse/.local/share/icons/distrobox/arch.svg
+Keywords=distrobox;
+NoDisplay=false
+Terminal=false
+TryExec=/usr/bin/distrobox
+Type=Application
