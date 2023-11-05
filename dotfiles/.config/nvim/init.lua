@@ -99,10 +99,12 @@ o.fillchars = {
   vertleft = '│',
   verthoriz = '│',
 }
+
 o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
+o.path = '.,,'
 
 -- GUI {{{1
 do
