@@ -24,3 +24,13 @@ snippet fn "Insert a function"
 	fn ${1:name} {
 		$0
 	}
+snippet tests "Inserts a test file"
+	import std.test.Tests
+
+	fn pub tests(t: mut Tests) {
+		$0
+	}
+snippet test "Inserts a test"
+	t.test('$1') fn (t) {
+		$0
+	}
