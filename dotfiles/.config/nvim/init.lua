@@ -90,14 +90,8 @@ o.updatetime = 1000
 o.fillchars = {
   fold = ' ',
   diff = '╱',
-  wbr = '─',
+  wbr = ' ',
   msgsep = '─',
-  horiz = ' ',
-  horizup = '│',
-  horizdown = '│',
-  vertright = '│',
-  vertleft = '│',
-  verthoriz = '│',
 }
 
 o.regexpengine = 0
