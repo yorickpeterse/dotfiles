@@ -100,7 +100,7 @@ nmap('<leader>s', cmd('update'))
 nmap('<leader>w', window.pick)
 nmap('<leader>c', cmd('quit'))
 nmap('<leader>v', cmd('vsplit'))
-nmap('<leader>x', cmd('split'))
+nmap('<leader>k', cmd('split'))
 nmap('<leader>l', loclist.toggle)
 nmap('<leader>q', quickfix.toggle)
 

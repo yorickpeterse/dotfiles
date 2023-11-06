@@ -18,3 +18,4 @@ setlocal nolist
 
 nnoremap <silent> <buffer> <CR> :lua dotfiles.quickfix.open_item()<CR>
 nnoremap <silent> <buffer> <leader>v :lua dotfiles.quickfix.open_item('vsplit')<CR>
+nnoremap <silent> <buffer> <leader>k :lua dotfiles.quickfix.open_item('split')<CR>
