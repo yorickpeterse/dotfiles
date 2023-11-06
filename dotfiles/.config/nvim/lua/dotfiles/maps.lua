@@ -89,18 +89,24 @@ g.maplocalleader = ' '
 
 -- Generic
 map('<space>', '<nop>')
-nmap('<leader>w', window.pick)
-nmap('<leader>s', cmd('update'))
-nmap('<leader>c', cmd('quit'))
-nmap('<leader>v', cmd('vsplit'))
-nmap('<leader>F', lsp.buf.format)
-
 nmap('<C-j>', '<C-w>j')
 nmap('<C-k>', '<C-w>k')
 nmap('<C-l>', '<C-w>l')
 nmap('<C-h>', '<C-w>h')
-map('H', '^')
-map('L', 'g_')
+nmap('<leader>F', lsp.buf.format)
+nmap('<leader>s', cmd('update'))
+
+-- Window management
+nmap('<leader>w', window.pick)
+nmap('<leader>c', cmd('quit'))
+nmap('<leader>v', cmd('vsplit'))
+nmap('<leader>x', cmd('split'))
+nmap('<leader>l', loclist.toggle)
+nmap('<leader>q', quickfix.toggle)
+
+-- Going places
+map('gs', '^')
+map('gl', 'g_')
 
 map('s', pounce.pounce)
 map('S', function()
@@ -279,11 +285,8 @@ tmap('<S-space>', '<space>')
 -- Quickfix
 nmap(']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
 nmap('[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
-
 nmap(']l', loclist.next)
 nmap('[l', loclist.prev)
-nmap('<leader>l', loclist.toggle)
-nmap('<leader>q', quickfix.toggle)
 
 -- Snippets
 ismap('<C-s>', function()
