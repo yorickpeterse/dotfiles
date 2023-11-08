@@ -78,6 +78,7 @@ o.diffopt =
   'filler,vertical,internal,algorithm:patience,indent-heuristic,context:3'
 o.lz = true
 o.showcmd = false
+o.showmode = false
 o.pastetoggle = '<F2>'
 o.splitright = true
 o.title = false
