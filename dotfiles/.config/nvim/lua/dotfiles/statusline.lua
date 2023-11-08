@@ -7,8 +7,6 @@ local diag = vim.diagnostic
 local util = require('dotfiles.util')
 local diags = require('dotfiles.diagnostics')
 local highlight = util.statusline_highlight
-local forced_space = util.forced_space
-
 local separator = '%='
 local active_tab = 'StatusLineTab'
 local inactive_tab = 'StatusLine'
@@ -18,7 +16,7 @@ local function diagnostic_count(kind)
   local amount = #diag.get(nil, { severity = severity })
 
   if amount > 0 then
-    return forced_space .. kind .. ': ' .. amount .. forced_space
+    return table.concat({ ' ', kind, ': ', amount, ' ' }, '')
   else
     return ''
   end
@@ -68,7 +66,7 @@ local function lsp_status()
     table.insert(cells, text)
   end
 
-  return forced_space .. table.concat(cells, ', ') .. forced_space
+  return table.concat(cells, ', ') .. ' '
 end
 
 local function tabline()
@@ -104,17 +102,16 @@ local function tabline()
         index,
         ': ',
         tabname,
-        ' ',
         '%*',
-      })
+      }, '')
   end
 
-  return line
+  return line .. ' '
 end
 
 local function line_diagnostic()
   if diags.diagnostic then
-    return diags.diagnostic .. forced_space
+    return diags.diagnostic .. ' '
   else
     return ''
   end

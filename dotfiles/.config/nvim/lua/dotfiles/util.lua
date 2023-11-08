@@ -5,11 +5,6 @@ local lsp = vim.lsp
 local uv = vim.loop
 local M = {}
 
--- This is the "EN SPACE" character. Regular and unbreakable spaces sometimes
--- get swallowed in statuslines. This kind of space doesn't.
--- local forced_space = utf8.char(8194)
-M.forced_space = string.char(226, 128, 130)
-
 -- Returns a callback to use for reading the output of STDOUT or STDERR.
 function M.reader(done)
   local output = ''
