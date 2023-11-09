@@ -49,8 +49,7 @@ local mode_map = {
   ['t'] = 'TERMINAL',
 }
 
-local ignore_modes =
-  { NORMAL = true, INSERT = true, COMMAND = true, TERMINAL = true }
+local ignore_modes = { NORMAL = true, INSERT = true, COMMAND = true }
 
 local function diagnostic_count(kind)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
