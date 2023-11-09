@@ -165,7 +165,7 @@ local function mode()
   if ignore_modes[kind] then
     return ''
   else
-    return '%#Bold#' .. kind .. '%*' .. ' '
+    return '%#PmenuSel# ' .. kind .. ' %*' .. ' '
   end
 end
 
