@@ -94,7 +94,7 @@ nmap('<C-k>', '<C-w>k')
 nmap('<C-l>', '<C-w>l')
 nmap('<C-h>', '<C-w>h')
 nmap('<leader>F', lsp.buf.format)
-nmap('<leader>s', cmd('update'))
+nmap('<leader>s', cmd('silent update'))
 
 -- Window management
 nmap('<leader>w', window.pick)
