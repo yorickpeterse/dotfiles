@@ -139,15 +139,15 @@ local function tabline()
         '%#',
         index == fn.tabpagenr() and active_tab or inactive_tab,
         '#',
-        ' ',
         index,
         ': ',
         tabname,
         '%*',
+        ' ',
       }, '')
   end
 
-  return line .. ' '
+  return line
 end
 
 local function line_diagnostic()
@@ -178,7 +178,7 @@ function M.render()
     tabline(),
     highlight(diagnostic_count('W'), 'WhiteOnYellow'),
     highlight(diagnostic_count('E'), 'WhiteOnRed'),
-  })
+  }, '')
 end
 
 return M
