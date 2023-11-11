@@ -197,3 +197,34 @@ au('search_highlight', {
   { 'CmdlineEnter', '[/?]', ':set hlsearch' },
   { 'CmdlineLeave', '[/?]', ':set nohlsearch' },
 })
+
+-- Automatically clear the command-line after some time.
+do
+  local timer = nil
+
+  au('commandline', {
+    {
+      'CmdlineEnter',
+      ':',
+      function()
+        if timer then
+          timer:stop()
+          timer = nil
+        end
+      end,
+    },
+    {
+      'CmdlineLeave',
+      ':',
+      function()
+        if timer then
+          timer:stop()
+        end
+
+        timer = vim.defer_fn(function()
+          api.nvim_echo({ { '' } }, false, {})
+        end, 2000)
+      end,
+    },
+  })
+end
