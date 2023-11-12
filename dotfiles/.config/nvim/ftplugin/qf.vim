@@ -10,12 +10,12 @@ if getwininfo(win_getid())[0].loclist != 1
   " Ensures the window is always the same height.
   res 10
 
-  lua dotfiles.quickfix.resize()
-  au WinClosed <buffer> :lua dotfiles.quickfix.closed()
+  lua require('dotfiles.quickfix').resize()
+  au WinClosed <buffer> :lua require('dotfiles.quickfix').closed()
 endif
 
 setlocal nolist
 
-nnoremap <silent> <buffer> <CR> :lua dotfiles.quickfix.open_item()<CR>
-nnoremap <silent> <buffer> <leader>v :lua dotfiles.quickfix.open_item('vsplit')<CR>
-nnoremap <silent> <buffer> <leader>k :lua dotfiles.quickfix.open_item('split')<CR>
+nnoremap <silent> <buffer> <CR> :lua require('dotfiles.quickfix').open_item()<CR>
+nnoremap <silent> <buffer> <leader>v :lua require('dotfiles.quickfix').open_item('vsplit')<CR>
+nnoremap <silent> <buffer> <leader>k :lua require('dotfiles.quickfix').open_item('split')<CR>

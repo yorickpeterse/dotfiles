@@ -2,7 +2,7 @@ local g = vim.g
 local o = vim.opt
 local fn = vim.fn
 
--- Settings to set before loading plugins {{{1
+-- Settings to set before loading plugins
 g.python3_host_prog = '/usr/bin/python'
 g.python_host_prog = '/usr/bin/python2'
 
@@ -15,13 +15,12 @@ vim.loader.enable()
 
 require('dotfiles.packages')
 
--- Colorscheme {{{1
+-- Colorscheme
 vim.cmd('color grey')
 
--- Config files and plugins {{{1
+-- Config files and plugins
 require('pqf').setup()
 require('dd').setup()
-
 require('dotfiles.lsp')
 require('dotfiles.window')
 require('dotfiles.git')
@@ -36,28 +35,15 @@ require('dotfiles.oil')
 require('dotfiles.linters')
 require('dotfiles.formatters')
 require('dotfiles.pairs')
+require('dotfiles.maps')
+require('dotfiles.commands')
 
-_G.dotfiles = {
-  completion = require('dotfiles.completion'),
-  diagnostics = require('dotfiles.diagnostics'),
-  package = require('dotfiles.package'),
-  statusline = require('dotfiles.statusline'),
-  winbar = require('dotfiles.winbar'),
-  workspace = require('dotfiles.workspace'),
-  abbrev = require('dotfiles.abbrev'),
-  location_list = require('dotfiles.location_list'),
-  maps = require('dotfiles.maps'),
-  commands = require('dotfiles.commands'),
-  quickfix = require('dotfiles.quickfix'),
-}
-
--- Code completion {{{1
+-- Code completion
 o.pumheight = 30
 o.completeopt = 'menu'
 o.complete = { '.', 'b' }
-o.completefunc = 'v:lua.dotfiles.completion.start'
 
--- Generic {{{1
+-- Generic
 o.colorcolumn = '80'
 o.number = true
 o.relativenumber = true
@@ -101,7 +87,7 @@ o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 o.path = '.,,'
 
--- GUI {{{1
+-- GUI
 do
   local font = 'Source Code Pro'
   local size = '8'
@@ -119,24 +105,24 @@ do
   end
 end
 
--- Indentation {{{1
+-- Indentation
 o.expandtab = true
 o.shiftwidth = 4
 o.shiftround = true
 o.softtabstop = 4
 o.tabstop = 4
 
--- Markdown {{{1
+-- Markdown
 g.markdown_fenced_languages = { 'ruby', 'rust', 'sql', 'inko', 'yaml' }
 
--- netrw {{{1
+-- netrw
 g.loaded_netrw = 1
 g.loaded_netrwPlugin = 1
 
--- Rust {{{1
+-- Rust
 g.rust_recommended_style = 0
 
--- Searching {{{1
+-- Searching
 o.grepprg = 'rg --vimgrep'
 o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 o.incsearch = true
@@ -144,20 +130,20 @@ o.hlsearch = false
 o.ignorecase = true
 o.smartcase = true
 
--- Statuscolumn {{{1
+-- Statuscolumn
 o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} %#FoldColumn#▏%*'
 
--- Statusline {{{1
-o.statusline = '%!v:lua.dotfiles.statusline.render()'
+-- Statusline
+o.statusline = "%!v:lua.require'dotfiles.statusline'.render()"
 o.laststatus = 3
 g.qf_disable_statusline = true
 
--- RPM spec files {{{1
+-- RPM spec files
 g.no_spec_maps = true
 
--- Window bar {{{1
-o.winbar = '%!v:lua.dotfiles.winbar.render()'
+-- Window bar
+o.winbar = "%!v:lua.require'dotfiles.winbar'.render()"
 
--- Tabline {{{1
+-- Tabline
 o.tabline = ''
 o.showtabline = 0

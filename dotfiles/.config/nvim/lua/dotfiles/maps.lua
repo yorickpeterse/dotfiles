@@ -1,5 +1,3 @@
-local M = {}
-
 local completion = require('dotfiles.completion')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
@@ -239,5 +237,3 @@ map({ 'i', 's' }, '<C-j>', function()
     snippy.next()
   end
 end)
-
-return M

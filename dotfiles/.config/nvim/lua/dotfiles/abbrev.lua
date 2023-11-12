@@ -2,7 +2,8 @@ local M = {}
 local fn = vim.fn
 
 local function cabbrev(input, replace)
-  local cmd = 'cnoreabbrev <expr> %s v:lua.dotfiles.abbrev.command("%s", "%s")'
+  local cmd =
+    "cnoreabbrev <expr> %s v:lua.require'dotfiles.abbrev'.command('%s', '%s')"
 
   vim.cmd(cmd:format(input, input, replace))
 end
