@@ -40,39 +40,10 @@ local ts_lsp_symbols = {
   Value = true,
 }
 
-local function map_key(kind, key, action, options)
+local function map(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
 
   keymap.set(kind, key, action, opts)
-end
-
-local function map(key, action, options)
-  map_key('', key, action, options)
-end
-
-local function nmap(key, action, options)
-  map_key('n', key, action, options)
-end
-
-local function imap(key, action, options)
-  map_key('i', key, action, options)
-end
-
-local function smap(key, action, options)
-  map_key('s', key, action, options)
-end
-
-local function tmap(key, action, options)
-  map_key('t', key, action, options)
-end
-
-local function vmap(key, action, options)
-  map_key('v', key, action, options)
-end
-
-local function ismap(key, action, options)
-  imap(key, action, options)
-  smap(key, action, options)
 end
 
 local function cmd(string)
@@ -80,7 +51,7 @@ local function cmd(string)
 end
 
 local function pair(key, func)
-  return imap(key, dpairs[func], { remap = false, expr = true })
+  return map('i', key, dpairs[func], { remap = false, expr = true })
 end
 
 -- The leader key must be defined before any mappings are set.
@@ -88,50 +59,50 @@ g.mapleader = ' '
 g.maplocalleader = ' '
 
 -- Generic
-map('<space>', '<nop>')
-nmap('<C-j>', '<C-w>j')
-nmap('<C-k>', '<C-w>k')
-nmap('<C-l>', '<C-w>l')
-nmap('<C-h>', '<C-w>h')
-nmap('<leader>F', lsp.buf.format)
-nmap('<leader>s', cmd('update'))
+map('', '<space>', '<nop>')
+map('n', '<C-j>', '<C-w>j')
+map('n', '<C-k>', '<C-w>k')
+map('n', '<C-l>', '<C-w>l')
+map('n', '<C-h>', '<C-w>h')
+map('n', '<leader>F', lsp.buf.format)
+map('n', '<leader>s', cmd('update'))
 
 -- Window management
-nmap('<leader>w', window.pick)
-nmap('<leader>c', cmd('quit'))
-nmap('<leader>v', cmd('vsplit'))
-nmap('<leader>k', cmd('split'))
-nmap('<leader>l', loclist.toggle)
-nmap('<leader>q', quickfix.toggle)
+map('n', '<leader>w', window.pick)
+map('n', '<leader>c', cmd('quit'))
+map('n', '<leader>v', cmd('vsplit'))
+map('n', '<leader>k', cmd('split'))
+map('n', '<leader>l', loclist.toggle)
+map('n', '<leader>q', quickfix.toggle)
 
 -- Going places
-map('gs', '^')
-map('gl', 'g_')
+map('', 'gs', '^')
+map('', 'gl', 'g_')
 
-map('s', pounce.pounce)
-map('S', function()
+map({ 'n', 'x' }, 's', pounce.pounce)
+map({ 'n', 'x' }, 'S', function()
   pounce.pounce({ do_repeat = true })
 end)
 
-vmap('y', 'ygv<Esc>')
+map('v', 'y', 'ygv<Esc>')
 
 -- Use d/dd for actually deleting, while using dx for cutting the line.
-nmap('dx', 'dd', { noremap = true })
-nmap('dd', '"_dd', { noremap = true })
-nmap('d', '"_d', { noremap = true })
-vmap('d', '"_d', { noremap = true })
+map('n', 'dx', 'dd', { noremap = true })
+map('n', 'dd', '"_dd', { noremap = true })
+map('n', 'd', '"_d', { noremap = true })
+map('v', 'd', '"_d', { noremap = true })
 
 -- Allow copy/pasting using Control-c and Control-v
-vmap('<C-c>', '"+y')
-imap('<C-v>', '<Esc>"+pa')
-tmap('<C-s-v>', [[<C-\><C-n>"+pa]])
+map('v', '<C-c>', '"+y')
+map('i', '<C-v>', '<Esc>"+pa')
+map('t', '<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
-imap('<CR>', function()
+map('i', '<CR>', function()
   return dpairs.enter()
 end, { expr = true })
 
-imap('<Esc>', function()
+map('i', '<Esc>', function()
   return popup_visible() and '<C-e><Esc>' or '<Esc>'
 end, { expr = true })
 
@@ -156,7 +127,7 @@ pair("'", 'single_quote')
 pair('"', 'double_quote')
 pair('`', 'backtick')
 
-imap('<tab>', function()
+map('i', '<tab>', function()
   if popup_visible() then
     api.nvim_feedkeys(keycode('<C-n>'), 'n', true)
     return
@@ -171,17 +142,17 @@ imap('<tab>', function()
   end
 end)
 
-imap('<S-tab>', function()
+map('i', '<S-tab>', function()
   return popup_visible() and '<C-p>' or '<S-tab>'
 end, { expr = true })
 
-vmap('<s-tab>', '<')
-vmap('<tab>', '>')
+map('v', '<s-tab>', '<')
+map('v', '<tab>', '>')
 
 -- LSP
-nmap('<leader>h', vim.lsp.buf.hover)
-nmap('<leader>n', vim.lsp.buf.rename)
-nmap('<leader>d', function()
+map('n', '<leader>h', vim.lsp.buf.hover)
+map('n', '<leader>n', vim.lsp.buf.rename)
+map('n', '<leader>d', function()
   local bufnr = api.nvim_get_current_buf()
 
   if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
@@ -191,11 +162,11 @@ nmap('<leader>d', function()
   end
 end)
 
-nmap('<leader>z', function()
+map('n', '<leader>z', function()
   diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
 end)
 
-nmap('<leader>r', function()
+map('n', '<leader>r', function()
   lsp.buf.references({ includeDeclaration = false })
 end)
 
@@ -203,7 +174,7 @@ end)
 --
 -- The function `vim.lsp.buf.implementation()` automatically jumps to the first
 -- location, which I don't like.
-nmap('<leader>i', function()
+map('n', '<leader>i', function()
   local bufnr = api.nvim_get_current_buf()
   local params = lsp.util.make_position_params()
 
@@ -233,24 +204,24 @@ nmap('<leader>i', function()
   )
 end)
 
-nmap('<leader>a', vim.lsp.buf.code_action)
-nmap('<leader>e', function()
+map('n', '<leader>a', vim.lsp.buf.code_action)
+map('n', '<leader>e', function()
   diag.open_float(0, { scope = 'line' })
 end)
 
 -- Searching
-nmap('K', cmd([[silent grep! '\b<cword>\b']]))
-nmap('<leader>g', ':silent grep! ', { silent = false })
+map('n', 'K', cmd([[silent grep! '\b<cword>\b']]))
+map('n', '<leader>g', ':silent grep! ', { silent = false })
 
 -- Telescope
-nmap('<leader>f', function()
+map('n', '<leader>f', function()
   telescope_builtin.find_files({
     hidden = true,
     find_command = { 'rg', '--files', '--color', 'never' },
   })
 end)
 
-nmap('<leader>t', function()
+map('n', '<leader>t', function()
   local bufnr = api.nvim_get_current_buf()
   local ft = api.nvim_buf_get_option(bufnr, 'ft')
 
@@ -275,27 +246,27 @@ nmap('<leader>t', function()
   telescope_builtin.current_buffer_tags()
 end)
 
-nmap('<leader>b', telescope_builtin.buffers)
+map('n', '<leader>b', telescope_builtin.buffers)
 
 -- Terminals
-tmap('<Esc>', [[<C-\><C-n>]])
-tmap('<C-]>', [[<C-\><C-n>]])
-tmap('<S-space>', '<space>')
+map('t', '<Esc>', [[<C-\><C-n>]])
+map('t', '<C-]>', [[<C-\><C-n>]])
+map('t', '<S-space>', '<space>')
 
 -- Quickfix
-nmap(']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
-nmap('[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
-nmap(']l', loclist.next)
-nmap('[l', loclist.prev)
+map('n', ']q', cmd('try | silent cnext | catch | silent! cfirst | endtry'))
+map('n', '[q', cmd('try | silent cprev | catch | silent! clast | endtry'))
+map('n', ']l', loclist.next)
+map('n', '[l', loclist.prev)
 
 -- Snippets
-ismap('<C-s>', function()
+map({ 'i', 's' }, '<C-s>', function()
   if snippy.can_expand() then
     snippy.expand()
   end
 end)
 
-ismap('<C-j>', function()
+map({ 'i', 's' }, '<C-j>', function()
   if snippy.can_jump(1) then
     snippy.next()
   end
