@@ -198,33 +198,14 @@ au('search_highlight', {
   { 'CmdlineLeave', '[/?]', ':set nohlsearch' },
 })
 
--- Automatically clear the command-line after some time.
-do
-  local timer = nil
-
-  au('commandline', {
-    {
-      'CmdlineEnter',
-      ':',
-      function()
-        if timer then
-          timer:stop()
-          timer = nil
-        end
-      end,
-    },
-    {
-      'CmdlineLeave',
-      ':',
-      function()
-        if timer then
-          timer:stop()
-        end
-
-        timer = vim.defer_fn(function()
-          api.nvim_echo({ { '' } }, false, {})
-        end, 2000)
-      end,
-    },
-  })
-end
+-- Clear the command-line when entering insert mode, so they don't linger around
+-- due to the lack of `showmode`.
+au('commandline', {
+  {
+    'InsertEnter',
+    '*',
+    function()
+      api.nvim_echo({ { '' } }, false, {})
+    end,
+  },
+})
