@@ -1,4 +1,3 @@
-local M = {}
 local fn = vim.fn
 local api = vim.api
 
@@ -57,9 +56,18 @@ local brackets = {
   ['('] = ')',
 }
 
+-- The file types for which to ignore the pair mappings.
+local ignore_filetypes = { TelescopePrompt = true }
+
 local keep_undo = '<C-g>U'
 local left = keep_undo .. '<left>'
 local right = keep_undo .. '<right>'
+
+local function map(pair, func)
+  vim.keymap.set('i', pair, function()
+    return ignore_filetypes[vim.bo.ft] and pair or func()
+  end, { silent = true, remap = false, expr = true })
+end
 
 local function is_space(val)
   return val == ' ' or val == '\t'
@@ -111,7 +119,7 @@ local function jump_over(thing)
   return thing
 end
 
-function M.enter()
+local function enter()
   local before = peek(-1)
   local after = peek()
 
@@ -122,7 +130,7 @@ function M.enter()
   return '<cr>'
 end
 
-function M.space()
+local function space()
   local before = peek(-1)
   local after = peek()
 
@@ -133,7 +141,7 @@ function M.space()
   return '<space>'
 end
 
-function M.backspace()
+local function backspace()
   local before = peek(-1)
   local after = peek()
 
@@ -154,23 +162,23 @@ function M.backspace()
   return '<bs>'
 end
 
-function M.curly_open()
+local function curly_open()
   return pair('{', '}')
 end
 
-function M.curly_close()
+local function curly_close()
   return jump_over('}')
 end
 
-function M.bracket_open()
+local function bracket_open()
   return pair('[', ']')
 end
 
-function M.bracket_close()
+local function bracket_close()
   return jump_over(']')
 end
 
-function M.paren_open()
+local function paren_open()
   if peek() == '(' then
     return right
   end
@@ -178,11 +186,11 @@ function M.paren_open()
   return pair('(', ')')
 end
 
-function M.paren_close()
+local function paren_close()
   return jump_over(')')
 end
 
-function M.angle_open()
+local function angle_open()
   local prev = peek(-1)
 
   if not is_space(prev) and prev ~= '<' then
@@ -192,11 +200,11 @@ function M.angle_open()
   return '<'
 end
 
-function M.angle_close()
+local function angle_close()
   return jump_over('>')
 end
 
-function M.single_quote()
+local function single_quote()
   if vim.bo.ft == 'rust' then
     -- Rust uses single quotes for lifetimes. Having to delete the closing quote
     -- is too annoying, so pairing single quotes is disabled.
@@ -206,12 +214,27 @@ function M.single_quote()
   return quote("'")
 end
 
-function M.double_quote()
+local function double_quote()
   return quote('"')
 end
 
-function M.backtick()
+local function backtick()
   return quote('`')
 end
 
-return M
+map('<space>', space)
+map('<S-space>', space)
+map('<bs>', backspace)
+map('<S-bs>', backspace)
+map('{', curly_open)
+map('}', curly_close)
+map('[', bracket_open)
+map(']', bracket_close)
+map('(', paren_open)
+map(')', paren_close)
+map('<', angle_open)
+map('>', angle_close)
+map("'", single_quote)
+map('"', double_quote)
+map('`', backtick)
+map('<CR>', enter)

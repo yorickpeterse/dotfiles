@@ -1,7 +1,6 @@
 local M = {}
 
 local completion = require('dotfiles.completion')
-local dpairs = require('dotfiles.pairs')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
@@ -50,10 +49,6 @@ local function cmd(string)
   return '<cmd>' .. string .. '<CR>'
 end
 
-local function pair(key, func)
-  return map('i', key, dpairs[func], { remap = false, expr = true })
-end
-
 -- The leader key must be defined before any mappings are set.
 g.mapleader = ' '
 g.maplocalleader = ' '
@@ -98,34 +93,9 @@ map('i', '<C-v>', '<Esc>"+pa')
 map('t', '<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
-map('i', '<CR>', function()
-  return dpairs.enter()
-end, { expr = true })
-
 map('i', '<Esc>', function()
   return popup_visible() and '<C-e><Esc>' or '<Esc>'
 end, { expr = true })
-
-pair('<space>', 'space')
-pair('<S-space>', 'space')
-pair('<bs>', 'backspace')
-pair('<S-bs>', 'backspace')
-
-pair('{', 'curly_open')
-pair('}', 'curly_close')
-
-pair('[', 'bracket_open')
-pair(']', 'bracket_close')
-
-pair('(', 'paren_open')
-pair(')', 'paren_close')
-
-pair('<', 'angle_open')
-pair('>', 'angle_close')
-
-pair("'", 'single_quote')
-pair('"', 'double_quote')
-pair('`', 'backtick')
 
 map('i', '<tab>', function()
   if popup_visible() then

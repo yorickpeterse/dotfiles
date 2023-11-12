@@ -35,6 +35,7 @@ require('dotfiles.devicons')
 require('dotfiles.oil')
 require('dotfiles.linters')
 require('dotfiles.formatters')
+require('dotfiles.pairs')
 
 _G.dotfiles = {
   completion = require('dotfiles.completion'),
@@ -47,7 +48,6 @@ _G.dotfiles = {
   location_list = require('dotfiles.location_list'),
   maps = require('dotfiles.maps'),
   commands = require('dotfiles.commands'),
-  pairs = require('dotfiles.pairs'),
   quickfix = require('dotfiles.quickfix'),
 }
 
