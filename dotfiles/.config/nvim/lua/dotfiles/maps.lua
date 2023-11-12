@@ -16,7 +16,6 @@ local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
-local g = vim.g
 local diag = vim.diagnostic
 local keymap = vim.keymap
 
@@ -50,8 +49,8 @@ local function cmd(string)
 end
 
 -- The leader key must be defined before any mappings are set.
-g.mapleader = ' '
-g.maplocalleader = ' '
+vim.g.mapleader = ' '
+vim.g.maplocalleader = ' '
 
 -- Generic
 map('', '<space>', '<nop>')
@@ -84,8 +83,7 @@ map('v', 'y', 'ygv<Esc>')
 -- Use d/dd for actually deleting, while using dx for cutting the line.
 map('n', 'dx', 'dd', { noremap = true })
 map('n', 'dd', '"_dd', { noremap = true })
-map('n', 'd', '"_d', { noremap = true })
-map('v', 'd', '"_d', { noremap = true })
+map({ 'n', 'v' }, 'd', '"_d', { noremap = true })
 
 -- Allow copy/pasting using Control-c and Control-v
 map('v', '<C-c>', '"+y')
