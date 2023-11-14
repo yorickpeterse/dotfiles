@@ -131,7 +131,7 @@ o.ignorecase = true
 o.smartcase = true
 
 -- Statuscolumn
-o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} %#FoldColumn#▏%*'
+o.statuscolumn = '%s%=%{v:relnum?v:relnum:v:lnum} '
 
 -- Statusline
 o.statusline = "%!v:lua.require'dotfiles.statusline'.render()"
