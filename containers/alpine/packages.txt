@@ -1,0 +1,12 @@
+build-base
+cargo
+git
+lld
+llvm15
+llvm15-dev
+llvm15-static
+neovim
+ripgrep
+rust
+stow
+wl-clipboard

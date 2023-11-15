@@ -36,9 +36,10 @@ run sudo dnf install --assumeyes --quiet $pkgs
 
 section 'Configuring Rust'
 curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs >rustup.sh
-run bash rustup.sh --default-toolchain stable -y --no-modify-path \
+run sh rustup.sh --default-toolchain stable -y --no-modify-path \
     --profile minimal \
     --component 'clippy,rustfmt,rust-analyzer'
+rm rustup.sh
 
 section 'Configuring dotfiles'
 rm -rf ~/.config/fish
