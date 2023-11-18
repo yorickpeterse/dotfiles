@@ -405,41 +405,6 @@ local function show_completions(prefix, items)
     end
   end
 
-  -- If multiple matches exist but one of them matches the prefix exactly,
-  -- favour the one that matches exactly. This way if you type `x.map[TAB]` and
-  -- the candidates are `map` and `map_foo`, then it picks `map`, based on the
-  -- assumption that's probably what you wanted.
-  for _, item in ipairs(items) do
-    if item.filter == prefix then
-      insert_completion(prefix, item)
-      return
-    end
-  end
-
-  -- If we only have a few candidates, and our prefix is close enough to of one
-  -- of the items, we insert that item.
-  if #items <= 5 then
-    local close = {}
-
-    for _, item in ipairs(items) do
-      if
-        -- If the canditates list includes a module reference and a bunch of
-        -- others (e.g. variables), in 9 out of 10 cases I don't care about the
-        -- module reference, so we ignore it here to make completing e.g.
-        -- variables easier.
-        item.kind ~= module_kind
-        and (#item.filter == 2 or (#prefix / #item.filter) * 100 >= 65)
-      then
-        table.insert(close, item)
-      end
-    end
-
-    if #close == 1 then
-      insert_completion(prefix, close[1])
-      return
-    end
-  end
-
   show_picker(prefix, items)
 end
 
