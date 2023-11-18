@@ -76,15 +76,15 @@ map({ 'n', 'x' }, 'S', function()
   pounce.pounce({ do_repeat = true })
 end)
 
-map('v', 'y', 'ygv<Esc>')
+map('x', 'y', 'ygv<Esc>')
 
 -- Use d/dd for actually deleting, while using dx for cutting the line.
-map('n', 'dx', 'dd', { noremap = true })
-map('n', 'dd', '"_dd', { noremap = true })
-map({ 'n', 'v' }, 'd', '"_d', { noremap = true })
+map({ 'n', 'x' }, 'dx', 'dd', { noremap = true })
+map({ 'n', 'x' }, 'dd', '"_dd', { noremap = true })
+map({ 'n', 'x' }, 'd', '"_d', { noremap = true })
 
 -- Allow copy/pasting using Control-c and Control-v
-map('v', '<C-c>', '"+y')
+map({ 'n', 'x' }, '<C-c>', '"+y')
 map('i', '<C-v>', '<Esc>"+pa')
 map('t', '<C-s-v>', [[<C-\><C-n>"+pa]])
 
@@ -112,8 +112,10 @@ map('i', '<S-tab>', function()
   return popup_visible() and '<C-p>' or '<S-tab>'
 end, { expr = true })
 
-map('v', '<s-tab>', '<')
-map('v', '<tab>', '>')
+map('x', '<s-tab>', '<')
+map('x', '<tab>', '>')
+map('n', '<s-tab>', '<<')
+map('n', '<tab>', '>>')
 
 -- LSP
 map('n', '<leader>h', vim.lsp.buf.hover)
