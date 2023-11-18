@@ -29,6 +29,7 @@ lua-language-server
 neovim
 openssh
 pacman-contrib
+perf
 python
 python-pip
 python-poetry
