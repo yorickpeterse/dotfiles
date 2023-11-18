@@ -7,6 +7,7 @@ diffutils
 fish
 flake8
 gcc-libs
+gdb
 gdbm
 git
 github-cli
@@ -16,6 +17,7 @@ go
 gopls
 heaptrack
 htop
+hyperfine
 jq
 libffi
 libyaml
