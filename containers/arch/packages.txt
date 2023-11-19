@@ -1,4 +1,5 @@
 acpi
+adobe-source-code-pro-fonts
 aws-cli-v2
 base-devel
 bc
@@ -42,6 +43,7 @@ stylua
 sudo
 tokei
 tree
+ttf-sourcecodepro-nerd
 util-linux
 valgrind
 wget
