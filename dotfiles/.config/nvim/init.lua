@@ -93,27 +93,16 @@ do
   local font = 'Source Code Pro'
   local size = '8'
 
-  if fn['exists']('g:GtkGuiLoaded') == 1 then
-    o.guifont = font .. ':h' .. size
-    o.guifontwide = 'Noto Color Emoji:h' .. size
-    o.linespace = 0
+  o.guifont = font .. ':h' .. size
+  o.guifontwide = 'Noto Color Emoji:h' .. size
+  o.linespace = 0
 
+  if fn['exists']('g:GtkGuiLoaded') == 1 then
     fn['rpcnotify'](1, 'Gui', 'Font', font .. ' ' .. size)
     fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
     fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
     fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
     fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
-  end
-
-  if fn['exists']('g:neovide') == 1 then
-    o.guifont = font .. ',Noto Color Emoji:h' .. size
-    o.linespace = 1
-
-    g.neovide_cursor_animation_length = 0
-    g.neovide_scroll_animation_length = 0
-    g.neovide_position_animation_length = 0
-    g.neovide_floating_shadow = false
-    g.neovide_hide_mouse_when_typing = true
   end
 end
 
