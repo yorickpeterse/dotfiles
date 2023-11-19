@@ -8,7 +8,6 @@ local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
 local loclist = require('dotfiles.location_list')
-
 local keycode = util.keycode
 local popup_visible = util.popup_visible
 local fn = vim.fn
@@ -44,6 +43,37 @@ end
 
 local function cmd(string)
   return '<cmd>' .. string .. '<CR>'
+end
+
+local function indent(direction)
+  local spaces = vim.bo.shiftwidth
+
+  if spaces == 0 then
+    spaces = 1
+  end
+
+  local line, col = unpack(api.nvim_win_get_cursor(0))
+  local end_col = fn.col('$')
+
+  -- This ensures that if we're on the last character of a line or the trailing
+  -- newline, we don't shift one to the left when reducing indentation.
+  if direction == 'left' and end_col - (col + 1) <= 1 then
+    spaces = spaces - 1
+  end
+
+  -- This prevents us from shifting the cursor to the left when there's no
+  -- leading indentation.
+  if direction == 'left' and fn.indent(line) == 0 then
+    spaces = 0
+  end
+
+  local expr = (direction == 'right' and '>' or '<') .. 'gv'
+
+  if spaces > 0 then
+    expr = table.concat({ expr, spaces, '<', direction, '>' }, '')
+  end
+
+  return expr
 end
 
 -- The leader key must be defined before any mappings are set.
@@ -112,8 +142,14 @@ map('i', '<S-tab>', function()
   return popup_visible() and '<C-p>' or '<S-tab>'
 end, { expr = true })
 
-map('x', '<s-tab>', '<')
-map('x', '<tab>', '>')
+map('x', '<s-tab>', function()
+  return indent('left')
+end, { expr = true })
+
+map('x', '<tab>', function()
+  return indent('right')
+end, { expr = true })
+
 map('n', '<s-tab>', '<<')
 map('n', '<tab>', '>>')
 
