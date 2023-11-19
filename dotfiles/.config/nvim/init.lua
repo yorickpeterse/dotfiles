@@ -111,6 +111,7 @@ do
 
     g.neovide_cursor_animation_length = 0
     g.neovide_scroll_animation_length = 0
+    g.neovide_position_animation_length = 0
     g.neovide_floating_shadow = false
     g.neovide_hide_mouse_when_typing = true
   end
