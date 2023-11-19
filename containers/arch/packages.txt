@@ -27,6 +27,7 @@ llvm15-libs
 lm_sensors
 lua-language-server
 neovim
+noto-fonts-emoji
 openssh
 pacman-contrib
 perf
