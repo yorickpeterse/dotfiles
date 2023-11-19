@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+if [ "$CONTAINER_ID" = '' ]
+    exec /usr/bin/distrobox-enter -n arch -- fish -c "/usr/bin/neovide -- $argv"
+else
+    exec /usr/bin/neovide -- $argv
+end
