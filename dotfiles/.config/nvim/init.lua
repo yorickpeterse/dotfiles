@@ -106,8 +106,8 @@ do
   end
 
   if fn['exists']('g:neovide') == 1 then
-    o.guifont = font .. ',Noto Color Emoji:h' .. size
-    o.linespace = 1
+    o.guifont = font .. ',Noto Color Emoji:h' .. size .. ':#h-slight'
+    o.linespace = 0
 
     g.neovide_cursor_animation_length = 0
     g.neovide_scroll_animation_length = 0
