@@ -90,7 +90,7 @@ o.path = '.,,'
 
 -- GUI
 do
-  local font = 'Iosevka Fixed Extended'
+  local font = 'SauceCodePro Nerd Font'
   local size = '8'
 
   if fn['exists']('g:GtkGuiLoaded') == 1 then
