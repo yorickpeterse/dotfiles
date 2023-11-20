@@ -150,9 +150,6 @@ map('x', '<tab>', function()
   return indent('right')
 end, { expr = true })
 
-map('n', '<s-tab>', '<<')
-map('n', '<tab>', '>>')
-
 -- LSP
 map('n', '<leader>h', vim.lsp.buf.hover)
 map('n', '<leader>n', vim.lsp.buf.rename)
