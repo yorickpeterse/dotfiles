@@ -1,5 +1,7 @@
 mouse-hide-while-typing = true
 shell-integration-features = "no-cursor"
+window-padding-x = 0
+window-padding-y = 0
 
 font-family = "BerkeleyMono Nerd Font"
 font-size = 8
