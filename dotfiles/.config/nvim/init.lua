@@ -104,17 +104,6 @@ do
     fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
     fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
   end
-
-  if fn['exists']('g:neovide') == 1 then
-    o.guifont = font .. ',Noto Color Emoji:h' .. size .. ':#h-slight'
-    o.linespace = 0
-
-    g.neovide_cursor_animation_length = 0
-    g.neovide_scroll_animation_length = 0
-    g.neovide_position_animation_length = 0
-    g.neovide_floating_shadow = false
-    g.neovide_hide_mouse_when_typing = true
-  end
 end
 
 -- Indentation
