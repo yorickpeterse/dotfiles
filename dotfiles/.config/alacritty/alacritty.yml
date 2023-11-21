@@ -40,7 +40,8 @@ colors:
     background: '0xf2f2f2'
     foreground: '0x000000'
   cursor:
-    text: '0x000000'
+    text: '0xffffff'
+    background: '0x000000'
   selection:
     text: 'CellForeground'
     background: '0xe3e3e3'
