@@ -1,7 +1,15 @@
 mouse-hide-while-typing = true
+
+# This ensures the cursor is a block cursor like GNOME terminal.
 shell-integration-features = "no-cursor"
-window-padding-x = 0
-window-padding-y = 0
+
+# This is needed so I can open separate terminal instances using different
+# Distrobox containers.
+gtk-single-instance = false
+
+# Padding is changed to match that of GNOME terminal.
+window-padding-x = 1
+window-padding-y = 1
 
 font-family = "BerkeleyMono Nerd Font"
 font-size = 8
