@@ -90,13 +90,14 @@ o.path = '.,,'
 
 -- GUI
 do
-  local font = 'SauceCodePro Nerd Font'
+  local font = 'BerkeleyMono Nerd Font'
   local size = '8'
+
+  o.linespace = 0
 
   if fn['exists']('g:GtkGuiLoaded') == 1 then
     o.guifont = font .. ':h' .. size
     o.guifontwide = 'Noto Color Emoji:h' .. size
-    o.linespace = 0
 
     fn['rpcnotify'](1, 'Gui', 'Font', font .. ' ' .. size)
     fn['rpcnotify'](1, 'Gui', 'Linespace', '0')

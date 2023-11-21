@@ -1,0 +1,4 @@
+#!/usr/bin/env fish
+
+exec /usr/bin/distrobox-enter -n arch -- /usr/bin/alacritty \
+    --command fish -c "nvim $argv"
