@@ -1,0 +1,47 @@
+mouse-hide-while-typing = true
+shell-integration-features = "no-cursor"
+
+font-family = "BerkeleyMono Nerd Font"
+font-size = 8
+
+background = f2f2f2
+foreground = 000000
+
+cursor-color = 000000
+cursor-text = ffffff
+cursor-style = block
+
+selection-background = e3e3e3
+selection-foreground = 000000
+
+# black
+palette = 0=#000000
+palette = 8=#000000
+
+# red
+palette = 1=#c4331d
+palette = 9=#c4331d
+
+# green
+palette = 2=#1C5708
+palette = 10=#1C5708
+
+# yellow
+palette = 3=#bf8f00
+palette = 11=#bf8f00
+
+# blue
+palette = 4=#1561b8
+palette = 12=#1561b8
+
+# purple
+palette = 5=#5c21a5
+palette = 13=#5c21a5
+
+# aqua
+palette = 6=#007872
+palette = 14=#007872
+
+# white
+palette = 7=#ffffff
+palette = 15=#ffffff
