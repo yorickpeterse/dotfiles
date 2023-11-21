@@ -20,6 +20,7 @@ foreground = 000000
 cursor-color = 000000
 cursor-text = ffffff
 cursor-style = block
+cursor-style-blink = false
 
 selection-background = e3e3e3
 selection-foreground = 000000
