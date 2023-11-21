@@ -90,21 +90,11 @@ o.path = '.,,'
 
 -- GUI
 do
-  local font = 'BerkeleyMono Nerd Font'
   local size = '8'
 
   o.linespace = 0
-
-  if fn['exists']('g:GtkGuiLoaded') == 1 then
-    o.guifont = font .. ':h' .. size
-    o.guifontwide = 'Noto Color Emoji:h' .. size
-
-    fn['rpcnotify'](1, 'Gui', 'Font', font .. ' ' .. size)
-    fn['rpcnotify'](1, 'Gui', 'Linespace', '0')
-    fn['rpcnotify'](1, 'Gui', 'Option', 'Popupmenu', 0)
-    fn['rpcnotify'](1, 'Gui', 'Option', 'Tabline', 0)
-    fn['rpcnotify'](1, 'Gui', 'Command', 'SetCursorBlink', '0')
-  end
+  o.guifont = 'BerkeleyMono Nerd Font:h' .. size
+  o.guifontwide = 'Noto Color Emoji:h' .. size
 end
 
 -- Indentation

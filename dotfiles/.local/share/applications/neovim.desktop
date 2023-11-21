@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=NeoVim
 Comment=The NeoVim text editor
-Exec=/var/home/yorickpeterse/bin/nvim-gtk '%F'
+Exec=/var/home/yorickpeterse/bin/nvim-ghostty '%F'
 Icon=org.daa.NeovimGtk
 Type=Application
 Terminal=false
