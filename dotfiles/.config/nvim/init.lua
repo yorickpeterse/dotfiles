@@ -91,10 +91,11 @@ o.path = '.,,'
 
 -- GUI
 do
+  local name = 'IosevkaFixedCustom Nerd Font'
   local size = '8'
 
   o.linespace = 0
-  o.guifont = 'IosevkaFixed Nerd Font Extended:h' .. size
+  o.guifont = name .. ':h' .. size
   o.guifontwide = 'Noto Color Emoji:h' .. size
 end
 
