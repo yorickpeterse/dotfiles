@@ -94,7 +94,7 @@ do
   local size = '8'
 
   o.linespace = 0
-  o.guifont = 'BerkeleyMono Nerd Font:h' .. size
+  o.guifont = 'IosevkaFixed Nerd Font Extended:h' .. size
   o.guifontwide = 'Noto Color Emoji:h' .. size
 end
 
