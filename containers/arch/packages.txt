@@ -43,7 +43,6 @@ stylua
 sudo
 tokei
 tree
-ttf-sourcecodepro-nerd
 util-linux
 valgrind
 wget
