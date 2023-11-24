@@ -48,6 +48,7 @@ o.complete = { '.', 'b' }
 o.colorcolumn = '80'
 o.number = true
 o.relativenumber = true
+o.numberwidth = 3
 o.ruler = false
 o.signcolumn = 'yes'
 o.synmaxcol = 256
