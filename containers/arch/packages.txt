@@ -16,6 +16,7 @@ glib2
 glibc-locales
 go
 gopls
+graphviz
 heaptrack
 htop
 hyperfine
