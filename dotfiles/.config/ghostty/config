@@ -57,3 +57,5 @@ palette = 14=#007872
 # white
 palette = 7=#ffffff
 palette = 15=#ffffff
+
+keybind = ctrl+enter=unbind
