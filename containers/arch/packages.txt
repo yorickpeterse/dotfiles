@@ -1,6 +1,6 @@
 acpi
-adobe-source-code-pro-fonts
 aws-cli-v2
+base
 base-devel
 bc
 clang
@@ -12,7 +12,6 @@ gdb
 gdbm
 git
 github-cli
-glib2
 glibc-locales
 go
 gopls
@@ -20,7 +19,9 @@ graphviz
 heaptrack
 htop
 hyperfine
+jedi-language-server
 jq
+libadwaita
 libffi
 libyaml
 lld
@@ -28,7 +29,10 @@ llvm15
 llvm15-libs
 lm_sensors
 lua-language-server
+man-db
+man-pages
 neovim
+noto-fonts
 noto-fonts-emoji
 openssh
 pacman-contrib
@@ -36,14 +40,17 @@ perf
 python
 python-pip
 python-poetry
+reflector
 ripgrep
 rustup
 shellcheck
 stow
 stylua
 sudo
+time
 tokei
 tree
+unzip
 util-linux
 valgrind
 wget

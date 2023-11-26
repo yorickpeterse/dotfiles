@@ -15,13 +15,9 @@ set image $argv[2]
 set home_dir $HOME/homes/$name
 
 mkdir -p $home_dir
-distrobox create --image $image \
-    --name $name \
-    --home $home_dir \
-    --pull \
-    --volume "$HOME/Projects:$home_dir/Projects:rw" \
-    --volume "$HOME/Downloads:$home_dir/Downloads:rw" \
-    --no-entry
+ln --symbolic --force --no-dereference $HOME/Projects $home_dir/Projects
+ln --symbolic --force --no-dereference $HOME/Downloads $home_dir/Downloads
 
+distrobox create --image $image --name $name --home $home_dir --pull --no-entry
 distrobox enter $name -- fish containers/$name/install.fish
 distrobox stop --yes $name

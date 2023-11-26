@@ -45,6 +45,7 @@ run sudo reflector --save /etc/pacman.d/mirrorlist \
 run sudo pacman -Syu --noprogressbar --noconfirm --needed --quiet $pkgs
 
 section 'Installing AUR wrapper'
+rm -rf /tmp/yay
 run git clone https://aur.archlinux.org/yay.git /tmp/yay
 cd /tmp/yay
 run makepkg -si --noconfirm
