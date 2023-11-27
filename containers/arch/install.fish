@@ -2,8 +2,9 @@
 
 source containers/helpers.fish
 
-set pkgs (cat containers/arch/packages.txt)
-set aur (cat containers/arch/aur.txt)
+set dir containers/arch
+set pkgs (cat $dir/packages.txt)
+set aur (cat $dir/aur.txt)
 set ruby_version 3.2.2
 
 # Make sure we're in the container's version of the dotfiles path.
@@ -61,6 +62,11 @@ run yay -Syu --noprogressbar --noconfirm --needed --quiet --mflags --nocheck \
     $aur
 
 run yay -Scc --noconfirm --quiet
+
+section 'Configuring pacman hooks'
+run sudo cp $dir/dotfiles.hook /usr/share/libalpm/hooks/
+run sudo cp $dir/dotfiles_hook.sh /usr/share/libalpm/scripts/
+run sudo chown root:root /usr/share/libalpm/{hooks,scripts}/dotfiles*
 
 section 'Configuring dotfiles'
 rm -rf ~/.config/fish
