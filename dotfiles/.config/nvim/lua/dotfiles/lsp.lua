@@ -78,7 +78,7 @@ vim_diag.config({
   },
   severity_sort = true,
   virtual_text = false,
-  update_in_insert = true,
+  update_in_insert = false,
 })
 
 -- Signs {{{1
