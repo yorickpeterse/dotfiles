@@ -175,48 +175,35 @@ local function snippet_completion_items(buffer, column, prefix)
   return snippets
 end
 
--- Returns completion items for all words in the buffers in the current tab.
+-- Returns completion items for words in the current buffer.
 function buffer_completion_items(column, prefix)
-  local buffers = {}
-  local processed = {}
-
   if prefix == '' then
     return {}
   end
 
-  for _, window in ipairs(api.nvim_tabpage_list_wins(0)) do
-    local buffer = api.nvim_win_get_buf(window)
-
-    if processed[buffer] == nil and api.nvim_buf_is_loaded(buffer) then
-      table.insert(buffers, buffer)
-      processed[buffer] = true
-    end
-  end
-
+  local window = api.nvim_get_current_win()
+  local buffer = api.nvim_win_get_buf(window)
   local words = {}
-  local line = api.nvim_win_get_cursor(0)[1]
+  local line = api.nvim_win_get_cursor(window)[1]
+  local lines = fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
 
-  for _, buffer in ipairs(buffers) do
-    local lines = fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
+  for _, word in ipairs(fn.split(lines, buffer_word_regex)) do
+    if #word >= min_word_size and vim.startswith(word, prefix) then
+      if words[word] then
+        local item = words[word]
 
-    for _, word in ipairs(fn.split(lines, buffer_word_regex)) do
-      if #word >= min_word_size and vim.startswith(word, prefix) then
-        if words[word] then
-          local item = words[word]
-
-          item.count = item.count + 1
-        else
-          words[word] = {
-            filter = word,
-            label = word,
-            insert = word,
-            kind = text_kind,
-            source = 'buffer',
-            count = 1,
-            line = line,
-            column = column,
-          }
-        end
+        item.count = item.count + 1
+      else
+        words[word] = {
+          filter = word,
+          label = word,
+          insert = word,
+          kind = text_kind,
+          source = 'buffer',
+          count = 1,
+          line = line,
+          column = column,
+        }
       end
     end
   end
