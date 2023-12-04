@@ -1,11 +1,15 @@
 local lsp = vim.lsp
 local api = vim.api
 local ui = vim.ui
+local util = require('dotfiles.util')
 local snippy = require('snippy')
 local snippy_shared = require('snippy.shared')
 local fn = vim.fn
 local M = {}
+
 local namespace = api.nvim_create_namespace('dotfiles_completion')
+local augroup =
+  api.nvim_create_augroup('dotfiles_completion_menu', { clear = true })
 
 -- This disables NeoVim's built-in snippet parser, just to make sure it never
 -- messes with our own.
@@ -37,8 +41,8 @@ local ignored_kinds = {
   [kinds.Reference] = true,
 }
 
--- The width of the code completion menu.
-local menu_width = 50
+-- The number of columns of the code completion menu.
+local menu_columns = 50
 
 -- The maximum number of rows to display in the results menu.
 local menu_rows = 10
@@ -230,6 +234,7 @@ local function highlight_match(buf, line, start, stop)
 end
 
 local function close_menu(state)
+  api.nvim_clear_autocmds({ group = augroup })
   api.nvim_win_close(state.prompt.window, true)
   api.nvim_win_close(state.results.window, true)
   api.nvim_buf_delete(state.prompt.buffer, { force = true })
@@ -263,6 +268,30 @@ local function move_menu_selection_up(state)
   api.nvim_win_set_cursor(state.results.window, { new_line, 0 })
 end
 
+local function update_menu_size(state)
+  local screen_height = api.nvim_get_option('lines')
+  local screen_width = api.nvim_get_option('columns')
+  local rows = menu_rows
+  local cols = menu_columns
+
+  if screen_height <= 10 then
+    rows = math.floor(rows * 0.3)
+  elseif screen_height < 20 then
+    rows = math.floor(rows * 0.5)
+  end
+
+  if screen_width <= 65 then
+    cols = math.floor(cols * 0.7)
+  end
+
+  local new_height = math.min(rows, #state.data.filtered)
+  local new_width = cols
+
+  api.nvim_win_set_height(state.results.window, new_height)
+  api.nvim_win_set_width(state.results.window, new_width)
+  api.nvim_win_set_width(state.prompt.window, new_width)
+end
+
 local function set_menu_items(state)
   -- I got 99 problems, but 100 lines ain't one. This is to ensure the
   -- statuscolumn padding isn't increased more, and to ensure the menu/filtering
@@ -292,7 +321,7 @@ local function set_menu_items(state)
   api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
   api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   api.nvim_win_set_cursor(win, { 1, 0 })
-  api.nvim_win_set_height(win, math.min(menu_rows, #items))
+  update_menu_size(state)
 
   for line = 1, #items do
     highlight_match(buf, line, 1, #prefix)
@@ -392,22 +421,22 @@ local function show_menu(buf, prefix, items)
     col = 0 - #prefix,
     relative = 'cursor',
     anchor = 'NW',
-    width = menu_width,
+    width = menu_columns,
     height = 1,
     focusable = true,
     style = 'minimal',
     border = 'none',
   })
 
-  local items_buf = api.nvim_create_buf(false, true)
-  local items_win = api.nvim_open_win(items_buf, false, {
+  local results_buf = api.nvim_create_buf(false, true)
+  local results_win = api.nvim_open_win(results_buf, false, {
     row = 1,
     col = -3,
     relative = 'win',
     win = prompt_win,
     anchor = 'NW',
-    width = menu_width,
-    height = math.min(menu_rows, #items),
+    width = menu_columns,
+    height = menu_rows,
     focusable = false,
     style = 'minimal',
     border = 'none',
@@ -416,7 +445,7 @@ local function show_menu(buf, prefix, items)
 
   local state = {
     prompt = { window = prompt_win, buffer = prompt_buf },
-    results = { window = items_win, buffer = items_buf },
+    results = { window = results_win, buffer = results_buf },
     data = { raw = items, filtered = items },
     window = prev_win,
     prefix = prefix,
@@ -434,6 +463,7 @@ local function show_menu(buf, prefix, items)
   api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
   api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
   api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
+  api.nvim_win_set_option(state.results.window, 'scrolloff', 0)
   api.nvim_win_set_option(
     state.results.window,
     'statuscolumn',
@@ -481,6 +511,7 @@ local function show_menu(buf, prefix, items)
   local text_changed_first_time = true
 
   api.nvim_create_autocmd('TextChangedI', {
+    group = augroup,
     buffer = state.prompt.buffer,
     callback = function()
       -- When showing the window the first time, this event gets triggered right
@@ -495,6 +526,7 @@ local function show_menu(buf, prefix, items)
   })
 
   api.nvim_create_autocmd('WinScrolled', {
+    group = augroup,
     pattern = tostring(state.results.window),
     callback = function()
       api.nvim_win_set_option(
@@ -502,6 +534,13 @@ local function show_menu(buf, prefix, items)
         'statuscolumn',
         api.nvim_win_get_option(state.results.window, 'statuscolumn')
       )
+    end,
+  })
+
+  api.nvim_create_autocmd('VimResized', {
+    group = augroup,
+    callback = function()
+      update_menu_size(state)
     end,
   })
 end
