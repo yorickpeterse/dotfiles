@@ -76,11 +76,7 @@ map({ 'n', 'x' }, 'S', function()
 end)
 
 map('x', 'y', 'ygv<Esc>')
-
--- Use d/dd for actually deleting, while using dx for cutting the line.
-map('n', 'dx', 'dd', { noremap = true })
-map('n', 'dd', '"_dd', { noremap = true })
-map({ 'n', 'x' }, 'd', '"_d', { noremap = true })
+map({ 'n', 'x' }, '<leader>p', '"0p')
 
 -- Allow copy/pasting using Control-c and Control-v
 map({ 'n', 'x' }, '<C-c>', '"+y')
