@@ -1,20 +1,11 @@
--- Custom completion for LSP symbols and more, using an omnifunc function.
-
 local lsp = vim.lsp
 local api = vim.api
 local ui = vim.ui
-local util = require('dotfiles.util')
 local snippy = require('snippy')
 local snippy_shared = require('snippy.shared')
-local previewers = require('telescope.previewers')
-local actions = require('telescope.actions')
-local pickers = require('telescope.pickers')
-local finders = require('telescope.finders')
-local action_state = require('telescope.actions.state')
-local tele_conf = require('telescope.config')
-local entry_display = require('telescope.pickers.entry_display')
 local fn = vim.fn
 local M = {}
+local namespace = api.nvim_create_namespace('dotfiles_completion')
 
 -- This disables NeoVim's built-in snippet parser, just to make sure it never
 -- messes with our own.
@@ -33,20 +24,24 @@ local min_word_size = 3
 local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
 
 local kinds = lsp.protocol.CompletionItemKind
-local text_kind = kinds[kinds.Text]
-local snippet_kind = kinds[kinds.Snippet]
-local keyword_kind = kinds[kinds.Keyword]
-local module_kind = kinds[kinds.Module]
-local variable_kind = kinds[kinds.Variable]
-
+local text_kind = kinds.Text
+local snippet_kind = kinds.Snippet
+local module_kind = kinds.Module
+local variable_kind = kinds.Variable
 local ignored_kinds = {
   -- Keyword completion isn't really useful.
-  [kinds[kinds.Keyword]] = true,
+  [kinds.Keyword] = true,
 
   -- Not sure what these are meant for, but rust-analyzer sometimes produces
   -- these for nightly-only macros.
-  [kinds[kinds.Reference]] = true,
+  [kinds.Reference] = true,
 }
+
+-- The width of the code completion menu.
+local menu_width = 50
+
+-- The maximum number of rows to display in the results menu.
+local menu_rows = 10
 
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
@@ -223,136 +218,295 @@ function buffer_completion_items(column, prefix)
   return items
 end
 
-local function show_picker(prefix, items)
-  local opts = {
-    layout_strategy = 'completion',
-    default_text = #prefix > 0 and prefix or '',
-    prompt_prefix = '',
-    entry_prefix = '',
-    multi_icon = '',
-    selection_caret = '',
-    show_line = false,
-    prompt_title = false,
-    results_title = false,
-    preview = { hide_on_startup = true },
-  }
+local function highlight_match(buf, line, start, stop)
+  api.nvim_buf_add_highlight(
+    buf,
+    namespace,
+    'TelescopeMatching',
+    line - 1,
+    start - 1,
+    stop
+  )
+end
 
-  local previewer = previewers.new_buffer_previewer({
-    title = 'Documentation',
-    define_preview = function(self, entry, status)
-      local docs = entry.value.docs
+local function close_menu(state)
+  api.nvim_win_close(state.prompt.window, true)
+  api.nvim_win_close(state.results.window, true)
+  api.nvim_buf_delete(state.prompt.buffer, { force = true })
+  api.nvim_buf_delete(state.results.buffer, { force = true })
+  api.nvim_set_current_win(state.window)
+  api.nvim_feedkeys('a', 'n', true)
+end
 
-      if docs and docs.value then
-        local lines = vim.split(docs.value, '\n', { trimempty = true })
+local function select_menu_item(state, index)
+  close_menu(state)
 
-        if docs.kind == 'markdown' then
-          api.nvim_buf_set_option(self.state.bufnr, 'ft', 'markdown')
-          api.nvim_win_set_option(self.state.winid, 'conceallevel', 2)
-          api.nvim_win_set_option(self.state.winid, 'wrap', true)
-          api.nvim_win_set_option(self.state.winid, 'linebreak', true)
-          lsp.util.stylize_markdown(self.state.bufnr, lines, {})
+  local item = state.data.filtered[index]
+
+  if item then
+    insert_completion(state.prefix, item)
+  end
+end
+
+local function move_menu_selection_down(state)
+  local max = fn.line('$', state.results.window)
+  local line, _ = unpack(api.nvim_win_get_cursor(state.results.window))
+  local new_line = line < max and line + 1 or 1
+
+  api.nvim_win_set_cursor(state.results.window, { new_line, 0 })
+end
+
+local function move_menu_selection_up(state)
+  local line = api.nvim_win_get_cursor(state.results.window)[1]
+  local new_line = line == 1 and fn.line('$', state.results.window) or line - 1
+
+  api.nvim_win_set_cursor(state.results.window, { new_line, 0 })
+end
+
+local function set_menu_items(state)
+  -- I got 99 problems, but 100 lines ain't one. This is to ensure the
+  -- statuscolumn padding isn't increased more, and to ensure the menu/filtering
+  -- doesn't slow down.
+  if #state.data.filtered >= 100 then
+    local filtered = {}
+
+    for i, item in ipairs(state.data.filtered) do
+      if i < 100 then
+        table.insert(filtered, item)
+      else
+        break
+      end
+    end
+
+    state.data.filtered = filtered
+  end
+
+  local items = state.data.filtered
+  local win = state.results.window
+  local buf = state.results.buffer
+  local prefix = state.prefix
+  local lines = vim.tbl_map(function(i)
+    return i.label
+  end, items)
+
+  api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
+  api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+  api.nvim_win_set_cursor(win, { 1, 0 })
+  api.nvim_win_set_height(win, math.min(menu_rows, #items))
+
+  for line = 1, #items do
+    highlight_match(buf, line, 1, #prefix)
+  end
+end
+
+local function filter_menu_items(state)
+  local items = state.data.raw
+  local query = api.nvim_buf_get_lines(state.prompt.buffer, 0, 1, false)[1]
+    or ''
+
+  if query == '' then
+    state.data.filtered = items
+    set_menu_items(state)
+    return
+  end
+
+  local words = vim.split(query, '%s+', { trimempty = true })
+  local results = {}
+
+  for _, item in ipairs(items) do
+    table.insert(results, { item = item, highlights = {} })
+  end
+
+  for _, word in ipairs(words) do
+    local new_results = {}
+
+    for i, result in ipairs(results) do
+      local positions = {}
+      local cursor = 1
+      local matched = false
+
+      while true do
+        local start, stop = result.item.filter:find(word, cursor)
+
+        if start == nil then
+          break
         else
-          api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
+          matched = true
+          cursor = start + 1
+          positions[start] = stop
         end
       end
-    end,
-  })
 
-  local name_size = 0
-
-  for _, item in pairs(items) do
-    local size = api.nvim_strwidth(item.label)
-
-    if size > name_size then
-      name_size = size
-    end
-  end
-
-  name_size = name_size + 2
-
-  if name_size > 40 then
-    name_size = 40
-  end
-
-  local displayer = entry_display.create({
-    separator = ' ',
-    items = {
-      { width = name_size },
-      { remaining = true },
-    },
-  })
-
-  local finder = finders.new_table({
-    results = items,
-    entry_maker = function(item)
-      return {
-        value = item,
-        display = function(entry)
-          return displayer({
-            entry.value.label,
-            { entry.value.detail or '', 'TelescopeResultsComment' },
-          })
-        end,
-        ordinal = item.filter,
-      }
-    end,
-  })
-
-  -- Enter insert mode again when the completion window is dismissed. For some
-  -- reason this function is called twice when closing, so we use a flag to
-  -- prevent running the code twice.
-  local closed = false
-
-  finder.close = function()
-    if closed then
-      return
+      if matched then
+        table.insert(result.highlights, positions)
+        table.insert(new_results, result)
+      end
     end
 
-    closed = true
-
-    -- Enter insert mode again _after_ the last typed/inserted character.
-    api.nvim_feedkeys('a', 'n', true)
+    results = new_results
   end
 
-  local picker = pickers.new(opts, {
-    finder = finder,
-    previewer = previewer,
-    sorter = tele_conf.values.generic_sorter(),
-    attach_mappings = function(bufnr, map)
-      map('i', '<Esc>', actions.close)
-      map('i', '<C-{>', actions.close)
-      actions.select_default:replace(function()
-        actions.close(bufnr)
+  table.sort(results, function(a, b)
+    return a.item.label < b.item.label
+  end)
 
-        local entry = action_state.get_selected_entry()
+  state.data.filtered = vim.tbl_map(function(r)
+    return r.item
+  end, results)
 
-        if entry then
-          insert_completion(prefix, entry.value)
-        end
-      end)
+  set_menu_items(state)
 
+  for i, result in ipairs(results) do
+    for _, ranges in ipairs(result.highlights) do
+      for start, stop in pairs(ranges) do
+        highlight_match(state.results.buffer, i, start, stop)
+      end
+    end
+  end
+end
+
+local function define_highlights()
+  local num_hl = api.nvim_get_hl(0, { name = 'Number' })
+  local pmenu_sel_hl = api.nvim_get_hl(0, { name = 'PmenuSel' })
+
+  api.nvim_set_hl(
+    namespace,
+    'CursorLineNr',
+    { fg = num_hl.fg, bg = pmenu_sel_hl.bg, bold = true }
+  )
+
+  api.nvim_set_hl(namespace, 'LineNr', { link = 'Number' })
+  api.nvim_set_hl(namespace, 'CursorLine', { link = 'PmenuSel' })
+end
+
+local function show_menu(buf, prefix, items)
+  -- We define the highlights when showing the menu, such that any color
+  -- (scheme) changes are picked up, without needing to define any global auto
+  -- commands.
+  define_highlights()
+
+  local prev_win = api.nvim_get_current_win()
+  local prompt_buf = api.nvim_create_buf(false, true)
+  local prompt_win = api.nvim_open_win(prompt_buf, true, {
+    row = 0,
+    col = 0 - #prefix,
+    relative = 'cursor',
+    anchor = 'NW',
+    width = menu_width,
+    height = 1,
+    focusable = true,
+    style = 'minimal',
+    border = 'none',
+  })
+
+  local items_buf = api.nvim_create_buf(false, true)
+  local items_win = api.nvim_open_win(items_buf, false, {
+    row = 1,
+    col = -3,
+    relative = 'win',
+    win = prompt_win,
+    anchor = 'NW',
+    width = menu_width,
+    height = math.min(menu_rows, #items),
+    focusable = false,
+    style = 'minimal',
+    border = 'none',
+    noautocmd = true,
+  })
+
+  local state = {
+    prompt = { window = prompt_win, buffer = prompt_buf },
+    results = { window = items_win, buffer = items_buf },
+    data = { raw = items, filtered = items },
+    window = prev_win,
+    prefix = prefix,
+  }
+
+  set_menu_items(state)
+
+  api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
+  api.nvim_buf_set_option(state.prompt.buffer, 'buftype', 'prompt')
+  api.nvim_win_set_option(state.prompt.window, 'winhl', 'NormalFloat:Normal')
+
+  api.nvim_win_set_hl_ns(state.results.window, namespace)
+  api.nvim_buf_set_option(state.results.buffer, 'buftype', 'nofile')
+  api.nvim_win_set_option(state.results.window, 'cursorline', true)
+  api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
+  api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
+  api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
+  api.nvim_win_set_option(
+    state.results.window,
+    'statuscolumn',
+    ' %-2{min([9, v:lnum - line("w0")])}'
+  )
+
+  fn.prompt_setprompt(state.prompt.buffer, prefix)
+  fn.prompt_setinterrupt(state.prompt.buffer, function()
+    close_menu(state)
+  end)
+
+  fn.prompt_setcallback(state.prompt.buffer, function()
+    select_menu_item(state, api.nvim_win_get_cursor(state.results.window)[1])
+  end)
+
+  -- The numbers 0..9 are used to quickly pick an item, removing the need for
+  -- needless typing of tabbing.
+  for i = 0, 9 do
+    vim.keymap.set('i', tostring(i), function()
+      select_menu_item(state, fn.line('w0', state.results.window) + i)
+    end, { buffer = state.prompt.buffer, silent = true, noremap = true })
+  end
+
+  -- Tab and Shift+Tab are used for scrolling through the list of candidates.
+  for _, key in ipairs({ '<Tab>', '<Down>' }) do
+    vim.keymap.set('i', key, function()
+      move_menu_selection_down(state)
+    end, { buffer = state.prompt.buffer, silent = true, noremap = true })
+  end
+
+  for _, key in ipairs({ '<S-Tab>', '<Up>' }) do
+    vim.keymap.set('i', key, function()
+      move_menu_selection_up(state)
+    end, { buffer = state.prompt.buffer, silent = true, noremap = true })
+  end
+
+  api.nvim_create_autocmd('InsertLeave', {
+    buffer = state.prompt.buffer,
+    callback = function()
+      close_menu(state)
       return true
     end,
   })
 
-  local create_layout = picker.create_layout
+  local text_changed_first_time = true
 
-  picker.create_layout = function(self)
-    local layout = create_layout(self)
-    local mount = layout.mount
+  api.nvim_create_autocmd('TextChangedI', {
+    buffer = state.prompt.buffer,
+    callback = function()
+      -- When showing the window the first time, this event gets triggered right
+      -- away, probably due to the use of prompt_setprompt(). This check ensures
+      -- we ignore said first event.
+      if text_changed_first_time then
+        text_changed_first_time = false
+      else
+        filter_menu_items(state)
+      end
+    end,
+  })
 
-    layout.mount = function(self)
-      mount(self)
-    end
-
-    return layout
-  end
-
-  picker:find()
+  api.nvim_create_autocmd('WinScrolled', {
+    pattern = tostring(state.results.window),
+    callback = function()
+      api.nvim_win_set_option(
+        state.results.window,
+        'statuscolumn',
+        api.nvim_win_get_option(state.results.window, 'statuscolumn')
+      )
+    end,
+  })
 end
 
--- Shows the completions in the completion menu.
-local function show_completions(prefix, items)
+local function show_completions(bufnr, prefix, items)
   if #items == 0 then
     return
   end
@@ -365,7 +519,7 @@ local function show_completions(prefix, items)
 
   -- Sort the initial list in alphabetical order.
   table.sort(items, function(a, b)
-    return a.filter < b.filter
+    return a.label < b.label
   end)
 
   -- It's possible for there to be only two entries, one of which is a snippet,
@@ -392,7 +546,7 @@ local function show_completions(prefix, items)
     end
   end
 
-  show_picker(prefix, items)
+  show_menu(bufnr, prefix, items)
 end
 
 -- Performs a fallback completion if a language server client isn't available.
@@ -402,7 +556,25 @@ local function fallback_completion(column, prefix)
   local words = buffer_completion_items(column, prefix)
 
   vim.list_extend(items, words)
-  show_completions(prefix, items)
+  show_completions(bufnr, prefix, items)
+end
+
+local function lsp_items(result, query)
+  local items = {}
+
+  if type(result) == 'table' and result.items then
+    items = result.items
+  elseif result ~= nil then
+    items = result
+  end
+
+  items = vim.tbl_filter(function(item)
+    local word = filter_text(item)
+
+    return vim.startswith(word, query) and not ignored_kinds[item.kind]
+  end, items)
+
+  return items
 end
 
 function M.start()
@@ -413,7 +585,7 @@ function M.start()
     return fallback_completion(column, prefix)
   end
 
-  local params = lsp.util.make_position_params()
+  local params = lsp.util.make_position_params(0)
   local items = snippet_completion_items(bufnr, column, prefix)
 
   lsp.buf_request(
@@ -422,36 +594,28 @@ function M.start()
     params,
     function(err, result)
       if err or not result then
-        show_completions(prefix, items)
+        show_completions(bufnr, prefix, items)
         return
       end
 
-      local lsp_items =
-        lsp.util.text_document_completion_list_to_complete_items(result, prefix)
+      for _, item in ipairs(lsp_items(result, prefix)) do
+        local filter = filter_text(item)
 
-      -- Now that we have the items, we need to process them so the right text
-      -- is inserted when changing the selected entry.
-      for _, item in ipairs(lsp_items) do
-        if not ignored_kinds[item.kind] then
-          local completion = item.user_data.nvim.lsp.completion_item
-          local filter = filter_text(completion)
-
-          table.insert(items, {
-            filter = filter,
-            label = completion.label or filter,
-            insert = text_to_expand(completion),
-            additional_edits = completion.additionalTextEdits,
-            kind = kinds[completion.kind],
-            docs = completion.documentation,
-            detail = completion.detail,
-            source = 'lsp',
-            line = line,
-            column = column,
-          })
-        end
+        table.insert(items, {
+          filter = filter,
+          label = item.label or filter,
+          insert = text_to_expand(item),
+          additional_edits = item.additionalTextEdits,
+          kind = item.kind,
+          docs = item.documentation,
+          detail = item.detail,
+          source = 'lsp',
+          line = line,
+          column = column,
+        })
       end
 
-      show_completions(prefix, items)
+      show_completions(bufnr, prefix, items)
     end
   )
 end
