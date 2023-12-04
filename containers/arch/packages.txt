@@ -31,6 +31,7 @@ man-db
 man-pages
 mesa
 neovim
+nodejs
 noto-fonts
 noto-fonts-emoji
 openssh
