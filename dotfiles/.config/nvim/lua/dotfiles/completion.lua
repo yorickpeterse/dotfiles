@@ -49,6 +49,7 @@ local menu_rows = 10
 
 local menu_below_anchor = 'NW'
 local menu_above_anchor = 'SW'
+local menu_status_col = ' %-2{min([9, v:lnum - line("w0")])}'
 
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
@@ -273,16 +274,17 @@ end
 
 local function configure_results_window(state)
   api.nvim_win_set_hl_ns(state.results.window, namespace)
-  api.nvim_win_set_option(state.results.window, 'cursorline', true)
+  api.nvim_win_set_option(
+    state.results.window,
+    'cursorline',
+    #state.data.filtered > 0
+  )
+
   api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
   api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
   api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
   api.nvim_win_set_option(state.results.window, 'scrolloff', 0)
-  api.nvim_win_set_option(
-    state.results.window,
-    'statuscolumn',
-    ' %-2{min([9, v:lnum - line("w0")])}'
-  )
+  api.nvim_win_set_option(state.results.window, 'statuscolumn', menu_status_col)
 end
 
 local function menu_size(items)
@@ -291,7 +293,7 @@ local function menu_size(items)
   local rows = menu_rows
   local cols = menu_columns
 
-  if screen_height <= 10 then
+  if screen_height <= 15 then
     rows = math.floor(rows * 0.3)
   elseif screen_height < 20 then
     rows = math.floor(rows * 0.5)
@@ -307,13 +309,12 @@ end
 local function set_menu_position(state, initial)
   local reconfigure = false
   local win_row = api.nvim_win_get_position(state.results.window)[1]
-  local conf = api.nvim_win_get_config(state.results.window)
   local screen_height = api.nvim_get_option('lines')
   local new_conf = nil
 
-  if win_row + conf.height >= screen_height then
-    -- If the results window doesn't fit below the prompt, we'll place it above
-    -- the prompt.
+  if win_row + menu_rows >= screen_height then
+    -- If the results window (using its default size) doesn't fit below the
+    -- prompt, we'll place it above the prompt.
     new_conf = {
       anchor = menu_above_anchor,
       row = 0,
@@ -321,7 +322,9 @@ local function set_menu_position(state, initial)
       relative = 'win',
       win = state.prompt.window,
     }
-  elseif conf.anchor == menu_above_anchor then
+  elseif
+    api.nvim_win_get_config(state.results.window).anchor == menu_above_anchor
+  then
     -- Move the results window back to its original place.
     new_conf = {
       anchor = menu_below_anchor,
@@ -349,7 +352,7 @@ local function set_menu_size(state)
   api.nvim_win_set_width(state.prompt.window, new_width)
 end
 
-local function populate_menu(state)
+local function set_menu_items(state)
   -- I got 99 problems, but 100 lines ain't one. This is to ensure the
   -- statuscolumn padding isn't increased more, and to ensure the menu/filtering
   -- doesn't slow down.
@@ -376,7 +379,16 @@ local function populate_menu(state)
   end, items)
 
   api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
-  api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+
+  if #items == 0 then
+    api.nvim_buf_set_lines(buf, 0, -1, false, { 'No results' })
+    api.nvim_buf_add_highlight(buf, namespace, 'Comment', 0, 0, -1)
+    api.nvim_win_set_option(state.results.window, 'cursorline', false)
+  else
+    api.nvim_buf_set_lines(buf, 0, -1, false, lines)
+    api.nvim_win_set_option(state.results.window, 'cursorline', true)
+  end
+
   api.nvim_win_set_cursor(win, { 1, 0 })
   set_menu_size(state)
 
@@ -392,7 +404,7 @@ local function filter_menu_items(state)
 
   if query == '' then
     state.data.filtered = items
-    populate_menu(state)
+    set_menu_items(state)
     return
   end
 
@@ -440,7 +452,7 @@ local function filter_menu_items(state)
     return r.item
   end, results)
 
-  populate_menu(state)
+  set_menu_items(state)
 
   for i, result in ipairs(results) do
     for _, ranges in ipairs(result.highlights) do
@@ -520,7 +532,7 @@ local function show_menu(buf, prefix, items)
   api.nvim_win_set_option(state.prompt.window, 'winhl', 'NormalFloat:Normal')
   api.nvim_buf_set_option(state.results.buffer, 'buftype', 'nofile')
 
-  populate_menu(state)
+  set_menu_items(state)
 
   -- The position is determined initially and when resizing the window. This
   -- ensures that filtering results doesn't result in the window moving around.
@@ -591,7 +603,7 @@ local function show_menu(buf, prefix, items)
       api.nvim_win_set_option(
         state.results.window,
         'statuscolumn',
-        api.nvim_win_get_option(state.results.window, 'statuscolumn')
+        menu_status_col
       )
     end,
   })
