@@ -47,6 +47,9 @@ local menu_columns = 50
 -- The maximum number of rows to display in the results menu.
 local menu_rows = 10
 
+local menu_below_anchor = 'NW'
+local menu_above_anchor = 'SW'
+
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -268,7 +271,21 @@ local function move_menu_selection_up(state)
   api.nvim_win_set_cursor(state.results.window, { new_line, 0 })
 end
 
-local function update_menu_size(state)
+local function configure_results_window(state)
+  api.nvim_win_set_hl_ns(state.results.window, namespace)
+  api.nvim_win_set_option(state.results.window, 'cursorline', true)
+  api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
+  api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
+  api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
+  api.nvim_win_set_option(state.results.window, 'scrolloff', 0)
+  api.nvim_win_set_option(
+    state.results.window,
+    'statuscolumn',
+    ' %-2{min([9, v:lnum - line("w0")])}'
+  )
+end
+
+local function menu_size(items)
   local screen_height = api.nvim_get_option('lines')
   local screen_width = api.nvim_get_option('columns')
   local rows = menu_rows
@@ -284,15 +301,55 @@ local function update_menu_size(state)
     cols = math.floor(cols * 0.7)
   end
 
-  local new_height = math.min(rows, #state.data.filtered)
-  local new_width = cols
+  return math.min(rows, items), cols
+end
+
+local function set_menu_position(state, initial)
+  local reconfigure = false
+  local win_row = api.nvim_win_get_position(state.results.window)[1]
+  local conf = api.nvim_win_get_config(state.results.window)
+  local screen_height = api.nvim_get_option('lines')
+  local new_conf = nil
+
+  if win_row + conf.height >= screen_height then
+    -- If the results window doesn't fit below the prompt, we'll place it above
+    -- the prompt.
+    new_conf = {
+      anchor = menu_above_anchor,
+      row = 0,
+      col = -3,
+      relative = 'win',
+      win = state.prompt.window,
+    }
+  elseif conf.anchor == menu_above_anchor then
+    -- Move the results window back to its original place.
+    new_conf = {
+      anchor = menu_below_anchor,
+      row = 1,
+      col = -3,
+      relative = 'win',
+      win = state.prompt.window,
+    }
+  end
+
+  if new_conf then
+    api.nvim_win_set_config(state.results.window, new_conf)
+  end
+
+  if new_conf or initial then
+    configure_results_window(state)
+  end
+end
+
+local function set_menu_size(state)
+  local new_height, new_width = menu_size(#state.data.filtered)
 
   api.nvim_win_set_height(state.results.window, new_height)
   api.nvim_win_set_width(state.results.window, new_width)
   api.nvim_win_set_width(state.prompt.window, new_width)
 end
 
-local function set_menu_items(state)
+local function populate_menu(state)
   -- I got 99 problems, but 100 lines ain't one. This is to ensure the
   -- statuscolumn padding isn't increased more, and to ensure the menu/filtering
   -- doesn't slow down.
@@ -321,7 +378,7 @@ local function set_menu_items(state)
   api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
   api.nvim_buf_set_lines(buf, 0, -1, false, lines)
   api.nvim_win_set_cursor(win, { 1, 0 })
-  update_menu_size(state)
+  set_menu_size(state)
 
   for line = 1, #items do
     highlight_match(buf, line, 1, #prefix)
@@ -335,7 +392,7 @@ local function filter_menu_items(state)
 
   if query == '' then
     state.data.filtered = items
-    set_menu_items(state)
+    populate_menu(state)
     return
   end
 
@@ -383,7 +440,7 @@ local function filter_menu_items(state)
     return r.item
   end, results)
 
-  set_menu_items(state)
+  populate_menu(state)
 
   for i, result in ipairs(results) do
     for _, ranges in ipairs(result.highlights) do
@@ -415,12 +472,19 @@ local function show_menu(buf, prefix, items)
   define_highlights()
 
   local prev_win = api.nvim_get_current_win()
+
+  -- The prompt buffer is set relative to the line/column, not the cursor, as
+  -- resizing the window doesn't result in the cursor position being updated,
+  -- resulting in the prompt clipping through the results window.
+  local row, col = unpack(api.nvim_win_get_cursor(prev_win))
   local prompt_buf = api.nvim_create_buf(false, true)
   local prompt_win = api.nvim_open_win(prompt_buf, true, {
     row = 0,
     col = 0 - #prefix,
-    relative = 'cursor',
-    anchor = 'NW',
+    bufpos = { row - 1, col },
+    relative = 'win',
+    win = prev_win,
+    anchor = menu_below_anchor,
     width = menu_columns,
     height = 1,
     focusable = true,
@@ -434,7 +498,7 @@ local function show_menu(buf, prefix, items)
     col = -3,
     relative = 'win',
     win = prompt_win,
-    anchor = 'NW',
+    anchor = menu_below_anchor,
     width = menu_columns,
     height = menu_rows,
     focusable = false,
@@ -451,24 +515,16 @@ local function show_menu(buf, prefix, items)
     prefix = prefix,
   }
 
-  set_menu_items(state)
-
   api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
   api.nvim_buf_set_option(state.prompt.buffer, 'buftype', 'prompt')
   api.nvim_win_set_option(state.prompt.window, 'winhl', 'NormalFloat:Normal')
-
-  api.nvim_win_set_hl_ns(state.results.window, namespace)
   api.nvim_buf_set_option(state.results.buffer, 'buftype', 'nofile')
-  api.nvim_win_set_option(state.results.window, 'cursorline', true)
-  api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
-  api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
-  api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
-  api.nvim_win_set_option(state.results.window, 'scrolloff', 0)
-  api.nvim_win_set_option(
-    state.results.window,
-    'statuscolumn',
-    ' %-2{min([9, v:lnum - line("w0")])}'
-  )
+
+  populate_menu(state)
+
+  -- The position is determined initially and when resizing the window. This
+  -- ensures that filtering results doesn't result in the window moving around.
+  set_menu_position(state, true)
 
   fn.prompt_setprompt(state.prompt.buffer, prefix)
   fn.prompt_setinterrupt(state.prompt.buffer, function()
@@ -529,6 +585,9 @@ local function show_menu(buf, prefix, items)
     group = augroup,
     pattern = tostring(state.results.window),
     callback = function()
+      -- This is needed to refresh the status column.
+      -- https://github.com/neovim/neovim/pull/25885 should (hopefully) fix
+      -- this when it's released.
       api.nvim_win_set_option(
         state.results.window,
         'statuscolumn',
@@ -540,7 +599,8 @@ local function show_menu(buf, prefix, items)
   api.nvim_create_autocmd('VimResized', {
     group = augroup,
     callback = function()
-      update_menu_size(state)
+      set_menu_size(state)
+      set_menu_position(state)
     end,
   })
 end
