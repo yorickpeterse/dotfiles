@@ -2,9 +2,6 @@ require('dressing').setup({
   input = {
     win_options = {
       winblend = 0,
-      winhighlight = 'NormalFloat:TelescopePromptNormal,'
-        .. 'FloatBorder:TelescopePromptBorder,'
-        .. 'FloatTitle:TelescopePromptTitle',
     },
     title_pos = 'left',
     border = {
@@ -12,9 +9,9 @@ require('dressing').setup({
       ' ', -- top
       ' ', -- top right
       ' ', -- right
-      ' ', -- bottom right
-      ' ', -- bottom
-      ' ', -- bottom left
+      '', -- bottom right
+      '', -- bottom
+      '', -- bottom left
       ' ', -- left
     },
     override = function(conf)
@@ -26,7 +23,7 @@ require('dressing').setup({
       end
 
       conf.col = -1
-      conf.row = 2
+      conf.row = 1
 
       return conf
     end,
