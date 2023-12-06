@@ -21,7 +21,7 @@ end
 
 telescope.setup({
   defaults = {
-    prompt_prefix = '',
+    prompt_prefix = ' > ',
     entry_prefix = ' ',
     selection_caret = ' ',
     sorting_strategy = 'ascending',
@@ -70,6 +70,7 @@ telescope.setup({
     git_branches = picker_defaults,
     treesitter = picker_defaults,
     reloader = picker_defaults,
+    help_tags = picker_defaults,
   },
   extensions = {
     fzf = {
