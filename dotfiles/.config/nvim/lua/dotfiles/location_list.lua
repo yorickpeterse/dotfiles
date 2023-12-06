@@ -128,6 +128,9 @@ function M.diagnostics_changed()
 
   timers[bufnr] = vim.defer_fn(function()
     update_all(bufnr)
+
+    -- Needed to ensure the diagnostics in the statusline are updated.
+    vim.cmd.redrawstatus()
   end, timeout)
 end
 
@@ -155,11 +158,11 @@ function M.next()
   switch_to_target_window(target)
 
   if list.idx == list.size then
-    api.nvim_exec('lfirst', true)
-  elseif not pcall(api.nvim_exec, 'lafter', true) then
+    api.nvim_exec2('lfirst', { output = true })
+  elseif not pcall(api.nvim_exec2, 'lafter', { output = true }) then
     -- When the last item is selected, but the cursor is beyond it, `lafter`
     -- will error. But if the cursor is on the same position, it won't.
-    api.nvim_exec('lfirst', true)
+    api.nvim_exec2('lfirst', { output = true })
   end
 end
 
@@ -174,8 +177,8 @@ function M.prev()
 
   switch_to_target_window(target)
 
-  if not pcall(api.nvim_exec, 'lbefore', true) then
-    api.nvim_exec('llast', true)
+  if not pcall(api.nvim_exec2, 'lbefore', { output = true }) then
+    api.nvim_exec2('llast', { output = true })
   end
 end
 

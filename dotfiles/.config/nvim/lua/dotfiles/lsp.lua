@@ -153,7 +153,11 @@ do
         },
         diagnostics = {
           globals = { 'vim' },
-          disable = { 'missing-fields' },
+          disable = {
+            'missing-fields',
+            'duplicate-set-field',
+            'undefined-field',
+          },
         },
         workspace = {
           library = runtime_files,

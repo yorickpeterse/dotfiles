@@ -122,9 +122,9 @@ local function show_failures(state)
   local bufnr = api.nvim_win_get_buf(0)
 
   api.nvim_buf_set_lines(bufnr, 0, -1, false, lines)
-  api.nvim_buf_set_option(bufnr, 'modifiable', false)
-  api.nvim_buf_set_option(bufnr, 'bufhidden', 'wipe')
-  api.nvim_buf_set_option(bufnr, 'modified', false)
+  api.nvim_set_option_value('modifiable', false, { buf = bufnr })
+  api.nvim_set_option_value('bufhidden', 'wipe', { buf = bufnr })
+  api.nvim_set_option_value('modified', false, { buf = bufnr })
 
   api.nvim_buf_set_name(bufnr, 'Package errors')
 end

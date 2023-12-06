@@ -38,7 +38,7 @@ function M.popup_visible()
 end
 
 function M.has_lsp_clients(buffer)
-  return #lsp.buf_get_clients(buffer or api.nvim_get_current_buf()) > 0
+  return #lsp.get_clients({ bufnr = buffer or api.nvim_get_current_buf() }) > 0
 end
 
 function M.buffer_cache(default)
@@ -91,7 +91,7 @@ end
 function M.has_lsp_clients_supporting(bufnr, capability)
   local supported = false
 
-  for _, client in pairs(lsp.buf_get_clients(bufnr)) do
+  for _, client in pairs(lsp.get_clients({ buf = bufnr })) do
     if client.supports_method(capability) then
       supported = true
       break

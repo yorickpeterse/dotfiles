@@ -44,10 +44,8 @@ function M.echo_diagnostic()
       return
     end
 
-    local diags = diag.get(
-      bufnr,
-      { lnum = line, severity = { min = diag.severity.WARN } }
-    )
+    local diags =
+      diag.get(bufnr, { lnum = line, severity = { min = diag.severity.WARN } })
 
     if #diags == 0 then
       if last_echo[1] then
@@ -60,7 +58,7 @@ function M.echo_diagnostic()
     last_echo = { true, bufnr, line }
 
     local first = diags[1]
-    local width = api.nvim_get_option('columns') - 15
+    local width = api.nvim_get_option_value('columns', {}) - 15
     local lines = vim.split(first.message, '\n')
     local message = vim.trim(lines[1])
 
@@ -101,10 +99,8 @@ function M.underline()
       return
     end
 
-    local diags = diag.get(
-      bufnr,
-      { lnum = line, severity = { min = diag.severity.WARN } }
-    )
+    local diags =
+      diag.get(bufnr, { lnum = line, severity = { min = diag.severity.WARN } })
 
     api.nvim_buf_clear_namespace(bufnr, underline_ns, 0, -1)
 
@@ -121,13 +117,20 @@ function M.underline()
 
       -- In case the start/end column is out of range, we just ignore the
       -- diagnostic.
-      pcall(api.nvim_buf_set_extmark, bufnr, underline_ns, diag.lnum, start_col, {
-        end_line = diag.end_lnum,
-        end_col = end_col,
-        hl_group = underline_hl[diag.severity],
-        hl_mode = 'combine',
-        virt_text_pos = 'overlay',
-      })
+      pcall(
+        api.nvim_buf_set_extmark,
+        bufnr,
+        underline_ns,
+        diag.lnum,
+        start_col,
+        {
+          end_line = diag.end_lnum,
+          end_col = end_col,
+          hl_group = underline_hl[diag.severity],
+          hl_mode = 'combine',
+          virt_text_pos = 'overlay',
+        }
+      )
     end
   end, timeout)
 end

@@ -257,10 +257,10 @@ local function update_extmark_text(state)
     end
   end
 
-  local padding = api.nvim_get_option('columns') - state.col
+  if #state.prefix > 0 then
+    text = text:sub(#state.prefix + 1, #text)
+  end
 
-  -- When https://github.com/neovim/neovim/commit/07883940b2294e0ab32fb58e6624d18d9dd1715a
-  -- is released (scheduled for 0.10) the padding is no longer needed.
   api.nvim_buf_set_extmark(
     buf,
     namespace,
@@ -268,11 +268,8 @@ local function update_extmark_text(state)
     state.extmark.col,
     {
       id = state.extmark.id,
-      virt_text = {
-        { text, 'Comment' },
-        { string.rep(' ', padding), 'Normal' },
-      },
-      virt_text_pos = 'overlay',
+      virt_text = { { text, 'Comment' } },
+      virt_text_pos = 'inline',
     }
   )
 end
@@ -322,22 +319,31 @@ end
 
 local function configure_results_window(state)
   api.nvim_win_set_hl_ns(state.results.window, namespace)
-  api.nvim_win_set_option(
-    state.results.window,
+  api.nvim_set_option_value(
     'cursorline',
-    #state.data.filtered > 0
+    #state.data.filtered > 0,
+    { win = state.results.window }
   )
 
-  api.nvim_win_set_option(state.results.window, 'cursorlineopt', 'number,line')
-  api.nvim_win_set_option(state.results.window, 'foldcolumn', '0')
-  api.nvim_win_set_option(state.results.window, 'signcolumn', 'no')
-  api.nvim_win_set_option(state.results.window, 'scrolloff', 0)
-  api.nvim_win_set_option(state.results.window, 'statuscolumn', menu_status_col)
+  api.nvim_set_option_value(
+    'cursorlineopt',
+    'number,line',
+    { win = state.results.window }
+  )
+
+  api.nvim_set_option_value('foldcolumn', '0', { win = state.results.window })
+  api.nvim_set_option_value('signcolumn', 'no', { win = state.results.window })
+  api.nvim_set_option_value('scrolloff', 0, { win = state.results.window })
+  api.nvim_set_option_value(
+    'statuscolumn',
+    menu_status_col,
+    { win = state.results.window }
+  )
 end
 
 local function menu_size(items)
-  local screen_height = api.nvim_get_option('lines')
-  local screen_width = api.nvim_get_option('columns')
+  local screen_height = api.nvim_get_option_value('lines', {})
+  local screen_width = api.nvim_get_option_value('columns', {})
   local rows = menu_rows
   local cols = menu_columns
 
@@ -357,7 +363,7 @@ end
 local function set_menu_position(state, initial)
   local reconfigure = false
   local win_row = api.nvim_win_get_position(state.results.window)[1]
-  local screen_height = api.nvim_get_option('lines')
+  local screen_height = api.nvim_get_option_value('lines', {})
   local new_conf = nil
 
   if win_row + menu_rows >= screen_height then
@@ -431,10 +437,18 @@ local function set_menu_items(state)
   if #items == 0 then
     api.nvim_buf_set_lines(buf, 0, -1, false, { 'No results' })
     api.nvim_buf_add_highlight(buf, namespace, 'Comment', 0, 0, -1)
-    api.nvim_win_set_option(state.results.window, 'cursorline', false)
+    api.nvim_set_option_value(
+      'cursorline',
+      false,
+      { win = state.results.window }
+    )
   else
     api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    api.nvim_win_set_option(state.results.window, 'cursorline', true)
+    api.nvim_set_option_value(
+      'cursorline',
+      true,
+      { win = state.results.window }
+    )
   end
 
   api.nvim_win_set_cursor(win, { 1, 0 })
@@ -596,15 +610,14 @@ local function show_menu(buf, prefix, items)
     extmark = {
       id = mark,
       row = row - 1,
-      col = col - #prefix,
+      col = col,
     },
     col = col,
   }
 
-  -- api.nvim_win_set_hl_ns(state.prompt.window, namespace)
   api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
-  api.nvim_buf_set_option(state.prompt.buffer, 'buftype', 'prompt')
-  api.nvim_buf_set_option(state.results.buffer, 'buftype', 'nofile')
+  api.nvim_set_option_value('buftype', 'prompt', { buf = state.prompt.buffer })
+  api.nvim_set_option_value('buftype', 'nofile', { buf = state.results.buffer })
 
   set_menu_items(state)
 
@@ -689,10 +702,10 @@ local function show_menu(buf, prefix, items)
       -- This is needed to refresh the status column.
       -- https://github.com/neovim/neovim/pull/25885 should (hopefully) fix
       -- this when it's released.
-      api.nvim_win_set_option(
-        state.results.window,
+      api.nvim_set_option_value(
         'statuscolumn',
-        menu_status_col
+        menu_status_col,
+        { win = state.results.window }
       )
     end,
   })

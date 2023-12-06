@@ -184,7 +184,7 @@ end)
 
 map('n', '<leader>t', function()
   local bufnr = api.nvim_get_current_buf()
-  local ft = api.nvim_buf_get_option(bufnr, 'ft')
+  local ft = api.nvim_get_option_value('ft', { buf = bufnr })
 
   if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
     pickers.lsp_document_symbols(bufnr, {

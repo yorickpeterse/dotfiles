@@ -86,7 +86,7 @@ local function remove_buffer()
     return
   end
 
-  local ft = api.nvim_buf_get_option(buffer, 'ft')
+  local ft = api.nvim_get_option_value('ft', { buf = buffer })
 
   if ft == 'qf' or ft == 'help' then
     return
@@ -141,7 +141,7 @@ au('lsp', {
   { 'BufWinEnter', '*', loclist.enter_window },
   { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
   { 'BufWritePost', '*', lint_buffer },
-  { 'User', 'LspProgressUpdate', 'redrawstatus' },
+  { 'LspProgress', '*', 'redrawstatus' },
 })
 
 au('diffs', {
@@ -159,21 +159,21 @@ au('telescope', {
       local win_id = api.nvim_get_current_win()
       local buf_id = api.nvim_win_get_buf(win_id)
       local winhl = 'WinBarNC:WinBar'
-      local old_winhl = api.nvim_win_get_option(win_id, 'winhl')
+      local old_winhl = api.nvim_get_option_value('winhl', { win = win_id })
 
       if old_winhl and #old_winhl > 0 then
         winhl = old_winhl .. ',' .. winhl
       end
 
-      api.nvim_win_set_option(win_id, 'winhl', winhl)
+      api.nvim_set_option_value('winhl', winhl, { win = win_id })
       api.nvim_create_autocmd({ 'BufEnter' }, {
         buffer = buf_id,
         callback = function(event)
           local winhl = api
-            .nvim_win_get_option(win_id, 'winhl')
+            .nvim_get_option_value('winhl', { win = win_id })
             :gsub(',?WinBarNC:WinBar', '')
 
-          api.nvim_win_set_option(win_id, 'winhl', winhl)
+          api.nvim_set_option_value('winhl', winhl, { win = win_id })
           return true
         end,
       })

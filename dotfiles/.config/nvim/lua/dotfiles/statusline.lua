@@ -65,19 +65,23 @@ end
 local function lsp_status()
   local statuses = {}
 
-  for _, msg in ipairs(lsp.util.get_progress_messages()) do
-    if not msg.done and not statuses[msg.name] then
-      local status = msg.title
+  for _, client in ipairs(lsp.get_clients()) do
+    for progress in client.progress do
+      local msg = progress.value
 
-      if msg.percentage then
-        status = status .. ' ' .. msg.percentage .. '%%'
+      if type(msg) == 'table' and msg.kind then
+        local status = msg.title
+
+        if msg.percentage then
+          status = status .. ' ' .. msg.percentage .. '%%'
+        end
+
+        statuses[client.name] = status
       end
-
-      statuses[msg.name] = status
     end
   end
 
-  for _, client in ipairs(lsp.get_active_clients()) do
+  for _, client in ipairs(lsp.get_clients()) do
     if not statuses[client.name] then
       statuses[client.name] = 'idle'
     end

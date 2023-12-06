@@ -1,4 +1,5 @@
 ivm
+neovim-git
 neovim-remote
 ruby-install
 vale
