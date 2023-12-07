@@ -1,5 +1,4 @@
 local util = require('dotfiles.util')
-local keycode = util.keycode
 local fn = vim.fn
 local lsp = vim.lsp
 local api = vim.api

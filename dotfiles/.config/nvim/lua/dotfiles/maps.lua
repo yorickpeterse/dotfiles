@@ -8,7 +8,6 @@ local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
 local loclist = require('dotfiles.location_list')
-local keycode = util.keycode
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -90,14 +89,14 @@ end, { expr = true })
 
 map('i', '<tab>', function()
   if popup_visible() then
-    api.nvim_feedkeys(keycode('<C-n>'), 'n', true)
+    api.nvim_feedkeys(vim.keycode('<C-n>'), 'n', true)
     return
   end
 
   local col = fn.col('.') - 1
 
   if col == 0 or api.nvim_get_current_line():sub(col, col):match('%s') then
-    api.nvim_feedkeys(keycode('<tab>'), 'n', true)
+    api.nvim_feedkeys(vim.keycode('<tab>'), 'n', true)
   else
     completion.start()
   end
@@ -119,7 +118,7 @@ map('n', '<leader>d', function()
   if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
     lsp.buf.definition()
   else
-    api.nvim_feedkeys(keycode('<C-]>'), 'm', true)
+    api.nvim_feedkeys(vim.keycode('<C-]>'), 'm', true)
   end
 end)
 
@@ -167,7 +166,7 @@ end)
 
 map('n', '<leader>a', vim.lsp.buf.code_action)
 map('n', '<leader>e', function()
-  diag.open_float(0, { scope = 'line' })
+  diag.open_float({ scope = 'line' })
 end)
 
 -- Searching

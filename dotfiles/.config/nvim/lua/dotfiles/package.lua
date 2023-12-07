@@ -1,6 +1,5 @@
 -- A small and opinionated package manager.
-local reader = require('dotfiles.util').reader
-local uv = vim.loop
+local uv = vim.uv
 local api = vim.api
 local fn = vim.fn
 
@@ -69,35 +68,26 @@ local function finish(state)
 end
 
 -- Runs a command.
-local function spawn(opts)
-  local handle
-  local stderr = uv.new_pipe(false)
-  local options = {
-    args = opts.args,
-    stdio = { nil, nil, stderr },
-    detached = true,
-    env = { GIT_TERMINAL_PROMPT = '0' },
-  }
+local function spawn(cmd, args, opts)
+  local run = { cmd }
 
-  handle, _ = uv.spawn(opts.cmd, options, function(code)
-    handle:close()
+  for _, arg in ipairs(args) do
+    table.insert(run, arg)
+  end
 
-    if code == 0 then
-      vim.schedule(opts.success)
-      return
-    end
-
-    if opts.error then
-      stderr:read_start(reader(function(output)
-        stderr:close()
+  vim.system(
+    run,
+    { text = true, env = { GIT_TERMINAL_PROMPT = '0' } },
+    function(res)
+      if res.code == 0 then
+        vim.schedule(opts.success)
+      else
         vim.schedule(function()
-          opts.error(output)
+          opts.error(res.stderr)
         end)
-      end))
+      end
     end
-  end)
-
-  return handle ~= nil
+  )
 end
 
 -- Shows the output of package failures in a buffer
@@ -162,9 +152,7 @@ local function install(package, state)
 
   table.insert(args, package.dir)
 
-  spawn({
-    cmd = 'git',
-    args = args,
+  spawn('git', args, {
     success = function()
       state.done = state.done + 1
 
@@ -196,9 +184,7 @@ local function update(package, state)
     return
   end
 
-  spawn({
-    cmd = 'git',
-    args = { '-C', package.dir, 'pull' },
+  spawn('git', { '-C', package.dir, 'pull' }, {
     success = function()
       helptags(package)
       run_hook(package)
@@ -214,9 +200,7 @@ end
 
 -- Removes an unrecognised directory
 local function remove_directory(dir, state)
-  spawn({
-    cmd = 'rm',
-    args = { '-rf', dir },
+  spawn('rm', { '-rf', dir }, {
     success = function()
       state.done = state.done + 1
 

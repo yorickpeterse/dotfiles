@@ -2,21 +2,7 @@
 local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
-local uv = vim.loop
 local M = {}
-
--- Returns a callback to use for reading the output of STDOUT or STDERR.
-function M.reader(done)
-  local output = ''
-
-  return function(err, chunk)
-    if chunk then
-      output = output .. chunk
-    else
-      done(output)
-    end
-  end
-end
 
 function M.error(message)
   vim.schedule(function()
@@ -27,10 +13,6 @@ function M.error(message)
 
     api.nvim_echo(chunks, true, {})
   end)
-end
-
-function M.keycode(string)
-  return api.nvim_replace_termcodes(string, true, true, true)
 end
 
 function M.popup_visible()
@@ -82,7 +64,7 @@ function M.statusline_highlight(text, group)
 end
 
 function M.file_exists(path)
-  local stat = vim.loop.fs_stat(path)
+  local stat = vim.uv.fs_stat(path)
   local kind = stat and stat.type
 
   return kind == 'file'

@@ -197,11 +197,6 @@ config.rust_analyzer.setup({
         enable = true,
         enableExperimental = false,
       },
-      inlayHints = {
-        typeHints = false,
-        chainingHints = false,
-        enable = false,
-      },
       lruCapacity = 64,
       completion = {
         postfix = {

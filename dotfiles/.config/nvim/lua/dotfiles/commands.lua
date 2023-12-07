@@ -6,23 +6,23 @@ local function cmd(name, func, opts)
   vim.api.nvim_create_user_command(name, func, opts or {})
 end
 
-local function terminal(cmd)
-  vim.cmd(cmd)
+local function terminal(modifier)
   vim.wo.scrolloff = 0
-  vim.cmd('term')
-  vim.cmd('startinsert')
+  vim.cmd(modifier and modifier .. ' term' or 'term')
+  vim.cmd.startinsert()
 end
 
 cmd('Term', function()
-  terminal('new')
+  terminal('horizontal')
 end)
 
 cmd('Vterm', function()
-  terminal('vnew')
+  terminal('vertical')
 end)
 
 cmd('Tterm', function()
-  terminal('tabnew')
+  vim.cmd.tabnew()
+  terminal()
 end)
 
 cmd('PackageUpdate', function(data)
