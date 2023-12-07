@@ -10,6 +10,9 @@ local flags = {
   debounce_text_changes = 500,
 }
 
+local float_width = 120
+local float_height = 20
+
 lsp.set_log_level('OFF')
 
 local capabilities = lsp.protocol.make_client_capabilities()
@@ -21,15 +24,11 @@ local function on_attach(client, bufnr)
   client.server_capabilities.semanticTokensProvider = nil
 end
 
--- Markdown popup {{{1
+-- Markdown popup
 do
   local default = lsp.util.open_floating_preview
 
   lsp.util.open_floating_preview = function(contents, syntax, opts)
-    opts = opts or {}
-    opts =
-      vim.tbl_deep_extend('force', opts, { max_width = 120, max_height = 20 })
-
     -- This makes the separator between the definition and description look a
     -- bit better, instead of it looking like a distracting black line.
     local buf, win = default(contents, syntax, opts)
@@ -45,35 +44,42 @@ do
   end
 end
 
--- Floating window borders {{{1
-do
-  local default = lsp.util.make_floating_popup_options
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  -- This removes the top padding to take into account the issue described in
+  -- https://github.com/neovim/neovim/pull/25073#issuecomment-1767810374.
+  border = {
+    '', -- top left
+    '', -- top
+    '', -- top right
+    ' ', -- right
+    ' ', -- bottom right
+    ' ', -- bottom
+    ' ', -- bottom left
+    ' ', -- left
+  },
+  max_width = float_width,
+  max_heigh = float_height,
+})
 
-  lsp.util.make_floating_popup_options = function(width, height, opts)
-    local new_opts = vim.tbl_deep_extend('force', opts or {}, {
-      border = {
-        ' ', -- top left
-        ' ', -- top
-        ' ', -- top right
-        ' ', -- right
-        ' ', -- bottom right
-        ' ', -- bottom
-        ' ', -- bottom left
-        ' ', -- left
-      },
-    })
-
-    return default(width, height, new_opts)
-  end
-end
-
--- Diagnostics {{{1
+-- Diagnostics
 vim_diag.config({
   underline = false,
   signs = {
     severity = { min = vim_diag.severity.WARN },
   },
   float = {
+    border = {
+      ' ', -- top left
+      ' ', -- top
+      ' ', -- top right
+      ' ', -- right
+      ' ', -- bottom right
+      ' ', -- bottom
+      ' ', -- bottom left
+      ' ', -- left
+    },
+    max_width = float_width,
+    max_heigh = float_height,
     severity = { min = vim_diag.severity.WARN },
   },
   severity_sort = true,
@@ -81,7 +87,7 @@ vim_diag.config({
   update_in_insert = false,
 })
 
--- Signs {{{1
+-- Signs
 vim.fn.sign_define({
   {
     name = 'DiagnosticSignError',
@@ -109,14 +115,14 @@ vim.fn.sign_define({
   },
 })
 
--- C/C++ {{{1
+-- C/C++
 config.clangd.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   flags = flags,
 })
 
--- Go {{{1
+-- Go
 config.gopls.setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -128,7 +134,7 @@ config.gopls.setup({
   },
 })
 
--- Lua {{{1
+-- Lua
 do
   local rpath = vim.split(package.path, ';')
   local runtime_files = vim.api.nvim_list_runtime_paths()
@@ -171,7 +177,7 @@ do
   })
 end
 
--- Python {{{1
+-- Python
 config.jedi_language_server.setup({
   on_attach = on_attach,
   capabilities = capabilities,
@@ -185,7 +191,7 @@ config.jedi_language_server.setup({
   },
 })
 
--- Rust {{{1
+-- Rust
 config.rust_analyzer.setup({
   on_attach = on_attach,
   cmd = { 'rust-analyzer' },
@@ -209,5 +215,3 @@ config.rust_analyzer.setup({
     },
   },
 })
-
--- vim: set foldmethod=marker:
