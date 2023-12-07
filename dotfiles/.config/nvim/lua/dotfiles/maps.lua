@@ -2,8 +2,8 @@ local completion = require('dotfiles.completion')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local telescope_builtin = require('telescope.builtin')
+local snippet = require('dotfiles.snippet')
 local parsers = require('nvim-treesitter.parsers')
-local snippy = require('snippy')
 local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
@@ -221,13 +221,17 @@ map('n', '[l', loclist.prev)
 
 -- Snippets
 map({ 'i', 's' }, '<C-s>', function()
-  if snippy.can_expand() then
-    snippy.expand()
+  snippet.expand()
+end)
+
+map({ 'i', 's' }, '<C-k>', function()
+  if vim.snippet.jumpable(-1) then
+    vim.snippet.jump(-1)
   end
 end)
 
 map({ 'i', 's' }, '<C-j>', function()
-  if snippy.can_jump(1) then
-    snippy.next()
+  if vim.snippet.jumpable(1) then
+    vim.snippet.jump(1)
   end
 end)

@@ -2,28 +2,6 @@ snippet def "Define a method"
 	def ${1:name}
 		$0
 	end
-snippet rspec "Define an RSpec test module"
-	# frozen_string_literal: true
-
-	require 'spec_helper'
-
-	RSpec.describe ${1:type} do
-		describe '${2:method}' do
-			$0
-		end
-	end
-snippet describe "Insert a describe block"
-	describe '${1:description}' do
-		${0}
-	end
-snippet context "Insert a context block"
-	context '${1:description}' do
-		${0}
-	end
-snippet it "Define an RSpec test"
-	it '${1:description}' do
-		$0
-	end
 snippet before "Insert a before block"
 	before do
 		$0
@@ -52,5 +30,3 @@ snippet pry "Insert a Pry binding"
 	require 'pry'; binding.pry
 snippet fst "Inserts a frozen string literal option"
 	# frozen_string_literal: true
-
-

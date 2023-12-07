@@ -2,20 +2,13 @@ local lsp = vim.lsp
 local api = vim.api
 local ui = vim.ui
 local util = require('dotfiles.util')
-local snippy = require('snippy')
-local snippy_shared = require('snippy.shared')
+local snippet = require('dotfiles.snippet')
 local fn = vim.fn
 local M = {}
 
 local namespace = api.nvim_create_namespace('dotfiles_completion')
 local augroup =
   api.nvim_create_augroup('dotfiles_completion_menu', { clear = true })
-
--- This disables NeoVim's built-in snippet parser, just to make sure it never
--- messes with our own.
-lsp.util.parse_snippet = function(input)
-  return input
-end
 
 -- The minimum word length for it to be included in the buffer completion
 -- results.
@@ -110,23 +103,6 @@ local function remove_text(bufnr, text, line, column)
   api.nvim_win_set_cursor(0, { line, column })
 end
 
--- Returns all the snippets for the current buffer.
-local function available_snippets(buffer)
-  snippy.read_snippets()
-
-  local snippets = {}
-
-  for _, scope in ipairs(snippy_shared.get_scopes()) do
-    if scope and snippy.snippets[scope] then
-      for _, snippet in pairs(snippy.snippets[scope]) do
-        table.insert(snippets, snippet)
-      end
-    end
-  end
-
-  return snippets
-end
-
 -- Inserts the final completion into the buffer.
 local function insert_completion(prefix, item)
   local bufnr = api.nvim_get_current_buf()
@@ -138,7 +114,7 @@ local function insert_completion(prefix, item)
   end
 
   if item.source == 'lsp' or item.source == 'snippet' then
-    snippy.expand_snippet(item.insert)
+    vim.snippet.expand(item.insert)
   else
     api.nvim_put({ item.insert }, '', false, true)
   end
@@ -160,16 +136,16 @@ local function snippet_completion_items(buffer, column, prefix)
     return snippets
   end
 
-  for _, snippet in ipairs(available_snippets(buffer)) do
+  for _, snippet in ipairs(snippet.list(vim.bo[buffer].ft)) do
     if vim.startswith(snippet.prefix, prefix) then
       table.insert(snippets, {
         filter = snippet.prefix,
         label = snippet.prefix,
-        insert = snippet,
+        insert = snippet.body,
         kind = snippet_kind,
         docs = {
           kind = 'plain',
-          value = snippet.description,
+          value = snippet.desc,
         },
         source = 'snippet',
         line = line,
@@ -251,7 +227,7 @@ local function update_extmark_text(state)
       -- Snippets may expand to many lines, so we'll only show the first line in
       -- the extmark text.
       text =
-        vim.split(snippy.get_repr(item.insert), '\n', { trimempty = true })[1]
+        vim.split(snippet.format(item.insert), '\n', { trimempty = true })[1]
     else
       text = item.insert
     end
