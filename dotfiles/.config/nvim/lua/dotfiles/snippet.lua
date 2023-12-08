@@ -1,5 +1,6 @@
 local fn = vim.fn
 local api = vim.api
+local snippy = require('snippy')
 local M = {}
 
 -- The name of the "file type" that defines snippets available to all file
@@ -112,13 +113,15 @@ function M.list(ft)
   load()
 
   local list = {}
-  local sources = { snippets[ft], snippets[global_key] }
+  local sources = { snippets[global_key] }
+
+  if ft and snippets[ft] then
+    table.insert(sources, snippets[ft])
+  end
 
   for _, source in ipairs(sources) do
-    if source then
-      for _, snippet in pairs(source) do
-        table.insert(list, snippet)
-      end
+    for _, snippet in pairs(source) do
+      table.insert(list, snippet)
     end
   end
 
@@ -153,7 +156,12 @@ function M.expand()
   end
 
   remove_text(buf, name)
-  vim.snippet.expand(snippet.body)
+  snippy.expand_snippet(snippet.body)
+end
+
+-- Expands the given snippet
+function M.expand_snippet(body)
+  snippy.expand_snippet(body)
 end
 
 -- Formats a snippet body as human readable text
@@ -161,6 +169,16 @@ function M.format(body)
   local res = body:gsub('${%d:([^}]+)}', '%1'):gsub('${%d}', ''):gsub('$%d', '')
 
   return res
+end
+
+-- Jumps to the previous snippet placeholder, if there is any.
+function M.previous()
+  snippy.previous()
+end
+
+-- Jumps to the next snippet placeholder, if there is any.
+function M.next()
+  snippy.next()
 end
 
 return M

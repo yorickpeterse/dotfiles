@@ -225,13 +225,9 @@ map({ 'i', 's' }, '<C-s>', function()
 end)
 
 map({ 'i', 's' }, '<C-k>', function()
-  if vim.snippet.jumpable(-1) then
-    vim.snippet.jump(-1)
-  end
+  snippet.previous()
 end)
 
 map({ 'i', 's' }, '<C-j>', function()
-  if vim.snippet.jumpable(1) then
-    vim.snippet.jump(1)
-  end
+  snippet.next()
 end)

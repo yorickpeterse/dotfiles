@@ -114,7 +114,7 @@ local function insert_completion(prefix, item)
   end
 
   if item.source == 'lsp' or item.source == 'snippet' then
-    vim.snippet.expand(item.insert)
+    snippet.expand_snippet(item.insert)
   else
     api.nvim_put({ item.insert }, '', false, true)
   end
