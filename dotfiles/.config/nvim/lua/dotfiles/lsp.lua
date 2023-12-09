@@ -168,6 +168,7 @@ do
             'missing-fields',
             'duplicate-set-field',
             'undefined-field',
+            'inject-field',
           },
         },
         workspace = {
