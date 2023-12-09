@@ -19,6 +19,11 @@ local capabilities = lsp.protocol.make_client_capabilities()
 
 capabilities.textDocument.completion.completionItem.snippetSupport = true
 
+-- Per https://github.com/neovim/neovim/issues/23291, a polling mechanism is
+-- used. I haven't had a need for this thus far, and I don't want any slowdowns,
+-- so away you go.
+capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
+
 local function on_attach(client, bufnr)
   -- Disabled due to https://github.com/neovim/neovim/issues/23164
   client.server_capabilities.semanticTokensProvider = nil
