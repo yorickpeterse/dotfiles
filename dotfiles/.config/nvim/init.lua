@@ -125,7 +125,8 @@ o.ignorecase = true
 o.smartcase = true
 
 -- Statuscolumn
-o.statuscolumn = "%!v:lua.require'dotfiles.statuscolumn'.render()"
+o.statuscolumn =
+  '%s%=%{&relativenumber ? (v:virtnum == 0 ? (v:relnum > 0 ? v:relnum : v:lnum) : " ") : ""} '
 
 -- Statusline
 o.statusline = "%!v:lua.require'dotfiles.statusline'.render()"
