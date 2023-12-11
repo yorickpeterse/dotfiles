@@ -14,6 +14,7 @@ window-padding-y = 1
 font-family = "IosevkaFixedCustom Nerd Font"
 font-size = 8
 adjust-underline-thickness = -20%
+adjust-underline-position = 10%
 
 background = f2f2f2
 foreground = 000000
