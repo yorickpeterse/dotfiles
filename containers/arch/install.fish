@@ -15,6 +15,7 @@ run sudo pacman-key --init
 run sudo pacman-key --populate
 run sudo sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' \
     /etc/pacman.conf
+run sudo sed -i -e 's/#Color/Color/' /etc/pacman.conf
 
 # Manual pages aren't included in the container, so we need to fix that.
 run sudo pacman -Syu --noprogressbar --noconfirm --quiet --needed \
