@@ -1,5 +1,7 @@
 #!/usr/bin/env fish
 
+source containers/helpers.fish
+
 if [ $argv[1] = '' ]
     echo 'The first argument must be the container name'
     exit 1
@@ -14,10 +16,16 @@ set name $argv[1]
 set image $argv[2]
 set home_dir $HOME/homes/$name
 
-mkdir -p $home_dir
-ln --symbolic --force --no-dereference $HOME/Projects $home_dir/Projects
-ln --symbolic --force --no-dereference $HOME/Downloads $home_dir/Downloads
+section 'Setting up directories'
+run mkdir -p $home_dir
+run ln --symbolic --force --no-dereference $HOME/Projects $home_dir/Projects
+run ln --symbolic --force --no-dereference $HOME/Downloads $home_dir/Downloads
 
-distrobox create --image $image --name $name --home $home_dir --pull --no-entry
+section 'Creating container'
+run distrobox create --image $image --name $name --home $home_dir --pull --no-entry
+
+section 'Configuring container'
 distrobox enter $name -- fish containers/$name/install.fish
-distrobox stop --yes $name
+
+section 'Finishing'
+run distrobox stop --yes $name

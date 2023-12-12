@@ -21,6 +21,9 @@ run sudo pacman -Syu --noprogressbar --noconfirm --quiet --needed \
     sudo man-db man-pages
 run sudo mandb --quiet
 
+# Ensure the pacman manual pages are installed.
+run sudo pacman -Syu pacman --noprogressbar --noconfirm --quiet
+
 section 'Setting up locale'
 echo -e '
 LANG=en_US.UTF-8

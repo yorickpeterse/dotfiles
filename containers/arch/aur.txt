@@ -3,3 +3,4 @@ neovim-git
 neovim-remote
 ruby-install
 vale
+zig-dev-bin
