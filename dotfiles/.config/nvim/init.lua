@@ -89,10 +89,6 @@ o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 o.path = '.,,'
 
--- Temporarily disable this option until
--- https://github.com/neovim/neovim/issues/26556 is fixed.
-o.termsync = false
-
 -- GUI
 do
   local name = 'IosevkaFixedCustom Nerd Font'
