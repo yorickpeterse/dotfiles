@@ -1,4 +1,5 @@
 acpi
+asciinema
 aws-cli-v2
 base
 base-devel
@@ -17,6 +18,7 @@ graphviz
 heaptrack
 htop
 hyperfine
+inetutils
 jedi-language-server
 jq
 less
@@ -37,15 +39,18 @@ nss-mdns
 openssh
 pacman-contrib
 perf
+pigz
 python-pip
 python-poetry
 reflector
 ripgrep
+rsync
 rustup
 shellcheck
 stow
 stylua
 sudo
+tcpdump
 time
 tokei
 tree
@@ -55,4 +60,6 @@ vte-common
 wget
 wl-clipboard
 wol
+words
+xorg-xauth
 zip
