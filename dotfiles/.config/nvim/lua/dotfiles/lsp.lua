@@ -70,6 +70,24 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
 vim_diag.config({
   underline = false,
   signs = {
+    text = {
+      [vim_diag.severity.ERROR] = '▌',
+      [vim_diag.severity.WARN] = '▌',
+      [vim_diag.severity.HINT] = '▌',
+      [vim_diag.severity.INFO] = '▌',
+    },
+    numhl = {
+      [vim_diag.severity.ERROR] = 'DiagnosticError',
+      [vim_diag.severity.WARN] = 'DiagnosticWarn',
+      [vim_diag.severity.HINT] = 'DiagnosticHint',
+      [vim_diag.severity.INFO] = 'DiagnosticInfo',
+    },
+    texthl = {
+      [vim_diag.severity.ERROR] = 'DiagnosticError',
+      [vim_diag.severity.WARN] = 'DiagnosticWarn',
+      [vim_diag.severity.HINT] = 'DiagnosticHint',
+      [vim_diag.severity.INFO] = 'DiagnosticInfo',
+    },
     severity = { min = vim_diag.severity.WARN },
   },
   float = {
@@ -90,34 +108,6 @@ vim_diag.config({
   severity_sort = true,
   virtual_text = false,
   update_in_insert = false,
-})
-
--- Signs
-vim.fn.sign_define({
-  {
-    name = 'DiagnosticSignError',
-    text = '▌',
-    numhl = 'DiagnosticError',
-    texthl = 'DiagnosticError',
-  },
-  {
-    name = 'DiagnosticSignWarn',
-    text = '▌',
-    numhl = 'DiagnosticWarn',
-    texthl = 'DiagnosticWarn',
-  },
-  {
-    name = 'DiagnosticSignHint',
-    text = '▌',
-    numhl = 'DiagnosticHint',
-    texthl = 'DiagnosticHint',
-  },
-  {
-    name = 'DiagnosticSignInfo',
-    text = '▌',
-    numhl = 'DiagnosticInfo',
-    texthl = 'DiagnosticInfo',
-  },
 })
 
 -- C/C++
