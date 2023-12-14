@@ -1,3 +1,4 @@
+git-clogs
 ivm
 neovim-git
 neovim-remote
