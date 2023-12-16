@@ -135,17 +135,17 @@ local function tabline()
       end
     end
 
-    line = line
-      .. table.concat({
-        '%#',
-        index == fn.tabpagenr() and active_tab or inactive_tab,
-        '#',
-        index,
-        ': ',
-        tabname,
-        '%*',
-        ' ',
-      }, '')
+    line = table.concat({
+      line,
+      index > 1 and ' ' or '',
+      '%#',
+      index == fn.tabpagenr() and active_tab or inactive_tab,
+      '#',
+      index,
+      ': ',
+      tabname,
+      '%*',
+    }, '')
   end
 
   return line
