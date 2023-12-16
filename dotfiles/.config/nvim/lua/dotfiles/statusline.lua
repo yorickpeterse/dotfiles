@@ -85,12 +85,6 @@ local function lsp_status()
     end
   end
 
-  for _, client in ipairs(lsp.get_clients()) do
-    if not statuses[client.name] then
-      statuses[client.name] = 'idle'
-    end
-  end
-
   if vim.tbl_isempty(statuses) then
     return ''
   end
