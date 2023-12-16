@@ -4,6 +4,7 @@ local lsp = vim.lsp
 local api = vim.api
 local diag = require('dotfiles.diagnostics')
 local loclist = require('dotfiles.location_list')
+local statusline = require('dotfiles.statusline')
 local lint = require('lint')
 local conform = require('conform')
 
@@ -132,16 +133,34 @@ au('trailing_whitespace', {
   { 'InsertLeave', '*', disable_list },
 })
 
-au('lsp', {
-  { 'BufWritePre', '*', format_buffer },
-  { 'CursorMoved', '*', diag.echo_diagnostic },
-  { 'CursorMoved', '*', diag.underline },
-  { 'DiagnosticChanged', '*', diag.refresh },
-  { 'BufWinEnter', '*', loclist.enter_window },
-  { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
-  { 'BufWritePost', '*', lint_buffer },
-  { 'LspProgress', '*', 'redrawstatus' },
-})
+do
+  local throttle_timer = nil
+
+  au('lsp', {
+    { 'BufWritePre', '*', format_buffer },
+    { 'CursorMoved', '*', diag.echo_diagnostic },
+    { 'CursorMoved', '*', diag.underline },
+    { 'DiagnosticChanged', '*', diag.refresh },
+    { 'BufWinEnter', '*', loclist.enter_window },
+    { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
+    { 'BufWritePost', '*', lint_buffer },
+    {
+      'LspProgress',
+      '*',
+      function()
+        -- LspProgress fires frequently, so we throttle statusline updates.
+        if throttle_timer then
+          throttle_timer:stop()
+        end
+
+        throttle_timer = vim.defer_fn(function()
+          throttle_timer = nil
+          vim.cmd.redrawstatus()
+        end, 100)
+      end,
+    },
+  })
+end
 
 au('diffs', {
   { 'BufEnter', 'diffview:///panels*', 'set cursorlineopt+=line' },
