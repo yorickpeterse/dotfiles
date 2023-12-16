@@ -51,12 +51,16 @@ local mode_map = {
 
 local ignore_modes = { NORMAL = true, INSERT = true, COMMAND = true }
 
-local function diagnostic_count(kind)
+local function diagnostic_count(kind, foreground, background)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
   local amount = #diag.get(nil, { severity = severity })
 
   if amount > 0 then
-    return table.concat({ ' ', kind, ': ', amount, ' ' }, '')
+    return table.concat({
+      highlight('', foreground),
+      highlight(table.concat({ kind, ': ', amount }, ''), background),
+      highlight('', foreground),
+    }, '')
   else
     return ''
   end
@@ -110,7 +114,7 @@ local function lsp_status()
     table.insert(cells, text)
   end
 
-  return table.concat(cells, ', ') .. ' '
+  return table.concat(cells, ', ')
 end
 
 local function tabline()
@@ -155,7 +159,7 @@ end
 
 local function line_diagnostic()
   if diags.diagnostic then
-    return diags.diagnostic .. ' '
+    return diags.diagnostic
   else
     return ''
   end
@@ -168,20 +172,24 @@ local function mode()
   if ignore_modes[kind] then
     return ''
   else
-    return '%#PmenuSel# ' .. kind .. ' %*' .. ' '
+    return '%#PmenuSel# ' .. kind .. ' %*'
   end
 end
 
 function M.render()
-  return table.concat({
+  local elements = vim.tbl_filter(function(v)
+    return #v > 0
+  end, {
     line_diagnostic(),
     separator,
     mode(),
     lsp_status(),
     tabline(),
-    highlight(diagnostic_count('W'), 'WhiteOnYellow'),
-    highlight(diagnostic_count('E'), 'WhiteOnRed'),
-  }, '')
+    diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
+    diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
+  })
+
+  return table.concat(elements, ' ')
 end
 
 return M
