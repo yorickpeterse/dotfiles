@@ -10,46 +10,6 @@ local highlight = util.statusline_highlight
 local separator = '%='
 local active_tab = 'StatusLineTab'
 local inactive_tab = 'StatusLine'
-local mode_map = {
-  ['n'] = 'NORMAL',
-  ['no'] = 'O-PENDING',
-  ['nov'] = 'O-PENDING',
-  ['noV'] = 'O-PENDING',
-  ['no\22'] = 'O-PENDING',
-  ['niI'] = 'NORMAL',
-  ['niR'] = 'NORMAL',
-  ['niV'] = 'NORMAL',
-  ['nt'] = 'NORMAL',
-  ['ntT'] = 'NORMAL',
-  ['v'] = 'VISUAL',
-  ['vs'] = 'VISUAL',
-  ['V'] = 'V-LINE',
-  ['Vs'] = 'V-LINE',
-  ['\22'] = 'V-BLOCK',
-  ['\22s'] = 'V-BLOCK',
-  ['s'] = 'SELECT',
-  ['S'] = 'S-LINE',
-  ['\19'] = 'S-BLOCK',
-  ['i'] = 'INSERT',
-  ['ic'] = 'INSERT',
-  ['ix'] = 'INSERT',
-  ['R'] = 'REPLACE',
-  ['Rc'] = 'REPLACE',
-  ['Rx'] = 'REPLACE',
-  ['Rv'] = 'V-REPLACE',
-  ['Rvc'] = 'V-REPLACE',
-  ['Rvx'] = 'V-REPLACE',
-  ['c'] = 'COMMAND',
-  ['cv'] = 'EX',
-  ['ce'] = 'EX',
-  ['r'] = 'REPLACE',
-  ['rm'] = 'MORE',
-  ['r?'] = 'CONFIRM',
-  ['!'] = 'SHELL',
-  ['t'] = 'TERMINAL',
-}
-
-local ignore_modes = { NORMAL = true, INSERT = true, COMMAND = true }
 
 local function diagnostic_count(kind, foreground, background)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
@@ -171,21 +131,6 @@ local function line_diagnostic()
   end
 end
 
-local function mode()
-  local mode = api.nvim_get_mode().mode
-  local kind = mode_map[mode] or mode
-
-  if ignore_modes[kind] then
-    return ''
-  else
-    return table.concat({
-      highlight('', 'FoldColumn'),
-      highlight(kind, 'PmenuSel'),
-      highlight('', 'FoldColumn'),
-    }, '')
-  end
-end
-
 function M.render()
   local elements = vim.tbl_filter(function(v)
     return #v > 0
@@ -193,7 +138,6 @@ function M.render()
     line_diagnostic(),
     separator,
     lsp_status(),
-    mode(),
     tabline(),
     diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
     diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
