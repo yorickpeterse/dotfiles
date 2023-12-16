@@ -166,7 +166,11 @@ local function mode()
   if ignore_modes[kind] then
     return ''
   else
-    return '%#PmenuSel# ' .. kind .. ' %*'
+    return table.concat({
+      highlight('', 'FoldColumn'),
+      highlight(kind, 'PmenuSel'),
+      highlight('', 'FoldColumn'),
+    }, '')
   end
 end
 
@@ -176,8 +180,8 @@ function M.render()
   end, {
     line_diagnostic(),
     separator,
-    mode(),
     lsp_status(),
+    mode(),
     tabline(),
     diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
     diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
