@@ -120,7 +120,7 @@ local function lsp_status()
     table.insert(cells, text)
   end
 
-  return table.concat(cells, ', ')
+  return highlight(table.concat(cells, ', '), 'Comment')
 end
 
 local function tabline()
