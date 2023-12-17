@@ -38,6 +38,7 @@ require('dotfiles.pairs')
 require('dotfiles.maps')
 require('dotfiles.commands')
 require('dotfiles.abbrev')
+require('dotfiles.color')
 
 -- Code completion
 o.pumheight = 30
