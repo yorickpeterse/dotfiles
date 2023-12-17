@@ -21,8 +21,8 @@
     ui = true
 
 [color "diff"]
-    old = "normal #f2d3cd"
-    new = "normal #dfeacc"
+    old = red
+    new = green
     frag = blue
 
 [color "diff-highlight"]
