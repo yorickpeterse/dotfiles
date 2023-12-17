@@ -24,6 +24,7 @@
     old = red
     new = green
     frag = blue
+    commit = yellow bold
 
 [color "diff-highlight"]
     oldhighlight = "#ffffff #c4331d"
