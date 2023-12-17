@@ -21,12 +21,15 @@
     ui = true
 
 [color "diff"]
-    old = red
-    new = green
+    old = "normal #f2d3cd"
+    new = "normal #dfeacc"
     frag = blue
 
-[diff "color"]
-    commit = yellow normal bold
+[color "diff-highlight"]
+    oldhighlight = "#ffffff #c4331d"
+    oldnormal = "normal #f2d3cd"
+    newhighlight = "#ffffff green"
+    newnormal = "normal #dfeacc"
 
 [merge]
     tool = nvim
@@ -40,7 +43,7 @@
     cmd = nvim-mergetool $LOCAL $REMOTE $MERGED
 
 [alias]
-    today = log --since=\"1 day ago\" --author=\"Yorick Peterse\" --pretty=oneline
+    today = log --since=\"1 day ago\" --author=\"Yorick Peterse\"
 
 [push]
     default = current
@@ -69,3 +72,6 @@
 
 [include]
     path = "~/.config/git/local"
+
+[log]
+    date = format:%d %b %Y %H:%M %z
