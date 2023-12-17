@@ -3,8 +3,10 @@ asciinema
 aws-cli-v2
 base
 base-devel
+bash-completion
 bc
 clang
+cmake
 diffutils
 fish
 flake8
@@ -32,6 +34,8 @@ lua-language-server
 man-db
 man-pages
 mesa
+mlocate
+mtr
 nodejs
 noto-fonts
 noto-fonts-emoji
@@ -44,7 +48,6 @@ python-pip
 python-poetry
 reflector
 ripgrep
-rsync
 rustup
 shellcheck
 stow
@@ -53,6 +56,7 @@ sudo
 tcpdump
 time
 tokei
+traceroute
 tree
 unzip
 valgrind
