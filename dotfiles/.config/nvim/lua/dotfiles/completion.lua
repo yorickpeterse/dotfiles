@@ -295,26 +295,17 @@ end
 
 local function configure_results_window(state)
   api.nvim_win_set_hl_ns(state.results.window, namespace)
-  api.nvim_set_option_value(
+  util.set_window_option(
+    state.results.window,
     'cursorline',
-    #state.data.filtered > 0,
-    { win = state.results.window }
+    #state.data.filtered > 0
   )
 
-  api.nvim_set_option_value(
-    'cursorlineopt',
-    'number,line',
-    { win = state.results.window }
-  )
-
-  api.nvim_set_option_value('foldcolumn', '0', { win = state.results.window })
-  api.nvim_set_option_value('signcolumn', 'no', { win = state.results.window })
-  api.nvim_set_option_value('scrolloff', 0, { win = state.results.window })
-  api.nvim_set_option_value(
-    'statuscolumn',
-    menu_status_col,
-    { win = state.results.window }
-  )
+  util.set_window_option(state.results.window, 'cursorlineopt', 'number,line')
+  util.set_window_option(state.results.window, 'foldcolumn', '0')
+  util.set_window_option(state.results.window, 'signcolumn', 'no')
+  util.set_window_option(state.results.window, 'scrolloff', 0)
+  util.set_window_option(state.results.window, 'statuscolumn', menu_status_col)
 end
 
 local function menu_size(items)
@@ -413,18 +404,10 @@ local function set_menu_items(state)
   if #items == 0 then
     api.nvim_buf_set_lines(buf, 0, -1, false, { 'No results' })
     api.nvim_buf_add_highlight(buf, namespace, 'Comment', 0, 0, -1)
-    api.nvim_set_option_value(
-      'cursorline',
-      false,
-      { win = state.results.window }
-    )
+    util.set_window_option(state.results.window, 'cursorline', false)
   else
     api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-    api.nvim_set_option_value(
-      'cursorline',
-      true,
-      { win = state.results.window }
-    )
+    util.set_window_option(state.results.window, 'cursorline', true)
   end
 
   api.nvim_win_set_cursor(win, { 1, 0 })
@@ -678,10 +661,10 @@ local function show_menu(buf, prefix, items)
       -- This is needed to refresh the status column.
       -- https://github.com/neovim/neovim/pull/25885 should (hopefully) fix
       -- this when it's released.
-      api.nvim_set_option_value(
+      util.set_window_option(
+        state.results.window,
         'statuscolumn',
-        menu_status_col,
-        { win = state.results.window }
+        menu_status_col
       )
     end,
   })

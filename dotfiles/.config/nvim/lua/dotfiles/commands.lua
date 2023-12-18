@@ -41,4 +41,8 @@ cmd('Cd', function(data)
   workspace.cd(data.fargs[1])
 end, { nargs = 1, complete = 'file' })
 
+cmd('Git', function()
+  require('dotfiles.git.log').open()
+end)
+
 return M

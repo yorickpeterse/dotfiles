@@ -89,4 +89,8 @@ function M.find_directory(name, relative_to)
   return fn.fnamemodify(path, ':p')
 end
 
+function M.set_window_option(window, option, value)
+  api.nvim_set_option_value(option, value, { win = window, scope = 'local' })
+end
+
 return M
