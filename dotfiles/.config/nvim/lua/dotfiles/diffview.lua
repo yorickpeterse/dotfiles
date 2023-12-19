@@ -1,12 +1,6 @@
+local fn = vim.fn
 local api = vim.api
 local actions = require('diffview.actions')
-
-local function top(func)
-  return function()
-    func()
-    vim.cmd.normal('gg')
-  end
-end
 
 require('diffview').setup({
   diff_binaries = false,
@@ -20,19 +14,19 @@ require('diffview').setup({
   keymaps = {
     disable_defaults = true,
     view = {
-      { 'n', ']f', top(actions.select_next_entry) },
-      { 'n', '[f', top(actions.select_prev_entry) },
+      { 'n', ']f', actions.select_next_entry },
+      { 'n', '[f', actions.select_prev_entry },
     },
     file_panel = {
       { 'n', 'j', actions.next_entry },
       { 'n', 'k', actions.prev_entry },
-      { 'n', '<CR>', top(actions.focus_entry) },
+      { 'n', '<CR>', actions.focus_entry },
       { 'n', '-', actions.toggle_stage_entry },
       { 'n', 'U', actions.unstage_all },
       { 'n', 'X', actions.restore_entry },
       { 'n', 'R', actions.refresh_files },
-      { 'n', ']f', top(actions.select_next_entry) },
-      { 'n', '[f', top(actions.select_prev_entry) },
+      { 'n', ']f', actions.select_next_entry },
+      { 'n', '[f', actions.select_prev_entry },
     },
     file_history_panel = {
       { 'n', '<CR>', actions.select_entry },
@@ -41,5 +35,12 @@ require('diffview').setup({
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
     },
+  },
+  hooks = {
+    diff_buf_win_enter = function(buf, win, ctx)
+      vim.schedule(function()
+        fn.win_execute(win, 'normal! gg')
+      end)
+    end,
   },
 })
