@@ -1,4 +1,3 @@
--- Utility functions for my dotfiles.
 local api = vim.api
 local fn = vim.fn
 local lsp = vim.lsp
@@ -91,6 +90,47 @@ end
 
 function M.set_window_option(window, option, value)
   api.nvim_set_option_value(option, value, { win = window, scope = 'local' })
+end
+
+function M.set_buffer_lines(buf, namespace, start, stop, chunk_lines)
+  local lines = {}
+
+  for _, chunks in ipairs(chunk_lines) do
+    local text = {}
+
+    for _, chunk in ipairs(chunks) do
+      table.insert(text, chunk[1])
+    end
+
+    table.insert(lines, table.concat(text, ''))
+  end
+
+  if start > 0 then
+    start = start - 1
+  end
+
+  if stop > 0 then
+    stop = stop - 1
+  end
+
+  api.nvim_buf_set_lines(buf, start, stop, true, lines)
+
+  for line, chunks in ipairs(chunk_lines) do
+    local offset = 1
+
+    for _, chunk in ipairs(chunks) do
+      api.nvim_buf_add_highlight(
+        buf,
+        namespace,
+        chunk[2],
+        start + line - 1,
+        offset - 1,
+        offset - 1 + #chunk[1]
+      )
+
+      offset = offset + #chunk[1]
+    end
+  end
 end
 
 return M

@@ -1,5 +1,6 @@
 local package = require('dotfiles.package')
 local workspace = require('dotfiles.workspace')
+local util = require('dotfiles.util')
 local M = {}
 
 local function cmd(name, func, opts)
@@ -41,8 +42,27 @@ cmd('Cd', function(data)
   workspace.cd(data.fargs[1])
 end, { nargs = 1, complete = 'file' })
 
-cmd('Git', function()
-  require('dotfiles.git.log').open()
-end)
+cmd('Git', function(data)
+  require('dotfiles.git.log').open(data.fargs[1])
+end, {
+  nargs = '?',
+  complete = function()
+    local res = vim
+      .system({ 'git', 'branch', '--format=%(refname:short)' }, { text = true })
+      :wait()
+
+    if res.code ~= 0 then
+      return {}
+    end
+
+    local names = vim.split(res.stdout, '\n', { trimempty = true })
+
+    table.sort(names, function(a, b)
+      return a < b
+    end)
+
+    return names
+  end,
+})
 
 return M
