@@ -20,8 +20,8 @@ require('diffview').setup({
   keymaps = {
     disable_defaults = true,
     view = {
-      { 'n', ']f', actions.select_next_entry },
-      { 'n', '[f', actions.select_prev_entry },
+      { 'n', ']f', top(actions.select_next_entry) },
+      { 'n', '[f', top(actions.select_prev_entry) },
     },
     file_panel = {
       { 'n', 'j', actions.next_entry },
