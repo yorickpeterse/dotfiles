@@ -371,6 +371,7 @@ function M.open(ref)
     return
   end
 
+  vim.cmd.tablast()
   vim.cmd.tabnew()
   ACTIVE = true
 
