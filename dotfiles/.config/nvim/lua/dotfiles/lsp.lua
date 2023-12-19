@@ -24,9 +24,9 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- so away you go.
 capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
-local function on_attach(client, bufnr)
+local function on_init(client, _)
   -- Disabled due to https://github.com/neovim/neovim/issues/23164
-  client.server_capabilities.semanticTokensProvider = nil
+  client.server_capabilities.semanticTokensProvider = false
 end
 
 -- Markdown popup
@@ -112,14 +112,14 @@ vim_diag.config({
 
 -- C/C++
 config.clangd.setup({
-  on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
   flags = flags,
 })
 
 -- Go
 config.gopls.setup({
-  on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
   flags = flags,
   settings = {
@@ -138,7 +138,7 @@ do
   table.insert(rpath, 'lua/?/init.lua')
 
   config.lua_ls.setup({
-    on_attach = on_attach,
+    on_init = on_init,
     capabilities = capabilities,
     flags = flags,
     cmd = {
@@ -175,7 +175,7 @@ end
 
 -- Python
 config.jedi_language_server.setup({
-  on_attach = on_attach,
+  on_init = on_init,
   capabilities = capabilities,
   flags = flags,
   init_options = {
@@ -189,7 +189,7 @@ config.jedi_language_server.setup({
 
 -- Rust
 config.rust_analyzer.setup({
-  on_attach = on_attach,
+  on_init = on_init,
   cmd = { 'rust-analyzer' },
   capabilities = capabilities,
   flags = flags,
