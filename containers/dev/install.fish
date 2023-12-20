@@ -2,7 +2,7 @@
 
 source containers/helpers.fish
 
-set dir containers/arch
+set dir containers/dev
 set pkgs (cat $dir/packages.txt)
 set aur (cat $dir/aur.txt)
 set ruby_version 3.2.2
@@ -71,11 +71,6 @@ section 'Configuring pacman hooks'
 run sudo cp $dir/dotfiles.hook /usr/share/libalpm/hooks/
 run sudo cp $dir/dotfiles_hook.sh /usr/share/libalpm/scripts/
 run sudo chown root:root /usr/share/libalpm/{hooks,scripts}/dotfiles*
-
-section 'Configuring dotfiles'
-rm -rf ~/.config/fish
-run stow -R dotfiles -t ~/
-source ~/.config/fish/config.fish
 
 section 'Configuring Ruby'
 run ruby-install --jobs 4 --no-install-deps --no-reinstall $ruby_version

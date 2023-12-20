@@ -1,4 +1,4 @@
 #!/usr/bin/env fish
 
-exec /usr/bin/distrobox-enter -n arch -- \
+exec /usr/bin/distrobox-enter -n dev -- \
     ~/.local/bin/ghostty -e fish -c "nvim $argv"

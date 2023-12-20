@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 source containers/helpers.fish
-set dir containers/arch
+set dir containers/dev
 set pkgs (cat $dir/packages.txt)
 set aur (cat $dir/aur.txt)
 
