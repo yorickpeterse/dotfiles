@@ -27,10 +27,10 @@
     commit = yellow bold
 
 [color "diff-highlight"]
-    oldhighlight = "#ffffff #c4331d"
     oldnormal = "normal #f2d3cd"
-    newhighlight = "#ffffff green"
+    oldhighlight = "normal #edb5aa"
     newnormal = "normal #dfeacc"
+    newhighlight = "normal #c6dba5"
 
 [merge]
     tool = nvim
