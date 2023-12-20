@@ -48,6 +48,7 @@ python-pip
 python-poetry
 reflector
 ripgrep
+rsync
 rustup
 shellcheck
 stow

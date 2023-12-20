@@ -1,4 +1,5 @@
 git-clogs
+gitlint
 ivm
 neovim-git
 neovim-remote
