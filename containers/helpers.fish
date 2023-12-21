@@ -1,3 +1,5 @@
+trap 'tput cnorm' EXIT INT
+
 function run
     set show "$argv"
     set limit 120
@@ -29,4 +31,51 @@ function section
     echo -e "\n\e[1m$argv\e[0m"
 end
 
-trap 'tput cnorm' EXIT INT
+function install_locales
+    section 'Setting up locale'
+    run sudo cp /run/host/etc/locale.conf /etc/locale.conf
+    run sudo chown root:root /etc/locale.conf
+end
+
+function install_fonts
+    section 'Installing fonts'
+    run ln --symbolic --force --no-dereference \
+        /var/home/$USER/.local/share/fonts \
+        $HOME/.local/share/fonts
+end
+
+function install_rust
+    section 'Configuring Rust'
+    run rustup install stable
+    run rustup component add rust-src rust-analyzer clippy rustfmt
+end
+
+function install_dotfiles
+    section 'Configuring dotfiles'
+    run rm -rf ~/.config/fish
+    run stow -R dotfiles -t ~/
+    source ~/.config/fish/config.fish
+end
+
+function install_ruby
+    set ver $argv[1]
+
+    section 'Configuring Ruby'
+    run ruby-install --jobs 8 --no-install-deps --no-reinstall $ver
+    run rm -rf ~/src
+    echo ruby-$ver >~/.ruby-ver
+    echo 'gem: --no-document' >~/.gemrc
+
+    rbv ruby-$ver
+    run gem update --system --silent
+    run gem install --silent pry pry-doc pry-theme
+end
+
+function install_inko
+    if ! test -f ~/.local/share/ivm/version
+        section 'Configuring Inko'
+        run ivm install latest
+        run ivm default (ivm list)
+        run ivm clean
+    end
+end

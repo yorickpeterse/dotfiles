@@ -32,6 +32,10 @@ run distrobox create --image $image --name $name --home $home_dir --pull --no-en
 
 if test -f $install
     section 'Configuring container'
+
+    # Make sure we're running the rest from the container's version of the
+    # dotfiles, such that symbolic links remain consistent.
+    cd $home_dir/Projects/general/dotfiles
     distrobox enter $name -- fish $install
 end
 

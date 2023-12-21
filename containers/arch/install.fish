@@ -27,13 +27,9 @@ run sudo sed -i -e 's/#Color/Color/' /etc/pacman.conf
 run sudo pacman -Syu --noprogressbar --noconfirm --quiet --needed \
     sudo man-db man-pages
 run sudo mandb --quiet
-
-# Ensure the pacman manual pages are installed.
 run sudo pacman -Syu pacman --noprogressbar --noconfirm --quiet
 
-section 'Setting up locale'
-run sudo cp /run/host/etc/locale.conf /etc/locale.conf
-run sudo chown root:root /etc/locale.conf
+install_locales
 echo -e "en_US.UTF-8 UTF-8\n$locale UTF-8" | sudo tee /etc/locale.gen >/dev/null
 run sudo locale-gen
 
@@ -55,34 +51,13 @@ run makepkg -si --noconfirm
 cd -
 rm -rf /tmp/yay
 
-section 'Configuring dotfiles'
-run rm -rf ~/.config/fish
-run stow -R dotfiles -t ~/
-source ~/.config/fish/config.fish
-
-section 'Configuring Rust'
-run rustup install stable
-run rustup component add rust-src rust-analyzer clippy rustfmt
+install_dotfiles
+install_fonts
+install_rust
 
 section 'Installing AUR packages'
-run yay -Syu --noprogressbar --noconfirm --needed --quiet --mflags --nocheck \
-    $aur
-
+run yay -Syu --noprogressbar --noconfirm --needed --quiet --mflags --nocheck $aur
 run yay -Scc --noconfirm --quiet
 
-section 'Configuring Ruby'
-run ruby-install --jobs 8 --no-install-deps --no-reinstall $ruby_version
-run rm -rf ~/src
-echo ruby-$ruby_version >~/.ruby-version
-echo 'gem: --no-document' >~/.gemrc
-
-rbv ruby-$ruby_version
-run gem update --system --silent
-run gem install --silent pry pry-doc pry-theme
-
-if ! test -f ~/.local/share/ivm/version
-    section 'Configuring Inko'
-    run ivm install latest
-    run ivm default (ivm list)
-    run ivm clean
-end
+install_ruby $ruby_version
+install_inko
