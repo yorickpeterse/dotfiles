@@ -13,6 +13,11 @@ echo 'max_parallel_downloads=10' | sudo tee --append /etc/dnf/dnf.conf >/dev/nul
 run sudo dnf install --assumeyes --quiet dnf-plugins-core
 run sudo dnf update --assumeyes --quiet
 
+section 'Enabling manual pages'
+run sudo dnf -y reinstall (rpm -qads --qf "PACKAGE: %{NAME}\n" \
+    | sed -n -E '/PACKAGE: /{s/PACKAGE: // ; h ; b }; /^not installed/ { g; p }' \
+    | uniq)
+
 install_locales
 
 section 'Enabling copr repositories'
