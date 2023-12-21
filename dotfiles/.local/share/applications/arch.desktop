@@ -1,11 +1,9 @@
 [Desktop Entry]
-Name=Arch
-GenericName=Terminal entering Arch Linux
-Comment=Terminal entering Arch Linux
+Name=Development Terminal
 Category=Distrobox;System;Utility"
-Exec=/var/home/yorickpeterse/bin/arch-terminal
-Icon=/var/home/yorickpeterse/.local/share/icons/distrobox/arch.svg
-Keywords=distrobox;
+Exec=/var/home/yorickpeterse/bin/dev-terminal
+Icon=com.mitchellh.ghostty
+Keywords=dev;
 NoDisplay=false
 Terminal=false
 TryExec=/usr/bin/distrobox

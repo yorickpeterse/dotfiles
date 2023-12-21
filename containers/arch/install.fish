@@ -1,18 +1,24 @@
 #!/usr/bin/env fish
 
 source containers/helpers.fish
+set dir containers/arch
 
-set dir containers/dev
+# The regular packages to install.
 set pkgs (cat $dir/packages.txt)
+
+# The AUR packages to install.
 set aur (cat $dir/aur.txt)
+
+# The version of Ruby to install.
 set ruby_version 3.2.2
 
-# Make sure we're in the container's version of the dotfiles path.
-cd ~/Projects/general/dotfiles
+# The locale to use in addition to the standard en_US locale.
+set locale en_IE.UTF-8
+
+# The country to use for the package mirrors.
+set country NL
 
 section 'Setting up the base system'
-run sudo pacman-key --init
-run sudo pacman-key --populate
 run sudo sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' \
     /etc/pacman.conf
 run sudo sed -i -e 's/#Color/Color/' /etc/pacman.conf
@@ -26,23 +32,15 @@ run sudo mandb --quiet
 run sudo pacman -Syu pacman --noprogressbar --noconfirm --quiet
 
 section 'Setting up locale'
-echo -e '
-LANG=en_US.UTF-8
-LC_NUMERIC=en_IE.UTF-8
-LC_TIME=en_IE.UTF-8
-LC_MONETARY=en_IE.UTF-8
-LC_PAPER=en_IE.UTF-8
-LC_MEASUREMENT=en_IE.UTF-8' | sudo tee /etc/locale.conf >/dev/null
-
-echo -e "en_US.UTF-8 UTF-8\nen_IE.UTF-8 UTF-8" \
-    | sudo tee /etc/locale.gen >/dev/null
-
+run sudo cp /run/host/etc/locale.conf /etc/locale.conf
+run sudo chown root:root /etc/locale.conf
+echo -e "en_US.UTF-8 UTF-8\n$locale UTF-8" | sudo tee /etc/locale.gen >/dev/null
 run sudo locale-gen
 
 section 'Installing packages'
 run sudo pacman -Syu --noprogressbar --noconfirm --quiet reflector
 run sudo reflector --save /etc/pacman.d/mirrorlist \
-    --country NL \
+    --country $country \
     --protocol https \
     --latest 10 \
     --fastest 10
@@ -57,6 +55,11 @@ run makepkg -si --noconfirm
 cd -
 rm -rf /tmp/yay
 
+section 'Configuring dotfiles'
+run rm -rf ~/.config/fish
+run stow -R dotfiles -t ~/
+source ~/.config/fish/config.fish
+
 section 'Configuring Rust'
 run rustup install stable
 run rustup component add rust-src rust-analyzer clippy rustfmt
@@ -67,21 +70,17 @@ run yay -Syu --noprogressbar --noconfirm --needed --quiet --mflags --nocheck \
 
 run yay -Scc --noconfirm --quiet
 
-section 'Configuring pacman hooks'
-run sudo cp $dir/dotfiles.hook /usr/share/libalpm/hooks/
-run sudo cp $dir/dotfiles_hook.sh /usr/share/libalpm/scripts/
-run sudo chown root:root /usr/share/libalpm/{hooks,scripts}/dotfiles*
-
 section 'Configuring Ruby'
-run ruby-install --jobs 4 --no-install-deps --no-reinstall $ruby_version
+run ruby-install --jobs 8 --no-install-deps --no-reinstall $ruby_version
 run rm -rf ~/src
 echo ruby-$ruby_version >~/.ruby-version
 echo 'gem: --no-document' >~/.gemrc
+
 rbv ruby-$ruby_version
 run gem update --system --silent
 run gem install --silent pry pry-doc pry-theme
 
-if ! test -f ~/.config/ivm/version
+if ! test -f ~/.local/share/ivm/version
     section 'Configuring Inko'
     run ivm install latest
     run ivm default (ivm list)

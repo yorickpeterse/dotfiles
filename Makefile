@@ -1,11 +1,8 @@
 dotfiles:
 	stow dotfiles -t ~/
 
-dev/build:
-	@fish containers/dev.fish
-
-dev/sync:
-	@fish containers/dev/sync.fish
+arch:
+	@fish containers/build.fish arch archlinux:latest
 
 fedora:
 	@fish containers/build.fish fedora fedora:latest
@@ -13,4 +10,4 @@ fedora:
 alpine:
 	@fish containers/build.fish alpine alpine:latest
 
-.PHONY: dotfiles fedora dev dev/sync alpine
+.PHONY: dotfiles fedora arch alpine

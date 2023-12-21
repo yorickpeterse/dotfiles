@@ -17,10 +17,15 @@ set image $argv[2]
 set home_dir $HOME/homes/$name
 set install containers/$name/install.fish
 
+# The directories in $HOME to link into the container.
+set link Documents Downloads Projects
+
 section 'Setting up directories'
 run mkdir -p $home_dir
-run ln --symbolic --force --no-dereference $HOME/Projects $home_dir/Projects
-run ln --symbolic --force --no-dereference $HOME/Downloads $home_dir/Downloads
+
+for dir in $link
+    run ln --symbolic --force --no-dereference $HOME/$dir $home_dir/$dir
+end
 
 section 'Creating container'
 run distrobox create --image $image --name $name --home $home_dir --pull --no-entry

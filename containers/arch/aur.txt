@@ -1,7 +1,7 @@
 git-clogs
 gitlint
 ivm
-neovim-git
+neovim-nightly-bin
 neovim-remote
 ruby-install
 vale

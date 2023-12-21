@@ -1,6 +1,6 @@
 #!/usr/bin/env fish
 
-if [ "$CONTAINER_ID" = dev ]
+if [ "$CONTAINER_ID" = arch ]
     exec /usr/share/git/diff-highlight/diff-highlight $argv
 else
     exec /usr/share/git-core/contrib/diff-highlight $argv

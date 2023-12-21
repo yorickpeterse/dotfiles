@@ -1,3 +1,3 @@
 #!/usr/bin/env fish
 
-exec ~/.local/bin/ghostty -e /usr/bin/distrobox enter --no-workdir dev
+exec ~/.local/bin/ghostty -e /usr/bin/distrobox enter --no-workdir arch
