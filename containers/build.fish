@@ -15,6 +15,7 @@ end
 set name $argv[1]
 set image $argv[2]
 set home_dir $HOME/homes/$name
+set install containers/$name/install.fish
 
 section 'Setting up directories'
 run mkdir -p $home_dir
@@ -24,8 +25,10 @@ run ln --symbolic --force --no-dereference $HOME/Downloads $home_dir/Downloads
 section 'Creating container'
 run distrobox create --image $image --name $name --home $home_dir --pull --no-entry
 
-section 'Configuring container'
-distrobox enter $name -- fish containers/$name/install.fish
+if test -f $install
+    section 'Configuring container'
+    distrobox enter $name -- fish $install
+end
 
-section 'Finishing'
+section Finishing
 run distrobox stop --yes $name
