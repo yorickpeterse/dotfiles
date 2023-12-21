@@ -56,7 +56,6 @@ stylua
 sudo
 tcpdump
 time
-tokei
 traceroute
 tree
 unzip
