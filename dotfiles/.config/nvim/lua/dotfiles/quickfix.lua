@@ -37,7 +37,7 @@ function M.open_item(split_cmd)
     vim.cmd(split_cmd)
   end
 
-  vim.cmd(err_cmd .. line)
+  vim.cmd('silent! ' .. err_cmd .. line)
 end
 
 function M.closed()
