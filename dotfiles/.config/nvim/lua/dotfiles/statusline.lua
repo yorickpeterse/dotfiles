@@ -11,9 +11,27 @@ local separator = '%='
 local active_tab = 'StatusLineTab'
 local inactive_tab = 'StatusLine'
 
+-- A cache of all diagnostics.
+--
+-- Statuslines are redrawn often, and obtaining all diagnostics can be expensive
+-- when there are many, as `vim.diagnostic.get()` appears to perform various
+-- allocations and deep copies.
+local diagnostics_cache = {}
+
+-- A cache of the LSP client states.
+local lsp_status_cache = nil
+
 local function diagnostic_count(kind, foreground, background)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
-  local amount = #diag.get(nil, { severity = severity })
+  local amount = 0
+  local cached = diagnostics_cache[severity]
+
+  if cached then
+    amount = cached
+  else
+    amount = #diag.get(nil, { severity = severity })
+    diagnostics_cache[severity] = amount
+  end
 
   if amount > 0 then
     return table.concat({
@@ -27,34 +45,40 @@ local function diagnostic_count(kind, foreground, background)
 end
 
 local function lsp_status()
-  local statuses = {}
+  local statuses = lsp_status_cache
 
-  for _, client in ipairs(lsp.get_clients()) do
-    for progress in client.progress do
-      local msg = progress.value
+  if not statuses then
+    statuses = {}
 
-      if type(msg) == 'table' and msg.kind then
-        local status = ''
+    for _, client in ipairs(lsp.get_clients()) do
+      for progress in client.progress do
+        local msg = progress.value
 
-        if msg.kind == 'end' then
-          status = 'idle'
-        else
-          status = msg.title
+        if type(msg) == 'table' and msg.kind then
+          local status = ''
 
-          if msg.percentage then
-            status = status .. ' ' .. msg.percentage .. '%%'
+          if msg.kind == 'end' then
+            status = 'idle'
+          else
+            status = msg.title
+
+            if msg.percentage then
+              status = status .. ' ' .. msg.percentage .. '%%'
+            end
           end
-        end
 
-        statuses[client.name] = status
+          statuses[client.name] = status
+        end
       end
     end
-  end
 
-  for _, client in ipairs(lsp.get_clients()) do
-    if not statuses[client.name] then
-      statuses[client.name] = 'idle'
+    for _, client in ipairs(lsp.get_clients()) do
+      if not statuses[client.name] then
+        statuses[client.name] = 'idle'
+      end
     end
+
+    lsp_status_cache = statuses
   end
 
   if vim.tbl_isempty(statuses) then
@@ -144,6 +168,14 @@ function M.render()
   })
 
   return table.concat(elements, ' ')
+end
+
+function M.refresh_diagnostics()
+  diagnostics_cache = {}
+end
+
+function M.refresh_lsp_status()
+  lsp_status_cache = nil
 end
 
 return M

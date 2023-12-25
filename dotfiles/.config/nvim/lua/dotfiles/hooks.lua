@@ -140,9 +140,16 @@ do
     { 'BufWritePre', '*', format_buffer },
     { 'CursorMoved', '*', diag.echo_diagnostic },
     { 'CursorMoved', '*', diag.underline },
-    { 'DiagnosticChanged', '*', diag.refresh },
     { 'BufWinEnter', '*', loclist.enter_window },
-    { 'DiagnosticChanged', '*', loclist.diagnostics_changed },
+    {
+      'DiagnosticChanged',
+      '*',
+      function()
+        diag.refresh()
+        loclist.diagnostics_changed()
+        statusline.refresh_diagnostics()
+      end,
+    },
     { 'BufWritePost', '*', lint_buffer },
     {
       'LspProgress',
@@ -155,6 +162,7 @@ do
 
         throttle_timer = vim.defer_fn(function()
           throttle_timer = nil
+          statusline.refresh_lsp_status()
           vim.cmd.redrawstatus()
         end, 100)
       end,
