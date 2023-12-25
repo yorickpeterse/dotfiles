@@ -24,10 +24,10 @@ function M.render()
   end
 
   if vim.startswith(bufname, 'term://') then
-    local parts = vim.split(bufname, '//', { trimempty = true })
+    local parts = vim.split(bufname, ':', { trimempty = true })
 
     if #parts == 3 then
-      bufname = 'term://' .. parts[3]
+      bufname = 'term:' .. parts[3]
     end
   end
 
