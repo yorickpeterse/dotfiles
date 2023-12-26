@@ -19,6 +19,8 @@ set locale en_IE.UTF-8
 set country NL
 
 section 'Setting up the base system'
+run sudo pacman-key --init
+run sudo pacman-key --populate
 run sudo sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' \
     /etc/pacman.conf
 run sudo sed -i -e 's/#Color/Color/' /etc/pacman.conf
