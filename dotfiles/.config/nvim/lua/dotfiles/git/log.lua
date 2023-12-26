@@ -11,6 +11,12 @@ local HIGHLIGHTS = {
   addition = 'String',
   deletion = 'DiffDelete',
   title = 'Title',
+  status = {
+    A = 'DiffviewStatusAdded',
+    D = 'DiffviewStatusDeleted',
+    M = 'DiffviewStatusModified',
+    ['?'] = 'Title',
+  },
 }
 
 -- The format to use for dates.
@@ -88,6 +94,26 @@ local function commit_body(sha)
   return vim.split(res.stdout, '\n', { trimempty = true })
 end
 
+local function commit_files(sha)
+  local res =
+    vim.system({ 'git', 'show', '--name-status', '--format=', sha }):wait()
+
+  assert(res.code == 0, 'Failed to run `git show`')
+
+  local lines = vim.split(res.stdout, '\n', { trimempty = true })
+  local files = {}
+
+  for _, line in ipairs(lines) do
+    local status, path = unpack(vim.split(line, '\t', { trimempty = true }))
+
+    if status and path then
+      files[path] = status
+    end
+  end
+
+  return files
+end
+
 local function commit_stat(sha)
   local res = vim
     .system({ 'git', 'show', '--quiet', '--numstat', '--format=', sha })
@@ -97,14 +123,17 @@ local function commit_stat(sha)
 
   local lines = vim.split(res.stdout, '\n', { trimempty = true })
   local stats = {}
+  local status = commit_files(sha)
 
   for _, line in ipairs(lines) do
     local adds, dels, file = unpack(vim.split(line, '\t', { trimempty = true }))
 
-    table.insert(
-      stats,
-      { additions = tonumber(adds), deletions = tonumber(dels), file = file }
-    )
+    table.insert(stats, {
+      additions = tonumber(adds) or 0,
+      deletions = tonumber(dels) or 0,
+      file = file,
+      status = status[file],
+    })
   end
 
   table.sort(stats, function(a, b)
@@ -348,14 +377,28 @@ local function toggle_commit_details(state)
 
   for _, stat in ipairs(stat) do
     local pad = max_file - api.nvim_strwidth(stat.file)
-
-    table.insert(lines, {
-      { stat.file .. string.rep(' ', pad), '' },
-      { '  ', '' },
-      { string.format('%-4d', stat.additions), HIGHLIGHTS.addition },
+    local status = stat.status or '?'
+    local line = {
+      { status, HIGHLIGHTS.status[status] },
       { ' ', '' },
-      { string.format('%-4d', stat.deletions), HIGHLIGHTS.deletion },
-    })
+      { stat.file .. string.rep(' ', pad), '' },
+    }
+
+    if status == 'M' then
+      table.insert(line, { '  ', '' })
+      table.insert(
+        line,
+        { string.format('%-4d', stat.additions), HIGHLIGHTS.addition }
+      )
+
+      table.insert(line, { ' ', '' })
+      table.insert(
+        line,
+        { string.format('%-4d', stat.deletions), HIGHLIGHTS.deletion }
+      )
+    end
+
+    table.insert(lines, line)
   end
 
   api.nvim_buf_clear_namespace(state.commit.buf, NAMESPACE, 0, -1)
