@@ -20,10 +20,10 @@ hyperfine
 jedi-language-server
 jq
 libadwaita
-lld
 llvm15
 llvm15-libs
 lua-language-server
+mold
 nodejs
 noto-fonts
 noto-fonts-emoji
