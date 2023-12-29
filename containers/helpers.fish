@@ -63,7 +63,7 @@ function install_ruby
     section 'Configuring Ruby'
     run ruby-install --jobs 8 --no-install-deps --no-reinstall $ver
     run rm -rf ~/src
-    echo ruby-$ver >~/.ruby-ver
+    echo ruby-$ver >~/.ruby-version
     echo 'gem: --no-document' >~/.gemrc
 
     rbv ruby-$ver
