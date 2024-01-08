@@ -1,5 +1,4 @@
 build-base
-cargo
 git
 lld
 llvm15
@@ -8,6 +7,6 @@ llvm15-static
 mold
 neovim
 ripgrep
-rust
+rustup
 stow
 wl-clipboard

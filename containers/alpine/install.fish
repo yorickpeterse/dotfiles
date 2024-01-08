@@ -10,3 +10,7 @@ run sudo apk add --update --quiet --no-interactive --no-progress $pkgs
 
 install_dotfiles
 install_fonts
+
+section 'Installing Rust'
+run rustup-init --quiet --no-modify-path -y --profile=minimal
+install_rust
