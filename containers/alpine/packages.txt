@@ -5,6 +5,7 @@ lld
 llvm15
 llvm15-dev
 llvm15-static
+mold
 neovim
 ripgrep
 rust
