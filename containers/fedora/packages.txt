@@ -25,6 +25,7 @@ llvm15-devel
 llvm15-static
 lm_sensors
 lua-language-server
+mold
 neovim
 poetry
 python3-devel
