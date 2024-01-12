@@ -29,7 +29,7 @@ run sudo sed -i -e 's/#Color/Color/' /etc/pacman.conf
 run sudo pacman -Syu --noprogressbar --noconfirm --quiet --needed \
     sudo man-db man-pages
 run sudo mandb --quiet
-run sudo pacman -Syu pacman --noprogressbar --noconfirm --quiet
+run sudo pacman -Syu pacman tar --noprogressbar --noconfirm --quiet
 
 install_locales
 echo -e "en_US.UTF-8 UTF-8\n$locale UTF-8" | sudo tee /etc/locale.gen >/dev/null
