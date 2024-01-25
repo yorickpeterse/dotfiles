@@ -50,15 +50,6 @@
     default = current
     autoSetupRemote = true
 
-[commit]
-    gpgsign = true
-
-[gpg]
-    format = ssh
-
-[gpg.ssh]
-    allowedSignersFile = "~/.config/git/allowed_signers"
-
 [protocol]
     version = 2
 
