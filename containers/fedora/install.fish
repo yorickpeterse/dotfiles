@@ -32,4 +32,8 @@ run sudo dnf install --assumeyes --quiet $pkgs
 
 install_dotfiles
 install_fonts
+
+section 'Installing rustup'
+run rustup-init --quiet -y --no-modify-path
+
 install_rust
