@@ -5,6 +5,7 @@ local api = vim.api
 local diag = require('dotfiles.diagnostics')
 local loclist = require('dotfiles.location_list')
 local statusline = require('dotfiles.statusline')
+local position = require('dotfiles.position')
 local lint = require('lint')
 local conform = require('conform')
 
@@ -234,4 +235,11 @@ au('commandline', {
       api.nvim_echo({ { '' } }, false, {})
     end,
   },
+})
+
+au('position', {
+  { 'BufLeave', '*', position.save },
+  { 'BufEnter', '*', position.restore },
+  { 'BufDelete', '*', position.wipe_buffer },
+  { 'WinClosed', '*', position.close_window },
 })
