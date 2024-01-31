@@ -10,6 +10,11 @@ g.python_host_prog = '/usr/bin/python2'
 -- opening quickfix windows (https://github.com/neovim/neovim/issues/17157).
 g.loaded_matchparen = 1
 
+-- (Neo)Vim's built-in Zig plugin tries to auto format code, but in doing so may
+-- pop open a tiny location list if there are errors. I disable this here since
+-- I use a different plugin for formatting anyway.
+g.zig_fmt_autosave = 0
+
 -- Enable faster loading of Lua modules.
 vim.loader.enable()
 

@@ -3,5 +3,6 @@ require('conform').setup({
     fish = { 'fish_indent' },
     lua = { 'stylua' },
     python = { 'black' },
+    zig = { 'zigfmt' },
   },
 })
