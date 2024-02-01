@@ -1,4 +1,4 @@
 #!/usr/bin/env fish
 
 exec /usr/bin/distrobox-enter -n arch -- \
-    ~/.local/bin/ghostty --title=NeoVim -e fish -c "nvim $argv"
+    ~/.local/bin/ghostty --keybind=clear --title=NeoVim -e fish -c "nvim $argv"
