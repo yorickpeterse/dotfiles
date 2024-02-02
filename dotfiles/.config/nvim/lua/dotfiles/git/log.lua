@@ -51,8 +51,12 @@ local function git_log(opts)
     '--skip=' .. skip,
   }
 
-  if opts.ref then
-    table.insert(cmd, opts.ref)
+  if opts.start then
+    if opts.stop then
+      table.insert(cmd, opts.start .. '...' .. opts.stop)
+    else
+      table.insert(cmd, opts.start)
+    end
   end
 
   local res =
@@ -260,7 +264,8 @@ local function cursor_moved(state)
     return false
   end
 
-  local commits = git_log({ offset = #state.commits })
+  local commits =
+    git_log({ start = state.start, stop = state.stop, offset = #state.commits })
 
   if #commits == 0 then
     -- Once we've reached the end we disable this hook so we don't keep
@@ -408,7 +413,7 @@ local function toggle_commit_details(state)
   api.nvim_set_option_value('modified', false, { buf = state.commit.buf })
 end
 
-function M.open(ref)
+function M.open(start, stop)
   if ACTIVE then
     util.error('the window is already active')
     return
@@ -419,7 +424,9 @@ function M.open(ref)
   ACTIVE = true
 
   local state = {
-    commits = git_log({ offset = 0, ref = ref }),
+    start = start,
+    stop = stop,
+    commits = git_log({ offset = 0, start = start, stop = stop }),
     offset = 1,
     win = api.nvim_get_current_win(),
     buf = api.nvim_get_current_buf(),

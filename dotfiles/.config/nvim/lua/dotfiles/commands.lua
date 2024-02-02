@@ -43,9 +43,9 @@ cmd('Cd', function(data)
 end, { nargs = 1, complete = 'file' })
 
 cmd('Git', function(data)
-  require('dotfiles.git.log').open(data.fargs[1])
+  require('dotfiles.git.log').open(data.fargs[1], data.fargs[2])
 end, {
-  nargs = '?',
+  nargs = '*',
   complete = function()
     local res = vim
       .system({ 'git', 'branch', '--format=%(refname:short)' }, { text = true })
