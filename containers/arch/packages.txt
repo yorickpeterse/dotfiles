@@ -31,6 +31,7 @@ openssh
 perf
 python-pip
 python-poetry
+rclone
 ripgrep
 rustup
 shellcheck
