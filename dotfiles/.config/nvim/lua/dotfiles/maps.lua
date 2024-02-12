@@ -67,7 +67,6 @@ map('n', '<leader>q', quickfix.toggle)
 
 -- Going places
 map('', 'gs', '^')
-map('', 'gl', 'g_')
 
 map({ 'n', 'x' }, 's', pounce.pounce)
 map({ 'n', 'x' }, 'S', function()
