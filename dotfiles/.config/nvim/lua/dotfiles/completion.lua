@@ -555,8 +555,10 @@ local function show_menu(buf, prefix, items)
     row - 1,
     col - #prefix,
     {
-      virt_text = {},
-      virt_text_pos = 'overlay',
+      -- To work around https://github.com/neovim/neovim/issues/27211 we set the
+      -- text to an empty string.
+      virt_text = { { '', 'Comment' } },
+      virt_text_pos = 'inline',
     }
   )
 
