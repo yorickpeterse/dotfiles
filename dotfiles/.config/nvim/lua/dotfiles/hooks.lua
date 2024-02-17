@@ -7,7 +7,6 @@ local loclist = require('dotfiles.location_list')
 local statusline = require('dotfiles.statusline')
 local position = require('dotfiles.position')
 local lint = require('lint')
-local conform = require('conform')
 
 local function au(name, commands)
   local group = api.nvim_create_augroup('dotfiles_' .. name, { clear = true })
@@ -51,18 +50,6 @@ local function yanked()
     higroup = 'Visual',
     timeout = 150,
     on_visual = false,
-  })
-end
-
-local function format_buffer()
-  conform.format({
-    bufnr = tonumber(fn.expand('<abuf>')),
-    timeout_ms = 5000,
-    lsp_fallback = true,
-    quiet = true,
-    filter = function(client)
-      return client.name ~= 'sumneko_lua'
-    end,
   })
 end
 
@@ -138,7 +125,7 @@ do
   local throttle_timer = nil
 
   au('lsp', {
-    { 'BufWritePre', '*', format_buffer },
+    { 'BufWritePre', '*', util.format_buffer },
     { 'CursorMoved', '*', diag.echo_diagnostic },
     { 'CursorMoved', '*', diag.underline },
     { 'BufWinEnter', '*', loclist.enter_window },

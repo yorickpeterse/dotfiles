@@ -54,7 +54,7 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 map('n', '<C-h>', '<C-w>h')
-map('n', '<leader>F', lsp.buf.format)
+map('n', '<leader>F', util.format_buffer)
 map('n', '<leader>s', cmd('update'))
 
 -- Window management

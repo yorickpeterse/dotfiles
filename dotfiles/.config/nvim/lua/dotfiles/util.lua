@@ -133,4 +133,16 @@ function M.set_buffer_lines(buf, namespace, start, stop, chunk_lines)
   end
 end
 
+function M.format_buffer()
+  require('conform').format({
+    bufnr = tonumber(fn.expand('<abuf>')),
+    timeout_ms = 5000,
+    lsp_fallback = true,
+    quiet = true,
+    filter = function(client)
+      return client.name ~= 'sumneko_lua'
+    end,
+  })
+end
+
 return M

@@ -95,6 +95,7 @@ o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 o.path = '.,,'
+o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
 -- GUI
 do
