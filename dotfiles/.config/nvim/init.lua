@@ -97,6 +97,11 @@ o.winheight = 5
 o.path = '.,,'
 o.formatexpr = "v:lua.require'conform'.formatexpr()"
 
+-- Inclusive selections, but excluding the trailing newline. This way commands
+-- such as v$d don't also remove the trailing newline, without needing an extra
+-- mapping.
+o.selection = 'old'
+
 -- GUI
 do
   local name = 'IosevkaFixedCustom Nerd Font'
