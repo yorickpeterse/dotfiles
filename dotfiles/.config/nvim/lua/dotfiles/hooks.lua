@@ -155,6 +155,17 @@ do
         end, 100)
       end,
     },
+    {
+      'BufDelete',
+      '*',
+      function(event)
+        -- When using a linter that isn't an LSP, I don't want diagnostics to
+        -- linger after deleting a buffer.
+        if not util.has_lsp_clients(event.buf) then
+          vim.diagnostic.reset(nil, event.buf)
+        end
+      end,
+    },
   })
 end
 
