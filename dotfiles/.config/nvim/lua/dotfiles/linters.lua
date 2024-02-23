@@ -41,6 +41,8 @@ lint.linters.gitlint = {
 }
 
 do
+  local inko_dir = fn.resolve(os.getenv('HOME') .. '/Projects/inko/inko')
+
   local function include_tests()
     local path = fn.expand('%:p')
     local test = util.find_directory('test', path)
@@ -52,16 +54,29 @@ do
     end
   end
 
+  -- When working on Inko itself, I want to use the local release executable.
+  local function executable()
+    if fn.getcwd() == inko_dir then
+      local exe = fn.getcwd() .. '/target/release/inko'
+
+      if util.file_exists(exe) then
+        return exe
+      end
+    end
+
+    return 'inko'
+  end
+
   local severities = {
     error = vim.diagnostic.severity.ERROR,
     warning = vim.diagnostic.severity.WARN,
   }
 
   lint.linters.inko = {
-    cmd = 'inko',
+    cmd = 'env',
     stdin = false,
     append_fname = true,
-    args = { 'check', '--format=json', include_tests },
+    args = { executable, 'check', '--format=json', include_tests },
     stream = 'stderr',
     ignore_exitcode = true,
     parser = function(output, bufnr)
