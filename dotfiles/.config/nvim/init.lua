@@ -89,7 +89,7 @@ o.fillchars = {
   wbr = ' ',
   msgsep = '─',
 }
-
+o.jumpoptions = 'stack'
 o.regexpengine = 0
 o.list = true
 o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
