@@ -96,6 +96,7 @@ o.listchars = { tab = '  ', trail = '·', nbsp = '␣' }
 o.winheight = 5
 o.path = '.,,'
 o.formatexpr = "v:lua.require'conform'.formatexpr()"
+o.shada = "!,'0,<50,s10,h"
 
 -- Inclusive selections, but excluding the trailing newline. This way commands
 -- such as v$d don't also remove the trailing newline, without needing an extra
