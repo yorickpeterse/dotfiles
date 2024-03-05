@@ -40,7 +40,7 @@ local function lsp_symbols_entry_maker()
   return function(entry)
     return {
       value = entry,
-      ordinal = entry.text .. ' ' .. entry.scope,
+      ordinal = entry.text,
       display = function(entry)
         return displayer({
           entry.symbol_name,
