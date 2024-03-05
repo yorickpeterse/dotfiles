@@ -453,7 +453,7 @@ local function filter_menu_items(state)
       local matched = false
 
       while true do
-        local start, stop = result.item.filter:find(word, cursor)
+        local start, stop = result.item.filter:find(word, cursor, true)
 
         if start == nil then
           break
