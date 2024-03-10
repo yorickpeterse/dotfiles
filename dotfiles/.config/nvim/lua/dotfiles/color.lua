@@ -6,4 +6,7 @@ ccc.setup({
   highlighter = {
     lsp = false,
   },
+  win_opts = {
+    col = 0,
+  },
 })
