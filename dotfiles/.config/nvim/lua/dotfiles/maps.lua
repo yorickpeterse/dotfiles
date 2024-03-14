@@ -66,7 +66,8 @@ map('n', '<leader>l', loclist.toggle)
 map('n', '<leader>q', quickfix.toggle)
 
 -- Going places
-map('', '$', 'g_')
+map('', 'gs', '^')
+map('', 'ge', 'g_')
 map('', 'gm', '`')
 
 map({ 'n', 'x' }, 's', pounce.pounce)
