@@ -69,7 +69,7 @@ o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
 o.clipboard = 'unnamed'
 o.diffopt =
-  'filler,vertical,internal,algorithm:patience,indent-heuristic,context:3'
+  'filler,vertical,internal,algorithm:histogram,indent-heuristic,context:3,linematch:50'
 o.lz = true
 o.showcmd = false
 o.showmode = false

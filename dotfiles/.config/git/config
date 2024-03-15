@@ -1,7 +1,7 @@
 [diff]
     color = auto
     prompt = false
-    algorithm = patience
+    algorithm = histogram
 
 [branch]
     color = auto
