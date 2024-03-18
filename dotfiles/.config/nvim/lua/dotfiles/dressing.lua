@@ -22,16 +22,26 @@ require('dressing').setup({
         conf.title = conf.title:sub(1, -2)
       end
 
-      conf.col = -1
-      conf.row = 1
+      if conf.relative == 'cursor' then
+        conf.col = -1
+        conf.row = 1
+      end
 
       return conf
+    end,
+    get_config = function(opts)
+      if opts.kind == 'center' then
+        return {
+          relative = 'editor',
+          border = 'rounded',
+        }
+      end
     end,
   },
   select = {
     backend = { 'telescope' },
     telescope = {
-      layout_strategy = 'grey_cursor',
+      layout_strategy = 'grey',
       layout_config = {
         width = 60,
         height = 10,
@@ -41,5 +51,14 @@ require('dressing').setup({
       results_title = false,
       preview_title = false,
     },
+    get_config = function(opts)
+      if opts.kind == 'codeaction' then
+        return {
+          telescope = {
+            layout_strategy = 'grey_cursor',
+          },
+        }
+      end
+    end,
   },
 })
