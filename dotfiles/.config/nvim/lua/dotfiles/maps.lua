@@ -71,7 +71,7 @@ map('n', '<leader>pl', function()
   sessions.select()
 end)
 
-map('n', '<leader>ps', function()
+map('n', '<leader>pw', function()
   local session = vim.fs.basename(vim.v.this_session or '')
 
   vim.ui.input({
