@@ -1,5 +1,4 @@
 local package = require('dotfiles.package')
-local workspace = require('dotfiles.workspace')
 local util = require('dotfiles.util')
 local M = {}
 
@@ -34,12 +33,13 @@ cmd('PackageClean', function()
   package.clean()
 end)
 
-cmd('Workspace', function(data)
-  workspace.open(data.fargs[1])
-end, { nargs = 1, complete = workspace.names })
-
 cmd('Cd', function(data)
-  workspace.cd(data.fargs[1])
+  local path = data.fargs[1]
+
+  vim.cmd.cd(path)
+  vim.cmd.Tterm()
+  vim.cmd.stopinsert()
+  vim.cmd.tabprev()
 end, { nargs = 1, complete = 'file' })
 
 cmd('Git', function(data)
