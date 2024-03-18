@@ -1,8 +1,0 @@
-git-clogs
-gitlint
-ivm
-neovim-nightly-bin
-neovim-remote
-ruby-install
-vale
-zig-dev-bin

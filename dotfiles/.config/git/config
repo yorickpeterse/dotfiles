@@ -11,7 +11,7 @@
     filemode = false
     excludesfile = ~/.config/git/ignore
     ignorecase = false
-    pager = git-diff-highlight | less -RS
+    #pager = git-diff-highlight | less -RS
     attributesfile = ~/.config/git/attributes
 
 [github]

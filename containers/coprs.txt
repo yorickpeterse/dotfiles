@@ -1,3 +1,5 @@
+agriffis/neovim-nightly
 mczernek/vale
+yorickpeterse/inko
 yorickpeterse/lua-language-server
 yorickpeterse/stylua
