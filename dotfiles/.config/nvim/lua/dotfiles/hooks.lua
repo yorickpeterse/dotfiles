@@ -241,3 +241,13 @@ au('position', {
   { 'BufDelete', '*', position.wipe_buffer },
   { 'WinClosed', '*', position.close_window },
 })
+
+au('terminal', {
+  {
+    'TermOpen',
+    '*',
+    function()
+      vim.wo.scrolloff = 0
+    end,
+  },
+})

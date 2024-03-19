@@ -7,7 +7,6 @@ local function cmd(name, func, opts)
 end
 
 local function terminal(modifier)
-  vim.wo.scrolloff = 0
   vim.cmd(modifier and modifier .. ' term' or 'term')
   vim.cmd.startinsert()
 end
