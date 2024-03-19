@@ -31,10 +31,7 @@ require('dressing').setup({
     end,
     get_config = function(opts)
       if opts.kind == 'center' then
-        return {
-          relative = 'editor',
-          border = 'rounded',
-        }
+        return { relative = 'editor' }
       end
     end,
   },
