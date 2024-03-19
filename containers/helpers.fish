@@ -28,20 +28,6 @@ function install_rust
     cp containers/cargo-config.toml ~/.cargo/config.toml
 end
 
-function install_ruby
-    set ver $argv[1]
-
-    section 'Configuring Ruby'
-    run ruby-install --jobs 8 --no-install-deps --no-reinstall $ver
-    run rm -rf ~/src
-    echo ruby-$ver >~/.ruby-version
-    echo 'gem: --no-document' >~/.gemrc
-
-    rbv ruby-$ver
-    run gem update --system --silent
-    run gem install --silent pry pry-doc pry-theme
-end
-
 function install_inko
     if ! test -f ~/.config/ivm/version
         section 'Configuring Inko'
