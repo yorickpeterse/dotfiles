@@ -7,7 +7,7 @@ set name fedora
 set install containers/install.fish
 
 section 'Creating container'
-run toolbox create --distro fedora $name
+run echo 'y' \| toolbox create --distro fedora $name
 
 section 'Installing Fish'
 run toolbox run --container $name sudo dnf install fish --assumeyes --quiet

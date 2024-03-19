@@ -1,1 +1,2 @@
 gitlint
+neovim-remote

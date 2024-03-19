@@ -8,7 +8,7 @@ function run
 
     echo -n -e "\e[33;1mRUN\e[0m $show"
 
-    if set output ($argv 2>&1)
+    if set output (eval $argv 2>&1)
         echo -e " \e[32;1mOK\e[0m"
     else
         echo -e " \e[31;1mERROR\e[0m"

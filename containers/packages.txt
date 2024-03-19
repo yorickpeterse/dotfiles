@@ -4,6 +4,7 @@ awscli2
 bc
 clang
 clang-tools-extra
+clogs
 copr-cli
 coreutils
 diffutils
@@ -14,12 +15,14 @@ glib2-devel
 golang
 golang-x-tools-gopls
 graphviz
+gtk4-devel
 heaptrack
 htop
 ivm
 jq
 kernel-tools
 libadwaita
+libadwaita-devel
 libffi-devel
 libstdc++-devel
 libstdc++-static
@@ -52,4 +55,5 @@ valgrind
 wget
 wl-clipboard
 wol
+zig
 zlib-devel
