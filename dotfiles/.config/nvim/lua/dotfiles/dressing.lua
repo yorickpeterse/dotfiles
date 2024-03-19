@@ -9,9 +9,9 @@ require('dressing').setup({
       ' ', -- top
       ' ', -- top right
       ' ', -- right
-      '', -- bottom right
-      '', -- bottom
-      '', -- bottom left
+      ' ', -- bottom right
+      ' ', -- bottom
+      ' ', -- bottom left
       ' ', -- left
     },
     override = function(conf)
@@ -24,7 +24,7 @@ require('dressing').setup({
 
       if conf.relative == 'cursor' then
         conf.col = -1
-        conf.row = 1
+        conf.row = 4
       end
 
       return conf
