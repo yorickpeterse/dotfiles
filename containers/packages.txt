@@ -8,8 +8,6 @@ clogs
 copr-cli
 coreutils
 diffutils
-dnf5
-dnf5-plugins
 fish
 gdb
 gh
