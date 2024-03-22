@@ -95,7 +95,7 @@ map('n', '<leader>pd', function()
     end,
   }, function(session)
     if session then
-      sessions.delete(session.name)
+      sessions.delete(session.name, { force = true })
     end
   end)
 end)
