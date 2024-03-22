@@ -9,7 +9,6 @@ local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
 local loclist = require('dotfiles.location_list')
 local popup_visible = util.popup_visible
-local sessions = require('mini.sessions')
 local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
@@ -65,40 +64,6 @@ map('n', '<leader>v', cmd('vsplit'))
 map('n', '<leader>k', cmd('split'))
 map('n', '<leader>l', loclist.toggle)
 map('n', '<leader>q', quickfix.toggle)
-
--- Session management
-map('n', '<leader>pl', function()
-  sessions.select()
-end)
-
-map('n', '<leader>pw', function()
-  local session = vim.fs.basename(vim.v.this_session or '')
-
-  vim.ui.input({
-    prompt = 'Save session as',
-    default = session,
-    kind = 'center',
-  }, function(name)
-    if name then
-      sessions.write(name)
-    end
-  end)
-end)
-
-map('n', '<leader>pd', function()
-  local values = vim.tbl_values(sessions.detected)
-
-  vim.ui.select(values, {
-    prompt = 'Session to delete',
-    format_item = function(item)
-      return item.name .. ' (' .. item.type .. ')'
-    end,
-  }, function(session)
-    if session then
-      sessions.delete(session.name, { force = true })
-    end
-  end)
-end)
 
 -- Going places
 map('', 'gs', '^')
