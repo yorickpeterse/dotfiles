@@ -20,19 +20,3 @@ end
 function section
     echo -e "\n\e[1m$argv\e[0m"
 end
-
-function install_rust
-    section 'Configuring Rust'
-    run rustup install stable
-    run rustup component add rust-src rust-analyzer clippy rustfmt
-    cp containers/cargo-config.toml ~/.cargo/config.toml
-end
-
-function install_inko
-    if ! test -f ~/.config/ivm/version
-        section 'Configuring Inko'
-        run ivm install latest
-        run ivm default (ivm list)
-        run ivm clean
-    end
-end
