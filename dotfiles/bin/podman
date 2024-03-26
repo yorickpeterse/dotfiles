@@ -1,0 +1,7 @@
+#!/usr/bin/env fish
+
+if test -n "$container"
+    exec flatpak-spawn --host podman $argv
+else
+    exec /usr/bin/podman $argv
+end
