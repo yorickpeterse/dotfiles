@@ -64,4 +64,8 @@ end, {
   end,
 })
 
+cmd('Config', function()
+  vim.cmd.Cd('~/Projects/general/dotfiles/dotfiles/.config/nvim')
+end)
+
 return M
