@@ -7,6 +7,7 @@ local fn = vim.fn
 
 lint.linters_by_ft = {
   gitcommit = { 'gitlint' },
+  NeogitCommitMessage = { 'gitlint' },
   inko = { 'inko' },
   markdown = { 'vale' },
   python = { 'flake8' },

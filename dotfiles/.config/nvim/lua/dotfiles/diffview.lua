@@ -16,6 +16,13 @@ require('diffview').setup({
     view = {
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
+      {
+        'n',
+        'q',
+        function()
+          vim.cmd.tabclose()
+        end,
+      },
     },
     file_panel = {
       { 'n', 'j', actions.next_entry },
@@ -27,6 +34,13 @@ require('diffview').setup({
       { 'n', 'R', actions.refresh_files },
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
+      {
+        'n',
+        'q',
+        function()
+          vim.cmd.tabclose()
+        end,
+      },
     },
     file_history_panel = {
       { 'n', '<CR>', actions.select_entry },
@@ -34,6 +48,13 @@ require('diffview').setup({
       { 'n', 'k', actions.prev_entry },
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
+      {
+        'n',
+        'q',
+        function()
+          vim.cmd.tabclose()
+        end,
+      },
     },
   },
   hooks = {
