@@ -251,3 +251,19 @@ au('terminal', {
     end,
   },
 })
+
+au('tabs', {
+  {
+    'TabClosed',
+    '*',
+    function(args)
+      -- `tabprev` is relative to the new/current tab, whereas we want to move
+      -- to whatever tab was the tab before the _closed_ tab.
+      local old = tonumber(args.file)
+
+      if old > 1 then
+        vim.cmd.tabnext(old - 1)
+      end
+    end,
+  },
+})
