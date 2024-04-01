@@ -11,6 +11,14 @@ require('diffview').setup({
       width = 40,
     },
   },
+  view = {
+    default = {
+      winbar_info = true,
+    },
+    file_history = {
+      winbar_info = true,
+    },
+  },
   keymaps = {
     disable_defaults = true,
     view = {
