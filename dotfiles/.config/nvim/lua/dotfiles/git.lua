@@ -1,5 +1,4 @@
 require('neogit').setup({
-  disable_insert_on_commit = false,
   graph_style = 'unicode',
   status = {
     recent_commit_count = 20,
