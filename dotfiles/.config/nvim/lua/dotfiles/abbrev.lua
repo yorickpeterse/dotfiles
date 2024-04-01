@@ -21,6 +21,5 @@ cabbrev('Review', 'DiffviewOpen')
 cabbrev('Tq', 'tabclose')
 cabbrev('cdo', 'silent! cdo')
 cabbrev('Color', 'CccPick')
-cabbrev('Git', 'Neogit')
 
 return M

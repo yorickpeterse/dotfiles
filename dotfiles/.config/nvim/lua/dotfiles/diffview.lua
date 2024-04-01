@@ -18,7 +18,7 @@ require('diffview').setup({
       { 'n', '[f', actions.select_prev_entry },
       {
         'n',
-        'q',
+        '<leader>c',
         function()
           vim.cmd.tabclose()
         end,
@@ -36,7 +36,7 @@ require('diffview').setup({
       { 'n', '[f', actions.select_prev_entry },
       {
         'n',
-        'q',
+        '<leader>c',
         function()
           vim.cmd.tabclose()
         end,
@@ -50,7 +50,7 @@ require('diffview').setup({
       { 'n', '[f', actions.select_prev_entry },
       {
         'n',
-        'q',
+        '<leader>c',
         function()
           vim.cmd.tabclose()
         end,
