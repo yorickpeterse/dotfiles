@@ -3,5 +3,3 @@
 setlocal textwidth=72
 setlocal colorcolumn=72
 setlocal spell spelllang=en
-
-au BufDelete <buffer> :lua vim.diagnostic.reset(nil, tonumber(vim.fn.expand('<abuf>')))
