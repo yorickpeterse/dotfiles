@@ -1,7 +1,6 @@
 local api = vim.api
 local fn = vim.fn
 local uv = vim.uv
-local Job = require('plenary.job')
 local util = require('dotfiles.util')
 local log = require('dotfiles.git.log')
 local M = {}
@@ -17,8 +16,11 @@ local BRANCH = ''
 -- A string describing what we're currently doing.
 local PROGRESS = ''
 
---- The path to the .git directory of the current project.
+-- The path to the .git directory of the current project.
 local DIRECTORY = '.'
+
+-- The editor command to use for interactive Git operations.
+local EDITOR = 'nvr -cc vsplit -c "setlocal bufhidden=wipe" --remote-wait'
 
 local function find_git_directory()
   return fn.finddir('.git', fn.getcwd() .. ';')
@@ -28,28 +30,34 @@ local function project_directory()
   return fn.resolve(DIRECTORY .. '/..')
 end
 
-local function git(args, on_success)
-  Job:new({
-    command = 'git',
-    args = args,
-    cwd = project_directory(),
-    on_exit = function(job, status)
-      if status == 0 then
-        if on_success then
-          on_success(job)
-        end
-      else
-        util.error(table.concat(job:stderr_result(), ' '))
+local function git(opts, on_success)
+  local cmd = { 'git' }
+  local env = { cwd = project_directory() }
+
+  if opts.args then
+    for _, arg in ipairs(opts.args) do
+      table.insert(cmd, arg)
+    end
+  end
+
+  if opts.env then
+    env = vim.tbl_extend('force', env, opts.env)
+  end
+
+  vim.system(cmd, env, function(result)
+    if result.code == 0 then
+      if on_success then
+        on_success(vim.trim(result.stdout))
       end
-    end,
-  }):start()
+    else
+      util.error(vim.trim(result.stderr))
+    end
+  end)
 end
 
 local function update_branch()
-  git({ 'rev-parse', '--abbrev-ref', 'HEAD' }, function(job)
-    local out = job:result()
-
-    BRANCH = out[1]
+  git({ args = { 'rev-parse', '--abbrev-ref', 'HEAD' } }, function(name)
+    BRANCH = name
     vim.schedule(function()
       vim.cmd.redrawstatus()
     end)
@@ -137,6 +145,8 @@ local function define_git_command()
       M.pull({ force = true })
     elseif cmd == 'log' then
       M.log(arg, data.fargs[3])
+    elseif cmd == 'commit' then
+      M.commit()
     else
       util.error("the command '" .. cmd .. "' isn't recognized")
     end
@@ -149,7 +159,7 @@ local function define_git_command()
       if cmd == 'checkout' or cmd == 'log' then
         data = M.branches()
       else
-        data = { 'checkout', 'log', 'pull', 'pull!', 'push', 'push!' }
+        data = { 'checkout', 'commit', 'log', 'pull', 'pull!', 'push', 'push!' }
       end
 
       return vim.tbl_filter(function(item)
@@ -182,7 +192,7 @@ function M.pull(opts)
   end
 
   notify('pulling from ' .. BRANCH)
-  git(args, function()
+  git({ args = args }, function()
     notify('')
   end)
 end
@@ -197,27 +207,27 @@ function M.push(opts)
   end
 
   notify('pushing to ' .. BRANCH)
-  git(args, function()
+  git({ args = args }, function()
     notify('')
   end)
 end
 
 function M.checkout(branch)
-  git({ 'checkout', branch })
+  git({ args = { 'checkout', branch } })
 end
 
 function M.branches()
-  local out, status = Job:new({
-    command = 'git',
-    args = { 'branch', '--format=%(refname:short)' },
-    cwd = DIRECTORY,
-  }):sync()
+  local result = vim
+    .system({ 'git', 'branch', '--format=%(refname:short)' }, { cwd = DIRECTORY })
+    :wait()
 
-  if status == 0 then
-    table.sort(out, function(a, b)
+  if result.code == 0 then
+    local lines = vim.split(result.stdout, '\n', { trimempty = true })
+
+    table.sort(lines, function(a, b)
       return a < b
     end)
-    return out
+    return lines
   else
     return {}
   end
@@ -225,6 +235,18 @@ end
 
 function M.log(start, stop)
   log.open(start, stop)
+end
+
+function M.commit()
+  vim.system(
+    { 'git', 'commit' },
+    { env = { GIT_EDITOR = EDITOR } },
+    function(result)
+      if result.code ~= 0 then
+        util.error(vim.trim(result.stderr))
+      end
+    end
+  )
 end
 
 return M
