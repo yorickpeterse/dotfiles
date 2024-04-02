@@ -179,8 +179,8 @@ function M.render()
   end, {
     line_diagnostic(),
     separator,
-    git_status(),
     lsp_status(),
+    git_status(),
     tabline(),
     diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
     diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
