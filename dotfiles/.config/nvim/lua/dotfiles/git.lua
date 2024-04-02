@@ -28,22 +28,32 @@ local function project_directory()
   return fn.resolve(DIRECTORY .. '/..')
 end
 
-local function update_branch()
+local function git(args, on_success)
   Job:new({
     command = 'git',
-    args = { 'rev-parse', '--abbrev-ref', 'HEAD' },
-    cwd = DIRECTORY,
+    args = args,
+    cwd = project_directory(),
     on_exit = function(job, status)
-      local out = job:result()
-
-      if status == 0 and #out == 1 then
-        BRANCH = out[1]
-        vim.schedule(function()
-          vim.cmd.redrawstatus()
-        end)
+      if status == 0 then
+        if on_success then
+          on_success(job)
+        end
+      else
+        util.error(table.concat(job:stderr_result(), ' '))
       end
     end,
   }):start()
+end
+
+local function update_branch()
+  git({ 'rev-parse', '--abbrev-ref', 'HEAD' }, function(job)
+    local out = job:result()
+
+    BRANCH = out[1]
+    vim.schedule(function()
+      vim.cmd.redrawstatus()
+    end)
+  end)
 end
 
 local function unwatch_branch()
@@ -119,10 +129,16 @@ local function define_git_command()
       end
     elseif cmd == 'push' then
       M.push()
+    elseif cmd == 'push!' then
+      M.push({ force = true })
     elseif cmd == 'pull' then
       M.pull()
+    elseif cmd == 'pull!' then
+      M.pull({ force = true })
     elseif cmd == 'log' then
       M.log(arg, data.fargs[3])
+    else
+      util.error("the command '" .. cmd .. "' isn't recognized")
     end
   end, {
     nargs = '+',
@@ -133,7 +149,7 @@ local function define_git_command()
       if cmd == 'checkout' or cmd == 'log' then
         data = M.branches()
       else
-        data = { 'checkout', 'log', 'pull', 'push' }
+        data = { 'checkout', 'log', 'pull', 'pull!', 'push', 'push!' }
       end
 
       return vim.tbl_filter(function(item)
@@ -141,23 +157,6 @@ local function define_git_command()
       end, data)
     end,
   })
-end
-
-local function git(args, on_success)
-  Job:new({
-    command = 'git',
-    args = args,
-    cwd = project_directory(),
-    on_exit = function(job, status)
-      if status == 0 then
-        if on_success then
-          on_success(job)
-        end
-      else
-        util.error('git push failed: ' .. job:stderr_result()[1])
-      end
-    end,
-  }):start()
 end
 
 function M.setup()
@@ -173,16 +172,32 @@ function M.progress()
   return PROGRESS
 end
 
-function M.pull()
+function M.pull(opts)
+  local args = { 'pull', 'origin', BRANCH }
+
+  if opts then
+    if opts.force then
+      table.insert(args, '--rebase')
+    end
+  end
+
   notify('pulling from ' .. BRANCH)
-  git({ 'pull' }, function()
+  git(args, function()
     notify('')
   end)
 end
 
-function M.push()
+function M.push(opts)
+  local args = { 'push', 'origin', BRANCH }
+
+  if opts then
+    if opts.force then
+      table.insert(args, '--force-with-lease')
+    end
+  end
+
   notify('pushing to ' .. BRANCH)
-  git({ 'push' }, function()
+  git(args, function()
     notify('')
   end)
 end
