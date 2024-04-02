@@ -41,29 +41,6 @@ cmd('Cd', function(data)
   vim.cmd.tabprev()
 end, { nargs = 1, complete = 'file' })
 
-cmd('Git', function(data)
-  require('dotfiles.git.log').open(data.fargs[1], data.fargs[2])
-end, {
-  nargs = '*',
-  complete = function()
-    local res = vim
-      .system({ 'git', 'branch', '--format=%(refname:short)' }, { text = true })
-      :wait()
-
-    if res.code ~= 0 then
-      return {}
-    end
-
-    local names = vim.split(res.stdout, '\n', { trimempty = true })
-
-    table.sort(names, function(a, b)
-      return a < b
-    end)
-
-    return names
-  end,
-})
-
 cmd('Config', function()
   vim.cmd.Cd('~/Projects/general/dotfiles/dotfiles/.config/nvim')
 end)

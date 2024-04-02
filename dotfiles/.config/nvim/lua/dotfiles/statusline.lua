@@ -4,6 +4,7 @@ local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
 local diag = vim.diagnostic
+local git = require('dotfiles.git')
 local util = require('dotfiles.util')
 local diags = require('dotfiles.diagnostics')
 local highlight = util.statusline_highlight
@@ -42,6 +43,23 @@ local function diagnostic_count(kind, foreground, background)
   else
     return ''
   end
+end
+
+local function git_status()
+  local branch = git.branch()
+
+  if branch == '' then
+    return ''
+  end
+
+  local msg = git.progress()
+  local line = '󰘬 ' .. branch
+
+  if #msg > 0 then
+    line = line .. ', ' .. msg
+  end
+
+  return highlight(line, 'Comment')
 end
 
 local function lsp_status()
@@ -161,6 +179,7 @@ function M.render()
   end, {
     line_diagnostic(),
     separator,
+    git_status(),
     lsp_status(),
     tabline(),
     diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
