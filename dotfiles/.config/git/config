@@ -67,3 +67,6 @@
 
 [log]
     date = format:%d %b %Y %H:%M %z
+
+[advice]
+    diverging = false
