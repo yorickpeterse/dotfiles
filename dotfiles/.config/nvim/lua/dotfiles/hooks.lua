@@ -126,7 +126,6 @@ do
 
   au('lsp', {
     { 'BufWritePre', '*', util.format_buffer },
-    { 'CursorMoved', '*', diag.echo_diagnostic },
     { 'CursorMoved', '*', diag.underline },
     { 'BufWinEnter', '*', loclist.enter_window },
     {
