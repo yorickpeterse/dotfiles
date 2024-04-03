@@ -30,6 +30,13 @@ local function project_directory()
   return fn.resolve(DIRECTORY .. '/..')
 end
 
+local function notify(message)
+  PROGRESS = message
+  vim.schedule(function()
+    vim.cmd.redrawstatus()
+  end)
+end
+
 local function git(opts, on_success)
   local cmd = { 'git' }
   local env = { cwd = project_directory() }
@@ -50,6 +57,7 @@ local function git(opts, on_success)
         on_success(vim.trim(result.stdout))
       end
     else
+      notify('')
       util.error(vim.trim(result.stderr))
     end
   end)
@@ -117,48 +125,51 @@ local function watch_working_directory()
   })
 end
 
-local function notify(message)
-  PROGRESS = message
-  vim.schedule(function()
-    vim.cmd.redrawstatus()
-  end)
+local function handle_user_command(args)
+  local cmd = args[1]
+  local arg = args[2]
+
+  if cmd == 'checkout' then
+    if arg then
+      M.checkout(arg)
+    else
+      util.error('a ref name is required')
+    end
+  elseif cmd == 'merge' then
+    if arg then
+      M.merge(arg)
+    else
+      util.error('a branch name is required')
+    end
+  elseif cmd == 'push' then
+    M.push()
+  elseif cmd == 'push!' then
+    M.push({ force = true })
+  elseif cmd == 'pull' then
+    M.pull()
+  elseif cmd == 'pull!' then
+    M.pull({ force = true })
+  elseif cmd == 'log' then
+    M.log(arg, args[3])
+  elseif cmd == 'commit' then
+    M.commit()
+  elseif cmd == 'commit!' then
+    M.commit({ amend = true })
+  else
+    util.error("the command '" .. cmd .. "' isn't recognized")
+  end
 end
 
 local function define_git_command()
   vim.api.nvim_create_user_command('Git', function(data)
-    local cmd = data.fargs[1]
-    local arg = data.fargs[2]
-
-    if cmd == 'checkout' then
-      if arg then
-        M.checkout(arg)
-      else
-        util.error('a ref name is required')
-      end
-    elseif cmd == 'push' then
-      M.push()
-    elseif cmd == 'push!' then
-      M.push({ force = true })
-    elseif cmd == 'pull' then
-      M.pull()
-    elseif cmd == 'pull!' then
-      M.pull({ force = true })
-    elseif cmd == 'log' then
-      M.log(arg, data.fargs[3])
-    elseif cmd == 'commit' then
-      M.commit()
-    elseif cmd == 'commit!' then
-      M.commit({ amend = true })
-    else
-      util.error("the command '" .. cmd .. "' isn't recognized")
-    end
+    handle_user_command(data.fargs)
   end, {
     nargs = '+',
     complete = function(prefix, start, _)
       local cmd = vim.split(start, '%s+', { trimempty = true })[2]
       local data = nil
 
-      if cmd == 'checkout' or cmd == 'log' then
+      if cmd == 'checkout' or cmd == 'log' or cmd == 'merge' then
         data = M.branches()
       else
         data = {
@@ -166,6 +177,7 @@ local function define_git_command()
           'commit',
           'commit!',
           'log',
+          'merge',
           'pull',
           'pull!',
           'push',
@@ -264,6 +276,13 @@ function M.commit(opts)
     if result.code ~= 0 then
       util.error(vim.trim(result.stderr))
     end
+  end)
+end
+
+function M.merge(branch)
+  notify('merging ' .. branch)
+  git({ args = { 'merge', '--ff-only', branch } }, function()
+    notify('')
   end)
 end
 
