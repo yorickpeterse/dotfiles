@@ -76,7 +76,7 @@ local function lsp_status()
           local status = ''
 
           if msg.kind == 'end' then
-            status = 'idle'
+            status = ''
           else
             status = msg.title
 
@@ -85,14 +85,8 @@ local function lsp_status()
             end
           end
 
-          statuses[client.name] = status
+          statuses[client.name] = #status > 0 and status or nil
         end
-      end
-    end
-
-    for _, client in ipairs(lsp.get_clients()) do
-      if not statuses[client.name] then
-        statuses[client.name] = 'idle'
       end
     end
 
@@ -165,19 +159,10 @@ local function tabline()
   return line
 end
 
-local function line_diagnostic()
-  if diags.diagnostic then
-    return diags.diagnostic
-  else
-    return ''
-  end
-end
-
 function M.render()
   local elements = vim.tbl_filter(function(v)
     return #v > 0
   end, {
-    line_diagnostic(),
     separator,
     lsp_status(),
     git_status(),
