@@ -56,7 +56,7 @@ local function git(opts, on_success)
 end
 
 local function update_branch()
-  git({ args = { 'rev-parse', '--abbrev-ref', 'HEAD' } }, function(name)
+  git({ args = { 'branch', '--show-current' } }, function(name)
     BRANCH = name
     vim.schedule(function()
       vim.cmd.redrawstatus()
@@ -76,9 +76,9 @@ end
 local function watch_branch()
   if WATCHER then
     unwatch_branch()
-  else
-    update_branch()
   end
+
+  update_branch()
 
   WATCHER = assert(uv.new_fs_event())
   WATCHER:start(
@@ -218,7 +218,10 @@ end
 
 function M.branches()
   local result = vim
-    .system({ 'git', 'branch', '--format=%(refname:short)' }, { cwd = DIRECTORY })
+    .system(
+      { 'git', 'branch', '--format=%(refname:short)' },
+      { cwd = project_directory() }
+    )
     :wait()
 
   if result.code == 0 then
