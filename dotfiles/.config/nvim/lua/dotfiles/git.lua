@@ -147,6 +147,8 @@ local function define_git_command()
       M.log(arg, data.fargs[3])
     elseif cmd == 'commit' then
       M.commit()
+    elseif cmd == 'commit!' then
+      M.commit({ amend = true })
     else
       util.error("the command '" .. cmd .. "' isn't recognized")
     end
@@ -159,7 +161,16 @@ local function define_git_command()
       if cmd == 'checkout' or cmd == 'log' then
         data = M.branches()
       else
-        data = { 'checkout', 'commit', 'log', 'pull', 'pull!', 'push', 'push!' }
+        data = {
+          'checkout',
+          'commit',
+          'commit!',
+          'log',
+          'pull',
+          'pull!',
+          'push',
+          'push!',
+        }
       end
 
       return vim.tbl_filter(function(item)
@@ -240,16 +251,20 @@ function M.log(start, stop)
   log.open(start, stop)
 end
 
-function M.commit()
-  vim.system(
-    { 'git', 'commit' },
-    { env = { GIT_EDITOR = EDITOR } },
-    function(result)
-      if result.code ~= 0 then
-        util.error(vim.trim(result.stderr))
-      end
+function M.commit(opts)
+  local cmd = { 'git', 'commit' }
+
+  if opts then
+    if opts.amend then
+      table.insert(cmd, '--amend')
     end
-  )
+  end
+
+  vim.system(cmd, { env = { GIT_EDITOR = EDITOR } }, function(result)
+    if result.code ~= 0 then
+      util.error(vim.trim(result.stderr))
+    end
+  end)
 end
 
 return M
