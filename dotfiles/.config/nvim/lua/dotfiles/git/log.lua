@@ -3,6 +3,9 @@ local api = vim.api
 local util = require('dotfiles.util')
 local M = {}
 
+-- The editor command to use for interactive Git operations.
+local EDITOR = 'nvr -cc vsplit -c "setlocal bufhidden=wipe" --remote-wait'
+
 -- The highlight groups to use for various elements.
 local HIGHLIGHTS = {
   commit = 'Yellow',
@@ -259,6 +262,15 @@ local function update(state)
   add_name_padding(state)
 end
 
+local function reload(state)
+  state.offset = 1
+  state.commits =
+    git_log({ offset = 0, start = state.start, stop = state.stop })
+
+  remove_date_marks(state)
+  update(state)
+end
+
 local function cursor_moved(state)
   local max = fn.line('$', state.win)
   local line, _ = unpack(api.nvim_win_get_cursor(state.win))
@@ -292,6 +304,11 @@ end
 local function show_commit_diff(state)
   local line, _ = unpack(api.nvim_win_get_cursor(state.win))
   local commit = state.commits[line]
+
+  if not commit then
+    return
+  end
+
   local range = {}
 
   if #commit.parents == 1 then
@@ -308,6 +325,10 @@ end
 local function toggle_commit_details(state)
   local line, _ = unpack(api.nvim_win_get_cursor(state.win))
   local commit = state.commits[line]
+
+  if not commit then
+    return
+  end
 
   if state.commit.win == nil then
     vim.cmd.vnew()
@@ -416,6 +437,33 @@ local function toggle_commit_details(state)
   api.nvim_set_option_value('modified', false, { buf = state.commit.buf })
 end
 
+local function revert_commit(state)
+  local line, _ = unpack(api.nvim_win_get_cursor(state.win))
+  local commit = state.commits[line]
+
+  if not commit then
+    return
+  end
+
+  if not util.confirm('Revert commit ' .. commit.id) then
+    return
+  end
+
+  vim.system(
+    { 'git', 'revert', '--edit', commit.id },
+    { env = { GIT_EDITOR = EDITOR } },
+    function(res)
+      if res.code == 0 then
+        vim.schedule(function()
+          reload(state)
+        end)
+      else
+        util.error(vim.trim(res.stderr))
+      end
+    end
+  )
+end
+
 function M.open(start, stop)
   if ACTIVE then
     util.error('the window is already active')
@@ -458,6 +506,10 @@ function M.open(start, stop)
 
   vim.keymap.set('n', 'd', function()
     show_commit_diff(state)
+  end, { buffer = state.buf, silent = true, noremap = true })
+
+  vim.keymap.set('n', 'r', function()
+    revert_commit(state)
   end, { buffer = state.buf, silent = true, noremap = true })
 
   local resize_hook = api.nvim_create_autocmd('WinResized', {

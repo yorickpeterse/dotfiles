@@ -14,6 +14,20 @@ function M.error(message)
   end)
 end
 
+function M.confirm(prompt)
+  api.nvim_echo(
+    { { prompt .. '?', 'Title' }, { ' (y/N) ', 'Comment' } },
+    false,
+    {}
+  )
+
+  local choice = fn.nr2char(fn.getchar())
+
+  api.nvim_echo({}, false, {})
+
+  return choice == 'y' or choice == 'Y'
+end
+
 function M.popup_visible()
   return fn.pumvisible() == 1
 end
