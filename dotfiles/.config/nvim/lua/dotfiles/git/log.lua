@@ -464,6 +464,32 @@ local function revert_commit(state)
   )
 end
 
+local function rebase_commits(state)
+  local line, _ = unpack(api.nvim_win_get_cursor(state.win))
+
+  if not state.commits[line] then
+    return
+  end
+
+  if not util.confirm('Rebase the last ' .. line .. ' commit(s)') then
+    return
+  end
+
+  vim.system(
+    { 'git', 'rebase', '--interactive', 'HEAD~' .. line },
+    { env = { GIT_EDITOR = EDITOR } },
+    function(res)
+      if res.code == 0 then
+        vim.schedule(function()
+          reload(state)
+        end)
+      else
+        util.error(vim.trim(res.stderr))
+      end
+    end
+  )
+end
+
 function M.open(start, stop)
   if ACTIVE then
     util.error('the window is already active')
@@ -500,17 +526,26 @@ function M.open(start, stop)
   api.nvim_win_set_hl_ns(state.win, NAMESPACE)
   update(state)
 
-  vim.keymap.set('n', '<CR>', function()
-    toggle_commit_details(state)
-  end, { buffer = state.buf, silent = true, noremap = true })
+  local maps = {
+    ['<CR>'] = function()
+      toggle_commit_details(state)
+    end,
+    d = function()
+      show_commit_diff(state)
+    end,
+    r = function()
+      revert_commit(state)
+    end,
+    R = function()
+      rebase_commits(state)
+    end,
+  }
 
-  vim.keymap.set('n', 'd', function()
-    show_commit_diff(state)
-  end, { buffer = state.buf, silent = true, noremap = true })
+  for key, func in pairs(maps) do
+    local opts = { buffer = state.buf, silent = true, noremap = true }
 
-  vim.keymap.set('n', 'r', function()
-    revert_commit(state)
-  end, { buffer = state.buf, silent = true, noremap = true })
+    vim.keymap.set('n', key, func, opts)
+  end
 
   local resize_hook = api.nvim_create_autocmd('WinResized', {
     group = AUGROUP,
