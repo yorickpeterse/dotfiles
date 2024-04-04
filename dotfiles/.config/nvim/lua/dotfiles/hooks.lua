@@ -245,11 +245,11 @@ au('terminal', {
   {
     'TermOpen',
     '*',
-    function()
-      vim.wo.scrolloff = 0
-      vim.wo.number = false
-      vim.wo.relativenumber = false
-      vim.wo.signcolumn = 'no'
+    function(args)
+      vim.opt_local.scrolloff = 0
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+      vim.opt_local.signcolumn = 'no'
     end,
   },
 })
