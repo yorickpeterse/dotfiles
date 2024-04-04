@@ -247,6 +247,9 @@ au('terminal', {
     '*',
     function()
       vim.wo.scrolloff = 0
+      vim.wo.number = false
+      vim.wo.relativenumber = false
+      vim.wo.signcolumn = 'no'
     end,
   },
 })
