@@ -62,7 +62,10 @@ local function git_log(opts)
   local res =
     vim.system(cmd, { text = true, env = { GIT_TERMINAL_PROMPT = '0' } }):wait()
 
-  assert(res.code == 0, 'Failed to run `git log`')
+  if res.code ~= 0 then
+    util.error(vim.trim(res.stderr))
+    return {}
+  end
 
   local lines = vim.split(res.stdout, '\n', { trimempty = true })
 
@@ -260,7 +263,7 @@ local function cursor_moved(state)
   local max = fn.line('$', state.win)
   local line, _ = unpack(api.nvim_win_get_cursor(state.win))
 
-  if line < max then
+  if line < max or line == 1 then
     return false
   end
 

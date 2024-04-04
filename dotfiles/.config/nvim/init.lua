@@ -26,7 +26,6 @@ vim.cmd('color grey')
 -- Config files and plugins
 require('pqf').setup()
 require('dd').setup()
-require('dotfiles.git').setup()
 
 require('dotfiles.lsp')
 require('dotfiles.window')
