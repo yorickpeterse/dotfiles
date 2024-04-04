@@ -539,6 +539,9 @@ function M.open(start, stop)
     R = function()
       rebase_commits(state)
     end,
+    q = function()
+      vim.cmd.tabclose()
+    end,
   }
 
   for key, func in pairs(maps) do
