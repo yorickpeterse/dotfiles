@@ -41,7 +41,7 @@ function M.render()
     flags = '%( %m%r%)'
   end
 
-  return table.concat({ ' ', name, flags, ' ', '%#WinBarFill#' }, '')
+  return table.concat({ name, flags, ' ', '%#WinBarFill#' }, '')
 end
 
 return M
