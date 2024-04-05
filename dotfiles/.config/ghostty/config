@@ -9,7 +9,7 @@ shell-integration-features = "no-cursor, sudo"
 gtk-single-instance = false
 
 # Padding is changed to match that of GNOME terminal.
-window-padding-x = 1
+window-padding-x = 2
 window-padding-y = 1
 
 font-family = "IosevkaFixedCustom Nerd Font"
