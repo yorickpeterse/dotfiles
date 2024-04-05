@@ -42,6 +42,15 @@ api.nvim_set_hl(NAMESPACE, 'CursorLine', { link = 'QuickFixLine' })
 -- A boolean indicating if the module is active.
 local ACTIVE = false
 
+local function buffer_map(buf, mode, key, func)
+  vim.keymap.set(
+    mode,
+    key,
+    func,
+    { buffer = buf, silent = true, noremap = true }
+  )
+end
+
 local function git_log(opts)
   local opts = opts or {}
   local skip = (opts.offset or 0)
@@ -332,7 +341,7 @@ local function toggle_commit_details(state)
 
   if state.commit.win == nil then
     vim.cmd.vnew()
-    vim.cmd('vert res 80')
+    vim.cmd('vert res 85')
     state.commit.win = api.nvim_get_current_win()
     state.commit.buf = api.nvim_get_current_buf()
     api.nvim_set_current_win(state.win)
@@ -342,9 +351,18 @@ local function toggle_commit_details(state)
     api.nvim_set_option_value('bufhidden', 'wipe', { buf = state.commit.buf })
     api.nvim_buf_set_name(state.commit.buf, 'Commit ' .. commit.id)
 
-    vim.keymap.set('n', 'd', function()
-      show_commit_diff(state)
-    end, { buffer = state.commit.buf, silent = true, noremap = true })
+    local maps = {
+      d = function()
+        show_commit_diff(state)
+      end,
+      q = function()
+        vim.cmd.tabclose()
+      end,
+    }
+
+    for key, func in pairs(maps) do
+      buffer_map(state.commit.buf, 'n', key, func)
+    end
 
     api.nvim_create_autocmd('BufWipeout', {
       group = AUGROUP,
@@ -545,9 +563,7 @@ function M.open(start, stop)
   }
 
   for key, func in pairs(maps) do
-    local opts = { buffer = state.buf, silent = true, noremap = true }
-
-    vim.keymap.set('n', key, func, opts)
+    buffer_map(state.buf, 'n', key, func)
   end
 
   local resize_hook = api.nvim_create_autocmd('WinResized', {
