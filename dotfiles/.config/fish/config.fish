@@ -13,6 +13,25 @@ set -x BUNDLE_DISABLE_VERSION_CHECK 1
 set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
 set -x LS_COLORS 'di=0;35:ln=1;34:ex=1;30'
 
+# These variables are set such that they are preserved in Toolbox containers,
+# instead of them being cleared.
+set en_us en_US.UTF-8
+set en_ie en_IE.UTF-8
+
+set -x LANG $en_us
+set -x LC_ADDRESS $en_ie
+set -x LC_COLLATE $en_us
+set -x LC_CTYPE $en_us
+set -x LC_IDENTIFICATION $en_us
+set -x LC_MEASUREMENT $en_ie
+set -x LC_MESSAGES $en_us
+set -x LC_MONETARY $en_ie
+set -x LC_NAME $en_us
+set -x LC_NUMERIC $en_ie
+set -x LC_PAPER $en_ie
+set -x LC_TELEPHONE $en_ie
+set -x LC_TIME $en_ie
+
 set fish_greeting
 set fish_color_command normal --bold
 set fish_color_param normal
