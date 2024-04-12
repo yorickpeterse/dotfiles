@@ -2,7 +2,6 @@ local pkg = require('dotfiles.package')
 local use = pkg.use
 
 use('nvim-lua/plenary.nvim')
-use('numToStr/Comment.nvim')
 use('YorickPeterse/rust.vim')
 use('neovim/nvim-lspconfig')
 use('inko-lang/inko.vim')
