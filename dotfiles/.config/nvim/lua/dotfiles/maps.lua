@@ -206,7 +206,9 @@ map('n', '<leader>t', function()
   telescope_builtin.current_buffer_tags()
 end)
 
-map('n', '<leader>b', telescope_builtin.buffers)
+map('n', '<leader>b', function()
+  telescope_builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
+end)
 
 -- Terminals
 map('t', '<Esc>', [[<C-\><C-n>]])
