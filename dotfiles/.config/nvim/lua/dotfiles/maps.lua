@@ -69,7 +69,7 @@ map('n', '<leader>q', quickfix.toggle)
 map('', 'gs', '^')
 map('', 'ge', 'g_')
 map('', 'gm', '`')
-map('n', '<leader>p', cmd('b#'))
+map('n', 'gp', cmd('b#'))
 
 map({ 'n', 'x' }, 's', pounce.pounce)
 map({ 'n', 'x' }, 'S', function()
