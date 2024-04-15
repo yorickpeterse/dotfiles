@@ -47,6 +47,29 @@ local menu_status_col = ' %-2{min([9, v:lnum - line("w0")])}'
 -- The text to display before the user query in the completion prompt.
 local prompt_prefix = ' > '
 
+local borders = {
+  top = {
+    '╭', -- top left
+    '─', -- top
+    '╮', -- top right
+    '│', -- right
+    '┤', -- bottom right
+    '─', -- bottom
+    '├', -- bottom left
+    '│', -- left
+  },
+  bottom = {
+    '', -- top left
+    '', -- top
+    '', -- top right
+    '│', -- right
+    '╯', -- bottom right
+    '─', -- bottom
+    '╰', -- bottom left
+    '│', -- left
+  },
+}
+
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -331,36 +354,58 @@ local function set_menu_position(state, initial)
   local reconfigure = false
   local win_row = api.nvim_win_get_position(state.results.window)[1]
   local screen_height = api.nvim_get_option_value('lines', {})
-  local new_conf = nil
+  local new_result_conf = nil
+  local new_prompt_conf = nil
 
   if win_row + menu_rows >= screen_height then
     -- If the results window (using its default size) doesn't fit below the
     -- prompt, we'll place it above the prompt.
-    new_conf = {
+    new_result_conf = {
       anchor = menu_above_anchor,
       row = 0,
-      col = 0,
+      col = -1,
       relative = 'win',
       win = state.prompt.window,
+      border = borders.top,
+    }
+    new_prompt_conf = {
+      row = -2,
+      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      bufpos = { state.row - 1, state.col },
+      relative = 'win',
+      win = state.window,
+      border = borders.bottom,
     }
   elseif
     api.nvim_win_get_config(state.results.window).anchor == menu_above_anchor
   then
     -- Move the results window back to its original place.
-    new_conf = {
+    new_result_conf = {
       anchor = menu_below_anchor,
-      row = 1,
-      col = 0,
+      row = 2,
+      col = -1,
       relative = 'win',
       win = state.prompt.window,
+      border = borders.bottom,
+    }
+    new_prompt_conf = {
+      row = 1,
+      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      bufpos = { state.row - 1, state.col },
+      relative = 'win',
+      border = borders.top,
     }
   end
 
-  if new_conf then
-    api.nvim_win_set_config(state.results.window, new_conf)
+  if new_result_conf then
+    api.nvim_win_set_config(state.results.window, new_result_conf)
   end
 
-  if new_conf or initial then
+  if new_prompt_conf then
+    api.nvim_win_set_config(state.prompt.window, new_prompt_conf)
+  end
+
+  if new_result_conf or new_prompt_conf or initial then
     configure_results_window(state)
   end
 end
@@ -522,7 +567,7 @@ local function show_menu(buf, prefix, items)
   local prompt_buf = api.nvim_create_buf(false, true)
   local prompt_win = api.nvim_open_win(prompt_buf, true, {
     row = 1,
-    col = 0 - #prompt_text,
+    col = 0 - #prompt_text - 1,
     bufpos = { row - 1, col },
     relative = 'win',
     win = prev_win,
@@ -531,13 +576,13 @@ local function show_menu(buf, prefix, items)
     height = 1,
     focusable = true,
     style = 'minimal',
-    border = 'none',
+    border = borders.top,
   })
 
   local results_buf = api.nvim_create_buf(false, true)
   local results_win = api.nvim_open_win(results_buf, false, {
-    row = 1,
-    col = 0,
+    row = 2,
+    col = -1,
     relative = 'win',
     win = prompt_win,
     anchor = menu_below_anchor,
@@ -545,8 +590,8 @@ local function show_menu(buf, prefix, items)
     height = menu_rows,
     focusable = false,
     style = 'minimal',
-    border = 'none',
     noautocmd = true,
+    border = borders.bottom,
   })
 
   local mark = api.nvim_buf_set_extmark(
@@ -573,6 +618,7 @@ local function show_menu(buf, prefix, items)
       row = row - 1,
       col = col,
     },
+    row = row,
     col = col,
   }
 

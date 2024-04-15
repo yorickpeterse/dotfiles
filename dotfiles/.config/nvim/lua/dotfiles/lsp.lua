@@ -50,18 +50,7 @@ do
 end
 
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  -- This removes the top padding to take into account the issue described in
-  -- https://github.com/neovim/neovim/pull/25073#issuecomment-1767810374.
-  border = {
-    '', -- top left
-    '', -- top
-    '', -- top right
-    ' ', -- right
-    ' ', -- bottom right
-    ' ', -- bottom
-    ' ', -- bottom left
-    ' ', -- left
-  },
+  border = 'rounded',
   max_width = float_width,
   max_heigh = float_height,
 })
@@ -91,16 +80,7 @@ vim_diag.config({
     severity = { min = vim_diag.severity.WARN },
   },
   float = {
-    border = {
-      ' ', -- top left
-      ' ', -- top
-      ' ', -- top right
-      ' ', -- right
-      ' ', -- bottom right
-      ' ', -- bottom
-      ' ', -- bottom left
-      ' ', -- left
-    },
+    border = 'rounded',
     max_width = float_width,
     max_heigh = float_height,
     severity = { min = vim_diag.severity.WARN },
