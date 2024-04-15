@@ -123,6 +123,9 @@ au('trailing_whitespace', {
 
 do
   local throttle_timer = nil
+  local enter_state = util.buffer_cache(function()
+    return false
+  end)
 
   au('lsp', {
     { 'BufWritePre', '*', util.format_buffer },
@@ -138,6 +141,22 @@ do
       end,
     },
     { 'BufWritePost', '*', lint_buffer },
+    {
+      -- For some reason BufReadPost doesn't work with nvim-lint, so we use this
+      -- approach instead.
+      'BufEnter',
+      '*',
+      function()
+        local buf = api.nvim_get_current_buf()
+
+        if enter_state[buf] then
+          return
+        end
+
+        enter_state[buf] = true
+        lint_buffer()
+      end,
+    },
     {
       'LspProgress',
       '*',
