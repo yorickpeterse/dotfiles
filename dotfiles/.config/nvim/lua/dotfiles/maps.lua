@@ -79,7 +79,7 @@ map('n', '<leader>pf', function()
     find_command = { 'rg', '--files', '--color', 'never' },
   })
 end)
-map('n', '<leader>ps', function()
+map('n', '<leader>pn', function()
   local bufnr = api.nvim_get_current_buf()
   local ft = api.nvim_get_option_value('ft', { buf = bufnr })
 
