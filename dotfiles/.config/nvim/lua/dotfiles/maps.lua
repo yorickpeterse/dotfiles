@@ -54,22 +54,73 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 map('n', '<C-h>', '<C-w>h')
-map('n', '<leader>F', util.format_buffer)
+map('n', '<leader>f', util.format_buffer)
 map('n', '<leader>s', cmd('update'))
 
 -- Window management
-map('n', '<leader>w', window.pick)
 map('n', '<leader>c', cmd('quit'))
 map('n', '<leader>v', cmd('vsplit'))
-map('n', '<leader>k', cmd('split'))
-map('n', '<leader>l', loclist.toggle)
-map('n', '<leader>q', quickfix.toggle)
+map('n', '<leader>h', cmd('split'))
+map('n', '<leader>wl', loclist.toggle)
+map('n', '<leader>wg', quickfix.toggle)
+map('n', '<leader>wd', function()
+  diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
+end)
+map('n', '<leader>we', function()
+  diag.open_float({ scope = 'line' })
+end)
+map('n', '<leader>wa', vim.lsp.buf.code_action)
+
+-- Pickers
+map('n', '<leader>pw', window.pick)
+map('n', '<leader>pf', function()
+  telescope_builtin.find_files({
+    hidden = true,
+    find_command = { 'rg', '--files', '--color', 'never' },
+  })
+end)
+map('n', '<leader>ps', function()
+  local bufnr = api.nvim_get_current_buf()
+  local ft = api.nvim_get_option_value('ft', { buf = bufnr })
+
+  if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
+    pickers.lsp_document_symbols(bufnr, {
+      -- Lua exposes variables as constants for some weird reason
+      ignore_scoped_constants = ft == 'lua',
+      symbols = ts_lsp_symbols,
+      previewer = false,
+      results_title = false,
+      prompt_title = false,
+    })
+
+    return
+  end
+
+  if parsers.has_parser() then
+    telescope_builtin.treesitter()
+    return
+  end
+
+  telescope_builtin.current_buffer_tags()
+end)
+map('n', '<leader>pe', function()
+  telescope_builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
+end)
 
 -- Going places
 map('', 'gs', '^')
 map('', 'ge', 'g_')
 map('', 'gm', '`')
 map('n', 'gp', cmd('b#'))
+map('n', 'gd', function()
+  local bufnr = api.nvim_get_current_buf()
+
+  if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
+    lsp.buf.definition()
+  else
+    api.nvim_feedkeys(vim.keycode('<C-]>'), 'm', true)
+  end
+end)
 
 map({ 'n', 'x' }, 's', pounce.pounce)
 map({ 'n', 'x' }, 'S', function()
@@ -110,24 +161,10 @@ end, { expr = true })
 map('x', '<s-tab>', '<')
 map('x', '<tab>', '>')
 
--- LSP
-map('n', '<leader>h', vim.lsp.buf.hover)
-map('n', '<leader>n', vim.lsp.buf.rename)
-map('n', '<leader>d', function()
-  local bufnr = api.nvim_get_current_buf()
-
-  if util.has_lsp_clients_supporting(bufnr, 'goto_definition') then
-    lsp.buf.definition()
-  else
-    api.nvim_feedkeys(vim.keycode('<C-]>'), 'm', true)
-  end
-end)
-
-map('n', '<leader>z', function()
-  diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
-end)
-
-map('n', '<leader>r', function()
+-- Symbols/definitions
+map('n', '<leader>dh', vim.lsp.buf.hover)
+map('n', '<leader>dr', vim.lsp.buf.rename)
+map('n', '<leader>du', function()
   lsp.buf.references({ includeDeclaration = false })
 end)
 
@@ -135,7 +172,7 @@ end)
 --
 -- The function `vim.lsp.buf.implementation()` automatically jumps to the first
 -- location, which I don't like.
-map('n', '<leader>i', function()
+map('n', '<leader>di', function()
   local bufnr = api.nvim_get_current_buf()
   local params = lsp.util.make_position_params()
 
@@ -165,51 +202,9 @@ map('n', '<leader>i', function()
   )
 end)
 
-map('n', '<leader>a', vim.lsp.buf.code_action)
-map('n', '<leader>e', function()
-  diag.open_float({ scope = 'line' })
-end)
-
 -- Searching
 map('n', 'K', cmd([[silent grep! '\b<cword>\b']]))
 map('n', '<leader>g', ':silent grep! ', { silent = false })
-
--- Telescope
-map('n', '<leader>f', function()
-  telescope_builtin.find_files({
-    hidden = true,
-    find_command = { 'rg', '--files', '--color', 'never' },
-  })
-end)
-
-map('n', '<leader>t', function()
-  local bufnr = api.nvim_get_current_buf()
-  local ft = api.nvim_get_option_value('ft', { buf = bufnr })
-
-  if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
-    pickers.lsp_document_symbols(bufnr, {
-      -- Lua exposes variables as constants for some weird reason
-      ignore_scoped_constants = ft == 'lua',
-      symbols = ts_lsp_symbols,
-      previewer = false,
-      results_title = false,
-      prompt_title = false,
-    })
-
-    return
-  end
-
-  if parsers.has_parser() then
-    telescope_builtin.treesitter()
-    return
-  end
-
-  telescope_builtin.current_buffer_tags()
-end)
-
-map('n', '<leader>b', function()
-  telescope_builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
-end)
 
 -- Terminals
 map('t', '<Esc>', [[<C-\><C-n>]])
