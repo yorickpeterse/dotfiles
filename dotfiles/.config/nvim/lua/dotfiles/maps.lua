@@ -161,45 +161,11 @@ end, { expr = true })
 map('x', '<s-tab>', '<')
 map('x', '<tab>', '>')
 
--- Symbols/definitions
-map('n', '<leader>dh', vim.lsp.buf.hover)
-map('n', '<leader>dr', vim.lsp.buf.rename)
-map('n', '<leader>du', function()
+-- Information about the name under the cursor (i.e. type/symbol information)
+map('n', '<leader>nt', vim.lsp.buf.hover)
+map('n', '<leader>ne', vim.lsp.buf.rename)
+map('n', '<leader>nr', function()
   lsp.buf.references({ includeDeclaration = false })
-end)
-
--- Shows all implementations of an interface.
---
--- The function `vim.lsp.buf.implementation()` automatically jumps to the first
--- location, which I don't like.
-map('n', '<leader>di', function()
-  local bufnr = api.nvim_get_current_buf()
-  local params = lsp.util.make_position_params()
-
-  lsp.buf_request_all(
-    bufnr,
-    'textDocument/implementation',
-    params,
-    function(response)
-      for _, result in ipairs(response) do
-        if result.result then
-          local items = result.result
-
-          if not vim.tbl_islist(result.result) then
-            items = { items }
-          end
-
-          if #items > 0 then
-            fn.setqflist({}, ' ', {
-              title = 'Implementations',
-              items = lsp.util.locations_to_items(items, 'utf-8'),
-            })
-            vim.cmd('copen')
-          end
-        end
-      end
-    end
-  )
 end)
 
 -- Searching
