@@ -54,32 +54,32 @@ map('n', '<C-j>', '<C-w>j')
 map('n', '<C-k>', '<C-w>k')
 map('n', '<C-l>', '<C-w>l')
 map('n', '<C-h>', '<C-w>h')
-map('n', '<leader>f', util.format_buffer)
+map('n', '<leader>F', util.format_buffer)
 map('n', '<leader>s', cmd('update'))
 
 -- Window management
 map('n', '<leader>c', cmd('quit'))
 map('n', '<leader>v', cmd('vsplit'))
 map('n', '<leader>h', cmd('split'))
-map('n', '<leader>wl', loclist.toggle)
-map('n', '<leader>wg', quickfix.toggle)
-map('n', '<leader>wd', function()
+map('n', '<leader>l', loclist.toggle)
+map('n', '<leader>q', quickfix.toggle)
+map('n', '<leader>d', function()
   diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
 end)
-map('n', '<leader>we', function()
+map('n', '<leader>e', function()
   diag.open_float({ scope = 'line' })
 end)
-map('n', '<leader>wa', vim.lsp.buf.code_action)
+map('n', '<leader>a', vim.lsp.buf.code_action)
 
 -- Pickers
-map('n', '<leader>pw', window.pick)
-map('n', '<leader>pf', function()
+map('n', '<leader>w', window.pick)
+map('n', '<leader>f', function()
   telescope_builtin.find_files({
     hidden = true,
     find_command = { 'rg', '--files', '--color', 'never' },
   })
 end)
-map('n', '<leader>pn', function()
+map('n', '<leader>t', function()
   local bufnr = api.nvim_get_current_buf()
   local ft = api.nvim_get_option_value('ft', { buf = bufnr })
 
@@ -103,7 +103,7 @@ map('n', '<leader>pn', function()
 
   telescope_builtin.current_buffer_tags()
 end)
-map('n', '<leader>pe', function()
+map('n', '<leader>b', function()
   telescope_builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
 end)
 
@@ -162,9 +162,9 @@ map('x', '<s-tab>', '<')
 map('x', '<tab>', '>')
 
 -- Information about the name under the cursor (i.e. type/symbol information)
-map('n', '<leader>nt', vim.lsp.buf.hover)
-map('n', '<leader>ne', vim.lsp.buf.rename)
-map('n', '<leader>nr', function()
+map('n', '<leader>i', vim.lsp.buf.hover)
+map('n', '<leader>n', vim.lsp.buf.rename)
+map('n', '<leader>r', function()
   lsp.buf.references({ includeDeclaration = false })
 end)
 
