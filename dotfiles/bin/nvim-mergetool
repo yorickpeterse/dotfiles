@@ -16,6 +16,7 @@ if set -q NVIM
         -c 'windo setlocal bufhidden=wipe' \
         -c 'windo lua vim.diagnostic.disable(0)' \
         -c 'windo diffthis' \
+        -c 'windo map <buffer> q <CMD>tabclose<CR>' \
         -c 'wincmd h' \
         --remote-wait $argv[1]
 else
@@ -24,6 +25,7 @@ else
         -c 'setlocal ro' \
         -c 'wincmd L' \
         -c 'windo lua vim.diagnostic.disable(0)' \
+        -c 'windo map <buffer> q <CMD>tabclose<CR>' \
         -c 'wincmd h' \
         -d $argv[2] $argv[1]
 end
