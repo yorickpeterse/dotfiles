@@ -44,6 +44,32 @@ local menu_below_anchor = 'NW'
 local menu_above_anchor = 'SW'
 local menu_status_col = ' %-2{min([9, v:lnum - line("w0")])}'
 
+-- The text to display before the user query in the completion prompt.
+local prompt_prefix = ' > '
+
+local borders = {
+  top = {
+    '╭', -- top left
+    '─', -- top
+    '╮', -- top right
+    '│', -- right
+    '┤', -- bottom right
+    '─', -- bottom
+    '├', -- bottom left
+    '│', -- left
+  },
+  bottom = {
+    '', -- top left
+    '', -- top
+    '', -- top right
+    '│', -- right
+    '╯', -- bottom right
+    '─', -- bottom
+    '╰', -- bottom left
+    '│', -- left
+  },
+}
+
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -215,9 +241,22 @@ end
 
 local function update_extmark_text(state)
   local buf = api.nvim_win_get_buf(state.window)
-  local text = api.nvim_buf_get_lines(state.prompt.buffer, 0, 1, false)[1] or ''
+  local line, _ = unpack(api.nvim_win_get_cursor(state.results.window))
+  local item = state.data.filtered[line]
+  local text = ''
 
-  if #text > 0 and #state.prefix > 0 then
+  if item then
+    if item.source == 'lsp' or item.source == 'snippet' then
+      -- Snippets may expand to many lines, so we'll only show the first line in
+      -- the extmark text.
+      text =
+        vim.split(snippet.format(item.insert), '\n', { trimempty = true })[1]
+    else
+      text = item.insert
+    end
+  end
+
+  if #state.prefix > 0 then
     text = text:sub(#state.prefix + 1, #text)
   end
 
@@ -228,7 +267,7 @@ local function update_extmark_text(state)
     state.extmark.col,
     {
       id = state.extmark.id,
-      virt_text = { { text, '' } },
+      virt_text = { { text, 'Comment' } },
       virt_text_pos = 'inline',
     }
   )
@@ -329,6 +368,7 @@ local function set_menu_position(state, initial)
   local win_row = api.nvim_win_get_position(state.results.window)[1]
   local screen_height = api.nvim_get_option_value('lines', {})
   local new_result_conf = nil
+  local new_prompt_conf = nil
 
   if win_row + menu_rows >= screen_height then
     -- If the results window (using its default size) doesn't fit below the
@@ -336,9 +376,18 @@ local function set_menu_position(state, initial)
     new_result_conf = {
       anchor = menu_above_anchor,
       row = 0,
-      col = -4,
+      col = -1,
       relative = 'win',
       win = state.prompt.window,
+      border = borders.top,
+    }
+    new_prompt_conf = {
+      row = -2,
+      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      bufpos = { state.row - 1, state.col },
+      relative = 'win',
+      win = state.window,
+      border = borders.bottom,
     }
   elseif
     api.nvim_win_get_config(state.results.window).anchor == menu_above_anchor
@@ -346,10 +395,18 @@ local function set_menu_position(state, initial)
     -- Move the results window back to its original place.
     new_result_conf = {
       anchor = menu_below_anchor,
-      row = 1,
-      col = -4,
+      row = 2,
+      col = -1,
       relative = 'win',
       win = state.prompt.window,
+      border = borders.bottom,
+    }
+    new_prompt_conf = {
+      row = 1,
+      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      bufpos = { state.row - 1, state.col },
+      relative = 'win',
+      border = borders.top,
     }
   end
 
@@ -357,7 +414,11 @@ local function set_menu_position(state, initial)
     api.nvim_win_set_config(state.results.window, new_result_conf)
   end
 
-  if new_result_conf or initial then
+  if new_prompt_conf then
+    api.nvim_win_set_config(state.prompt.window, new_prompt_conf)
+  end
+
+  if new_result_conf or new_prompt_conf or initial then
     configure_results_window(state)
   end
 end
@@ -422,8 +483,10 @@ local function filter_menu_items(state)
   local query = api.nvim_buf_get_lines(state.prompt.buffer, 0, 1, false)[1]
     or ''
 
-  if #query > 0 then
-    query = query:sub(1, #query)
+  -- The prompt and its prefix are treated as buffer text, so we need to remove
+  -- the prefix to get the query text.
+  if #query > 0 and #prompt_prefix > 0 then
+    query = query:sub(#prompt_prefix + 1, #query)
   end
 
   if query == '' then
@@ -513,10 +576,11 @@ local function show_menu(buf, prefix, items)
   -- resizing the window doesn't result in the cursor position being updated,
   -- resulting in the prompt clipping through the results window.
   local row, col = unpack(api.nvim_win_get_cursor(prev_win))
+  local prompt_text = prompt_prefix .. prefix
   local prompt_buf = api.nvim_create_buf(false, true)
   local prompt_win = api.nvim_open_win(prompt_buf, true, {
-    row = 0,
-    col = 0 - #prefix,
+    row = 1,
+    col = 0 - #prompt_text - 1,
     bufpos = { row - 1, col },
     relative = 'win',
     win = prev_win,
@@ -525,12 +589,13 @@ local function show_menu(buf, prefix, items)
     height = 1,
     focusable = true,
     style = 'minimal',
+    border = borders.top,
   })
 
   local results_buf = api.nvim_create_buf(false, true)
   local results_win = api.nvim_open_win(results_buf, false, {
-    row = 1,
-    col = -4,
+    row = 2,
+    col = -1,
     relative = 'win',
     win = prompt_win,
     anchor = menu_below_anchor,
@@ -539,18 +604,18 @@ local function show_menu(buf, prefix, items)
     focusable = false,
     style = 'minimal',
     noautocmd = true,
-    border = 'rounded',
+    border = borders.bottom,
   })
 
   local mark = api.nvim_buf_set_extmark(
     api.nvim_win_get_buf(prev_win),
     namespace,
     row - 1,
-    col,
+    col - #prefix,
     {
       -- To work around https://github.com/neovim/neovim/issues/27211 we set the
       -- text to an empty string.
-      virt_text = { { '', '' } },
+      virt_text = { { '', 'Comment' } },
       virt_text_pos = 'inline',
     }
   )
@@ -573,14 +638,14 @@ local function show_menu(buf, prefix, items)
   api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
   api.nvim_set_option_value('buftype', 'prompt', { buf = state.prompt.buffer })
   api.nvim_set_option_value('buftype', 'nofile', { buf = state.results.buffer })
-  api.nvim_set_option_value('winblend', 100, { win = state.prompt.window })
+
   set_menu_items(state)
 
   -- The position is determined initially and when resizing the window. This
   -- ensures that filtering results doesn't result in the window moving around.
   set_menu_position(state, true)
 
-  fn.prompt_setprompt(state.prompt.buffer, prefix)
+  fn.prompt_setprompt(state.prompt.buffer, prompt_text)
   fn.prompt_setinterrupt(state.prompt.buffer, function()
     close_menu(state)
   end)
@@ -629,6 +694,20 @@ local function show_menu(buf, prefix, items)
       -- we ignore said first event.
       if text_changed_first_time then
         text_changed_first_time = false
+
+        -- If we set this up outside this autocmd then the highlight doesn't get
+        -- applied. I have no idea why, but doing it here (once) works :|
+        if #prompt_prefix > 0 then
+          api.nvim_buf_add_highlight(
+            state.prompt.buffer,
+            -1,
+            'TelescopePromptPrefix',
+            0,
+            0,
+            #prompt_prefix
+          )
+        end
+
         return
       end
 
