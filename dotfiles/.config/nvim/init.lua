@@ -74,6 +74,7 @@ o.lz = true
 o.showcmd = false
 o.showmode = false
 o.splitright = true
+o.splitbelow = true
 o.splitkeep = 'screen'
 o.title = true
 o.titlestring = '%t'
