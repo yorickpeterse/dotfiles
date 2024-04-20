@@ -237,8 +237,21 @@ au('grep_quickfix', {
 
 -- Highlight all search matches while searching, but not when done searching.
 au('search_highlight', {
-  { 'CmdlineEnter', '[/?]', ':set hlsearch' },
-  { 'CmdlineLeave', '[/?]', ':set nohlsearch' },
+  {
+    'CmdlineEnter',
+    '*',
+    function()
+      fn.setreg('@/', '')
+      vim.opt.hlsearch = true
+    end,
+  },
+  {
+    'CmdlineLeave',
+    '*',
+    function()
+      vim.opt.hlsearch = false
+    end,
+  },
 })
 
 -- Clear the command-line when entering insert mode, so they don't linger around
