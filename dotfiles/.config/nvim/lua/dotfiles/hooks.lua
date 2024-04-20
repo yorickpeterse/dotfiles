@@ -253,7 +253,6 @@ do
       'CmdlineLeave',
       '*',
       function()
-        print('restoring / to ' .. search_reg)
         fn.setreg('/', search_reg)
         vim.opt.hlsearch = false
       end,
