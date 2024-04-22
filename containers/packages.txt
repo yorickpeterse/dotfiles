@@ -41,6 +41,7 @@ lm_sensors
 lua-language-server
 mold
 neovim
+nodejs
 perf
 poetry
 python3-devel
