@@ -34,10 +34,8 @@ local IGNORED_KINDS = {
   [kinds.Reference] = true,
 }
 
--- The number of columns of the code completion menu.
-local MENU_COLUMNS = 50
-
--- The maximum number of rows to display in the results menu.
+local MENU_MIN_COLUMS = 35
+local MENU_MAX_COLUMNS = 100
 local MENU_ROWS = 10
 
 local MENU_BELOW_ANCHOR = 'NW'
@@ -325,7 +323,15 @@ local function menu_size(items)
   local screen_height = api.nvim_get_option_value('lines', {})
   local screen_width = api.nvim_get_option_value('columns', {})
   local rows = MENU_ROWS
-  local cols = MENU_COLUMNS
+  local cols = 0
+
+  for _, item in ipairs(items) do
+    local len = #item.label
+
+    if len > cols then
+      cols = len
+    end
+  end
 
   if screen_height <= 15 then
     rows = math.floor(rows * 0.3)
@@ -334,10 +340,12 @@ local function menu_size(items)
   end
 
   if screen_width <= 65 then
-    cols = math.floor(cols * 0.7)
+    cols = MENU_MIN_COLUMS
+  else
+    cols = math.max(MENU_MIN_COLUMS, math.min(cols, MENU_MAX_COLUMNS))
   end
 
-  return math.min(rows, items), cols
+  return math.min(rows, #items), cols
 end
 
 local function set_menu_position(state, initial)
@@ -400,7 +408,7 @@ local function set_menu_position(state, initial)
 end
 
 local function set_menu_size(state)
-  local new_height, new_width = menu_size(#state.data.filtered)
+  local new_height, new_width = menu_size(state.data.filtered)
 
   api.nvim_win_set_height(state.results.window, new_height)
   api.nvim_win_set_width(state.results.window, new_width)
@@ -562,7 +570,7 @@ local function show_menu(buf, prefix, items)
     relative = 'win',
     win = prev_win,
     anchor = MENU_BELOW_ANCHOR,
-    width = MENU_COLUMNS,
+    width = MENU_MAX_COLUMNS,
     height = 1,
     focusable = true,
     style = 'minimal',
@@ -576,7 +584,7 @@ local function show_menu(buf, prefix, items)
     relative = 'win',
     win = prompt_win,
     anchor = MENU_BELOW_ANCHOR,
-    width = MENU_COLUMNS,
+    width = MENU_MAX_COLUMNS,
     height = MENU_ROWS,
     focusable = false,
     style = 'minimal',
