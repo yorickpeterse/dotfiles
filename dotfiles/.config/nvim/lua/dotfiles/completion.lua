@@ -6,26 +6,26 @@ local snippet = require('dotfiles.snippet')
 local fn = vim.fn
 local M = {}
 
-local namespace = api.nvim_create_namespace('dotfiles_completion')
-local augroup =
+local NAMESPACE = api.nvim_create_namespace('dotfiles_completion')
+local AUGROUP =
   api.nvim_create_augroup('dotfiles_completion_menu', { clear = true })
 
 -- The minimum word length for it to be included in the buffer completion
 -- results.
-local min_word_size = 3
+local MIN_WORD_SIZE = 3
 
 -- The Vim regex to use for splitting buffer words.
 --
 -- We only concern ourselves with ASCII words, as I rarely encounter multi-byte
 -- characters in e.g. identifiers (or other words I want to complete).
-local buffer_word_regex = '[^?a-zA-Z0-9_]\\+'
+local WORD_REGEX = '[^?a-zA-Z0-9_]\\+'
 
 local kinds = lsp.protocol.CompletionItemKind
-local text_kind = kinds.Text
-local snippet_kind = kinds.Snippet
-local module_kind = kinds.Module
-local variable_kind = kinds.Variable
-local ignored_kinds = {
+local TEXT_KIND = kinds.Text
+local SNIPPET_KIND = kinds.Snippet
+local MODULE_KIND = kinds.Module
+local VARIABLE_KIND = kinds.Variable
+local IGNORED_KINDS = {
   -- Keyword completion isn't really useful.
   [kinds.Keyword] = true,
 
@@ -35,40 +35,17 @@ local ignored_kinds = {
 }
 
 -- The number of columns of the code completion menu.
-local menu_columns = 50
+local MENU_COLUMNS = 50
 
 -- The maximum number of rows to display in the results menu.
-local menu_rows = 10
+local MENU_ROWS = 10
 
-local menu_below_anchor = 'NW'
-local menu_above_anchor = 'SW'
-local menu_status_col = ' %-2{min([9, v:lnum - line("w0")])}'
+local MENU_BELOW_ANCHOR = 'NW'
+local MENU_ABOVE_ANCHOR = 'SW'
+local MENU_STATUS_COL = ' %-2{min([9, v:lnum - line("w0")])}'
 
 -- The text to display before the user query in the completion prompt.
-local prompt_prefix = ' > '
-
-local borders = {
-  top = {
-    '╭', -- top left
-    '─', -- top
-    '╮', -- top right
-    '│', -- right
-    '┤', -- bottom right
-    '─', -- bottom
-    '├', -- bottom left
-    '│', -- left
-  },
-  bottom = {
-    '', -- top left
-    '', -- top
-    '', -- top right
-    '│', -- right
-    '╯', -- bottom right
-    '─', -- bottom
-    '╰', -- bottom left
-    '│', -- left
-  },
-}
+local PROMPT_PREFIX = ' > '
 
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
@@ -112,11 +89,11 @@ local function snippet_from_binary_completion(items)
     return
   end
 
-  if first.kind == snippet_kind and second.kind == text_kind then
+  if first.kind == SNIPPET_KIND and second.kind == TEXT_KIND then
     return first
   end
 
-  if first.kind == text_kind and second.kind == snippet_kind then
+  if first.kind == TEXT_KIND and second.kind == SNIPPET_KIND then
     return second
   end
 end
@@ -165,7 +142,7 @@ local function snippet_completion_items(buffer, column, prefix)
         filter = snippet.prefix,
         label = snippet.prefix,
         insert = snippet.body,
-        kind = snippet_kind,
+        kind = SNIPPET_KIND,
         docs = {
           kind = 'plain',
           value = snippet.desc,
@@ -192,8 +169,8 @@ function buffer_completion_items(column, prefix)
   local line = api.nvim_win_get_cursor(window)[1]
   local lines = fn.join(api.nvim_buf_get_lines(buffer, 0, -1, true))
 
-  for _, word in ipairs(fn.split(lines, buffer_word_regex)) do
-    if #word >= min_word_size and vim.startswith(word, prefix) then
+  for _, word in ipairs(fn.split(lines, WORD_REGEX)) do
+    if #word >= MIN_WORD_SIZE and vim.startswith(word, prefix) then
       if words[word] then
         local item = words[word]
 
@@ -203,7 +180,7 @@ function buffer_completion_items(column, prefix)
           filter = word,
           label = word,
           insert = word,
-          kind = text_kind,
+          kind = TEXT_KIND,
           source = 'buffer',
           count = 1,
           line = line,
@@ -231,7 +208,7 @@ end
 local function highlight_match(buf, line, start, stop)
   api.nvim_buf_add_highlight(
     buf,
-    namespace,
+    NAMESPACE,
     'TelescopeMatching',
     line - 1,
     start - 1,
@@ -262,7 +239,7 @@ local function update_extmark_text(state)
 
   api.nvim_buf_set_extmark(
     buf,
-    namespace,
+    NAMESPACE,
     state.extmark.row,
     state.extmark.col,
     {
@@ -274,10 +251,10 @@ local function update_extmark_text(state)
 end
 
 local function close_menu(state)
-  api.nvim_clear_autocmds({ group = augroup })
+  api.nvim_clear_autocmds({ group = AUGROUP })
   api.nvim_buf_del_extmark(
     api.nvim_win_get_buf(state.window),
-    namespace,
+    NAMESPACE,
     state.extmark.id
   )
 
@@ -330,7 +307,7 @@ local function move_menu_selection_up(state)
 end
 
 local function configure_results_window(state)
-  api.nvim_win_set_hl_ns(state.results.window, namespace)
+  api.nvim_win_set_hl_ns(state.results.window, NAMESPACE)
   util.set_window_option(
     state.results.window,
     'cursorline',
@@ -341,14 +318,14 @@ local function configure_results_window(state)
   util.set_window_option(state.results.window, 'foldcolumn', '0')
   util.set_window_option(state.results.window, 'signcolumn', 'no')
   util.set_window_option(state.results.window, 'scrolloff', 0)
-  util.set_window_option(state.results.window, 'statuscolumn', menu_status_col)
+  util.set_window_option(state.results.window, 'statuscolumn', MENU_STATUS_COL)
 end
 
 local function menu_size(items)
   local screen_height = api.nvim_get_option_value('lines', {})
   local screen_width = api.nvim_get_option_value('columns', {})
-  local rows = menu_rows
-  local cols = menu_columns
+  local rows = MENU_ROWS
+  local cols = MENU_COLUMNS
 
   if screen_height <= 15 then
     rows = math.floor(rows * 0.3)
@@ -370,43 +347,42 @@ local function set_menu_position(state, initial)
   local new_result_conf = nil
   local new_prompt_conf = nil
 
-  if win_row + menu_rows >= screen_height then
+  if win_row + MENU_ROWS >= screen_height then
     -- If the results window (using its default size) doesn't fit below the
     -- prompt, we'll place it above the prompt.
-    new_result_conf = {
-      anchor = menu_above_anchor,
-      row = 0,
-      col = -1,
-      relative = 'win',
-      win = state.prompt.window,
-      border = borders.top,
-    }
     new_prompt_conf = {
-      row = -2,
-      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      row = -1,
+      col = 0 - #(PROMPT_PREFIX .. state.prefix),
       bufpos = { state.row - 1, state.col },
       relative = 'win',
       win = state.window,
-      border = borders.bottom,
+      border = 'none',
     }
-  elseif
-    api.nvim_win_get_config(state.results.window).anchor == menu_above_anchor
-  then
-    -- Move the results window back to its original place.
     new_result_conf = {
-      anchor = menu_below_anchor,
-      row = 2,
-      col = -1,
+      anchor = MENU_ABOVE_ANCHOR,
+      row = 0,
+      col = 0,
       relative = 'win',
       win = state.prompt.window,
-      border = borders.bottom,
+      border = 'none',
     }
+  elseif
+    api.nvim_win_get_config(state.results.window).anchor == MENU_ABOVE_ANCHOR
+  then
     new_prompt_conf = {
       row = 1,
-      col = 0 - #(prompt_prefix .. state.prefix) - 1,
+      col = 0 - #(PROMPT_PREFIX .. state.prefix),
       bufpos = { state.row - 1, state.col },
       relative = 'win',
-      border = borders.top,
+      border = 'none',
+    }
+    new_result_conf = {
+      anchor = MENU_BELOW_ANCHOR,
+      row = 1,
+      col = 0,
+      relative = 'win',
+      win = state.prompt.window,
+      border = 'none',
     }
   end
 
@@ -457,11 +433,11 @@ local function set_menu_items(state)
     return i.label
   end, items)
 
-  api.nvim_buf_clear_namespace(buf, namespace, 0, -1)
+  api.nvim_buf_clear_namespace(buf, NAMESPACE, 0, -1)
 
   if #items == 0 then
     api.nvim_buf_set_lines(buf, 0, -1, false, { 'No results' })
-    api.nvim_buf_add_highlight(buf, namespace, 'Comment', 0, 0, -1)
+    api.nvim_buf_add_highlight(buf, NAMESPACE, 'Comment', 0, 0, -1)
     util.set_window_option(state.results.window, 'cursorline', false)
   else
     api.nvim_buf_set_lines(buf, 0, -1, false, lines)
@@ -485,8 +461,8 @@ local function filter_menu_items(state)
 
   -- The prompt and its prefix are treated as buffer text, so we need to remove
   -- the prefix to get the query text.
-  if #query > 0 and #prompt_prefix > 0 then
-    query = query:sub(#prompt_prefix + 1, #query)
+  if #query > 0 and #PROMPT_PREFIX > 0 then
+    query = query:sub(#PROMPT_PREFIX + 1, #query)
   end
 
   if query == '' then
@@ -555,13 +531,14 @@ local function define_highlights()
   local pmenu_sel_hl = api.nvim_get_hl(0, { name = 'PmenuSel' })
 
   api.nvim_set_hl(
-    namespace,
+    NAMESPACE,
     'CursorLineNr',
     { fg = num_hl.fg, bg = pmenu_sel_hl.bg, bold = true }
   )
 
-  api.nvim_set_hl(namespace, 'LineNr', { link = 'Number' })
-  api.nvim_set_hl(namespace, 'CursorLine', { link = 'PmenuSel' })
+  api.nvim_set_hl(NAMESPACE, 'Normal', { link = 'Pmenu' })
+  api.nvim_set_hl(NAMESPACE, 'LineNr', { link = 'Number' })
+  api.nvim_set_hl(NAMESPACE, 'CursorLine', { link = 'PmenuSel' })
 end
 
 local function show_menu(buf, prefix, items)
@@ -576,40 +553,40 @@ local function show_menu(buf, prefix, items)
   -- resizing the window doesn't result in the cursor position being updated,
   -- resulting in the prompt clipping through the results window.
   local row, col = unpack(api.nvim_win_get_cursor(prev_win))
-  local prompt_text = prompt_prefix .. prefix
+  local prompt_text = PROMPT_PREFIX .. prefix
   local prompt_buf = api.nvim_create_buf(false, true)
   local prompt_win = api.nvim_open_win(prompt_buf, true, {
     row = 1,
-    col = 0 - #prompt_text - 1,
+    col = 0 - #prompt_text,
     bufpos = { row - 1, col },
     relative = 'win',
     win = prev_win,
-    anchor = menu_below_anchor,
-    width = menu_columns,
+    anchor = MENU_BELOW_ANCHOR,
+    width = MENU_COLUMNS,
     height = 1,
     focusable = true,
     style = 'minimal',
-    border = borders.top,
+    border = 'none',
   })
 
   local results_buf = api.nvim_create_buf(false, true)
   local results_win = api.nvim_open_win(results_buf, false, {
-    row = 2,
-    col = -1,
+    row = 1,
+    col = 0,
     relative = 'win',
     win = prompt_win,
-    anchor = menu_below_anchor,
-    width = menu_columns,
-    height = menu_rows,
+    anchor = MENU_BELOW_ANCHOR,
+    width = MENU_COLUMNS,
+    height = MENU_ROWS,
     focusable = false,
     style = 'minimal',
     noautocmd = true,
-    border = borders.bottom,
+    border = 'none',
   })
 
   local mark = api.nvim_buf_set_extmark(
     api.nvim_win_get_buf(prev_win),
-    namespace,
+    NAMESPACE,
     row - 1,
     col - #prefix,
     {
@@ -638,7 +615,7 @@ local function show_menu(buf, prefix, items)
   api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
   api.nvim_set_option_value('buftype', 'prompt', { buf = state.prompt.buffer })
   api.nvim_set_option_value('buftype', 'nofile', { buf = state.results.buffer })
-
+  api.nvim_win_set_hl_ns(state.prompt.window, NAMESPACE)
   set_menu_items(state)
 
   -- The position is determined initially and when resizing the window. This
@@ -686,7 +663,7 @@ local function show_menu(buf, prefix, items)
   local text_changed_first_time = true
 
   api.nvim_create_autocmd('TextChangedI', {
-    group = augroup,
+    group = AUGROUP,
     buffer = state.prompt.buffer,
     callback = function()
       -- When showing the window the first time, this event gets triggered right
@@ -697,14 +674,14 @@ local function show_menu(buf, prefix, items)
 
         -- If we set this up outside this autocmd then the highlight doesn't get
         -- applied. I have no idea why, but doing it here (once) works :|
-        if #prompt_prefix > 0 then
+        if #PROMPT_PREFIX > 0 then
           api.nvim_buf_add_highlight(
             state.prompt.buffer,
             -1,
             'TelescopePromptPrefix',
             0,
             0,
-            #prompt_prefix
+            #PROMPT_PREFIX
           )
         end
 
@@ -716,7 +693,7 @@ local function show_menu(buf, prefix, items)
   })
 
   api.nvim_create_autocmd('WinScrolled', {
-    group = augroup,
+    group = AUGROUP,
     pattern = tostring(state.results.window),
     callback = function()
       -- This is needed to refresh the status column.
@@ -725,13 +702,13 @@ local function show_menu(buf, prefix, items)
       util.set_window_option(
         state.results.window,
         'statuscolumn',
-        menu_status_col
+        MENU_STATUS_COL
       )
     end,
   })
 
   api.nvim_create_autocmd('VimResized', {
-    group = augroup,
+    group = AUGROUP,
     callback = function()
       set_menu_size(state)
       set_menu_position(state)
@@ -770,10 +747,10 @@ local function show_completions(bufnr, prefix, items)
 
     -- If the entries are a variable and a module, we favour the variable, as
     -- variable completion occurs more frequently than module completion.
-    if items[1].kind == variable_kind and items[2].kind == module_kind then
+    if items[1].kind == VARIABLE_KIND and items[2].kind == MODULE_KIND then
       insert_completion(prefix, items[1])
       return
-    elseif items[1].kind == module_kind and items[2].kind == variable_kind then
+    elseif items[1].kind == MODULE_KIND and items[2].kind == VARIABLE_KIND then
       insert_completion(prefix, items[2])
       return
     end
@@ -804,7 +781,7 @@ local function lsp_items(result, query)
   items = vim.tbl_filter(function(item)
     local word = filter_text(item)
 
-    return vim.startswith(word, query) and not ignored_kinds[item.kind]
+    return vim.startswith(word, query) and not IGNORED_KINDS[item.kind]
   end, items)
 
   return items
