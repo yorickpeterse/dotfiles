@@ -1,7 +1,6 @@
 agriffis/neovim-nightly
-andrewpro/zig-nightly
-yorickpeterse/vale
 yorickpeterse/clogs
 yorickpeterse/inko
 yorickpeterse/lua-language-server
 yorickpeterse/stylua
+yorickpeterse/vale

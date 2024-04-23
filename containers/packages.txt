@@ -63,5 +63,4 @@ valgrind
 wget
 wl-clipboard
 wol
-zig
 zlib-devel
