@@ -28,7 +28,7 @@ section 'Installing rustup'
 run rustup-init --quiet -y --no-modify-path
 
 section 'Configuring Ruby'
-echo 'gem: --no-document --user' >~/.gemrc
+echo 'gem: --no-document --user --bindir ~/.local/share/gem/ruby/bin' >~/.gemrc
 run gem install --silent pry pry-doc pry-theme
 
 source ~/.config/fish/config.fish
