@@ -3,20 +3,16 @@
 set -x TERM xterm-256color
 source containers/helpers.fish
 
+set image dev
 set name fedora
-set install containers/install.fish
+
+section 'Building image'
+run podman build -t dev -f containers/Containerfile containers
 
 section 'Creating container'
-run echo y \| toolbox create --distro fedora $name
+run echo y \| toolbox create --image $image $name
 
-section 'Installing core dependencies'
-run toolbox run --container $name sudo dnf install fish dnf5 dnf5-plugins --assumeyes --quiet
-
-section 'Configuring terminal info for Ghostty'
-toolbox run --container $name sudo cp -r ~/.local/share/terminfo/* /usr/share/terminfo
-
-section 'Configuring container'
-toolbox run --container $name fish $install
+toolbox run --container $name fish containers/install.fish
 
 section Finishing
 run podman stop $name
