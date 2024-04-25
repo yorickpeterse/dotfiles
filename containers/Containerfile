@@ -1,4 +1,4 @@
-FROM fedora-toolbox:40
+FROM registry.fedoraproject.org/fedora-toolbox:40
 
 RUN echo 'max_parallel_downloads=10' | sudo tee --append /etc/dnf/dnf.conf
 RUN sudo dnf install fish dnf5 dnf5-plugins --assumeyes --quiet
