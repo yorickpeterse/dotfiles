@@ -56,6 +56,7 @@ map('n', '<C-l>', '<C-w>l')
 map('n', '<C-h>', '<C-w>h')
 map('n', '<leader>F', util.format_buffer)
 map('n', '<leader>s', cmd('update'))
+map({ 'n', 'x' }, '<leader>p', '"0p')
 
 -- Window management
 map('n', '<leader>c', cmd('quit'))
