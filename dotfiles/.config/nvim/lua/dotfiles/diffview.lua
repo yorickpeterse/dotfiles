@@ -38,7 +38,7 @@ require('diffview').setup({
       { 'n', '<CR>', actions.focus_entry },
       { 'n', '-', actions.toggle_stage_entry },
       { 'n', 'U', actions.unstage_all },
-      { 'n', 'X', actions.restore_entry },
+      { 'n', 'x', actions.restore_entry },
       { 'n', 'R', actions.refresh_files },
       { 'n', ']f', actions.select_next_entry },
       { 'n', '[f', actions.select_prev_entry },
