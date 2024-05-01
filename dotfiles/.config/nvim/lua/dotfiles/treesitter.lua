@@ -1,3 +1,7 @@
+-- The languages for which to use Tree sitter indentation. Only a small list is
+-- enabled as support is a bit of a hit and miss.
+local indent = { python = true, inko = true }
+
 require('nvim-treesitter.configs').setup({
   ensure_installed = {
     'bash',
@@ -17,6 +21,7 @@ require('nvim-treesitter.configs').setup({
     'toml',
     'vimdoc',
     'yaml',
+    -- 'inko',
   },
   sync_install = false,
   highlight = {
@@ -27,10 +32,7 @@ require('nvim-treesitter.configs').setup({
   indent = {
     enable = true,
     disable = function(lang, bufnr)
-      -- Indent is only enabled for Python, such that no extra plugins are
-      -- needed to get PEP8 indentation. For other languages indentation doesn't
-      -- work very well, so we disable it there.
-      return lang ~= 'python'
+      return not indent[lang]
     end,
   },
 })
