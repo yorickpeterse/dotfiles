@@ -3,7 +3,6 @@ arm-none-eabi-binutils-cs
 arm-none-eabi-gcc-cs
 arm-none-eabi-newlib
 asciinema
-awscli2
 bc
 clang
 clang-tools-extra
