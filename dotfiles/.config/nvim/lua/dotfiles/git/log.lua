@@ -63,6 +63,11 @@ local function git_log(opts)
     '--skip=' .. skip,
   }
 
+  if opts.search then
+    table.insert(cmd, '--grep')
+    table.insert(cmd, opts.search)
+  end
+
   if opts.start then
     if opts.stop then
       table.insert(cmd, opts.start .. '...' .. opts.stop)
@@ -508,6 +513,26 @@ local function rebase_commits(state)
   )
 end
 
+local function search_commits(state)
+  local query = fn.input('Search commits: ')
+
+  if query == '' then
+    reload(state)
+  else
+    state.offset = 1
+    state.commits = git_log({
+      offset = 0,
+      start = state.start,
+      stop = state.stop,
+      search = query,
+    })
+    remove_date_marks(state)
+    update(state)
+  end
+
+  api.nvim_echo({}, false, {})
+end
+
 function M.open(start, stop)
   if ACTIVE then
     util.error('the window is already active')
@@ -559,6 +584,9 @@ function M.open(start, stop)
     end,
     q = function()
       vim.cmd.tabclose()
+    end,
+    ['/'] = function()
+      search_commits(state)
     end,
   }
 
