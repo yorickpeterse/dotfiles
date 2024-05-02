@@ -50,20 +50,22 @@ vim.g.maplocalleader = ' '
 
 -- Generic
 map('', '<space>', '<nop>')
-map('n', '<C-j>', '<C-w>j')
-map('n', '<C-k>', '<C-w>k')
-map('n', '<C-l>', '<C-w>l')
-map('n', '<C-h>', '<C-w>h')
 map('n', '<leader>F', util.format_buffer)
-map('n', '<leader>s', cmd('update'))
+map('n', '<leader>w', cmd('update'))
 map({ 'n', 'x' }, '<leader>p', '"0p')
 
 -- Window management
 map('n', '<leader>c', cmd('quit'))
 map('n', '<leader>v', cmd('vsplit'))
-map('n', '<leader>h', cmd('split'))
-map('n', '<leader>l', loclist.toggle)
+map('n', '<leader>s', cmd('split'))
+map('n', ',', window.pick)
+map('n', '<leader>j', '<C-w>j')
+map('n', '<leader>k', '<C-w>k')
+map('n', '<leader>l', '<C-w>l')
+map('n', '<leader>h', '<C-w>h')
+
 map('n', '<leader>q', quickfix.toggle)
+map('n', '<leader>y', loclist.toggle)
 map('n', '<leader>d', function()
   diag.setqflist({ severity = { min = vim.diagnostic.severity.WARN } })
 end)
@@ -73,7 +75,6 @@ end)
 map('n', '<leader>a', vim.lsp.buf.code_action)
 
 -- Pickers
-map('n', '<leader>w', window.pick)
 map('n', '<leader>f', function()
   telescope_builtin.find_files({
     hidden = true,
