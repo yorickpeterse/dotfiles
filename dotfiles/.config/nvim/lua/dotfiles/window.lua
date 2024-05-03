@@ -1,6 +1,6 @@
 require('nvim-window').setup({
   border = 'none',
-  normal_hl = 'BlackOnLightYellow',
+  normal_hl = 'PounceAccept',
   chars = {
     'a',
     'r',
