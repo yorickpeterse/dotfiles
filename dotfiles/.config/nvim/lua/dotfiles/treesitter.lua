@@ -7,8 +7,10 @@ require('nvim-treesitter.configs').setup({
     'bash',
     'c',
     'fish',
+    'gitcommit',
     'go',
     'html',
+    'inko',
     'javascript',
     'json',
     'lua',
@@ -21,7 +23,6 @@ require('nvim-treesitter.configs').setup({
     'toml',
     'vimdoc',
     'yaml',
-    'inko',
   },
   sync_install = false,
   highlight = {
