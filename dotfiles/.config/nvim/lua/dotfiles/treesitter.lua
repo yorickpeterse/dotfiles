@@ -21,7 +21,7 @@ require('nvim-treesitter.configs').setup({
     'toml',
     'vimdoc',
     'yaml',
-    -- 'inko',
+    'inko',
   },
   sync_install = false,
   highlight = {
