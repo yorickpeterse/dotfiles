@@ -99,7 +99,9 @@ map('n', '<leader>t', function()
   end
 
   if parsers.has_parser() then
-    telescope_builtin.treesitter()
+    telescope_builtin.treesitter({
+      symbols = { 'Type', 'Method', 'Function', 'Constant', 'Field' },
+    })
     return
   end
 
