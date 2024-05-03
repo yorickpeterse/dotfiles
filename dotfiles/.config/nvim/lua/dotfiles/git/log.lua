@@ -404,7 +404,7 @@ local function toggle_commit_details(state)
       { table.concat(commit.parents, ' '), HIGHLIGHTS.commit },
     },
     { { '', '' } },
-    { { commit.subject, 'String' } },
+    { { commit.subject, 'Title' } },
   }
 
   if #body > 0 then
