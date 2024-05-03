@@ -89,7 +89,11 @@ local function git_log(opts)
   return vim.tbl_map(function(line)
     local cols = vim.split(line, '\t', { trimempty = true })
     local subj = cols[7]
-    local parents = vim.split(cols[8], ' ', { trimempty = true, plain = true })
+    local parents = {}
+
+    if cols[8] then
+      parents = vim.split(cols[8], ' ', { trimempty = true, plain = true })
+    end
 
     return {
       id = cols[1],
