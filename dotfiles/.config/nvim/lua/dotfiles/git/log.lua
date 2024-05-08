@@ -300,8 +300,12 @@ local function cursor_moved(state)
     return false
   end
 
-  local commits =
-    git_log({ start = state.start, stop = state.stop, offset = #state.commits })
+  local commits = git_log({
+    start = state.start,
+    stop = state.stop,
+    offset = #state.commits,
+    search = state.search,
+  })
 
   if #commits == 0 then
     -- Once we've reached the end we disable this hook so we don't keep
@@ -521,9 +525,9 @@ local function rebase_commits(state)
 end
 
 local function search_commits(state)
-  local query = fn.input('Search commits: ')
+  state.search = fn.input('Search commits: ')
 
-  if query == '' then
+  if state.search == '' then
     reload(state)
   else
     state.offset = 1
@@ -531,7 +535,7 @@ local function search_commits(state)
       offset = 0,
       start = state.start,
       stop = state.stop,
-      search = query,
+      search = state.search,
     })
     remove_date_marks(state)
     update(state)
@@ -552,6 +556,7 @@ function M.open(start, stop)
   local state = {
     start = start,
     stop = stop,
+    search = '',
     commits = git_log({ offset = 0, start = start, stop = stop }),
     offset = 1,
     win = api.nvim_get_current_win(),
