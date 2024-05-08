@@ -88,17 +88,20 @@ function M.lsp_document_symbols(bufnr, opts)
       end
 
       if opts.symbols then
-        locations = vim.tbl_filter(function(item)
-          if
-            item.kind == 'Constant'
-            and opts.ignore_scoped_constants
-            and #item.scope > 0
-          then
-            return false
-          end
+        locations = vim
+          .iter(locations)
+          :filter(function(item)
+            if
+              item.kind == 'Constant'
+              and opts.ignore_scoped_constants
+              and #item.scope > 0
+            then
+              return false
+            end
 
-          return opts.symbols[item.kind] == true
-        end, locations)
+            return opts.symbols[item.kind] == true
+          end)
+          :totable()
       end
 
       if not locations or #locations == 0 then

@@ -437,9 +437,12 @@ local function set_menu_items(state)
   local win = state.results.window
   local buf = state.results.buffer
   local prefix = state.prefix
-  local lines = vim.tbl_map(function(i)
-    return i.label
-  end, items)
+  local lines = vim
+    .iter(items)
+    :map(function(i)
+      return i.label
+    end)
+    :totable()
 
   api.nvim_buf_clear_namespace(buf, NAMESPACE, 0, -1)
 
@@ -519,9 +522,12 @@ local function filter_menu_items(state)
     return a.item.label < b.item.label
   end)
 
-  state.data.filtered = vim.tbl_map(function(r)
-    return r.item
-  end, results)
+  state.data.filtered = vim
+    .iter(results)
+    :map(function(r)
+      return r.item
+    end)
+    :totable()
 
   set_menu_items(state)
 
@@ -786,11 +792,14 @@ local function lsp_items(result, query)
     items = result
   end
 
-  items = vim.tbl_filter(function(item)
-    local word = filter_text(item)
+  items = vim
+    .iter(items)
+    :filter(function(item)
+      local word = filter_text(item)
 
-    return vim.startswith(word, query) and not IGNORED_KINDS[item.kind]
-  end, items)
+      return vim.startswith(word, query) and not IGNORED_KINDS[item.kind]
+    end)
+    :totable()
 
   return items
 end

@@ -86,31 +86,34 @@ local function git_log(opts)
 
   local lines = vim.split(res.stdout, '\n', { trimempty = true })
 
-  return vim.tbl_map(function(line)
-    local cols = vim.split(line, '\t', { trimempty = true })
-    local subj = cols[7]
-    local parents = {}
+  return vim
+    .iter(lines)
+    :map(function(line)
+      local cols = vim.split(line, '\t', { trimempty = true })
+      local subj = cols[7]
+      local parents = {}
 
-    if cols[8] then
-      parents = vim.split(cols[8], ' ', { trimempty = true, plain = true })
-    end
+      if cols[8] then
+        parents = vim.split(cols[8], ' ', { trimempty = true, plain = true })
+      end
 
-    return {
-      id = cols[1],
-      date = cols[2],
-      author = {
-        name = cols[3],
-        email = cols[4],
-      },
-      committer = {
-        name = cols[5],
-        email = cols[6],
-      },
-      subject = subj,
-      revert = vim.startswith(subj, 'Revert'),
-      parents = parents,
-    }
-  end, lines)
+      return {
+        id = cols[1],
+        date = cols[2],
+        author = {
+          name = cols[3],
+          email = cols[4],
+        },
+        committer = {
+          name = cols[5],
+          email = cols[6],
+        },
+        subject = subj,
+        revert = vim.startswith(subj, 'Revert'),
+        parents = parents,
+      }
+    end)
+    :totable()
 end
 
 local function commit_body(sha)

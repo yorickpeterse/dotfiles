@@ -142,15 +142,18 @@ local function tabline()
 end
 
 function M.render()
-  local elements = vim.tbl_filter(function(v)
-    return #v > 0
-  end, {
-    separator,
-    lsp_status(),
-    tabline(),
-    diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
-    diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
-  })
+  local elements = vim
+    .iter({
+      separator,
+      lsp_status(),
+      tabline(),
+      diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
+      diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
+    })
+    :filter(function(v)
+      return #v > 0
+    end)
+    :totable()
 
   return table.concat(elements, ' ')
 end

@@ -50,9 +50,12 @@ function M.closed()
 end
 
 function M.toggle()
-  local vals = vim.tbl_filter(function(info)
-    return info.quickfix == 1 and info.loclist == 0
-  end, fn.getwininfo())
+  local vals = vim
+    .iter(fn.getwininfo())
+    :filter(function(info)
+      return info.quickfix == 1 and info.loclist == 0
+    end)
+    :totable()
 
   if #vals == 0 then
     vim.cmd('silent! copen')
