@@ -34,6 +34,15 @@ local ts_lsp_symbols = {
   Value = true,
 }
 
+local ts_treesitter_symbols =
+  { 'Type', 'Method', 'Function', 'Constant', 'Field' }
+
+local ts_treesitter_highlights = {}
+
+for _, name in ipairs(ts_treesitter_symbols) do
+  ts_treesitter_highlights[name:lower()] = 'Comment'
+end
+
 local function map(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
 
@@ -100,7 +109,8 @@ map('n', '<leader>t', function()
 
   if parsers.has_parser() then
     telescope_builtin.treesitter({
-      symbols = { 'Type', 'Method', 'Function', 'Constant', 'Field' },
+      symbols = ts_treesitter_symbols,
+      symbol_highlights = ts_treesitter_highlights,
     })
     return
   end
