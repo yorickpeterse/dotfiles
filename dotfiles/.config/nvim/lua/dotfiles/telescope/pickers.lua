@@ -33,6 +33,7 @@ local function lsp_symbols_entry_maker()
     separator = ' ',
     items = {
       { width = 40 },
+      { width = 15 },
       { remaining = true },
     },
   })
@@ -44,6 +45,7 @@ local function lsp_symbols_entry_maker()
       display = function(entry)
         return displayer({
           entry.symbol_name,
+          { entry.symbol_kind, 'TelescopeResultsComment' },
           { entry.symbol_scope, 'TelescopeResultsComment' },
         })
       end,
@@ -52,6 +54,7 @@ local function lsp_symbols_entry_maker()
       col = entry.col,
       symbol_name = entry.text,
       symbol_scope = entry.scope or '',
+      symbol_kind = entry.kind or '',
       start = entry.start,
       finish = entry.finish,
     }
