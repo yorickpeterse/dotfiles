@@ -29,4 +29,5 @@ require('nvim-window').setup({
     'x',
     'z',
   },
+  render = 'status',
 })

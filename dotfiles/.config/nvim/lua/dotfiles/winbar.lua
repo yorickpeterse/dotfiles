@@ -1,6 +1,8 @@
 local M = {}
 local api = vim.api
 local fn = vim.fn
+local window = require('nvim-window')
+local highlight = require('dotfiles.util').statusline_highlight
 
 local NO_NAME = '[No name]'
 
@@ -41,7 +43,15 @@ function M.render()
     flags = '%( %m%r%)'
   end
 
-  return table.concat({ name, flags, ' ', '%#WinBarFill#' }, '')
+  local hint = window.hint(win)
+
+  if hint then
+    hint = highlight(' ' .. hint .. ' ', 'PounceAccept')
+  else
+    hint = ''
+  end
+
+  return table.concat({ name, flags, ' ', hint, '%#WinBarFill#' }, '')
 end
 
 return M
