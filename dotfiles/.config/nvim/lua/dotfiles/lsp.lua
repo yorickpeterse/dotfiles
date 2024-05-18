@@ -176,7 +176,7 @@ config.rust_analyzer.setup({
   settings = {
     ['rust-analyzer'] = {
       diagnostics = {
-        enable = true,
+        enable = false,
         enableExperimental = false,
       },
       lruCapacity = 64,
