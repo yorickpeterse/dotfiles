@@ -118,7 +118,7 @@ o.softtabstop = 4
 o.tabstop = 4
 
 -- Markdown
-g.markdown_fenced_languages = { 'ruby', 'rust', 'sql', 'inko', 'yaml' }
+g.markdown_fenced_languages = { 'ruby', 'rust', 'sql', 'inko', 'yaml', 'lua' }
 
 -- netrw
 g.loaded_netrw = 1
