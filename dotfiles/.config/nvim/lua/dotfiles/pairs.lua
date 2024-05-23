@@ -56,6 +56,10 @@ local brackets = {
   ['('] = ')',
 }
 
+local restore_events = vim.schedule_wrap(function(val)
+  vim.o.eventignore = val
+end)
+
 -- The file types for which to ignore the pair mappings.
 local ignore_filetypes = { TelescopePrompt = true }
 
@@ -124,6 +128,11 @@ local function enter()
   local after = peek()
 
   if brackets[before] == after then
+    local old = vim.o.eventignore
+
+    -- Ignore these events to prevent triggering potentially expensive commands.
+    vim.o.eventignore = 'InsertLeave,InsertLeavePre,InsertEnter,ModeChanged'
+    restore_events(old)
     return '<cr><C-o>O'
   end
 
