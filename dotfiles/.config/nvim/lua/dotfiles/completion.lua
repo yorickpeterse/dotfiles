@@ -248,7 +248,7 @@ local function update_extmark_text(state)
   )
 end
 
-local function close_menu(state)
+local function close_menu(state, selected)
   api.nvim_clear_autocmds({ group = AUGROUP })
   api.nvim_buf_del_extmark(
     api.nvim_win_get_buf(state.window),
@@ -261,11 +261,11 @@ local function close_menu(state)
   api.nvim_buf_delete(state.prompt.buffer, { force = true })
   api.nvim_buf_delete(state.results.buffer, { force = true })
   api.nvim_set_current_win(state.window)
-  api.nvim_feedkeys('a', 'n', true)
+  api.nvim_feedkeys(selected and 'a' or 'i', 'n', true)
 end
 
 local function select_menu_item(state, index)
-  close_menu(state)
+  close_menu(state, true)
 
   local item = state.data.filtered[index]
 
@@ -638,7 +638,7 @@ local function show_menu(buf, prefix, items)
 
   fn.prompt_setprompt(state.prompt.buffer, prompt_text)
   fn.prompt_setinterrupt(state.prompt.buffer, function()
-    close_menu(state)
+    close_menu(state, false)
   end)
 
   fn.prompt_setcallback(state.prompt.buffer, function()
@@ -669,7 +669,7 @@ local function show_menu(buf, prefix, items)
   api.nvim_create_autocmd('InsertLeave', {
     buffer = state.prompt.buffer,
     callback = function()
-      close_menu(state)
+      close_menu(state, false)
       return true
     end,
   })
