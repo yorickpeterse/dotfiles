@@ -21,6 +21,5 @@ use('stevearc/conform.nvim')
 use('stevearc/dressing.nvim')
 use('rlane/pounce.nvim')
 use('dcampos/nvim-snippy')
-use('uga-rosa/ccc.nvim')
 
 pkg.install()
