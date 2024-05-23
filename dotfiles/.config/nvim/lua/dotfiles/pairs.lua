@@ -56,8 +56,16 @@ local brackets = {
   ['('] = ')',
 }
 
-local restore_events = vim.schedule_wrap(function(val)
-  vim.o.eventignore = val
+-- The temporary cursor style to use when entering normal mode as part of the
+-- Enter mapping.
+--
+-- This is used to prevent the cursor from briefly flickering from a bar to a
+-- block and back due to the use of Control+O.
+local enter_cursor = 'n:ver25'
+
+local restore_after_enter = vim.schedule_wrap(function(val)
+  vim.opt.eventignore = val
+  vim.opt.guicursor:remove(enter_cursor)
 end)
 
 -- The file types for which to ignore the pair mappings.
@@ -128,11 +136,12 @@ local function enter()
   local after = peek()
 
   if brackets[before] == after then
-    local old = vim.o.eventignore
+    local old = vim.opt.eventignore
 
     -- Ignore these events to prevent triggering potentially expensive commands.
-    vim.o.eventignore = 'InsertLeave,InsertLeavePre,InsertEnter,ModeChanged'
-    restore_events(old)
+    vim.opt.eventignore = 'InsertLeave,InsertLeavePre,InsertEnter,ModeChanged'
+    vim.opt.guicursor:append(enter_cursor)
+    restore_after_enter(old)
     return '<cr><C-o>O'
   end
 
