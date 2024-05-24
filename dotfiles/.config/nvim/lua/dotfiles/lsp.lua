@@ -24,8 +24,20 @@ capabilities.textDocument.completion.completionItem.snippetSupport = true
 -- so away you go.
 capabilities.workspace.didChangeWatchedFiles.dynamicRegistration = false
 
+-- These capabilities are disabled so we don't trigger any RPCs related to
+-- semantic tokens or inlay hints (in combination with disabling the server
+-- capabilities).
+capabilities.workspace.semanticTokens.refreshSupport = false
+capabilities.workspace.inlayHint.refreshSupport = false
+
 local function on_init(client, _)
-  -- Disabled due to https://github.com/neovim/neovim/issues/23164
+  -- I don't use inlay hints, but leaving this enabled may result in CPU spikes
+  -- (depending on the language server, such as rust-analyzer) as the underlying
+  -- data is still refreshed
+  client.server_capabilities.inlayHintProvider = false
+
+  -- I don't use (or see the point of) semantic tokens, and they can be very
+  -- expensive to compute, so they're disabled.
   client.server_capabilities.semanticTokensProvider = false
 end
 
