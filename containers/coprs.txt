@@ -1,4 +1,3 @@
-agriffis/neovim-nightly
 mczernek/vale
 yorickpeterse/clogs
 yorickpeterse/inko
