@@ -1,6 +1,6 @@
 -- The languages for which to use Tree sitter indentation. Only a small list is
 -- enabled as support is a bit of a hit and miss.
-local indent = { python = true }
+local indent = { python = true, inko = true }
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = {
@@ -27,7 +27,7 @@ require('nvim-treesitter.configs').setup({
   sync_install = false,
   highlight = {
     enable = true,
-    disable = { 'ruby', 'c', 'markdown', 'markdown_inline', 'rust', 'inko' },
+    disable = { 'ruby', 'c', 'markdown', 'markdown_inline', 'rust' },
     additional_vim_regex_highlighting = false,
   },
   indent = {
