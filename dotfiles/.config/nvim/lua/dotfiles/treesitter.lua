@@ -27,7 +27,7 @@ require('nvim-treesitter.configs').setup({
   sync_install = false,
   highlight = {
     enable = true,
-    disable = { 'ruby', 'c', 'markdown', 'markdown_inline', 'rust' },
+    disable = { 'ruby', 'c', 'markdown', 'markdown_inline' },
     additional_vim_regex_highlighting = false,
   },
   indent = {
