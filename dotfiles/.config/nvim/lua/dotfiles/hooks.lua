@@ -170,7 +170,7 @@ do
           throttle_timer = nil
           statusline.refresh_lsp_status()
           vim.cmd.redrawstatus()
-        end, 100)
+        end, 250)
       end,
     },
     {
