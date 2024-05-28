@@ -3,16 +3,17 @@
 set -x TERM xterm-256color
 source containers/helpers.fish
 
-set image dev
-set name fedora
+set name $argv[1]
 
 section 'Building image'
-run podman build -t dev -f containers/Containerfile containers
+run podman build -t $name-dev -f containers/$name/Containerfile containers/$name
 
 section 'Creating container'
-run echo y \| toolbox create --image $image $name
+run echo y \| toolbox create --image $name-dev $name
 
-toolbox run --container $name fish containers/install.fish
+cd containers/$name
+toolbox run --container $name fish install.fish
+cd ..
 
 section Finishing
 run podman stop $name

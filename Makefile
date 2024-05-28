@@ -1,7 +1,7 @@
 dotfiles:
 	stow dotfiles -t ~/
 
-container:
-	@fish containers/build.fish
+fedora:
+	@fish containers/build.fish fedora
 
-.PHONY: dotfiles container
+.PHONY: dotfiles fedora

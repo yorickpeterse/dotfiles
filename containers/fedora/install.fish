@@ -1,8 +1,8 @@
 #!/usr/bin/env fish
 
-source containers/helpers.fish
+source ../helpers.fish
 
-set pip (cat containers/pip.txt)
+set pip (cat pip.txt)
 set completions /etc/fish/completions
 
 section 'Configuring Ghostty'
@@ -26,7 +26,7 @@ source ~/.config/fish/config.fish
 section 'Configuring Rust'
 run rustup install stable
 run rustup component add rust-src rust-analyzer clippy rustfmt
-cp containers/cargo-config.toml ~/.cargo/config.toml
+cp cargo-config.toml ~/.cargo/config.toml
 
 if ! test -f ~/.config/ivm/version
     section 'Configuring Inko'
