@@ -7,7 +7,6 @@ clang
 clang-tools-extra
 clogs
 cmake
-copr-cli
 coreutils
 diffutils
 fish
@@ -42,7 +41,6 @@ perf
 python3-pip
 rclone
 ripgrep
-rpmdevtools
 ruby
 ruby-devel
 rustup

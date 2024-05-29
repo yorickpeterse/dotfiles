@@ -2,7 +2,6 @@ FROM registry.fedoraproject.org/fedora-toolbox:40
 
 RUN echo 'max_parallel_downloads=10' | sudo tee --append /etc/dnf/dnf.conf
 RUN sudo dnf install fish dnf5 dnf5-plugins --assumeyes --quiet
-RUN sudo dnf5 install --assumeyes --quiet dnf-plugins-core
 RUN sudo dnf5 update --assumeyes --quiet
 
 COPY coprs.txt /
@@ -19,4 +18,4 @@ RUN rm packages.txt
 
 RUN dnf5 clean all
 
-ENV CONTAINER_ID fedora
+ENV CONTAINER_ID fedora-rpm

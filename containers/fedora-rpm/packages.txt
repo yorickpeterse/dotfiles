@@ -1,0 +1,5 @@
+copr-cli
+fedpkg
+neovim
+ripgrep
+rpmdevtools
