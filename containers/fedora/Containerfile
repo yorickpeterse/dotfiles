@@ -17,3 +17,5 @@ RUN sudo dnf5 install --assumeyes --quiet $(<packages.txt)
 RUN rm packages.txt
 
 RUN dnf5 clean all
+
+ENV CONTAINER_ID fedora

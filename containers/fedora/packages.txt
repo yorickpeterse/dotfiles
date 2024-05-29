@@ -64,9 +64,3 @@ wget
 wl-clipboard
 wol
 zlib-devel
-
-osc
-obs-service-obs_scm
-obs-service-recompress
-obs-service-set_version
-obs-service-tar

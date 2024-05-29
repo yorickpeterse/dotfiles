@@ -5,7 +5,9 @@ function fish_prompt
         set directory (basename $PWD)
     end
 
-    if ! test -n "$container"
+    if test -n "$CONTAINER_ID"
+        echo -n "[$CONTAINER_ID] "
+    else
         echo -n "[$hostname] "
     end
 
