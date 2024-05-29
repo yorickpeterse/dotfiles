@@ -1,0 +1,11 @@
+cpio
+fish
+neovim
+obs-service-cargo
+obs-service-obs_scm
+obs-service-recompress
+obs-service-set_version
+obs-service-tar
+osc
+python311-keyring
+ripgrep
