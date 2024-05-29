@@ -1,4 +1,3 @@
-acpi
 arm-none-eabi-binutils-cs
 arm-none-eabi-gcc-cs
 arm-none-eabi-newlib
@@ -15,13 +14,10 @@ fish
 gdb
 gh
 glib2-devel
-golang
-golang-x-tools-gopls
 graphviz
 gtk4-devel
 heaptrack
 htop
-inotify-tools
 ivm
 jq
 kernel-tools
@@ -43,9 +39,6 @@ mold
 neovim
 nodejs
 perf
-poetry
-python3-devel
-python3-flake8
 python3-pip
 rclone
 ripgrep
