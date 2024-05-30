@@ -1,3 +1,2 @@
-gitlint
 neovim-remote
 qmk

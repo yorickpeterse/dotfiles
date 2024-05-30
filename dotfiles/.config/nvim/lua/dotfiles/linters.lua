@@ -1,43 +1,14 @@
 local lint = require('lint')
-local parser = require('lint.parser')
 local util = require('dotfiles.util')
 local api = vim.api
 local fs = vim.fs
 local fn = vim.fn
 
 lint.linters_by_ft = {
-  gitcommit = { 'gitlint' },
   inko = { 'inko' },
   markdown = { 'vale' },
   python = { 'flake8' },
   sh = { 'shellcheck' },
-}
-
-lint.linters.gitlint = {
-  cmd = 'gitlint',
-  stdin = false,
-  append_fname = true,
-  args = { '--ignore-stdin', '--msg-filename' },
-  stream = 'stderr',
-  ignore_exitcode = true,
-  parser = function(output, bufnr)
-    local bufname = api.nvim_buf_get_name(bufnr)
-    local root = fs.dirname(fs.dirname(bufname))
-
-    if not util.file_exists(root .. '/' .. '.gitlint') then
-      return {}
-    end
-
-    local parse = parser.from_pattern(
-      '(%d+): %w+ ([^:]+)',
-      { 'lnum', 'message' },
-      {},
-      {},
-      {}
-    )
-
-    return parse(output, bufnr)
-  end,
 }
 
 do
