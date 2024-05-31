@@ -261,7 +261,11 @@ local function close_menu(state, selected)
   api.nvim_buf_delete(state.prompt.buffer, { force = true })
   api.nvim_buf_delete(state.results.buffer, { force = true })
   api.nvim_set_current_win(state.window)
-  api.nvim_feedkeys(selected and 'a' or 'i', 'n', true)
+
+  -- We subtract 1 from the column so "a" always moves the cursor back to it
+  -- was, regardless of whether it was at the end or in the middle of a word.
+  api.nvim_win_set_cursor(state.window, { state.row, state.col - 1 })
+  api.nvim_feedkeys('a', 'n', true)
 end
 
 local function select_menu_item(state, index)
