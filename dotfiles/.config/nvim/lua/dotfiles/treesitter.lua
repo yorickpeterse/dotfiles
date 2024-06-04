@@ -1,11 +1,12 @@
 -- The languages for which to use Tree sitter indentation. Only a small list is
 -- enabled as support is a bit of a hit and miss.
-local indent = { python = true, inko = true }
+local indent = { python = true, inko = true, css = true }
 
 require('nvim-treesitter.configs').setup({
   ensure_installed = {
     'bash',
     'c',
+    'css',
     'fish',
     'gitcommit',
     'go',
