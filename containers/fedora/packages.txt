@@ -10,6 +10,7 @@ cmake
 coreutils
 diffutils
 fish
+fuse-overlayfs
 gdb
 gh
 glib2-devel
