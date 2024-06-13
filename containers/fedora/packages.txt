@@ -18,6 +18,7 @@ graphviz
 gtk4-devel
 heaptrack
 htop
+inotify-tools
 ivm
 jq
 kernel-tools
