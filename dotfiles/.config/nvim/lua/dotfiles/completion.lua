@@ -670,6 +670,15 @@ local function show_menu(buf, prefix, items)
     end, { buffer = state.prompt.buffer, silent = true, noremap = true })
   end
 
+  -- This ensures that both C-c and Esc behave the same when resetting the
+  -- cursor to its original position (which isn't the case by default).
+  vim.keymap.set(
+    'i',
+    '<C-c>',
+    '<Esc>',
+    { buffer = state.prompt.buffer, silent = true, noremap = true }
+  )
+
   api.nvim_create_autocmd('InsertLeave', {
     buffer = state.prompt.buffer,
     callback = function()
