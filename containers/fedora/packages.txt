@@ -28,9 +28,6 @@ lld
 llvm17
 llvm17-devel
 llvm17-static
-llvm16
-llvm16-devel
-llvm16-static
 lm_sensors
 lua-language-server
 mold
