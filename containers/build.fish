@@ -6,7 +6,7 @@ source containers/helpers.fish
 set name $argv[1]
 
 section 'Building image'
-run podman build -t $name-dev -f containers/$name/Dockerfile containers/$name
+run podman build -t $name-dev -f containers/$name/Containerfile containers/$name
 
 section 'Creating container'
 run echo y \| toolbox create --image $name-dev $name
