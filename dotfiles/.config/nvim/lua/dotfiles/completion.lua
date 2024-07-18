@@ -630,7 +630,6 @@ local function show_menu(buf, prefix, items)
     col = col,
   }
 
-  api.nvim_buf_set_name(state.prompt.buffer, 'Completion')
   api.nvim_set_option_value('buftype', 'prompt', { buf = state.prompt.buffer })
   api.nvim_set_option_value('buftype', 'nofile', { buf = state.results.buffer })
   api.nvim_win_set_hl_ns(state.prompt.window, NAMESPACE)
