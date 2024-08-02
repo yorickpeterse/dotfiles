@@ -9,6 +9,8 @@ if set -q NVIM
     else
         echo "Nested nvim sessions need an argument"
     end
+else if set -q HOMEBREW_PREFIX
+    exec /opt/homebrew/bin/nvim $argv
 else
     exec /usr/bin/nvim $argv
 end
