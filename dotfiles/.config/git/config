@@ -45,6 +45,8 @@
 
 [alias]
     today = log --since=\"1 day ago\" --author=\"Yorick Peterse\"
+    pr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
+    pull-pr = "!f() { git pull --rebase ${2:-origin} refs/pull/$1/head:pr/$1; }; f"
 
 [push]
     default = current
