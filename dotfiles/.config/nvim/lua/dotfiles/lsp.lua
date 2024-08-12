@@ -193,6 +193,9 @@ config.rust_analyzer.setup({
       },
       lruCapacity = 64,
       completion = {
+        autoimport = {
+          enable = false,
+        },
         postfix = {
           enable = false,
         },
