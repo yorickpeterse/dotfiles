@@ -1,5 +1,6 @@
 title = Ghostty
 mouse-hide-while-typing = true
+resize-overlay = "never"
 
 # This ensures the cursor is a block cursor like GNOME terminal.
 shell-integration-features = "no-cursor, sudo"
