@@ -17,6 +17,7 @@ htop
 inotify-tools
 ivm
 jq
+kcov
 kernel-tools
 libadwaita
 libadwaita-devel
