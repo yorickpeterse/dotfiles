@@ -122,9 +122,9 @@ map('n', '<leader>b', function()
 end)
 
 -- Going places
-map('', 'gs', '^')
-map('', 'ge', 'g_')
-map('', 'gm', '`')
+map({ 'n', 'x' }, 'gs', '^')
+map({ 'n', 'x' }, 'ge', 'g_')
+map({ 'n', 'x' }, 'gm', '`')
 map('n', 'gp', cmd('b#'))
 map('n', 'gd', function()
   local bufnr = api.nvim_get_current_buf()
