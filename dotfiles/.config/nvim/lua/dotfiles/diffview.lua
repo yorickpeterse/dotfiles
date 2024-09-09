@@ -8,7 +8,7 @@ require('diffview').setup({
   use_icons = true,
   file_panel = {
     win_config = {
-      width = 40,
+      width = 30,
     },
   },
   view = {
