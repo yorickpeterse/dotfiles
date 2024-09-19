@@ -45,7 +45,7 @@ cmd('Config', function()
   vim.cmd.Cd('~/Projects/general/dotfiles/dotfiles/.config/nvim')
 end)
 
-cmd('Git', function(data)
+cmd('Commits', function(data)
   require('dotfiles.git.log').open(data.fargs[1], data.fargs[2])
 end, {
   nargs = '*',
