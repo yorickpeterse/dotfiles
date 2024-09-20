@@ -57,6 +57,7 @@ o.relativenumber = true
 o.numberwidth = 3
 o.ruler = false
 o.signcolumn = 'yes'
+o.foldcolumn = 0
 o.synmaxcol = 256
 o.termguicolors = true
 o.textwidth = 80
