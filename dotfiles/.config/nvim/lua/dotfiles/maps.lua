@@ -6,7 +6,6 @@ local snippet = require('dotfiles.snippet')
 local parsers = require('nvim-treesitter.parsers')
 local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
-local pounce = require('pounce')
 local loclist = require('dotfiles.location_list')
 local popup_visible = util.popup_visible
 local fn = vim.fn
@@ -136,9 +135,8 @@ map('n', 'gd', function()
   end
 end)
 
-map({ 'n', 'x' }, 's', pounce.pounce)
-map({ 'n', 'x' }, 'S', function()
-  pounce.pounce({ do_repeat = true })
+map({ 'n', 'x' }, 's', function()
+  MiniJump2d.start(MiniJump2d.builtin_opts.word_start)
 end)
 
 map('x', 'y', 'ygv<Esc>')
