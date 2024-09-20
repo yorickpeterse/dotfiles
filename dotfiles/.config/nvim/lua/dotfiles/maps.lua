@@ -135,10 +135,6 @@ map('n', 'gd', function()
   end
 end)
 
-map({ 'n', 'x' }, 's', function()
-  MiniJump2d.start(MiniJump2d.builtin_opts.word_start)
-end)
-
 map('x', 'y', 'ygv<Esc>')
 
 -- Allow copy/pasting using Control-c and Control-v
