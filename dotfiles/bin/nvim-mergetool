@@ -10,15 +10,14 @@
 # for both new and nested NeoVim instances.
 if set -q NVIM
     nvr -c tabnew
-    nvr -c 'setlocal ro' $argv[2]
+    nvr -c 'setlocal ro' $argv[1]
     nvr -c vsplit
-    nvr -c 'wincmd H' \
-        -c 'windo setlocal bufhidden=wipe' \
+    nvr -c 'windo setlocal bufhidden=wipe' \
         -c 'windo lua vim.diagnostic.enable(false, { bufnr = 0 })' \
         -c 'windo diffthis' \
         -c 'windo map <buffer> q <CMD>tabclose<CR>' \
         -c 'wincmd h' \
-        --remote-wait $argv[1]
+        --remote-wait $argv[2]
 else
     # We open the files in reverse order so -c options apply to the REMOTE file.
     /usr/bin/nvim \
