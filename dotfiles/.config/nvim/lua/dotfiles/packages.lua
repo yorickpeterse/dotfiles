@@ -19,7 +19,7 @@ use('mfussenegger/nvim-lint')
 use('stevearc/oil.nvim')
 use('stevearc/conform.nvim')
 use('stevearc/dressing.nvim')
-use('echasnovski/mini.jump2d')
+use('rlane/pounce.nvim')
 use('dcampos/nvim-snippy')
 
 pkg.install()
