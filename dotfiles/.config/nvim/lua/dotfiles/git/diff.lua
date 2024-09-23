@@ -495,6 +495,11 @@ function M.show(start, stop)
   local parent
   local paths
 
+  if STATE.root then
+    util.error('the diff viewer is already active')
+    return
+  end
+
   if start and stop then
     parent = git_parent(start)
     paths = git_diff(start, stop)
