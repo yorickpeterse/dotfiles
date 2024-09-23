@@ -30,7 +30,6 @@ require('tree-pairs').setup()
 
 require('dotfiles.lsp')
 require('dotfiles.window')
-require('dotfiles.diffview')
 require('dotfiles.treesitter')
 require('dotfiles.telescope')
 require('dotfiles.dressing')

@@ -68,4 +68,10 @@ end, {
   end,
 })
 
+cmd('Review', function(data)
+  require('dotfiles.git.diff').show(data.fargs[1], data.fargs[2])
+end, {
+  nargs = '*',
+})
+
 return M

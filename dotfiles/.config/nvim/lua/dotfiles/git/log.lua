@@ -1,6 +1,7 @@
 local fn = vim.fn
 local api = vim.api
 local util = require('dotfiles.util')
+local diff = require('dotfiles.git.diff')
 local M = {}
 
 -- The editor command to use for interactive Git operations.
@@ -330,21 +331,9 @@ local function show_commit_diff(state)
   local line, _ = unpack(api.nvim_win_get_cursor(state.win))
   local commit = state.commits[line]
 
-  if not commit then
-    return
+  if commit then
+    diff.show(commit.id)
   end
-
-  local range = {}
-
-  if #commit.parents == 1 then
-    range = { commit.parents[1], commit.id }
-  elseif #commit.parents == 2 then
-    range = commit.parents
-  else
-    util.error('the commit ' .. commit.id .. ' has more than 2 parents')
-  end
-
-  vim.cmd.DiffviewOpen(table.concat(range, '...'))
 end
 
 local function toggle_commit_details(state)
@@ -593,9 +582,6 @@ function M.open(start, stop)
     end,
     R = function()
       rebase_commits(state)
-    end,
-    q = function()
-      vim.cmd.tabclose()
     end,
     ['/'] = function()
       search_commits(state)

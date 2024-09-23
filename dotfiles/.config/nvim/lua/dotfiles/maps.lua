@@ -8,6 +8,7 @@ local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local pounce = require('pounce')
 local loclist = require('dotfiles.location_list')
+local git_diff = require('dotfiles.git.diff')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -209,3 +210,7 @@ end)
 map({ 'i', 's' }, '<C-j>', function()
   snippet.next()
 end)
+
+-- Code review
+map('n', ']f', git_diff.next_file)
+map('n', '[f', git_diff.previous_file)

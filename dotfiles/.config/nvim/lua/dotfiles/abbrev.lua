@@ -17,7 +17,6 @@ function M.command(cmd, match)
 end
 
 cabbrev('grep', 'silent grep!')
-cabbrev('Review', 'DiffviewOpen')
 cabbrev('Tq', 'tabclose')
 cabbrev('cdo', 'silent! cdo')
 
