@@ -187,6 +187,12 @@ local function new_state(start, stop, parent, paths)
 
     -- Whether we're staging changes or just viewing them.
     staging = start == nil,
+
+    -- The initial value of the `statuscolumn` setting.
+    statuscolumn = vim.o.statuscolumn,
+
+    -- The initial value of the `signcolumn` setting.
+    signcolumn = vim.o.signcolumn,
   }
 end
 
@@ -218,6 +224,10 @@ local function render_diffs()
 
   api.nvim_buf_set_lines(before_buf, 0, -1, true, before)
   api.nvim_buf_set_name(before_buf, before_name)
+  vim.wo[before_win].signcolumn = STATE.signcolumn
+  vim.wo[before_win].statuscolumn = STATE.statuscolumn
+  vim.wo[before_win].relativenumber = true
+  vim.wo[before_win].number = true
   vim.wo[before_win].winhl = DIFF_HL.before
   vim.wo[before_win].winbar = 'Before: ' .. path.name .. WINBAR_FLAGS
   vim.bo[before_buf].buftype = 'nofile'
@@ -252,6 +262,10 @@ local function render_diffs()
     vim.cmd.filetype('detect')
   end
 
+  vim.wo[after_win].signcolumn = STATE.signcolumn
+  vim.wo[after_win].statuscolumn = STATE.statuscolumn
+  vim.wo[after_win].relativenumber = true
+  vim.wo[after_win].number = true
   vim.wo[after_win].winhl = DIFF_HL.after
   vim.wo[after_win].winbar = 'After: ' .. path.name .. WINBAR_FLAGS
   vim.cmd.diffthis()
