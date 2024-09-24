@@ -254,6 +254,9 @@ local function render_diffs()
   vim.wo[after_win].winbar = 'After: ' .. path.name
   vim.cmd.diffthis()
 
+  -- Ensure we're at the top of the diff, instead of some random position.
+  vim.cmd('norm! gg')
+
   -- Just setting the sidebar width with nvim_win_set_width() doesn't seem to do
   -- the trick, so we have to resize it this way.
   api.nvim_set_current_win(STATE.status.win)
