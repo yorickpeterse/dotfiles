@@ -196,7 +196,7 @@ local function new_state(start, stop, parent, paths)
   }
 end
 
-local function render_diffs()
+local function render_diffs(focus)
   local path = STATE.file_lines[STATE.file_index]
 
   if not path then
@@ -283,10 +283,10 @@ local function render_diffs()
 
   STATE.diff_windows = { before_win, after_win }
 
-  if api.nvim_win_is_valid(prev_win) then
-    api.nvim_set_current_win(prev_win)
-  else
+  if focus then
     api.nvim_set_current_win(after_win)
+  elseif api.nvim_win_is_valid(prev_win) then
+    api.nvim_set_current_win(prev_win)
   end
 end
 
@@ -414,7 +414,7 @@ local function render_sidebar()
   end
 end
 
-local function select_next_file(direction)
+local function select_next_file(direction, focus)
   local index = STATE.file_index + direction
 
   if not STATE.file_lines[index] then
@@ -431,14 +431,14 @@ local function select_next_file(direction)
 
   STATE.file_index = index
   update_sidebar_cursor_line()
-  render_diffs()
+  render_diffs(focus)
 end
 
 local function select_file()
   local line, _ = unpack(api.nvim_win_get_cursor(STATE.status.win))
 
   STATE.file_index = line
-  render_diffs()
+  render_diffs(true)
 end
 
 local function stage_file()
@@ -457,7 +457,7 @@ local function stage_file()
 
   STATE.paths = git_status()
   render_sidebar()
-  select_next_file(1)
+  select_next_file(1, false)
 end
 
 local function undo_file()
@@ -475,16 +475,15 @@ local function undo_file()
   git_undo(STATE.root, path.name)
   STATE.paths = git_status()
   render_sidebar()
-  select_next_file(-1)
+  select_next_file(-1, false)
 end
 
 local function refresh()
   STATE.paths = git_status()
   STATE.file_index = INIT_INDEX
   render_sidebar()
-  render_diffs()
   update_sidebar_cursor_line()
-  render_diffs()
+  render_diffs(false)
 end
 
 local function setup_sidebar_maps()
@@ -543,18 +542,18 @@ function M.show(start, stop)
   setup_sidebar_maps()
   render_sidebar()
   update_sidebar_cursor_line()
-  render_diffs()
+  render_diffs(true)
 end
 
 function M.next_file()
   if STATE.root then
-    select_next_file(1)
+    select_next_file(1, true)
   end
 end
 
 function M.previous_file()
   if STATE.root then
-    select_next_file(-1)
+    select_next_file(-1, true)
   end
 end
 
