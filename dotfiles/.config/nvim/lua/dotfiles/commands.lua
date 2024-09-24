@@ -72,6 +72,30 @@ cmd('Review', function(data)
   require('dotfiles.git.diff').show(data.fargs[1], data.fargs[2])
 end, {
   nargs = '*',
+  complete = function(prefix)
+    local pat = tostring(prefix) .. '*'
+    local candidates = {}
+    local res = vim
+      .system({
+        'git',
+        'for-each-ref',
+        '--format=%(refname:strip=2)',
+        'refs/remotes/*/' .. pat,
+        'refs/heads' .. pat,
+        'refs/tags/' .. pat,
+      })
+      :wait()
+
+    for line in vim.gsplit(res.stdout, '\n', { trimempty = true }) do
+      table.insert(candidates, line)
+    end
+
+    table.sort(candidates, function(a, b)
+      return a < b
+    end)
+
+    return candidates
+  end,
 })
 
 return M
