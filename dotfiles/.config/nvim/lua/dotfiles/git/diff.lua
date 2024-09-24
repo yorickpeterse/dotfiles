@@ -46,6 +46,8 @@ local DIFF_HL = {
 -- The index/line of the initial file to show.
 local INIT_INDEX = 2
 
+local WINBAR_FLAGS = '%( %m%r%)'
+
 local CONFIG = {
   refresh = 'r',
   select_file = '<CR>',
@@ -217,7 +219,7 @@ local function render_diffs()
   api.nvim_buf_set_lines(before_buf, 0, -1, true, before)
   api.nvim_buf_set_name(before_buf, before_name)
   vim.wo[before_win].winhl = DIFF_HL.before
-  vim.wo[before_win].winbar = 'Before: ' .. path.name
+  vim.wo[before_win].winbar = 'Before: ' .. path.name .. WINBAR_FLAGS
   vim.bo[before_buf].buftype = 'nofile'
   vim.bo[before_buf].bufhidden = 'wipe'
   vim.bo[before_buf].modifiable = false
@@ -251,7 +253,7 @@ local function render_diffs()
   end
 
   vim.wo[after_win].winhl = DIFF_HL.after
-  vim.wo[after_win].winbar = 'After: ' .. path.name
+  vim.wo[after_win].winbar = 'After: ' .. path.name .. WINBAR_FLAGS
   vim.cmd.diffthis()
 
   -- Ensure we're at the top of the diff, instead of some random position.
