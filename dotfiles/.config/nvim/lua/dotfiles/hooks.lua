@@ -108,6 +108,17 @@ end
 
 au('buffer_management', {
   { 'BufWinLeave', '*', remove_buffer },
+  {
+    'BufWinEnter',
+    '*',
+    function()
+      local line = api.nvim_buf_get_mark(0, '"')[1]
+
+      if line > 1 and line <= api.nvim_buf_line_count(0) then
+        api.nvim_feedkeys([[g`"]], 'nx', false)
+      end
+    end,
+  },
 })
 
 au('yank', {
