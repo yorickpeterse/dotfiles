@@ -25,6 +25,11 @@ require('dressing').setup({
         return { relative = 'editor' }
       end
     end,
+    mappings = {
+      i = {
+        ['<Esc>'] = 'Close',
+      },
+    },
   },
   select = {
     backend = { 'telescope' },
