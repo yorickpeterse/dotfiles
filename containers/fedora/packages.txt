@@ -36,7 +36,6 @@ neovim
 nodejs
 perf
 python3-pip
-qcachegrind
 rclone
 ripgrep
 ruby
