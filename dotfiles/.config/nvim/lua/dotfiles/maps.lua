@@ -125,6 +125,7 @@ end)
 -- Going places
 map({ 'n', 'x' }, 'gs', '^')
 map({ 'n', 'x' }, 'ge', 'g_')
+map({ 'n', 'x' }, 'gh', '0')
 map({ 'n', 'x' }, 'gm', '`')
 map('n', 'gp', cmd('b#'))
 map('n', 'gd', function()
