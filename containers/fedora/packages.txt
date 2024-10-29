@@ -13,7 +13,6 @@ glib2-devel
 graphviz
 gtk4-devel
 heaptrack
-hotspot
 htop
 inotify-tools
 ivm
