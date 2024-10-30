@@ -52,7 +52,10 @@ do
     local lines = api.nvim_buf_get_lines(buf, 0, -1, false)
 
     for i, line in ipairs(lines) do
-      if vim.startswith(line, '─') and vim.endswith(line, '─') then
+      if
+        (vim.startswith(line, '─') and vim.endswith(line, '─'))
+        or (vim.startswith(line, '_') and vim.endswith(line, '_'))
+      then
         api.nvim_buf_add_highlight(buf, -1, 'TelescopeBorder', i - 1, 0, -1)
       end
     end
@@ -60,12 +63,6 @@ do
     return buf, win
   end
 end
-
-vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-  border = 'rounded',
-  max_width = float_width,
-  max_heigh = float_height,
-})
 
 -- Diagnostics
 vim_diag.config({
