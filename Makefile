@@ -7,7 +7,4 @@ fedora:
 fedora-rpm:
 	@fish containers/build.fish fedora-rpm
 
-tumbleweed:
-	@fish containers/build.fish tumbleweed
-
-.PHONY: dotfiles fedora fedora-rpm tumbleweed
+.PHONY: dotfiles fedora fedora-rpm
