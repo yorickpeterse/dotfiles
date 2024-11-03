@@ -43,6 +43,7 @@ telescope.setup({
         ['<Esc>'] = actions.close,
         ['<C-{>'] = actions.close,
         ['<C-s>'] = actions.select_horizontal,
+        ['<C-d>'] = actions.delete_buffer,
       },
       n = {
         ['<tab>'] = actions.move_selection_next,
