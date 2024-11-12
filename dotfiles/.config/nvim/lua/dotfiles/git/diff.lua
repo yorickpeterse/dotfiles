@@ -117,7 +117,7 @@ end
 
 local function git_diff(start, stop)
   local res = vim
-    .system({ 'git', 'diff', '--name-status', start .. '...' .. stop })
+    .system({ 'git', 'diff', '--no-renames', '--name-status', start .. '...' .. stop })
     :wait()
 
   assert(res.code == 0)
