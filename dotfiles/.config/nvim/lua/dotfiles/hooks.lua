@@ -52,17 +52,6 @@ local function yanked()
   })
 end
 
-local function enable_list()
-  vim.w.list_enabled = vim.wo.list
-  vim.wo.list = false
-end
-
-local function disable_list()
-  if vim.w.list_enabled ~= nil then
-    vim.wo.list = vim.w.list_enabled
-  end
-end
-
 -- Deletes empty anonymous buffers when hiding them, so they don't pile up.
 local function remove_buffer()
   local buffer = api.nvim_get_current_buf()
@@ -127,8 +116,20 @@ au('yank', {
 
 au('trailing_whitespace', {
   { 'BufWritePre', '*', remove_trailing_whitespace },
-  { 'InsertEnter', '*', enable_list },
-  { 'InsertLeave', '*', disable_list },
+  {
+    'InsertEnter',
+    '*',
+    function()
+      vim.wo.list = false
+    end,
+  },
+  {
+    'InsertLeave',
+    '*',
+    function()
+      vim.wo.list = true
+    end,
+  },
 })
 
 do
