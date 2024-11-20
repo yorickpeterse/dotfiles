@@ -46,6 +46,7 @@ stylua
 tree
 util-linux
 util-linux-core
+vale
 valgrind
 wget
 wl-clipboard
