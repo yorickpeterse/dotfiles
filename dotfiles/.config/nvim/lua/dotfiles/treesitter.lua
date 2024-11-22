@@ -14,6 +14,7 @@ require('nvim-treesitter.configs').setup({
     'inko',
     'javascript',
     'json',
+    'llvm',
     'lua',
     'markdown',
     'markdown_inline',
