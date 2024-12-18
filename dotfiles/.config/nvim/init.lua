@@ -65,6 +65,7 @@ o.linebreak = true
 o.cursorcolumn = false
 o.cursorline = true
 o.cursorlineopt = 'number'
+o.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
 o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
 o.clipboard = 'unnamed'
