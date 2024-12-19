@@ -1,6 +1,7 @@
 agriffis/neovim-nightly
 mczernek/vale
 yorickpeterse/clogs
+yorickpeterse/hotspot
 yorickpeterse/inko
 yorickpeterse/lua-language-server
 yorickpeterse/stylua
