@@ -17,10 +17,6 @@ run rustup-init --quiet -y --no-modify-path
 section 'Installing Rust toolchain for Inko'
 run rustup toolchain install 1.70.0 -c clippy -c rustfmt -c rust-analyzer
 
-section 'Configuring Ruby'
-echo 'gem: --no-document --user --bindir ~/.local/share/gem/ruby/bin' >~/.gemrc
-run gem install --silent pry pry-doc pry-theme
-
 source ~/.config/fish/config.fish
 
 section 'Configuring Rust'

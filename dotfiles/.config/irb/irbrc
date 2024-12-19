@@ -1,0 +1,7 @@
+Reline::Face.config(:completion_dialog) do |conf|
+  conf.define :default, foreground: :black, background: '#ececec'
+  conf.define :enhanced, foreground: :black, background: '#e6e6e6', style: :bold
+  conf.define :scrollbar, foreground: '#e6e6e6', background: '#ececec'
+end
+
+IRB.conf[:USE_AUTOCOMPLETE] = false

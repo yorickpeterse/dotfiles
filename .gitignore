@@ -10,8 +10,7 @@ dotfiles/.config/git/local
 
 dotfiles/.config/nvim/spell
 dotfiles/.config/nvim/.netrwhist
-dotfiles/.pry/themes/*.prytheme.rb
-!dotfiles/.pry/themes/paper.prytheme.rb
+dotfiles/.config/irb/irb_history
 
 dotfiles/.local/share/nvim
 dotfiles/.local/share/fish
