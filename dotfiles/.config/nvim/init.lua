@@ -68,7 +68,6 @@ o.cursorlineopt = 'number'
 o.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
 o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
-o.clipboard = 'unnamed'
 o.diffopt =
   'filler,vertical,internal,algorithm:histogram,indent-heuristic,context:3,linematch:50'
 o.lz = true
