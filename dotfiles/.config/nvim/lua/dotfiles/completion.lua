@@ -824,7 +824,7 @@ function M.start()
     return fallback_completion(column, prefix)
   end
 
-  local params = lsp.util.make_position_params(0)
+  local params = lsp.util.make_position_params(0, 'utf-8')
   local items = snippet_completion_items(bufnr, column, prefix)
 
   lsp.buf_request(
