@@ -1,3 +1,0 @@
-#!/usr/bin/env fish
-
-exec ~/.local/bin/ghostty $argv
