@@ -9,6 +9,7 @@ diffutils
 fish
 fuse-overlayfs
 gdb
+ghostty
 glib2-devel
 graphviz
 gtk4-devel

@@ -5,9 +5,6 @@ source ../helpers.fish
 set pip (cat pip.txt)
 set completions /etc/fish/completions
 
-section 'Configuring Ghostty'
-run sudo cp -r ~/.local/share/terminfo/* /usr/share/terminfo
-
 section 'Installing Python packages'
 run pip install --quiet $pip
 

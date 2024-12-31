@@ -1,5 +1,6 @@
 agriffis/neovim-nightly
 mczernek/vale
+pgdev/ghostty
 yorickpeterse/clogs
 yorickpeterse/hotspot
 yorickpeterse/inko
