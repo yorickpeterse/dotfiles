@@ -1,4 +1,4 @@
 #!/usr/bin/env fish
 
-exec /usr/bin/ghostty --keybind=clear --title=NeoVim --gtk-titlebar=false \
+exec /usr/bin/ghostty --keybind=clear --title=NeoVim \
     -e "toolbox run --container=fedora fish -c 'nvim $argv'"
