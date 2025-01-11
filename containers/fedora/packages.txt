@@ -36,6 +36,7 @@ lua-language-server
 mold
 neovim
 nodejs
+patch
 perf
 python3-pip
 rclone
