@@ -1,4 +1,5 @@
 agriffis/neovim-nightly
+lantw44/aarch64-linux-gnu-toolchain
 mczernek/vale
 pgdev/ghostty
 yorickpeterse/clogs
