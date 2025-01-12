@@ -40,6 +40,7 @@ nodejs
 patch
 perf
 python3-pip
+qemu-user
 rclone
 ripgrep
 ruby
