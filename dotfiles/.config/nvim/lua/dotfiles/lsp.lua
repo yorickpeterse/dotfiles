@@ -64,6 +64,19 @@ do
   end
 end
 
+do
+  local ver = vim.version()
+
+  if ver.major == 0 and ver.minor <= 10 then
+    vim.lsp.handlers['textDocument/hover'] =
+      vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'rounded',
+        max_width = float_width,
+        max_heigh = float_height,
+      })
+  end
+end
+
 -- Diagnostics
 vim_diag.config({
   underline = false,
