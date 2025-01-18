@@ -57,3 +57,4 @@ wget
 wl-clipboard
 wol
 zlib-devel
+zstd
