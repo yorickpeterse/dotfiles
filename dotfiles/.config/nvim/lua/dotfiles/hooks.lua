@@ -120,6 +120,10 @@ au('trailing_whitespace', {
     'InsertEnter',
     '*',
     function()
+      if vim.bo.buftype == 'terminal' then
+        return
+      end
+
       vim.wo.list = false
     end,
   },
@@ -127,6 +131,10 @@ au('trailing_whitespace', {
     'InsertLeave',
     '*',
     function()
+      if vim.bo.buftype == 'terminal' then
+        return
+      end
+
       vim.wo.list = true
     end,
   },
@@ -293,6 +301,7 @@ au('terminal', {
       vim.opt_local.relativenumber = false
       vim.opt_local.signcolumn = 'no'
       vim.opt_local.statuscolumn = ''
+      vim.opt_local.list = false
     end,
   },
 })
