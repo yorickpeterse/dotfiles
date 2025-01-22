@@ -1,0 +1,11 @@
+set debuginfod enabled on
+set verbose off
+set confirm off
+
+set print thread-events off
+set print frame-arguments none
+set print symbol-loading brief
+
+set filename-display basename
+set style function foreground black
+set style address foreground blue
