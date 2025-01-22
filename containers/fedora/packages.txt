@@ -8,7 +8,6 @@ coreutils
 diffutils
 fish
 fuse-overlayfs
-gdb
 ghostty
 glib2-devel
 graphviz
@@ -28,6 +27,7 @@ libffi-devel
 libstdc++-devel
 libstdc++-static
 lld
+lldb
 llvm17
 llvm17-devel
 llvm17-static
