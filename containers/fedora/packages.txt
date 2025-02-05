@@ -33,7 +33,6 @@ llvm17-devel
 llvm17-static
 lm_sensors
 lua-language-server
-mold
 neovim
 nodejs
 patch
