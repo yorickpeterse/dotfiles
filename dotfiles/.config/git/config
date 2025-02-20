@@ -41,7 +41,7 @@
     hideResolved = true
 
 [mergetool "nvim"]
-    cmd = nvim-mergetool $REMOTE $LOCAL $MERGED
+    cmd = nvim-mergetool $LOCAL $REMOTE $MERGED
 
 [alias]
     pr = "!f() { git fetch -fu ${2:-origin} refs/pull/$1/head:pr/$1 && git checkout pr/$1; }; f"
