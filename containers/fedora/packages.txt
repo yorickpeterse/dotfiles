@@ -31,6 +31,9 @@ lld
 llvm17
 llvm17-devel
 llvm17-static
+llvm18
+llvm18-devel
+llvm18-static
 lm_sensors
 lua-language-server
 neovim
