@@ -6,11 +6,11 @@ snippet trait "Define a new trait"
 	trait ${1:name} {
 		$0
 	}
-snippet class "Define a new class"
-	class ${1:name} {
+snippet type "Define a new type"
+	type ${1:name} {
 		$0
 	}
-snippet impl "Reopens a class"
+snippet impl "Reopens a type"
 	impl ${1:name} {
 		$0
 	}
@@ -25,7 +25,7 @@ snippet fn "Insert a function"
 		$0
 	}
 snippet tests "Inserts a test file"
-	import std.test.Tests
+	import std.test (Tests)
 
 	fn pub tests(t: mut Tests) {
 		$0
