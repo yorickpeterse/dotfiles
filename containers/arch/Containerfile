@@ -1,0 +1,38 @@
+FROM quay.io/toolbx/arch-toolbox:latest
+
+# Configure the package manager.
+RUN pacman-key --init && pacman-key --populate
+RUN sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
+RUN sed -i -e 's/#Color/Color/' /etc/pacman.conf
+
+# Set up the locales.
+RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
+RUN echo 'en_IE.UTF-8 UTF-8' >> /etc/locale.gen
+RUN locale-gen
+
+# Install packages that must be installed before the rest.
+RUN pacman -Syu --noconfirm --quiet reflector
+RUN reflector --save /etc/pacman.d/mirrorlist \
+    --country NL --protocol https --latest 10 --fastest 10
+
+# Install packages from the official repositories.
+COPY packages.txt /
+RUN pacman -Syu --needed --noconfirm --quiet $(<packages.txt)
+RUN rm packages.txt
+
+# Set up the AUR wrapper.
+RUN useradd --home-dir=/home/build --create-home build \
+    && chown -R build:build /home/build \
+    && echo 'build ALL=(ALL) NOPASSWD: ALL' > /etc/sudoers.d/build
+RUN sudo -u build bash -c \
+    'git clone https://aur.archlinux.org/yay.git /tmp/yay && cd /tmp/yay && makepkg -si --noconfirm'
+RUN sudo rm -rf /tmp/yay
+
+# Install AUR packages.
+COPY aur.txt /
+RUN sudo -u build yay -Syu --noconfirm --needed --mflags --nocheck --quiet $(<aur.txt)
+RUN sudo -u build yay -Scc --noconfirm
+RUN rm aur.txt
+RUN userdel --remove build
+
+ENV CONTAINER_ID arch
