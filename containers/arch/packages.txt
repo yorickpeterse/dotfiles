@@ -24,6 +24,7 @@ python-pip
 rclone
 ripgrep
 ruby
+ruby-irb
 rustup
 shellcheck
 stylua
