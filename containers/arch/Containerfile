@@ -7,7 +7,7 @@ RUN sed -i -e 's/#Color/Color/' /etc/pacman.conf
 
 # Disable certain Pacman hooks that fail inside a container.
 RUN mkdir -p /etc/pacman.d/hooks
-RUN touch /etc/pacman.d/30-systemd-tmpfiles.hook \
+RUN touch /etc/pacman.d/hooks/30-systemd-tmpfiles.hook \
     && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-system.hook
 
 # Set up the locales.
