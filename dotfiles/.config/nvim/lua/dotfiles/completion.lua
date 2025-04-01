@@ -204,13 +204,13 @@ function buffer_completion_items(column, prefix)
 end
 
 local function highlight_match(buf, line, start, stop)
-  api.nvim_buf_add_highlight(
+  vim.hl.range(
     buf,
     NAMESPACE,
     'TelescopeMatching',
-    line - 1,
-    start - 1,
-    stop
+    { line - 1, start - 1 },
+    { line - 1, stop },
+    {}
   )
 end
 
@@ -452,7 +452,7 @@ local function set_menu_items(state)
 
   if #items == 0 then
     api.nvim_buf_set_lines(buf, 0, -1, false, { 'No results' })
-    api.nvim_buf_add_highlight(buf, NAMESPACE, 'Comment', 0, 0, -1)
+    vim.hl.range(buf, NAMESPACE, 'Comment', { 0, 0 }, { 0, -1 }, {})
     util.set_window_option(state.results.window, 'cursorline', false)
   else
     api.nvim_buf_set_lines(buf, 0, -1, false, lines)
@@ -701,13 +701,13 @@ local function show_menu(buf, prefix, items)
         -- If we set this up outside this autocmd then the highlight doesn't get
         -- applied. I have no idea why, but doing it here (once) works :|
         if #PROMPT_PREFIX > 0 then
-          api.nvim_buf_add_highlight(
+          vim.hl.range(
             state.prompt.buffer,
-            -1,
+            NAMESPACE,
             'TelescopePromptPrefix',
-            0,
-            0,
-            #PROMPT_PREFIX
+            { 0, 0 },
+            { 0, #PROMPT_PREFIX },
+            {}
           )
         end
 

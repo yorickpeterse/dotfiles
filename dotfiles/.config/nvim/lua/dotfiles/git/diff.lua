@@ -410,7 +410,16 @@ local function render_sidebar()
   api.nvim_buf_clear_namespace(STATE.status.buf, NAMESPACE, 0, -1)
 
   for _, hl in ipairs(status_highlights) do
-    api.nvim_buf_add_highlight(STATE.status.buf, NAMESPACE, unpack(hl))
+    local group, line, start, stop = unpack(hl)
+
+    vim.hl.range(
+      STATE.status.buf,
+      NAMESPACE,
+      group,
+      { line, start },
+      { line, stop },
+      {}
+    )
   end
 end
 

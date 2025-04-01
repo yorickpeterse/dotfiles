@@ -21,7 +21,7 @@ function M.confirm(prompt)
     {}
   )
 
-  local choice = fn.nr2char(fn.getchar())
+  local choice = fn.getchar(-1, { number = false })
 
   api.nvim_echo({}, false, {})
 
@@ -87,7 +87,7 @@ function M.has_lsp_clients_supporting(bufnr, capability)
   local supported = false
 
   for _, client in pairs(lsp.get_clients({ bufnr = bufnr })) do
-    if client.supports_method(capability) then
+    if client.supports_method(capability, bufnr) then
       supported = true
       break
     end
@@ -133,13 +133,13 @@ function M.set_buffer_lines(buf, namespace, start, stop, chunk_lines)
     local offset = 1
 
     for _, chunk in ipairs(chunks) do
-      api.nvim_buf_add_highlight(
+      vim.hl.range(
         buf,
         namespace,
         chunk[2],
-        start + line - 1,
-        offset - 1,
-        offset - 1 + #chunk[1]
+        { start + line - 1, offset - 1 },
+        { start + line - 1, offset - 1 + #chunk[1] },
+        {}
       )
 
       offset = offset + #chunk[1]

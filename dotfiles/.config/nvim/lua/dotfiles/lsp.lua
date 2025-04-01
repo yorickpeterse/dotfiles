@@ -44,6 +44,7 @@ end
 -- Markdown popup
 do
   local default = lsp.util.open_floating_preview
+  local ns = api.nvim_create_namespace('')
 
   lsp.util.open_floating_preview = function(contents, syntax, opts)
     -- This makes the separator between the definition and description look a
@@ -56,24 +57,18 @@ do
         (vim.startswith(line, '─') and vim.endswith(line, '─'))
         or (vim.startswith(line, '_') and vim.endswith(line, '_'))
       then
-        api.nvim_buf_add_highlight(buf, -1, 'TelescopeBorder', i - 1, 0, -1)
+        vim.hl.range(
+          buf,
+          ns,
+          'TelescopeBorder',
+          { i - 1, 0 },
+          { i - 1, -1 },
+          {}
+        )
       end
     end
 
     return buf, win
-  end
-end
-
-do
-  local ver = vim.version()
-
-  if ver.major == 0 and ver.minor <= 10 then
-    vim.lsp.handlers['textDocument/hover'] =
-      vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'rounded',
-        max_width = float_width,
-        max_heigh = float_height,
-      })
   end
 end
 
