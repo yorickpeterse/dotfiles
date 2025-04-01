@@ -5,6 +5,11 @@ RUN pacman-key --init && pacman-key --populate
 RUN sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 RUN sed -i -e 's/#Color/Color/' /etc/pacman.conf
 
+# Disable certain Pacman hooks that fail inside a container.
+RUN mkdir -p /etc/pacman.d/hooks
+RUN touch /etc/pacman.d/30-systemd-tmpfiles.hook \
+    && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-system.hook
+
 # Set up the locales.
 RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen
 RUN echo 'en_IE.UTF-8 UTF-8' >> /etc/locale.gen
