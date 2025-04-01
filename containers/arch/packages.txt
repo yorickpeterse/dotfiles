@@ -25,6 +25,7 @@ rclone
 ripgrep
 ruby
 ruby-irb
+ruby-rdoc
 rustup
 shellcheck
 stylua
