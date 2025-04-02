@@ -2,6 +2,9 @@
 name: Push
 on:
   push:
+    paths:
+      - containers/**
+      - .github/workflows/containers.yml
 
 env:
   REGISTRY: ghcr.io
@@ -12,7 +15,7 @@ concurrency:
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
-  arch-container:
+  arch:
     runs-on: ubuntu-latest
     permissions:
       contents: read
