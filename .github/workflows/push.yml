@@ -31,8 +31,8 @@ jobs:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       - uses: docker/build-push-action@v6
         with:
-          file: containers/arch/Containerfile
-          context: .
+          file: Containerfile
+          context: containers/arch
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
