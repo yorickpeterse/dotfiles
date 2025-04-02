@@ -1,3 +1,4 @@
+adwaita-icon-theme
 asciinema
 bc
 clang
