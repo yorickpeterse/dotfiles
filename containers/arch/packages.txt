@@ -19,6 +19,8 @@ lm_sensors
 lua-language-server
 neovim
 nodejs
+noto-fonts
+noto-fonts-emoji
 perf
 python-pip
 rclone
