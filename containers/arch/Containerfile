@@ -9,6 +9,7 @@ RUN sed -i -e 's/#Color/Color/' /etc/pacman.conf
 RUN mkdir -p /etc/pacman.d/hooks
 RUN touch /etc/pacman.d/hooks/30-systemd-tmpfiles.hook \
     && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-system.hook \
+    && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-user.hook \
     && touch /etc/pacman.d/hooks/dbus-reload.hook
 
 # Set up the locales.
