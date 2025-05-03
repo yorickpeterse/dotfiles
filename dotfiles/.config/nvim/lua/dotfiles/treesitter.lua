@@ -23,6 +23,7 @@ require('nvim-treesitter.configs').setup({
     'ruby',
     'rust',
     'toml',
+    'typst',
     'vimdoc',
     'yaml',
   },
