@@ -203,7 +203,7 @@ map('n', ']l', loclist.next)
 map('n', '[l', loclist.prev)
 
 -- Snippets
-map({ 'i', 's' }, '<C-s>', function()
+map({ 'i', 's' }, '<C-e>', function()
   snippet.expand()
 end)
 
