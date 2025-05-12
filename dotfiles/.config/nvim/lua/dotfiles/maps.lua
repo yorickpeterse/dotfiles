@@ -207,11 +207,11 @@ map({ 'i', 's' }, '<C-s>', function()
   snippet.expand()
 end)
 
-map({ 'i', 's' }, '<C-k>', function()
+map({ 'i', 's' }, '<C-m>', function()
   snippet.previous()
 end)
 
-map({ 'i', 's' }, '<C-j>', function()
+map({ 'i', 's' }, '<C-n>', function()
   snippet.next()
 end)
 
