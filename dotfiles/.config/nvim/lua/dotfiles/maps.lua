@@ -2,7 +2,6 @@ local completion = require('dotfiles.completion')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
 local snippet = require('dotfiles.snippet')
-local parsers = require('nvim-treesitter.parsers')
 local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
@@ -70,10 +69,7 @@ map('n', '<leader>t', function()
     return
   end
 
-  if parsers.has_parser() then
-    snacks.picker.treesitter()
-    return
-  end
+  snacks.picker.treesitter()
 end)
 map('n', '<leader>b', function()
   snacks.picker.buffers({ current = false })

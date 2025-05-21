@@ -1,42 +1,66 @@
--- The languages for which to use Tree sitter indentation. Only a small list is
--- enabled as support is a bit of a hit and miss.
-local indent = { python = true, inko = true, css = true }
+local ts = require('nvim-treesitter')
 
-require('nvim-treesitter.configs').setup({
-  ensure_installed = {
+ts.install({
+  'bash',
+  'c',
+  'css',
+  'fish',
+  'gitcommit',
+  'go',
+  'html',
+  'inko',
+  'javascript',
+  'json',
+  'llvm',
+  'lua',
+  'markdown',
+  'markdown_inline',
+  'python',
+  'query',
+  'ruby',
+  'rust',
+  'toml',
+  'typst',
+  'vimdoc',
+  'yaml',
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
     'bash',
     'c',
     'css',
     'fish',
     'gitcommit',
     'go',
+    'help',
     'html',
     'inko',
     'javascript',
     'json',
     'llvm',
     'lua',
-    'markdown',
-    'markdown_inline',
     'python',
     'query',
     'ruby',
     'rust',
+    'sh',
     'toml',
     'typst',
-    'vimdoc',
     'yaml',
   },
-  sync_install = false,
-  highlight = {
-    enable = true,
-    disable = { 'ruby', 'c', 'markdown', 'markdown_inline' },
-    additional_vim_regex_highlighting = false,
+  callback = function()
+    vim.treesitter.start()
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = {
+    'python',
+    'inko',
+    'css',
   },
-  indent = {
-    enable = true,
-    disable = function(lang, bufnr)
-      return not indent[lang]
-    end,
-  },
+  callback = function()
+    vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+  end,
 })
