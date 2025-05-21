@@ -1,47 +1,18 @@
 local completion = require('dotfiles.completion')
 local util = require('dotfiles.util')
 local window = require('nvim-window')
-local telescope_builtin = require('telescope.builtin')
 local snippet = require('dotfiles.snippet')
 local parsers = require('nvim-treesitter.parsers')
-local pickers = require('dotfiles.telescope.pickers')
 local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
+local snacks = require('snacks')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
 local lsp = vim.lsp
 local diag = vim.diagnostic
 local keymap = vim.keymap
-
--- The LSP symbols to include when using Telescope.
-local ts_lsp_symbols = {
-  Class = true,
-  Constant = true,
-  Constructor = true,
-  Enum = true,
-  EnumMember = true,
-  Function = true,
-  Interface = true,
-  Method = true,
-  Module = true,
-  Reference = true,
-  Snippet = true,
-  Struct = true,
-  TypeParameter = true,
-  Unit = true,
-  Value = true,
-}
-
-local ts_treesitter_symbols =
-  { 'Type', 'Method', 'Function', 'Constant', 'Field' }
-
-local ts_treesitter_highlights = {}
-
-for _, name in ipairs(ts_treesitter_symbols) do
-  ts_treesitter_highlights[name:lower()] = 'Comment'
-end
 
 local function map(kind, key, action, options)
   local opts = vim.tbl_extend('force', { silent = true }, options or {})
@@ -85,9 +56,9 @@ map('n', '<leader>a', vim.lsp.buf.code_action)
 
 -- Pickers
 map('n', '<leader>f', function()
-  telescope_builtin.find_files({
+  snacks.picker.files({
     hidden = true,
-    find_command = { 'rg', '--files', '--color', 'never' },
+    cmd = 'rg',
   })
 end)
 map('n', '<leader>t', function()
@@ -95,30 +66,17 @@ map('n', '<leader>t', function()
   local ft = api.nvim_get_option_value('ft', { buf = bufnr })
 
   if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
-    pickers.lsp_document_symbols(bufnr, {
-      -- Lua exposes variables as constants for some weird reason
-      ignore_scoped_constants = ft == 'lua',
-      symbols = ts_lsp_symbols,
-      previewer = false,
-      results_title = false,
-      prompt_title = false,
-    })
-
+    snacks.picker.lsp_symbols()
     return
   end
 
   if parsers.has_parser() then
-    telescope_builtin.treesitter({
-      symbols = ts_treesitter_symbols,
-      symbol_highlights = ts_treesitter_highlights,
-    })
+    snacks.picker.treesitter()
     return
   end
-
-  telescope_builtin.current_buffer_tags()
 end)
 map('n', '<leader>b', function()
-  telescope_builtin.buffers({ sort_mru = true, ignore_current_buffer = true })
+  snacks.picker.buffers({ current = false })
 end)
 
 -- Going places

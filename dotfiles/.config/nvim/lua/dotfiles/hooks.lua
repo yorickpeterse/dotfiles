@@ -210,39 +210,6 @@ au('diffs', {
   { 'BufEnter', 'diffview:///panels*', 'set cursorlineopt+=line' },
 })
 
--- The window bar highlight changing from WinBar to WinBarNC when opening
--- Telescope is distracting. This ensures it remains the same when
--- Telescope is opened.
-au('telescope', {
-  {
-    'User',
-    'TelescopeFindPre',
-    function()
-      local win_id = api.nvim_get_current_win()
-      local buf_id = api.nvim_win_get_buf(win_id)
-      local winhl = 'WinBarNC:WinBar'
-      local old_winhl = api.nvim_get_option_value('winhl', { win = win_id })
-
-      if old_winhl and #old_winhl > 0 then
-        winhl = old_winhl .. ',' .. winhl
-      end
-
-      api.nvim_set_option_value('winhl', winhl, { win = win_id })
-      api.nvim_create_autocmd({ 'BufEnter' }, {
-        buffer = buf_id,
-        callback = function(event)
-          local winhl = api
-            .nvim_get_option_value('winhl', { win = win_id })
-            :gsub(',?WinBarNC:WinBar', '')
-
-          api.nvim_set_option_value('winhl', winhl, { win = win_id })
-          return true
-        end,
-      })
-    end,
-  },
-})
-
 -- Automatically create leading directories when writing a file. This makes it
 -- easier to create new files in non-existing directories.
 au('create_dirs', {
