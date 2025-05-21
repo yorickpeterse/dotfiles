@@ -33,6 +33,7 @@ rustup
 shellcheck
 stylua
 tree
+tree-sitter-cli
 vale
 valgrind
 wl-clipboard
