@@ -3,7 +3,7 @@ local use = pkg.use
 
 use('nvim-lua/plenary.nvim')
 use('neovim/nvim-lspconfig')
-use({ 'yorickpeterse/nvim-treesitter', run = 'TSUpdateSync' })
+use({ 'nvim-treesitter/nvim-treesitter', run = 'TSUpdateSync' })
 use('inko-lang/inko.vim')
 use('yorickpeterse/rust.vim')
 use('yorickpeterse/nvim-grey')
