@@ -19,7 +19,7 @@ require('snacks').setup({
       input = {
         keys = {
           ['<Esc>'] = { 'close', mode = { 'n', 'i' } },
-          ['<C-{>'] = { 'close', mode = { 'n', 'i' } },
+          ['<C-[>'] = { 'close', mode = { 'n', 'i' } },
           ['<Tab>'] = { 'list_down', mode = { 'n', 'i' } },
           ['<S-Tab>'] = { 'list_up', mode = { 'n', 'i' } },
           ['<C-p>'] = { 'toggle_preview', mode = { 'n', 'i' } },
