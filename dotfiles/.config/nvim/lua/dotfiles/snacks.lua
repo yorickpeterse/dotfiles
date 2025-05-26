@@ -27,6 +27,16 @@ require('snacks').setup({
         },
       },
     },
+    layouts = {
+      select = {
+        layout = {
+          relative = 'cursor',
+          row = 1,
+          width = 0.25,
+          min_with = 40,
+        },
+      },
+    },
   },
   input = {
     icon = false,
