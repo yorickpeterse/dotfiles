@@ -11,6 +11,7 @@ require('snacks').setup({
     },
     matcher = {
       fuzzy = false,
+      frecency = true,
     },
     toggles = {
       hidden = false,
