@@ -1,6 +1,6 @@
 local fn = vim.fn
 local api = vim.api
-local snippy = require('snippy')
+local snip = vim.snippet
 local M = {}
 
 -- The name of the "file type" that defines snippets available to all file
@@ -156,12 +156,12 @@ function M.expand()
   end
 
   remove_text(buf, name)
-  snippy.expand_snippet(snippet.body)
+  snip.expand(snippet.body)
 end
 
 -- Expands the given snippet
 function M.expand_snippet(body)
-  snippy.expand_snippet(body)
+  snip.expand(body)
 end
 
 -- Formats a snippet body as human readable text
@@ -173,12 +173,12 @@ end
 
 -- Jumps to the previous snippet placeholder, if there is any.
 function M.previous()
-  snippy.previous()
+  snip.jump(-1)
 end
 
 -- Jumps to the next snippet placeholder, if there is any.
 function M.next()
-  snippy.next()
+  snip.jump(1)
 end
 
 return M

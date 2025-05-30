@@ -15,7 +15,6 @@ use('nvim-tree/nvim-web-devicons')
 use('mfussenegger/nvim-lint')
 use('stevearc/oil.nvim')
 use('stevearc/conform.nvim')
-use('dcampos/nvim-snippy')
 use('folke/snacks.nvim')
 
 pkg.install()
