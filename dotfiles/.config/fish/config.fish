@@ -14,6 +14,10 @@ set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
 set -x LS_COLORS 'di=0;35:ln=1;34:ex=1;30'
 set -x MANPAGER 'nvim +Man!'
 
+if status is-interactive
+    set -x CDPATH ".:$HOME/Projects"
+end
+
 # These variables are set such that they are preserved in Toolbox containers,
 # instead of them being cleared.
 set en_us en_US.UTF-8
