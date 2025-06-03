@@ -2,11 +2,18 @@ require('snacks').setup({
   picker = {
     prompt = ' > ',
     layout = {
-      preset = 'vertical',
       preview = false,
       layout = {
-        height = 0.5,
+        backdrop = false,
+        height = 0.6,
+        width = 0.5,
+        box = 'vertical',
+        border = 'rounded',
         title = '',
+        title_pos = 'center',
+        { win = 'input', height = 1, border = 'bottom' },
+        { win = 'list', border = '' },
+        { win = 'preview', title = '', height = 0.5, border = 'top' },
       },
     },
     matcher = {
@@ -25,6 +32,13 @@ require('snacks').setup({
           ['<S-Tab>'] = { 'list_up', mode = { 'n', 'i' } },
           ['<C-p>'] = { 'toggle_preview', mode = { 'n', 'i' } },
           ['<C-d>'] = { 'bufdelete', mode = { 'n', 'i' } },
+        },
+      },
+      preview = {
+        wo = {
+          number = false,
+          relativenumber = false,
+          signcolumn = 'no',
         },
       },
     },
