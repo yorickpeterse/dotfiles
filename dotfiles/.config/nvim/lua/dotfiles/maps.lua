@@ -74,6 +74,9 @@ end)
 map('n', '<leader>b', function()
   snacks.picker.buffers({ current = false })
 end)
+map('n', '<leader>u', function()
+  snacks.picker.undo({ layout = { preview = true } })
+end)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
