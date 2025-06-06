@@ -131,7 +131,7 @@ map('x', '<tab>', '>')
 
 -- Information about the name under the cursor (i.e. type/symbol information)
 map('n', '<leader>i', function()
-  vim.lsp.buf.hover({ border = 'rounded', max_width = 120, max_height = 20 })
+  vim.lsp.buf.hover({ max_width = 120, max_height = 20 })
 end)
 map('n', '<leader>n', vim.lsp.buf.rename)
 map('n', '<leader>r', function()

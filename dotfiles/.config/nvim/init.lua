@@ -96,6 +96,7 @@ o.winheight = 5
 o.path = '.,,'
 o.formatexpr = "v:lua.require'conform'.formatexpr()"
 o.shada = "!,'0,<50,s10,h,f0"
+o.winborder = 'rounded'
 
 -- GUI
 do
