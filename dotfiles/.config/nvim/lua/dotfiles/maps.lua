@@ -95,6 +95,13 @@ map('n', 'gd', function()
   end
 end)
 
+map({ 'n', 'x', 'o' }, 's', function()
+  local ignore = vim.go.ignorecase
+
+  vim.go.ignorecase = true
+  require('flash').jump()
+  vim.go.ignorecase = ignore
+end)
 map('x', 'y', 'ygv<Esc>')
 
 -- Allow copy/pasting using Control-c and Control-v

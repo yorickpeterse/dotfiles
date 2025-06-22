@@ -16,5 +16,6 @@ use('mfussenegger/nvim-lint')
 use('stevearc/oil.nvim')
 use('stevearc/conform.nvim')
 use('folke/snacks.nvim')
+use('folke/flash.nvim')
 
 pkg.install()
