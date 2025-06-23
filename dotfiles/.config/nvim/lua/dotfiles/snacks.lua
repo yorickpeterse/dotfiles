@@ -52,6 +52,28 @@ require('snacks').setup({
         },
       },
     },
+    sources = {
+      lsp_symbols = {
+        filter = {
+          default = {
+            'Class',
+            'Constructor',
+            'Enum',
+            'EnumMember',
+            'Field',
+            'Function',
+            'Interface',
+            'Method',
+            'Module',
+            'Namespace',
+            'Package',
+            'Property',
+            'Struct',
+            'Trait',
+          },
+        },
+      },
+    },
   },
   input = {
     icon = false,
