@@ -1,5 +1,5 @@
 local ts = require('nvim-treesitter')
-local installed = require('nvim-treesitter.config').installed_parsers()
+local installed = require('nvim-treesitter.config').get_installed()
 local install = vim
   .iter({
     'bash',
