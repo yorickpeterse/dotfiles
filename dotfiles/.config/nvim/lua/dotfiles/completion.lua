@@ -45,6 +45,40 @@ local MENU_STATUS_COL = ' %-2{min([9, v:lnum - line("w0")])}'
 -- The text to display before the user query in the completion prompt.
 local PROMPT_PREFIX = ' > '
 
+local ICONS = {
+  Class = ' ',
+  Color = ' ',
+  Control = ' ',
+  Collapsed = ' ',
+  Constant = '󰏿 ',
+  Constructor = ' ',
+  Enum = ' ',
+  EnumMember = ' ',
+  Event = ' ',
+  Field = ' ',
+  File = ' ',
+  Folder = ' ',
+  Function = '󰊕 ',
+  Interface = ' ',
+  Keyword = ' ',
+  Method = '󰊕 ',
+  Module = ' ',
+  Namespace = '󰦮 ',
+  Object = ' ',
+  Operator = ' ',
+  Package = ' ',
+  Property = ' ',
+  Reference = ' ',
+  Snippet = '󱄽 ',
+  Struct = '󰆼 ',
+  Text = ' ',
+  TypeParameter = ' ',
+  Unit = ' ',
+  Unknown = ' ',
+  Value = ' ',
+  Variable = '󰀫 ',
+}
+
 local function completion_position()
   local line, col = unpack(api.nvim_win_get_cursor(0))
   local line_text = api.nvim_get_current_line()
@@ -148,6 +182,7 @@ local function snippet_completion_items(buffer, column, prefix)
         source = 'snippet',
         line = line,
         column = column,
+        icon = ICONS.Snippet,
       })
     end
   end
@@ -183,6 +218,7 @@ function buffer_completion_items(column, prefix)
           count = 1,
           line = line,
           column = column,
+          icon = ICONS.Text,
         }
       end
     end
@@ -444,7 +480,7 @@ local function set_menu_items(state)
   local lines = vim
     .iter(items)
     :map(function(i)
-      return i.label
+      return i.icon .. i.label
     end)
     :totable()
 
@@ -463,7 +499,9 @@ local function set_menu_items(state)
   set_menu_size(state)
 
   for line = 1, #items do
-    highlight_match(buf, line, 1, #prefix)
+    local start = #items[line].icon
+
+    highlight_match(buf, line, start + 1, start + #prefix)
   end
 
   update_extmark_text(state)
@@ -538,7 +576,9 @@ local function filter_menu_items(state)
   for i, result in ipairs(results) do
     for _, ranges in ipairs(result.highlights) do
       for start, stop in pairs(ranges) do
-        highlight_match(state.results.buffer, i, start, stop)
+        local off = #results[i].item.icon
+
+        highlight_match(state.results.buffer, i, off + start, off + stop)
       end
     end
   end
@@ -851,6 +891,7 @@ function M.start()
           source = 'lsp',
           line = line,
           column = column,
+          icon = ICONS[kinds[item.kind]],
         })
       end
 
