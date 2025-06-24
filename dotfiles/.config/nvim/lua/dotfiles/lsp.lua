@@ -198,6 +198,13 @@ config.rust_analyzer.setup({
       },
       lruCapacity = 64,
       completion = {
+        -- autoIter means that when completing e.g. `foo.pos`, rust-analyzer
+        -- will also suggest entries such as `foo.iter().position`. This breaks
+        -- the manual completion prefix handling and is annoying, so it's
+        -- disabled.
+        autoIter = {
+          enable = false,
+        },
         autoimport = {
           enable = false,
         },
