@@ -240,6 +240,10 @@ function buffer_completion_items(column, prefix)
 end
 
 local function highlight_match(buf, line, start, stop)
+  if stop == 0 then
+    return
+  end
+
   vim.hl.range(
     buf,
     NAMESPACE,
@@ -498,10 +502,12 @@ local function set_menu_items(state)
   api.nvim_win_set_cursor(win, { 1, 0 })
   set_menu_size(state)
 
-  for line = 1, #items do
-    local start = #items[line].icon
+  if #prefix > 0 then
+    for line = 1, #items do
+      local start = #items[line].icon
 
-    highlight_match(buf, line, start + 1, start + #prefix)
+      highlight_match(buf, line, start + 1, start + #prefix)
+    end
   end
 
   update_extmark_text(state)
