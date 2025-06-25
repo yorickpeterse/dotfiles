@@ -11,7 +11,7 @@ require('flash').setup({
     win_config = { border = 'none' },
   },
   label = {
-    before = false,
-    after = true,
+    before = true,
+    after = false,
   },
 })
