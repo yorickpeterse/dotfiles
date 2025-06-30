@@ -21,7 +21,7 @@ local diagnostics_cache = {}
 -- A cache of the LSP client states.
 local lsp_status_cache = nil
 
-local function diagnostic_count(kind, foreground, background)
+local function diagnostic_count(kind, background)
   local severity = kind == 'E' and diag.severity.ERROR or diag.severity.WARN
   local amount = 0
   local cached = diagnostics_cache[severity]
@@ -34,11 +34,10 @@ local function diagnostic_count(kind, foreground, background)
   end
 
   if amount > 0 then
-    return table.concat({
-      highlight('', foreground),
-      highlight(table.concat({ kind, ': ', amount }, ''), background),
-      highlight('', foreground),
-    }, '')
+    return highlight(
+      table.concat({ ' ', kind, ': ', amount, ' ' }, ''),
+      background
+    )
   else
     return ''
   end
@@ -147,8 +146,8 @@ function M.render()
       separator,
       lsp_status(),
       tabline(),
-      diagnostic_count('W', 'WarningMsg', 'WhiteOnYellow'),
-      diagnostic_count('E', 'ErrorMsg', 'WhiteOnRed'),
+      diagnostic_count('W', 'WhiteOnYellow'),
+      diagnostic_count('E', 'WhiteOnRed'),
     })
     :filter(function(v)
       return #v > 0
