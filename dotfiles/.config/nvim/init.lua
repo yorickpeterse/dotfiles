@@ -47,6 +47,7 @@ require('dotfiles.abbrev')
 o.pumheight = 30
 o.completeopt = 'menu'
 o.complete = { '.', 'b' }
+o.wildignorecase = true
 
 -- Generic
 o.colorcolumn = '80'
