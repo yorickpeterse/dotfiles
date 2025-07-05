@@ -111,7 +111,7 @@ map('t', '<C-s-v>', [[<C-\><C-n>"+pa]])
 
 -- Code and pairs completion
 map('i', '<Esc>', function()
-  return popup_visible() and '<C-e><Esc>' or '<Esc>'
+  return popup_visible() and '<C-e>' or '<Esc>'
 end, { expr = true })
 
 map('i', '<tab>', function()
