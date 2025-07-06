@@ -69,7 +69,11 @@ function M.start()
       local scope = nil
 
       if parent then
-        parent = find_parent(parent, scopes)
+        local root = find_parent(parent, scopes)
+
+        if root then
+          parent = root
+        end
       end
 
       if parent then
