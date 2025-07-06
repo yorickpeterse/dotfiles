@@ -6,6 +6,7 @@ local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
 local snacks = require('snacks')
+local ts_picker = require('dotfiles.snacks.pickers.treesitter')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -69,7 +70,7 @@ map('n', '<leader>t', function()
     return
   end
 
-  snacks.picker.treesitter()
+  ts_picker.start()
 end)
 map('n', '<leader>b', function()
   snacks.picker.buffers({ current = false })
