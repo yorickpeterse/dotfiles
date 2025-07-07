@@ -19,6 +19,11 @@ snacks.setup({
         { win = 'preview', title = '', height = 0.5, border = 'top' },
       },
     },
+    formatters = {
+      file = {
+        icon_width = 3,
+      },
+    },
     matcher = {
       fuzzy = false,
       frecency = false,
