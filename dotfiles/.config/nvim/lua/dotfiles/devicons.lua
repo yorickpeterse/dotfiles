@@ -7,5 +7,10 @@ require('nvim-web-devicons').setup({
       cterm_color = '67',
       name = 'Markdown',
     },
+    ['inko'] = {
+      icon = '󱗆',
+      color = '#1c5708',
+      name = 'Inko',
+    },
   },
 })
