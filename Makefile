@@ -1,5 +1,5 @@
 dotfiles:
-	stow dotfiles -t ~/
+	@fish dotfiles.fish
 
 fedora-rpm:
 	@fish containers/build.fish fedora-rpm

@@ -1,14 +1,7 @@
 # dotfiles
 
-My dotfiles, managed using [GNU Stow](https://www.gnu.org/software/stow/).
+My dotfiles, managed using a [Fish](https://fishshell.com/) script.
 
 # Usage
 
-Make sure that GNU Stow and Make are installed. For Arch Linux, run the
-following:
-
-    sudo pacman -S stow make
-
-Then link all the dotfiles:
-
-    make
+Install Fish, then run `make dotfiles` to put the dotfiles into place.
