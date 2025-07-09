@@ -4,6 +4,11 @@ local fmt = require('dotfiles.snacks.formatters')
 snacks.setup({
   picker = {
     prompt = ' > ',
+    icons = {
+      files = {
+        enabled = false,
+      },
+    },
     layout = {
       preview = false,
       layout = {

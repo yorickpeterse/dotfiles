@@ -5,12 +5,6 @@ local M = {}
 function M.scoped_symbol(item, picker)
   local opts = picker.opts
   local ret = {}
-  local kind = item.kind or 'Unknown'
-  local kind_hl = 'SnacksPickerIcon' .. kind
-
-  ret[#ret + 1] = { picker.opts.icons.kinds[kind], kind_hl }
-  ret[#ret + 1] = { ' ' }
-
   local name = vim.trim(item.name:gsub('\r?\n', ' '))
 
   name = name == '' and item.detail or name
