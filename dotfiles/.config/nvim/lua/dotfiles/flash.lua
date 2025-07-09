@@ -8,6 +8,7 @@ require('flash').setup({
     },
   },
   prompt = {
+    enabled = false,
     win_config = { border = 'none' },
   },
   label = {
