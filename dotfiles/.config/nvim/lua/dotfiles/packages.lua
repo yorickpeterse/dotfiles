@@ -1,7 +1,6 @@
 local pkg = require('dotfiles.package')
 local use = pkg.use
 
-use('nvim-lua/plenary.nvim')
 use('neovim/nvim-lspconfig')
 use({ 'nvim-treesitter/nvim-treesitter', branch = 'main', run = 'TSUpdate' })
 use('inko-lang/inko.vim')
