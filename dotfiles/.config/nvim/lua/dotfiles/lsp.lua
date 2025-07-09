@@ -108,14 +108,14 @@ vim_diag.config({
 })
 
 -- C/C++
-config.clangd.setup({
+vim.lsp.config('clangd', {
   on_init = on_init,
   capabilities = capabilities,
   flags = flags,
 })
 
 -- Go
-config.gopls.setup({
+vim.lsp.config('gopls', {
   on_init = on_init,
   capabilities = capabilities,
   flags = flags,
@@ -134,7 +134,7 @@ do
   table.insert(rpath, 'lua/?.lua')
   table.insert(rpath, 'lua/?/init.lua')
 
-  config.lua_ls.setup({
+  vim.lsp.config('lua_ls', {
     on_init = on_init,
     capabilities = capabilities,
     flags = flags,
@@ -171,7 +171,7 @@ do
 end
 
 -- Python
-config.jedi_language_server.setup({
+vim.lsp.config('jedi_language_server', {
   on_init = on_init,
   capabilities = capabilities,
   flags = flags,
@@ -185,7 +185,7 @@ config.jedi_language_server.setup({
 })
 
 -- Rust
-config.rust_analyzer.setup({
+vim.lsp.config('rust_analyzer', {
   on_init = on_init,
   cmd = { 'rust-analyzer' },
   capabilities = capabilities,
@@ -202,19 +202,17 @@ config.rust_analyzer.setup({
         -- will also suggest entries such as `foo.iter().position`. This breaks
         -- the manual completion prefix handling and is annoying, so it's
         -- disabled.
-        autoIter = {
-          enable = false,
-        },
-        autoimport = {
-          enable = false,
-        },
-        postfix = {
-          enable = false,
-        },
-        autoself = {
-          enable = false,
-        },
+        autoIter = { enable = false },
+        autoimport = { enable = false },
+        postfix = { enable = false },
+        autoself = { enable = false },
       },
     },
   },
 })
+
+vim.lsp.enable('clangd')
+vim.lsp.enable('gopls')
+vim.lsp.enable('lua_ls')
+vim.lsp.enable('jedi_language_server')
+vim.lsp.enable('rust_analyzer')
