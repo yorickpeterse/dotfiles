@@ -1,3 +1,4 @@
-function prof -d 'Profile a program using perf'
-    perf record -g --call-graph dwarf -F 10000 $argv
+function prof -d 'Profile a program using samply'
+    samply record -r 10000 $argv
+    rm profile.json.gz
 end

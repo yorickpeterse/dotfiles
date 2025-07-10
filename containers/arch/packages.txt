@@ -30,6 +30,7 @@ ruby
 ruby-irb
 ruby-rdoc
 rustup
+samply
 shellcheck
 stylua
 tree
