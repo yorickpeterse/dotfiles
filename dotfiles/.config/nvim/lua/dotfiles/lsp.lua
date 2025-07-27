@@ -112,6 +112,7 @@ vim.lsp.config('clangd', {
   on_init = on_init,
   capabilities = capabilities,
   flags = flags,
+  cmd = { 'clangd', '--header-insertion=never' },
 })
 
 -- Go
