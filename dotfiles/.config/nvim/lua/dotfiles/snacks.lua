@@ -27,6 +27,7 @@ snacks.setup({
     formatters = {
       file = {
         icon_width = 3,
+        truncate = 100,
       },
     },
     matcher = {
