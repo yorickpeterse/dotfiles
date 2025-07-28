@@ -1,31 +1,39 @@
 local fn = vim.fn
 local M = {}
 
--- A findfunc implementation that uses fd (https://github.com/sharkdp/fd) to do
--- the heavy lifting.
---
--- Using fd instead of `rg --files` means we don't need to load a (potentially)
--- large list of files into Lua and then filter it.
 function M.find(arg, cmd)
-  -- fd doesn't return anything when given a path that exists.
-  if vim.uv.fs_stat(arg) then
-    return { arg }
+  local lines = fn.systemlist('rg --hidden --files --glob=!.git/\\*')
+  local query = vim.split(vim.pesc(arg:lower()), '%s', { trimempty = true })
+  local matches = {}
+
+  for _, line in ipairs(lines) do
+    local search = line:lower()
+    local match = true
+    local len = 0
+
+    for _, pat in ipairs(query) do
+      local start, stop = search:find(pat)
+
+      if not start then
+        match = false
+        break
+      end
+
+      len = len + (stop - start)
+    end
+
+    if match then
+      table.insert(matches, { text = line, score = len / #line })
+    end
   end
 
-  local query = arg:gsub('%s', '.*')
-  local res = vim
-    .system({ 'fd', '--hidden', '--exclude=.git', query }, { text = true })
-    :wait()
-
-  local lines = vim.split(res.stdout, '\n', { trimempty = true })
-
-  -- The output is not in a deterministic order, so we sort the lines
-  -- alphabetically in ascending order.
-  table.sort(lines, function(a, b)
-    return a < b
+  table.sort(matches, function(a, b)
+    return (a.score == b.score) and (a.text < b.text) or (a.score > b.score)
   end)
 
-  return lines
+  return vim.tbl_map(function(i)
+    return i.text
+  end, matches)
 end
 
 return M
