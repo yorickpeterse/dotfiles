@@ -4,6 +4,7 @@ bc
 clang
 cmake
 cpupower
+fd
 fish
 fuse-overlayfs
 gcc-libs

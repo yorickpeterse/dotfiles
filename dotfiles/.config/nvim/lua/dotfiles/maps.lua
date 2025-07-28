@@ -58,7 +58,7 @@ map('n', '<leader>a', vim.lsp.buf.code_action)
 map('n', '<leader>f', function()
   snacks.picker.files({
     hidden = true,
-    cmd = 'rg',
+    cmd = 'fd',
   })
 end)
 map('n', '<leader>t', function()
