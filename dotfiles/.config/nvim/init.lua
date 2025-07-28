@@ -132,6 +132,7 @@ o.grepprg = 'rg --vimgrep'
 o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
 o.incsearch = true
 o.hlsearch = false
+o.findfunc = "v:lua.require'dotfiles.findfunc'.find"
 
 -- Statuscolumn
 o.statuscolumn =
