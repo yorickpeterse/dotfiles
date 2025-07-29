@@ -76,7 +76,7 @@ map('n', 'gd', function()
   end
 end)
 
-map({ 'n', 'x', 'o' }, 's', function()
+map({ 'n', 'x', 'o' }, '<CR>', function()
   local ignore = vim.go.ignorecase
 
   vim.go.ignorecase = true
