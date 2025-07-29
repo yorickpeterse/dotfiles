@@ -80,7 +80,7 @@ map({ 'n', 'x', 'o' }, 's', function()
   local ignore = vim.go.ignorecase
 
   vim.go.ignorecase = true
-  require('flash').jump()
+  require('flash').jump({ search = { multi_window = false } })
   vim.go.ignorecase = ignore
 end)
 map('x', 'y', 'ygv<Esc>')
