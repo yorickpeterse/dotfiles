@@ -5,6 +5,23 @@ local api = vim.api
 local lsp = vim.lsp
 local M = {}
 
+local INCLUDE = {
+  ['Class'] = true,
+  ['Constructor'] = true,
+  ['Enum'] = true,
+  ['EnumMember'] = true,
+  ['Field'] = true,
+  ['Function'] = true,
+  ['Interface'] = true,
+  ['Method'] = true,
+  ['Module'] = true,
+  ['Namespace'] = true,
+  ['Package'] = true,
+  ['Property'] = true,
+  ['Struct'] = true,
+  ['Trait'] = true,
+}
+
 local function flatten(symbols, scope)
   local items = {}
 
@@ -44,17 +61,20 @@ function M.document_symbols()
 
       for _, sym in ipairs(flatten(result, {})) do
         local loc = sym.selectionRange
+        local kind = lsp.protocol.SymbolKind[sym.kind]
 
-        table.insert(items, {
-          parent = { text = table.concat(sym.scope, ' / ') },
-          text = sym.name,
-          kind = lsp.protocol.SymbolKind[sym.kind],
-          buf = buf,
-          lnum = loc.start.line + 1,
-          col = loc.start.character + 1,
-          end_lnum = loc['end'].line + 1,
-          end_col = loc['end'].character + 1,
-        })
+        if INCLUDE[kind] then
+          table.insert(items, {
+            parent = { text = table.concat(sym.scope, ' / ') },
+            text = sym.name,
+            kind = kind,
+            buf = buf,
+            lnum = loc.start.line + 1,
+            col = loc.start.character + 1,
+            end_lnum = loc['end'].line + 1,
+            end_col = loc['end'].character + 1,
+          })
+        end
       end
 
       table.sort(items, function(a, b)
