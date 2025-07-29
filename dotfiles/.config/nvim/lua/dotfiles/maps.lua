@@ -29,6 +29,8 @@ vim.g.maplocalleader = ' '
 
 -- Generic
 map('', '<space>', '<nop>')
+map('', 's', '<nop>')
+
 map('n', '<leader>F', util.format_buffer)
 map('n', '<leader>w', cmd('update'))
 map({ 'n', 'x' }, '<leader>p', '"0p')
