@@ -211,7 +211,7 @@ local function highlight_match(buf, line, start, stop)
   vim.hl.range(
     buf,
     NAMESPACE,
-    'TelescopeMatching',
+    'PmenuMatch',
     { line - 1, start - 1 },
     { line - 1, stop },
     {}
