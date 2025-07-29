@@ -288,3 +288,22 @@ au('tabs', {
     end,
   },
 })
+
+au('mini', {
+  {
+    'User',
+    'MiniPickStart',
+    function()
+      vim.opt.ignorecase = true
+      vim.opt.smartcase = true
+    end,
+  },
+  {
+    'User',
+    'MiniPickStop',
+    function()
+      vim.opt.ignorecase = false
+      vim.opt.smartcase = false
+    end,
+  },
+})

@@ -5,8 +5,7 @@ local snippet = require('dotfiles.snippet')
 local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
-local snacks = require('snacks')
-local ts_picker = require('dotfiles.snacks.pickers.treesitter')
+local pick = require('mini.pick')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -55,29 +54,10 @@ end)
 map('n', '<leader>a', vim.lsp.buf.code_action)
 
 -- Pickers
-map('n', '<leader>f', function()
-  snacks.picker.files({
-    hidden = true,
-    cmd = 'fd',
-  })
-end)
-map('n', '<leader>t', function()
-  local bufnr = api.nvim_get_current_buf()
-  local ft = api.nvim_get_option_value('ft', { buf = bufnr })
-
-  if util.has_lsp_clients_supporting(bufnr, 'document_symbol') then
-    snacks.picker.lsp_symbols()
-    return
-  end
-
-  ts_picker.start()
-end)
-map('n', '<leader>b', function()
-  snacks.picker.buffers({ current = false })
-end)
-map('n', '<leader>u', function()
-  snacks.picker.undo({ layout = { preview = true } })
-end)
+map('n', '<leader>f', require('dotfiles.mini.pickers.files').start)
+map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
+map('n', '<leader>b', pick.builtin.buffers)
+map('n', '<leader>h', pick.builtin.help)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')

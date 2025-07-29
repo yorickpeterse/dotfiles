@@ -1,5 +1,5 @@
-local snacks = require('snacks')
-local fmt = require('dotfiles.snacks.formatters')
+local pick = require('mini.pick')
+local show = require('dotfiles.mini.show')
 local api = vim.api
 local ts = vim.treesitter
 local M = {}
@@ -88,7 +88,8 @@ function M.start()
         end
       end
 
-      lnum, end_lnum = lnum + 1, end_lnum + 1
+      lnum, col, end_lnum, end_col =
+        lnum + 1, col + 1, end_lnum + 1, end_col + 1
 
       local key = text
         .. tostring(lnum)
@@ -100,11 +101,12 @@ function M.start()
         items[key] = {
           parent = { text = scope },
           text = text,
-          name = text,
           kind = kind,
           buf = buf,
-          pos = { lnum, col },
-          end_pos = { end_lnum, end_col },
+          lnum = lnum,
+          col = col,
+          end_lnum = end_lnum,
+          end_col = end_col,
         }
       end
     end
@@ -116,10 +118,12 @@ function M.start()
     return a.text < b.text
   end)
 
-  return snacks.picker.pick({
-    title = 'Tree-sitter',
-    items = sorted,
-    format = fmt.scoped_symbol,
+  pick.start({
+    source = {
+      items = sorted,
+      name = 'Tree-sitter',
+      show = show.scoped_symbols,
+    },
   })
 end
 

@@ -31,10 +31,8 @@ require('tree-pairs').setup()
 require('dotfiles.lsp')
 require('dotfiles.window')
 require('dotfiles.treesitter')
-require('dotfiles.snacks')
 require('dotfiles.flash')
 require('dotfiles.hooks')
-require('dotfiles.devicons')
 require('dotfiles.oil')
 require('dotfiles.linters')
 require('dotfiles.formatters')
@@ -42,6 +40,7 @@ require('dotfiles.pairs')
 require('dotfiles.maps')
 require('dotfiles.commands')
 require('dotfiles.abbrev')
+require('dotfiles.mini')
 
 -- Code completion
 o.pumheight = 30
