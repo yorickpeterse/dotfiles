@@ -24,8 +24,8 @@ function M.scoped_symbols(buf, items, query, opts)
   local max = 0
 
   for _, item in ipairs(items) do
-    if #item.text > max then
-      max = #item.text
+    if item.parent.text and #item.parent.text > max then
+      max = #item.parent.text
     end
   end
 
@@ -45,13 +45,14 @@ function M.scoped_symbols(buf, items, query, opts)
     end
 
     if item.parent.text then
+      local val = item.parent.text
       local col = #item.text
-      local pad = max - #item.text
-      local scope = string.rep(' ', pad + 4) .. item.parent.text
+      local pad = max - #val
+      local scope = val .. string.rep(' ', pad)
 
       api.nvim_buf_set_extmark(buf, NS, line, col, {
         virt_text = { { scope, 'Comment' } },
-        virt_text_pos = 'inline',
+        virt_text_pos = 'eol_right_align',
         hl_mode = 'combine',
       })
     end
