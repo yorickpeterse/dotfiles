@@ -3,6 +3,7 @@ local pick = require('mini.pick')
 require('mini.icons').setup({
   lsp = {
     ['function'] = { glyph = '󰊕' },
+    ['method'] = { glyph = '󰊕' },
   },
 })
 
