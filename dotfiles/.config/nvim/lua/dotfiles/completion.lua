@@ -698,28 +698,6 @@ local function show_menu(buf, prefix, items)
     group = AUGROUP,
     buffer = state.prompt.buffer,
     callback = function()
-      -- When showing the window the first time, this event gets triggered right
-      -- away, probably due to the use of prompt_setprompt(). This check ensures
-      -- we ignore said first event.
-      if text_changed_first_time then
-        text_changed_first_time = false
-
-        -- If we set this up outside this autocmd then the highlight doesn't get
-        -- applied. I have no idea why, but doing it here (once) works :|
-        if #PROMPT_PREFIX > 0 then
-          vim.hl.range(
-            state.prompt.buffer,
-            NAMESPACE,
-            'TelescopePromptPrefix',
-            { 0, 0 },
-            { 0, #PROMPT_PREFIX },
-            {}
-          )
-        end
-
-        return
-      end
-
       filter_menu_items(state)
     end,
   })
