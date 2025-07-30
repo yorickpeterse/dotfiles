@@ -30,49 +30,6 @@ pick.setup({
       }
     end,
   },
-  source = {
-    match = function(items, indexes, query)
-      local query = vim.split(
-        vim.pesc(table.concat(query):lower()),
-        '%s',
-        { trimempty = true }
-      )
-
-      local matches = {}
-
-      for _, idx in ipairs(indexes) do
-        local search = items[idx]:lower()
-        local match = true
-        local len = 0
-
-        for _, pat in ipairs(query) do
-          local start, stop = search:find(pat)
-
-          if not start then
-            match = false
-            break
-          end
-
-          len = len + (stop - start)
-        end
-
-        if match then
-          table.insert(
-            matches,
-            { index = idx, text = items[idx], score = len / #search }
-          )
-        end
-      end
-
-      table.sort(matches, function(a, b)
-        return (a.score == b.score) and (a.text < b.text) or (a.score > b.score)
-      end)
-
-      return vim.tbl_map(function(i)
-        return i.index
-      end, matches)
-    end,
-  },
 })
 
 vim.ui.select = pick.ui_select
