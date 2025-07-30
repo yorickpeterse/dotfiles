@@ -82,7 +82,3 @@ vim.ui.select = pick.ui_select
 require('mini.ai').setup({
   silent = true,
 })
-
-require('mini.surround').setup({
-  silent = true,
-})

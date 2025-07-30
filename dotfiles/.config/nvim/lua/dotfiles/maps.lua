@@ -29,8 +29,6 @@ vim.g.maplocalleader = ' '
 
 -- Generic
 map('', '<space>', '<nop>')
-map('', 's', '<nop>')
-
 map('n', '<leader>F', util.format_buffer)
 map('n', '<leader>w', cmd('update'))
 map({ 'n', 'x' }, '<leader>p', '"0p')
@@ -78,7 +76,7 @@ map('n', 'gd', function()
   end
 end)
 
-map({ 'n', 'x', 'o' }, '<CR>', function()
+map({ 'n', 'x', 'o' }, 's', function()
   local ignore = vim.go.ignorecase
 
   vim.go.ignorecase = true
