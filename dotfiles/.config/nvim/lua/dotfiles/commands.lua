@@ -1,4 +1,3 @@
-local package = require('dotfiles.package')
 local util = require('dotfiles.util')
 local M = {}
 
@@ -22,14 +21,6 @@ end)
 cmd('Tterm', function()
   vim.cmd.tabnew()
   terminal()
-end)
-
-cmd('PackageUpdate', function(data)
-  package.update(data.fargs[1])
-end, { nargs = '?', complete = package.names })
-
-cmd('PackageClean', function()
-  package.clean()
 end)
 
 cmd('Cd', function(data)
