@@ -3,7 +3,14 @@ local M = {}
 
 function M.start()
   pick.builtin.cli({
-    command = { 'fd', '--type=f', '--no-follow', '--color=never', '--hidden' },
+    command = {
+      'fd',
+      '--type=f',
+      '--no-follow',
+      '--color=never',
+      '--hidden',
+      '--exclude=.git',
+    },
   }, {
     source = {
       name = 'Files',
