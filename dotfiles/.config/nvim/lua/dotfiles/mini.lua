@@ -33,9 +33,3 @@ pick.setup({
 })
 
 vim.ui.select = pick.ui_select
-
--- This makes text objects like "i" work a bit better (e.g. for quotes spanning
--- multiple lines).
-require('mini.ai').setup({
-  silent = true,
-})
