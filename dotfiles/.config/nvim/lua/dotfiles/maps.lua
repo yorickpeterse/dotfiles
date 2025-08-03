@@ -58,6 +58,7 @@ map('n', '<leader>f', require('dotfiles.mini.pickers.files').start)
 map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
 map('n', '<leader>b', pick.builtin.buffers)
 map('n', '<leader>h', pick.builtin.help)
+map('n', '<leader>m', require('dotfiles.mini.pickers.marks').start)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
@@ -153,3 +154,42 @@ end)
 -- Code review
 map('n', ']f', git_diff.next_file)
 map('n', '[f', git_diff.previous_file)
+
+-- Better marks
+map('n', 'ma', function()
+  local marks = {}
+
+  for _, mark in ipairs(fn.getmarklist()) do
+    if mark.mark:match("'[A-Z]") then
+      table.insert(marks, mark.mark:sub(2))
+    end
+  end
+
+  table.sort(marks, function(a, b)
+    return a < b
+  end)
+
+  local mark = 'A'
+  local last = marks[#marks]
+
+  if last and last ~= 'Z' then
+    mark = string.char(last:byte() + 1)
+  end
+
+  local buf = api.nvim_get_current_buf()
+  local row, col = unpack(api.nvim_win_get_cursor(0))
+
+  api.nvim_buf_set_mark(0, mark, row, col, {})
+end)
+
+map('n', 'md', function()
+  local row, col = unpack(api.nvim_win_get_cursor(0))
+
+  for _, mark in ipairs(fn.getmarklist()) do
+    if mark.mark:match("'[A-Z]") then
+      if mark.pos[2] == row then
+        api.nvim_del_mark(mark.mark:sub(2))
+      end
+    end
+  end
+end)
