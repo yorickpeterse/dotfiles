@@ -33,3 +33,9 @@ pick.setup({
 })
 
 vim.ui.select = pick.ui_select
+
+require('mini.git').setup({
+  command = {
+    split = 'vertical',
+  },
+})
