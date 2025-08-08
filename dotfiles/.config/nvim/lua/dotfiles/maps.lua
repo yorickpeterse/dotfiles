@@ -58,7 +58,6 @@ map('n', '<leader>f', require('dotfiles.mini.pickers.files').start)
 map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
 map('n', '<leader>b', pick.builtin.buffers)
 map('n', '<leader>h', pick.builtin.help)
-map('n', '<leader>m', require('dotfiles.mini.pickers.marks').start)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
