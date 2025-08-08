@@ -100,6 +100,22 @@ local function lsp_status()
   return highlight(table.concat(cells, ', '), 'Comment')
 end
 
+local function git_status()
+  local sum = vim.b.minigit_summary
+
+  if not sum then
+    return ''
+  end
+
+  local name = sum.head_name or sum.head
+
+  if not name or name == '' then
+    return ''
+  end
+
+  return highlight(' ' .. name, 'Comment')
+end
+
 local function tabline()
   local line = ''
   local pages = api.nvim_list_tabpages()
@@ -145,6 +161,7 @@ function M.render()
     .iter({
       separator,
       lsp_status(),
+      git_status(),
       tabline(),
       diagnostic_count('W', 'WhiteOnYellow'),
       diagnostic_count('E', 'WhiteOnRed'),
