@@ -4,7 +4,7 @@ return {
   ["inko.vim"] = "5dbc40375c9da4a2fcc27bf7e187267c2b575121",
   ["mini.nvim"] = "03387f53f1cb8c6a8ba0798041c6aa3525ed11ba",
   ["nvim-dd"] = "ebd9398271d3249fe97ffb52365fb6ace7605277",
-  ["nvim-grey"] = "649121da3842650fe4b63b3fbec8245c187c92d5",
+  ["nvim-grey"] = "de9c4826c988af24c607bcac3bb0c4510b59853f",
   ["nvim-lint"] = "7ef127aaede2a4d5ad8df8321e2eb4e567f29594",
   ["nvim-lspconfig"] = "9141be4c1332afc83bdf1b0278dbb030f75ff8e3",
   ["nvim-pqf"] = "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
