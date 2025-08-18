@@ -7,6 +7,7 @@ local M = {}
 
 local INCLUDE = {
   ['Class'] = true,
+  ['Constant'] = true,
   ['Constructor'] = true,
   ['Enum'] = true,
   ['EnumMember'] = true,
