@@ -14,9 +14,9 @@ RUN mkdir -p /etc/pacman.d/hooks \
     && touch /etc/pacman.d/hooks/dbus-reload.hook
 
 # Set up the locales.
-RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen && \
-    echo 'en_IE.UTF-8 UTF-8' >> /etc/locale.gen && \
-    locale-gen
+RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen \
+    && echo 'en_IE.UTF-8 UTF-8' >> /etc/locale.gen \
+    && locale-gen
 
 # Install packages that must be installed before the rest.
 RUN pacman -Syu --noconfirm --quiet reflector \
@@ -25,8 +25,7 @@ RUN pacman -Syu --noconfirm --quiet reflector \
 
 # Install packages from the official repositories.
 COPY packages.txt /
-RUN pacman -Syu --needed --noconfirm --quiet $(<packages.txt)
-RUN rm packages.txt
+RUN pacman -Syu --needed --noconfirm --quiet $(<packages.txt) && rm packages.txt
 
 # Set up the AUR wrapper.
 RUN useradd --home-dir=/home/build --create-home build \
@@ -39,7 +38,7 @@ RUN useradd --home-dir=/home/build --create-home build \
 COPY aur.txt /
 RUN sudo -u build yay -Syu --noconfirm --needed --mflags --nocheck --quiet $(<aur.txt) \
     && sudo -u build yay -Scc --noconfirm \
-    && userdel --remove build
-RUN rm aur.txt
+    && userdel --remove build \
+    && rm aur.txt
 
 ENV CONTAINER_ID arch

@@ -1,0 +1,21 @@
+FROM quay.io/toolbx/arch-toolbox:latest
+
+# Configure the package manager.
+RUN pacman-key --init && pacman-key --populate
+RUN sed -i -e 's/ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf \
+    && sed -i -e 's/#Color/Color/' /etc/pacman.conf
+
+# Set up the locales.
+RUN echo 'en_US.UTF-8 UTF-8' > /etc/locale.gen \
+    && echo 'en_IE.UTF-8 UTF-8' >> /etc/locale.gen \
+    && locale-gen
+
+# Install packages that must be installed before the rest.
+RUN pacman -Syu --noconfirm --quiet reflector \
+    && reflector --save /etc/pacman.d/mirrorlist \
+       --country NL --protocol https --latest 10 --fastest 10
+
+COPY packages.txt /
+RUN pacman -Syu --needed --noconfirm --quiet $(<packages.txt) && rm packages.txt
+
+ENV CONTAINER_ID qmk

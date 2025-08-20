@@ -24,8 +24,6 @@ nodejs
 noto-fonts
 noto-fonts-emoji
 perf
-python-pip
-qmk
 rclone
 ripgrep
 ruby

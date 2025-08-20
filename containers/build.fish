@@ -12,7 +12,7 @@ section 'Creating container'
 run echo y \| toolbox create --image $name-dev $name
 
 cd containers/$name
-toolbox run --container $name fish install.fish
+test -f install.fish && toolbox run --container $name fish install.fish
 cd ..
 
 section Finishing
