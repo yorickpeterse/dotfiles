@@ -4,9 +4,6 @@ local util = require('dotfiles.util')
 local diff = require('dotfiles.git.diff')
 local M = {}
 
--- The editor command to use for interactive Git operations.
-local EDITOR = 'nvr -cc vsplit -c "setlocal bufhidden=wipe" --remote-wait'
-
 -- The highlight groups to use for various elements.
 local HIGHLIGHTS = {
   commit = 'Yellow',
@@ -472,19 +469,15 @@ local function revert_commit(state)
     return
   end
 
-  vim.system(
-    { 'git', 'revert', '--edit', commit.id },
-    { env = { GIT_EDITOR = EDITOR } },
-    function(res)
-      if res.code == 0 then
-        vim.schedule(function()
-          reload(state)
-        end)
-      else
-        util.error(vim.trim(res.stderr))
-      end
+  vim.system({ 'git', 'revert', '--edit', commit.id }, function(res)
+    if res.code == 0 then
+      vim.schedule(function()
+        reload(state)
+      end)
+    else
+      util.error(vim.trim(res.stderr))
     end
-  )
+  end)
 end
 
 local function rebase_commits(state)
