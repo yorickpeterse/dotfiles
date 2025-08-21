@@ -9,7 +9,7 @@ return {
   ["nvim-lspconfig"] = "9141be4c1332afc83bdf1b0278dbb030f75ff8e3",
   ["nvim-pqf"] = "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
   ["nvim-tree-pairs"] = "ca093d7d8eb5b51ae48769c10d797ba8f4f6dfc6",
-  ["nvim-treesitter"] = "4eb35c03443742a4c3b2db13d36da9cddb6268c3",
+  ["nvim-treesitter"] = "44e90ec66e44f7dbb60030f453a48282b3a1125a",
   ["nvim-window"] = "9b074c19f48f46f1536879f6e2ef8e8e95433cf9",
   ["oil.nvim"] = "bbad9a76b2617ce1221d49619e4e4b659b3c61fc",
   ["rust.vim"] = "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb",
