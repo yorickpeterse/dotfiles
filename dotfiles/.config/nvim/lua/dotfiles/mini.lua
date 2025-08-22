@@ -30,6 +30,20 @@ pick.setup({
       }
     end,
   },
+  source = {
+    match = function(items, indexes, query, opts)
+      -- Inserting a space at the end results in mini.pick filtering out entries
+      -- with only a partial match, cutting down the amount of noise (e.g.
+      -- "test" no longer matches "types/src/format.rs").
+      --
+      -- We need to copy the query as modifying it in-place also modifies the
+      -- way the query is displayed.
+      local query = vim.deepcopy(query)
+
+      table.insert(query, ' ')
+      return MiniPick.default_match(items, indexes, query, opts)
+    end,
+  },
 })
 
 vim.ui.select = pick.ui_select
