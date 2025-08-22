@@ -23,6 +23,16 @@ local function cmd(string)
   return '<cmd>' .. string .. '<CR>'
 end
 
+local function ignore_case(func)
+  return function()
+    vim.opt.ignorecase = true
+    vim.opt.smartcase = true
+    func()
+    vim.opt.ignorecase = false
+    vim.opt.smartcase = false
+  end
+end
+
 -- The leader key must be defined before any mappings are set.
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
@@ -54,10 +64,10 @@ end)
 map('n', '<leader>a', vim.lsp.buf.code_action)
 
 -- Pickers
-map('n', '<leader>f', require('dotfiles.mini.pickers.files').start)
+map('n', '<leader>f', ignore_case(require('dotfiles.mini.pickers.files').start))
 map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
-map('n', '<leader>b', pick.builtin.buffers)
-map('n', '<leader>h', pick.builtin.help)
+map('n', '<leader>b', ignore_case(pick.builtin.buffers))
+map('n', '<leader>h', ignore_case(pick.builtin.help))
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
