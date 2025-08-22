@@ -45,9 +45,18 @@ function M.start()
 
   local items = {}
   local scopes = {}
+  local captures = {}
+  local iter_opts = { max_start_depth = 4 }
 
-  for _, tree in ipairs(parser:trees()) do
-    for id, node, meta in query:iter_captures(tree:root(), buf) do
+  for i, tree in ipairs(parser:trees()) do
+    local root = tree:root()
+
+    captures[i] = vim
+      .iter(query:iter_captures(root, buf, root:start(), root:end_(), iter_opts))
+      :totable()
+
+    for _, capture in ipairs(captures[i]) do
+      local id, node, meta = unpack(capture)
       local name = query.captures[id]
 
       if name == 'local.scope' then
@@ -56,8 +65,9 @@ function M.start()
     end
   end
 
-  for _, tree in ipairs(parser:trees()) do
-    for id, node, meta in query:iter_captures(tree:root(), buf) do
+  for _, captures in ipairs(captures) do
+    for _, capture in ipairs(captures) do
+      local id, node, meta = unpack(capture)
       local name = query.captures[id]
       local text = ts.get_node_text(node, buf)
       local lnum, col, end_lnum, end_col = node:range()
