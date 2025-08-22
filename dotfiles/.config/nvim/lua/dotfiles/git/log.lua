@@ -469,7 +469,7 @@ local function revert_commit(state)
     return
   end
 
-  vim.system({ 'git', 'revert', '--edit', commit.id }, function(res)
+  vim.system({ 'git', 'revert', '--edit', commit.id }, {}, function(res)
     if res.code == 0 then
       vim.schedule(function()
         reload(state)
@@ -493,7 +493,7 @@ local function rebase_commits(state)
 
   vim.system(
     { 'git', 'rebase', '--interactive', 'HEAD~' .. line },
-    { env = { GIT_EDITOR = EDITOR } },
+    {},
     function(res)
       if res.code == 0 then
         vim.schedule(function()
