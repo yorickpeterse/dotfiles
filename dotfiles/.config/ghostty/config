@@ -18,6 +18,7 @@ window-padding-x = 2
 window-padding-y = 1
 
 font-family = "IosevkaFixedCustom Nerd Font"
+font-codepoint-map = U+1F1E6-U+1F1FF=Noto Color Emoji
 font-size = 8
 adjust-underline-thickness = -20%
 adjust-underline-position = 10%
