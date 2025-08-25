@@ -67,8 +67,8 @@ o.cursorlineopt = 'number'
 o.guicursor = 'n-v-c-sm:block,i-ci-ve:ver25,r-cr-o:hor20'
 o.backspace = 'indent,eol,start'
 o.backupskip = '/tmp/*'
-o.diffopt =
-  'filler,vertical,internal,algorithm:histogram,indent-heuristic,context:3,linematch:50'
+o.diffopt = 'filler,vertical,internal,algorithm:histogram,indent-heuristic,'
+  .. 'context:3,linematch:50,closeoff'
 o.lz = true
 o.showcmd = false
 o.showmode = false
