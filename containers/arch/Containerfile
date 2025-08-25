@@ -11,7 +11,7 @@ RUN mkdir -p /etc/pacman.d/hooks \
     && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-system.hook \
     && touch /etc/pacman.d/hooks/30-systemd-daemon-reload-user.hook \
     && touch /etc/pacman.d/hooks/30-systemd-restart-marked.hook \
-    && touch /etc/pacman.d/hooks/40-update-ca-trust-hook.hook \
+    && touch /etc/pacman.d/hooks/40-update-ca-trust.hook \
     && touch /etc/pacman.d/hooks/dbus-reload.hook
 
 # Set up the locales.
