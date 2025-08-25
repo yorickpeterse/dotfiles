@@ -6,7 +6,6 @@ cmake
 cpupower
 fd
 fish
-fuse-overlayfs
 gcc-libs
 gdb
 ghostty-terminfo

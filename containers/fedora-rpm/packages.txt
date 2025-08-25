@@ -1,6 +1,5 @@
 copr-cli
 fedpkg
-fuse-overlayfs
 neovim
 ripgrep
 rpmdevtools
