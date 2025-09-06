@@ -1,1 +1,1 @@
-gem: --no-document --user --bindir ~/.local/share/gem/ruby/bin
+gem: --no-document --user
