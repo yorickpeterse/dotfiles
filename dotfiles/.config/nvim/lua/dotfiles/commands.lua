@@ -1,4 +1,6 @@
 local util = require('dotfiles.util')
+local fn = vim.fn
+local api = vim.api
 local M = {}
 
 local function cmd(name, func, opts)
@@ -88,5 +90,15 @@ end, {
     return candidates
   end,
 })
+
+cmd('CloseBuffers', function()
+  local now = os.time()
+
+  for _, buf in ipairs(fn.getbufinfo({ buflisted = 1 })) do
+    if now - buf.lastused >= 3600 and buf.changed == 0 then
+      api.nvim_buf_delete(buf.bufnr, {})
+    end
+  end
+end)
 
 return M
