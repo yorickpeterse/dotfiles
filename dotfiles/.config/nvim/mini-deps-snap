@@ -2,16 +2,16 @@ return {
   ["conform.nvim"] = "b4aab989db276993ea5dcb78872be494ce546521",
   ["flash.nvim"] = "3c942666f115e2811e959eabbdd361a025db8b63",
   ["inko.vim"] = "5dbc40375c9da4a2fcc27bf7e187267c2b575121",
-  ["mini.nvim"] = "0ffc2af38b3c5293076317b138635d6d7c80a40f",
+  ["mini.nvim"] = "48b924e4f3b37f62246873d237a4a89704d88948",
   ["nvim-dd"] = "ebd9398271d3249fe97ffb52365fb6ace7605277",
   ["nvim-grey"] = "de9c4826c988af24c607bcac3bb0c4510b59853f",
-  ["nvim-lint"] = "f126af5345c7472e9a0cdbe1d1a29209be72c4c4",
-  ["nvim-lspconfig"] = "3d97ec4174bcc750d70718ddedabf150536a5891",
+  ["nvim-lint"] = "0864f81c681e15d9bdc1156fe3a17bd07db5a3ed",
+  ["nvim-lspconfig"] = "d9879110d0422a566fa01d732556f4d5515e1738",
   ["nvim-pqf"] = "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
   ["nvim-tree-pairs"] = "ca093d7d8eb5b51ae48769c10d797ba8f4f6dfc6",
-  ["nvim-treesitter"] = "85ec015f3be42a3c2c04648ff99d617d9609e5f0",
+  ["nvim-treesitter"] = "7aa24acae3a288e442e06928171f360bbdf75ba4",
   ["nvim-window"] = "a8d965f158cff222713a3b3ab341445d331e6e3a",
   ["oil.nvim"] = "07f80ad645895af849a597d1cac897059d89b686",
   ["rust.vim"] = "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb",
-  ["unnest.nvim"] = "6adb47984aa9320164b0decad3972899350b1fa9"
+  ["unnest.nvim"] = "3328e33c022e3720635976f82b8b0eb1240fc53e"
 }
