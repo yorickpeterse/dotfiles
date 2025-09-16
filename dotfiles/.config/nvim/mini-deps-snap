@@ -12,6 +12,5 @@ return {
   ["nvim-treesitter"] = "7aa24acae3a288e442e06928171f360bbdf75ba4",
   ["nvim-window"] = "a8d965f158cff222713a3b3ab341445d331e6e3a",
   ["oil.nvim"] = "07f80ad645895af849a597d1cac897059d89b686",
-  ["rust.vim"] = "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb",
-  ["unnest.nvim"] = "3328e33c022e3720635976f82b8b0eb1240fc53e"
+  ["rust.vim"] = "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb"
 }
