@@ -95,7 +95,13 @@ cmd('CloseBuffers', function()
   local now = os.time()
 
   for _, buf in ipairs(fn.getbufinfo({ buflisted = 1 })) do
-    if now - buf.lastused >= 3600 and buf.changed == 0 then
+    local typ = api.nvim_get_option_value('buftype', { buf = buf.bufnr })
+
+    if
+      now - buf.lastused >= 3600
+      and buf.changed == 0
+      and typ ~= 'terminal'
+    then
       api.nvim_buf_delete(buf.bufnr, {})
     end
   end
