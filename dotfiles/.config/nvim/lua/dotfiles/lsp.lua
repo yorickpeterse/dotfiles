@@ -77,10 +77,10 @@ vim_diag.config({
   underline = false,
   signs = {
     text = {
-      [vim_diag.severity.ERROR] = '▌',
-      [vim_diag.severity.WARN] = '▌',
-      [vim_diag.severity.HINT] = '▌',
-      [vim_diag.severity.INFO] = '▌',
+      [vim_diag.severity.ERROR] = '▍',
+      [vim_diag.severity.WARN] = '▍',
+      [vim_diag.severity.HINT] = '▍',
+      [vim_diag.severity.INFO] = '▍',
     },
     numhl = {
       [vim_diag.severity.ERROR] = 'DiagnosticError',
