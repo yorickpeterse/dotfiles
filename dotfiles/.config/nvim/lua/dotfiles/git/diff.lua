@@ -214,7 +214,7 @@ local function render_diffs(focus)
 
   -- Show the window containing the old version.
   local before = git_show(STATE.parent, path.name)
-  local before_name = 'diff://' .. STATE.parent .. '/' .. path.name
+  local before_name = 'diff://before/' .. path.name
   local before_buf = api.nvim_create_buf(false, true)
   local before_win = api.nvim_open_win(
     before_buf,
@@ -242,25 +242,32 @@ local function render_diffs(focus)
   local after_name
   local after_buf
   local after_win
+  local stop
 
   if STATE.staging then
-    vim.cmd('vne ' .. STATE.root .. '/' .. path.name)
-    after_win = api.nvim_get_current_win()
-    after_buf = api.nvim_win_get_buf(after_win)
+    stop = 'HEAD'
+
+    local path = STATE.root .. '/' .. path.name
+    local file = assert(io.open(path, 'r'))
+    local data = assert(file:read('*a'))
+
+    after = vim.split(data, '\n', { trimempty = true })
   else
-    after = git_show(STATE.stop, path.name)
-    after_name = 'diff://' .. STATE.stop .. '/' .. path.name
-    after_buf = api.nvim_create_buf(false, true)
-    after_win =
-      api.nvim_open_win(after_buf, true, { split = 'right', win = before_win })
-    api.nvim_buf_set_lines(after_buf, 0, -1, true, after)
-    api.nvim_buf_set_name(after_buf, after_name)
-    vim.bo[after_buf].buftype = 'nofile'
-    vim.bo[after_buf].bufhidden = 'wipe'
-    vim.bo[after_buf].modifiable = false
-    vim.bo[after_buf].readonly = true
-    vim.cmd.filetype('detect')
+    stop = STATE.stop
+    after = git_show(stop, path.name)
   end
+
+  after_name = 'diff://after/' .. path.name
+  after_buf = api.nvim_create_buf(false, true)
+  after_win =
+    api.nvim_open_win(after_buf, true, { split = 'right', win = before_win })
+  api.nvim_buf_set_lines(after_buf, 0, -1, true, after)
+  api.nvim_buf_set_name(after_buf, after_name)
+  vim.bo[after_buf].buftype = 'nofile'
+  vim.bo[after_buf].bufhidden = 'wipe'
+  vim.bo[after_buf].modifiable = false
+  vim.bo[after_buf].readonly = true
+  vim.cmd.filetype('detect')
 
   vim.wo[after_win].signcolumn = STATE.signcolumn
   vim.wo[after_win].statuscolumn = STATE.statuscolumn
