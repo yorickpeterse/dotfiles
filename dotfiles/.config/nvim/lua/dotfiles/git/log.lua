@@ -40,6 +40,18 @@ api.nvim_set_hl(NAMESPACE, 'CursorLine', { link = 'QuickFixLine' })
 -- A boolean indicating if the module is active.
 local ACTIVE = false
 
+local function mini_git(command, callback)
+  api.nvim_create_autocmd({ 'User' }, {
+    pattern = 'MiniGitCommandDone',
+    once = true,
+    callback = function(info)
+      callback(info.data)
+    end,
+  })
+
+  vim.cmd('Git ' .. table.concat(command, ' '))
+end
+
 local function buffer_map(buf, mode, key, func)
   vim.keymap.set(
     mode,
@@ -469,13 +481,13 @@ local function revert_commit(state)
     return
   end
 
-  vim.system({ 'git', 'revert', '--edit', commit.id }, {}, function(res)
-    if res.code == 0 then
+  mini_git({ 'revert', '--edit', commit.id }, function(data)
+    if data.exit_code == 0 then
       vim.schedule(function()
         reload(state)
       end)
     else
-      util.error(vim.trim(res.stderr))
+      util.error(data.stderr)
     end
   end)
 end
@@ -491,19 +503,15 @@ local function rebase_commits(state)
     return
   end
 
-  vim.system(
-    { 'git', 'rebase', '--interactive', 'HEAD~' .. line },
-    {},
-    function(res)
-      if res.code == 0 then
-        vim.schedule(function()
-          reload(state)
-        end)
-      else
-        util.error(vim.trim(res.stderr))
-      end
+  mini_git({ 'rebase', '--interactive', 'HEAD~', line }, function(data)
+    if data.exit_code == 0 then
+      vim.schedule(function()
+        reload(state)
+      end)
+    else
+      util.error(data.stderr)
     end
-  )
+  end)
 end
 
 local function search_commits(state)
