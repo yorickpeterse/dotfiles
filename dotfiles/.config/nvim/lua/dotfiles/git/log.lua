@@ -503,7 +503,7 @@ local function rebase_commits(state)
     return
   end
 
-  mini_git({ 'rebase', '--interactive', 'HEAD~', line }, function(data)
+  mini_git({ 'rebase', '--interactive', 'HEAD~' .. line }, function(data)
     if data.exit_code == 0 then
       vim.schedule(function()
         reload(state)
