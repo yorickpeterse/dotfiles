@@ -248,8 +248,14 @@ local function render_diffs(focus)
     stop = 'HEAD'
 
     local path = STATE.root .. '/' .. path.name
-    local file = assert(io.open(path, 'r'))
-    local data = assert(file:read('*a'))
+    local file = io.open(path, 'r')
+    local data = ''
+
+    if file then
+      data = assert(file:read('*a'))
+    else
+      data = ''
+    end
 
     after = vim.split(data, '\n', { trimempty = true })
   else
