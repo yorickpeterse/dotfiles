@@ -6,6 +6,7 @@ local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
 local pick = require('mini.pick')
+local gitsigns = require('gitsigns')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -67,7 +68,44 @@ map('n', '<leader>a', vim.lsp.buf.code_action)
 map('n', '<leader>f', ignore_case(require('dotfiles.mini.pickers.files').start))
 map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
 map('n', '<leader>b', ignore_case(pick.builtin.buffers))
-map('n', '<leader>h', ignore_case(pick.builtin.help))
+map('n', '<leader>H', ignore_case(pick.builtin.help))
+
+-- Git hunks
+map('n', '<leader>hs', gitsigns.stage_hunk)
+map('n', '<leader>hr', gitsigns.reset_hunk)
+map('n', '<leader>hS', gitsigns.stage_buffer)
+map('n', '<leader>hR', gitsigns.reset_buffer)
+map('n', '<leader>hd', function()
+  gitsigns.diffthis('@')
+end)
+map('n', '<leader>hq', function()
+  local root = vim.system({ 'git', 'rev-parse', '--show-toplevel' }):wait()
+
+  if root.code ~= 0 then
+    return
+  end
+
+  local root = vim.trim(root.stdout)
+  local res = vim.system({ 'git', 'status', '--porcelain' }):wait()
+
+  if res.code ~= 0 then
+    return
+  end
+
+  local items = {}
+
+  for _, line in ipairs(vim.split(res.stdout, '\n', { trimempty = true })) do
+    table.insert(items, {
+      filename = root .. '/' .. line:sub(4),
+      text = line:sub(1, 2),
+    })
+  end
+
+  if #items > 0 then
+    fn.setqflist({}, ' ', { items = items, title = 'Git status' })
+    vim.cmd('copen')
+  end
+end)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
