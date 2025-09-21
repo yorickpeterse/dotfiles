@@ -90,6 +90,7 @@ map('n', '<leader>hq', function()
   end
 
   local root = vim.trim(root.stdout)
+  local pwd = vim.uv.cwd() .. '/'
   local res = vim.system({ 'git', 'status', '--porcelain' }):wait()
 
   if res.code ~= 0 then
@@ -99,10 +100,9 @@ map('n', '<leader>hq', function()
   local items = {}
 
   for _, line in ipairs(vim.split(res.stdout, '\n', { trimempty = true })) do
-    table.insert(items, {
-      filename = root .. '/' .. line:sub(4),
-      text = line:sub(1, 2),
-    })
+    local path = string.gsub(root .. '/' .. line:sub(4), pwd, '')
+
+    table.insert(items, { filename = path, text = line:sub(1, 2) })
   end
 
   if #items > 0 then
