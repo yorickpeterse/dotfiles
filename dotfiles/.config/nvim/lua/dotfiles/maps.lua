@@ -76,7 +76,11 @@ map('n', '<leader>hr', gitsigns.reset_hunk)
 map('n', '<leader>hS', gitsigns.stage_buffer)
 map('n', '<leader>hR', gitsigns.reset_buffer)
 map('n', '<leader>hd', function()
-  gitsigns.diffthis('@')
+  if vim.wo.diff then
+    vim.cmd('wincmd h | close')
+  else
+    gitsigns.diffthis('@', {})
+  end
 end)
 map('n', '<leader>hq', function()
   local root = vim.system({ 'git', 'rev-parse', '--show-toplevel' }):wait()
