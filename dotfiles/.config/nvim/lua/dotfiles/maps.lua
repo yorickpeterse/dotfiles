@@ -77,7 +77,7 @@ map('n', '<leader>hS', gitsigns.stage_buffer)
 map('n', '<leader>hR', gitsigns.reset_buffer)
 map('n', '<leader>hd', function()
   if vim.wo.diff then
-    vim.cmd('wincmd h | close')
+    vim.cmd('wincmd h | close | wincmd p')
   else
     gitsigns.diffthis('@', {})
   end
