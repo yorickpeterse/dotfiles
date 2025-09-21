@@ -2,12 +2,12 @@ local gitsigns = require('gitsigns')
 
 gitsigns.setup({
   signs = {
-    add = { text = '▎' },
-    change = { text = '▎' },
+    add = { text = '┃' },
+    change = { text = '┃' },
   },
   signs_staged = {
-    add = { text = '▍' },
-    change = { text = '▍' },
+    add = { text = '┃' },
+    change = { text = '┃' },
   },
   signcolumn = true,
   update_debounce = 250,
