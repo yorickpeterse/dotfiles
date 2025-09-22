@@ -41,7 +41,6 @@ require('dotfiles.maps')
 require('dotfiles.commands')
 require('dotfiles.abbrev')
 require('dotfiles.mini')
-require('dotfiles.gitsigns')
 
 -- Code completion
 o.pumheight = 30
