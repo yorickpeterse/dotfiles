@@ -40,7 +40,6 @@ local SIDEBAR_HL = {
 -- The window-local highlight options to use for the diff windows.
 local DIFF_HL = {
   before = 'DiffAdd:DiffviewDiffAddAsDelete,DiffDelete:DiffviewDiffDeleteDim',
-  after = 'DiffDelete:DiffviewDiffDeleteDim',
 }
 
 -- The index/line of the initial file to show.
@@ -214,7 +213,7 @@ local function render_diffs(focus)
 
   -- Show the window containing the old version.
   local before = git_show(STATE.parent, path.name)
-  local before_name = 'diff://before/' .. path.name
+  local before_name = 'diff://' .. STATE.parent .. '/' .. path.name
   local before_buf = api.nvim_create_buf(false, true)
   local before_win = api.nvim_open_win(
     before_buf,
@@ -224,16 +223,16 @@ local function render_diffs(focus)
 
   api.nvim_buf_set_lines(before_buf, 0, -1, true, before)
   api.nvim_buf_set_name(before_buf, before_name)
+  vim.bo[before_buf].buftype = 'nofile'
+  vim.bo[before_buf].bufhidden = 'wipe'
+  vim.bo[before_buf].modifiable = false
+  vim.bo[before_buf].readonly = true
   vim.wo[before_win].signcolumn = STATE.signcolumn
   vim.wo[before_win].statuscolumn = STATE.statuscolumn
   vim.wo[before_win].relativenumber = true
   vim.wo[before_win].number = true
   vim.wo[before_win].winhl = DIFF_HL.before
   vim.wo[before_win].winbar = 'Before: ' .. path.name .. WINBAR_FLAGS
-  vim.bo[before_buf].buftype = 'nofile'
-  vim.bo[before_buf].bufhidden = 'wipe'
-  vim.bo[before_buf].modifiable = false
-  vim.bo[before_buf].readonly = true
   vim.cmd.filetype('detect')
   vim.cmd.diffthis()
 
@@ -245,42 +244,26 @@ local function render_diffs(focus)
   local stop
 
   if STATE.staging then
-    stop = 'HEAD'
-
-    local path = STATE.root .. '/' .. path.name
-    local file = io.open(path, 'r')
-    local data = ''
-
-    if file then
-      data = assert(file:read('*a'))
-    else
-      data = ''
-    end
-
-    after = vim.split(data, '\n', { trimempty = true })
+    vim.cmd('vne ' .. STATE.root .. '/' .. path.name)
+    after_win = api.nvim_get_current_win()
+    after_buf = api.nvim_win_get_buf(after_win)
   else
-    stop = STATE.stop
-    after = git_show(stop, path.name)
+    after = git_show(STATE.stop, path.name)
+    after_name = 'diff://' .. STATE.stop .. '/' .. path.name
+    after_buf = api.nvim_create_buf(false, true)
+    after_win =
+      api.nvim_open_win(after_buf, true, { split = 'right', win = before_win })
+    api.nvim_buf_set_lines(after_buf, 0, -1, true, after)
+    api.nvim_buf_set_name(after_buf, after_name)
+    vim.bo[after_buf].buftype = 'nofile'
+    vim.bo[after_buf].bufhidden = 'wipe'
+    vim.bo[after_buf].modifiable = false
+    vim.bo[after_buf].readonly = true
+    vim.cmd.filetype('detect')
   end
 
-  after_name = 'diff://after/' .. path.name
-  after_buf = api.nvim_create_buf(false, true)
-  after_win =
-    api.nvim_open_win(after_buf, true, { split = 'right', win = before_win })
-  api.nvim_buf_set_lines(after_buf, 0, -1, true, after)
-  api.nvim_buf_set_name(after_buf, after_name)
-  vim.bo[after_buf].buftype = 'nofile'
-  vim.bo[after_buf].bufhidden = 'wipe'
-  vim.bo[after_buf].modifiable = false
-  vim.bo[after_buf].readonly = true
-  vim.cmd.filetype('detect')
+  vim.wo[after_win].winhl = ''
 
-  vim.wo[after_win].signcolumn = STATE.signcolumn
-  vim.wo[after_win].statuscolumn = STATE.statuscolumn
-  vim.wo[after_win].relativenumber = true
-  vim.wo[after_win].number = true
-  vim.wo[after_win].winhl = DIFF_HL.after
-  vim.wo[after_win].winbar = 'After: ' .. path.name .. WINBAR_FLAGS
   vim.cmd.diffthis()
 
   -- Ensure we're at the top of the diff, instead of some random position.
