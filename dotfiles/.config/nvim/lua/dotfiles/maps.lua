@@ -152,13 +152,8 @@ map('n', ']l', loclist.next)
 map('n', '[l', loclist.prev)
 
 -- Snippets
-map({ 'i', 's' }, '<C-e>', function()
-  snippet.expand()
-end)
-
-map({ 'i', 's' }, '<C-n>', function()
-  snippet.next()
-end)
+map({ 'i', 's' }, '<C-e>', snippet.expand())
+map({ 'i', 's' }, '<C-n>', snippet.next)
 
 -- Code review
 map('n', ']f', git_diff.next_file)
