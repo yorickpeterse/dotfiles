@@ -9,3 +9,6 @@ set print symbol-loading brief
 set filename-display basename
 set style function foreground black
 set style address foreground blue
+
+set history filename ~/.local/share/gdb/history
+set history save
