@@ -40,6 +40,7 @@ local SIDEBAR_HL = {
 -- The window-local highlight options to use for the diff windows.
 local DIFF_HL = {
   before = 'DiffAdd:DiffviewDiffAddAsDelete,DiffDelete:DiffviewDiffDeleteDim',
+  after = 'DiffDelete:DiffviewDiffDeleteDim',
 }
 
 -- The index/line of the initial file to show.
@@ -262,7 +263,7 @@ local function render_diffs(focus)
     vim.cmd.filetype('detect')
   end
 
-  vim.wo[after_win].winhl = ''
+  vim.wo[after_win].winhl = DIFF_HL.after
 
   vim.cmd.diffthis()
 
