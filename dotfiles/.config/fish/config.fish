@@ -12,7 +12,6 @@ set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
 set -x BUNDLE_DISABLE_VERSION_CHECK 1
 set -x QT_AUTO_SCREEN_SCALE_FACTOR 1
 set -x LS_COLORS 'di=0;35:ln=1;34:ex=1;30'
-set -x MANPAGER 'nvim +Man!'
 
 if status is-interactive
     set -x CDPATH ".:$HOME/Projects"
