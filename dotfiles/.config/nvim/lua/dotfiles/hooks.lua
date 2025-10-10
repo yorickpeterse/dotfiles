@@ -86,9 +86,7 @@ local function remove_buffer()
 end
 
 local function create_dirs(info)
-  if not vim.startswith(info.match, 'oil:') then
-    fn.mkdir(fn.expand('<afile>:p:h'), 'p')
-  end
+  fn.mkdir(fn.expand('<afile>:p:h'), 'p')
 end
 
 local function lint_buffer()

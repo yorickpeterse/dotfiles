@@ -6,6 +6,7 @@ local quickfix = require('dotfiles.quickfix')
 local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
 local pick = require('mini.pick')
+local files = require('mini.files')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -68,6 +69,11 @@ map('n', '<leader>f', ignore_case(require('dotfiles.mini.pickers.files').start))
 map('n', '<leader>t', require('dotfiles.mini.pickers.symbols').start)
 map('n', '<leader>b', ignore_case(pick.builtin.buffers))
 map('n', '<leader>h', ignore_case(pick.builtin.help))
+map('n', '<leader>o', function()
+  if not files.close() then
+    files.open()
+  end
+end)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')

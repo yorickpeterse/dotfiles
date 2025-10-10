@@ -53,3 +53,10 @@ require('mini.git').setup({
     split = 'vertical',
   },
 })
+
+require('mini.files').setup({
+  mappings = {
+    synchronize = '<leader>w',
+    go_in_plus = 'l',
+  },
+})
