@@ -60,3 +60,21 @@ require('mini.files').setup({
     go_in_plus = 'l',
   },
 })
+
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'MiniFilesBufferCreate',
+  callback = function(args)
+    local rhs = function()
+      local cur_target = MiniFiles.get_explorer_state().target_window
+      local new_target = vim.api.nvim_win_call(cur_target, function()
+        vim.cmd('belowright vertical split')
+        return vim.api.nvim_get_current_win()
+      end)
+
+      MiniFiles.set_target_window(new_target)
+      MiniFiles.go_in({ close_on_file = true })
+    end
+
+    vim.keymap.set('n', '<leader>v', rhs, { buffer = args.data.buf_id })
+  end,
+})
