@@ -56,6 +56,7 @@ require('mini.git').setup({
 
 require('mini.files').setup({
   mappings = {
+    close = '<Esc>',
     synchronize = '<leader>w',
     go_in_plus = 'l',
   },
