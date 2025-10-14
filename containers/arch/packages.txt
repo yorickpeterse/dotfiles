@@ -17,7 +17,6 @@ jq
 lld
 llvm
 lm_sensors
-lua-language-server
 neovim
 nodejs
 noto-fonts

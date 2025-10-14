@@ -127,50 +127,6 @@ vim.lsp.config('gopls', {
   },
 })
 
--- Lua
-do
-  local rpath = vim.split(package.path, ';')
-  local runtime_files = vim.api.nvim_list_runtime_paths()
-
-  table.insert(rpath, 'lua/?.lua')
-  table.insert(rpath, 'lua/?/init.lua')
-
-  vim.lsp.config('lua_ls', {
-    on_init = on_init,
-    capabilities = capabilities,
-    flags = flags,
-    cmd = {
-      '/usr/bin/lua-language-server',
-      '-E',
-      '/usr/lib/lua-language-server/main.lua',
-    },
-    settings = {
-      Lua = {
-        runtime = {
-          version = 'LuaJIT',
-          path = rpath,
-        },
-        diagnostics = {
-          globals = { 'vim' },
-          disable = {
-            'missing-fields',
-            'duplicate-set-field',
-            'undefined-field',
-            'inject-field',
-          },
-        },
-        workspace = {
-          library = runtime_files,
-          checkThirdParty = false,
-        },
-        telemetry = {
-          enable = false,
-        },
-      },
-    },
-  })
-end
-
 -- Python
 vim.lsp.config('jedi_language_server', {
   on_init = on_init,
