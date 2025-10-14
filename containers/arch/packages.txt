@@ -30,7 +30,6 @@ ruby-irb
 ruby-rdoc
 rustup
 samply
-shellcheck
 stylua
 tree
 tree-sitter-cli
