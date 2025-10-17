@@ -2,10 +2,6 @@ title = Ghostty
 mouse-hide-while-typing = true
 resize-overlay = "never"
 
-# The terminfo shipped by the OS uses "ghostty" instead of "xterm-ghostty", so
-# we need to match it here.
-term = "ghostty"
-
 # This ensures the cursor is a block cursor like GNOME terminal.
 shell-integration-features = "no-cursor, sudo"
 
