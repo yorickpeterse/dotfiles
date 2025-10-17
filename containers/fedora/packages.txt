@@ -1,5 +1,6 @@
 copr-cli
 fedpkg
+ghostty
 neovim
 ripgrep
 rpmdevtools

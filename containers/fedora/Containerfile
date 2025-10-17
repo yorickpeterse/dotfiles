@@ -17,4 +17,4 @@ RUN sudo dnf install --assumeyes --quiet $(<packages.txt)
 RUN rm packages.txt
 RUN sudo dnf clean all
 
-ENV CONTAINER_ID fedora-rpm
+ENV CONTAINER_ID fedora

@@ -1,8 +1,8 @@
 dotfiles:
 	@fish dotfiles.fish
 
-fedora-rpm:
-	@fish containers/build.fish fedora-rpm
+fedora:
+	@fish containers/build.fish fedora
 
 arch:
 	@fish containers/build.fish arch
@@ -10,4 +10,4 @@ arch:
 qmk:
 	@fish containers/build.fish qmk
 
-.PHONY: arch dotfiles fedora-rpm qmk
+.PHONY: arch dotfiles fedora qmk
