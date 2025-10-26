@@ -74,6 +74,11 @@ map('n', '<leader>o', function()
     files.open()
   end
 end)
+map('n', '<leader>O', function()
+  if not files.close() then
+    files.open(api.nvim_buf_get_name(0))
+  end
+end)
 
 -- Going places
 map({ 'n', 'x', 'o' }, 'gs', '^')
