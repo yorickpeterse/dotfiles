@@ -34,3 +34,4 @@ tree-sitter-cli
 valgrind
 wl-clipboard
 zlib-devel
+https://github.com/nkallen/plasticity/releases/download/v25.2.11/Plasticity-25.2.11-1.x86_64.rpm
