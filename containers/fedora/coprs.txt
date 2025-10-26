@@ -1,1 +1,4 @@
+joshuachp/packages
+mczernek/vale
 scottames/ghostty
+yorickpeterse/inko

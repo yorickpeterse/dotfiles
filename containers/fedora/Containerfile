@@ -1,8 +1,8 @@
 FROM registry.fedoraproject.org/fedora-toolbox:42
 
 RUN echo 'max_parallel_downloads=10' | sudo tee --append /etc/dnf/dnf.conf
-RUN sudo dnf install --assumeyes --quiet fish dnf-plugins-core
-RUN sudo dnf update --assumeyes --quiet
+RUN sudo dnf install --assumeyes --quiet fish dnf-plugins-core && \
+    sudo dnf update --assumeyes --quiet
 
 COPY coprs.txt /
 RUN for repo in $(<coprs.txt); \
@@ -13,8 +13,8 @@ RUN for repo in $(<coprs.txt); \
 RUN rm coprs.txt
 
 COPY packages.txt /
-RUN sudo dnf install --assumeyes --quiet $(<packages.txt)
-RUN rm packages.txt
-RUN sudo dnf clean all
+RUN sudo dnf install --assumeyes --quiet $(<packages.txt) \
+    && rm packages.txt \
+    && sudo dnf clean all
 
 ENV CONTAINER_ID fedora
