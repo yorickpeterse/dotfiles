@@ -10,6 +10,7 @@ end
 
 ln --symbolic --force --no-target-directory $src/bin ~/bin
 ln --symbolic --force $src/.config/* ~/.config/
+ln --symbolic --force $src/.local/share/icons ~/.local/share/icons
 
 # This directory may have custom entries per host, so we only link the
 # individual files.
