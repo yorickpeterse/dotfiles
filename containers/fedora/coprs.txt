@@ -1,4 +1,4 @@
-joshuachp/packages
-yorickpeterse/vale
 scottames/ghostty
 yorickpeterse/inko
+yorickpeterse/stylua
+yorickpeterse/vale
