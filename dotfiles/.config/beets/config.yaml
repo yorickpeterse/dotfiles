@@ -1,0 +1,22 @@
+---
+directory: ~/Music
+library: ~/Music/beets.db
+paths:
+  default: $albumartist/$album%aunique{}/$title
+  singleton: $artist/$title
+ui:
+  colors:
+    text_success: ['bold', 'green']
+    text_warning: ['bold', 'yellow']
+    text_error: ['bold', 'red']
+    text_highlight: ['bold', 'red']
+    text_highlight_minor: ['blue']
+    action_default: ['bold', 'cyan']
+    action: ['bold', 'cyan']
+    text_faint: ['faint']
+    import_path: ['bold', 'blue']
+    import_path_items: ['bold', 'blue']
+    changed: ['yellow']
+    text_diff_added: ['bold', 'green']
+    text_diff_removed: ['bold', 'red']
+    action_description: ['blue']
