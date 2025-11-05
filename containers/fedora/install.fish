@@ -5,6 +5,11 @@ source ~/.config/fish/config.fish
 
 set completions /etc/fish/completions
 
+section 'Installing rustup'
+run rustup-init --quiet -y --no-modify-path
+
+source ~/.config/fish/config.fish
+
 section 'Configuring Rust'
 run rustup install stable
 run rustup default stable
