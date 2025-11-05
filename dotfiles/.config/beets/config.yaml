@@ -4,6 +4,7 @@ library: ~/Music/beets.db
 paths:
   default: $albumartist/$album%aunique{}/$title
   singleton: $artist/$title
+plugins: fetchart
 ui:
   colors:
     text_success: ['bold', 'green']
