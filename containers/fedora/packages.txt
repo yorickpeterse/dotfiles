@@ -33,6 +33,7 @@ ruby
 rustup
 stylua
 tree-sitter-cli
+vale
 valgrind
 wl-clipboard
 zlib-devel
