@@ -16,6 +16,7 @@ ln -s -f $src/.local/share/icons ~/.local/share/icons
 
 # This directory may have custom entries per host, so we only link the
 # individual files.
+mkdir -p ~/.local/share/applications
 ln -s -f $src/.local/share/applications/*.desktop ~/.local/share/applications
 
 for path in $src/dotfiles
