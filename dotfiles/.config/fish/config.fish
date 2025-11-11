@@ -5,7 +5,7 @@ end
 fish_add_path --path ~/bin ~/.cargo/bin ~/.local/bin ~/.local/share/ivm/bin \
     /usr/lib/rustup/bin/ ~/.local/share/gem/ruby/bin
 
-set -x EDITOR $HOME/bin/nvim
+set -x EDITOR nvim
 set -x DISABLE_SPRING 1
 set -x NOKOGIRI_USE_SYSTEM_LIBRARIES true
 set -x NVIM_TUI_ENABLE_TRUE_COLOR 1
