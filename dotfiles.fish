@@ -8,18 +8,18 @@ if test -d ~/.config/fish
     rm -rf ~/.config/fish
 end
 
-ln --symbolic --force --no-target-directory $src/bin ~/bin
-ln --symbolic --force $src/.config/* ~/.config/
-ln --no-target-directory --symbolic --force \
-    $src/.local/share/icons ~/.local/share/icons
+rm -rf ~/bin
+ln -s -f $src/bin ~/bin
+ln -s -f $src/.config/* ~/.config/
+rm -f ~/.local/share/icons
+ln -s -f $src/.local/share/icons ~/.local/share/icons
 
 # This directory may have custom entries per host, so we only link the
 # individual files.
-ln --symbolic --force $src/.local/share/applications/*.desktop \
-    ~/.local/share/applications
+ln -s -f $src/.local/share/applications/*.desktop ~/.local/share/applications
 
 for path in $src/dotfiles
     if test -f $path
-        ln --symbolic --force $path ~/
+        ln -s -f $path ~/
     end
 end
