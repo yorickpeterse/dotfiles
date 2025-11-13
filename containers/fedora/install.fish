@@ -19,7 +19,7 @@ cp cargo-config.toml ~/.cargo/config.toml
 if ! test -f ~/.config/ivm/version
     section 'Configuring Inko'
     run ivm install latest
-    run ivm default (ivm list)
+    run ivm default (ivm list | cut -d ' ' -f 1)
     run ivm clean
 end
 
