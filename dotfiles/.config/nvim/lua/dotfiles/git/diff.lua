@@ -70,7 +70,8 @@ local function git_root()
 end
 
 local function git_status()
-  local res = vim.system({ 'git', 'status', '--porcelain' }):wait()
+  local res =
+    vim.system({ 'git', 'status', '--porcelain', '--untracked-files' }):wait()
 
   assert(res.code == 0)
 
