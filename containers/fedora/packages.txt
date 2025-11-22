@@ -3,14 +3,13 @@ asciinema
 beets
 clang
 cmake
-copr-cli
 fd-find
-fedpkg
 fish
 gdb
 ghostty
 google-noto-color-emoji-fonts
-google-noto-fonts-all
+google-noto-sans-fonts
+google-noto-serif-fonts
 heaptrack
 hotspot
 htop
@@ -28,7 +27,6 @@ nodejs
 perf
 rclone
 ripgrep
-rpmdevtools
 ruby
 rustup
 stylua
