@@ -20,3 +20,5 @@ dotfiles/.config/systemd/user/breaks.service
 
 dotfiles/.cargo/*
 !dotfiles/.cargo/config.toml
+
+dotfiles/.config/beets/state.pickle
