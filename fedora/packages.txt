@@ -1,3 +1,4 @@
+adw-gtk3-theme
 adwaita-icon-theme
 asciinema
 beets
