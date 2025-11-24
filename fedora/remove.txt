@@ -7,5 +7,6 @@ gnome-software
 gnome-text-editor
 gnome-tour
 gnome-weather
+httpd
 libreoffice-data
 ptyxis
