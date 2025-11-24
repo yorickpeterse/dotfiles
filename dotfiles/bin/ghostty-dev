@@ -1,3 +1,0 @@
-#!/usr/bin/env fish
-
-exec /usr/bin/ghostty -e toolbox enter --container fedora

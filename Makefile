@@ -2,7 +2,7 @@ dotfiles:
 	@fish dotfiles.fish
 
 fedora:
-	@fish containers/build.fish fedora
+	@fish fedora/setup.fish
 
 fedora-rpm:
 	@fish containers/build.fish fedora-rpm

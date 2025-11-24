@@ -5,12 +5,6 @@ function fish_prompt
         set directory (basename $PWD)
     end
 
-    if test -n "$CONTAINER_ID"
-        echo -n "[$CONTAINER_ID] "
-    else
-        echo -n "[$hostname] "
-    end
-
     set_color $fish_color_cwd
     echo -n $directory
     set_color normal
