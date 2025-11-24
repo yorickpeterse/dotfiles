@@ -26,6 +26,7 @@ lm_sensors
 neovim
 nodejs
 perf
+qemu-system-x86_64
 rclone
 ripgrep
 ruby
