@@ -33,3 +33,6 @@ if ! test -f ~/.config/ivm/version
     ivm default (ivm list | cut -d ' ' -f 1)
     ivm clean
 end
+
+section 'Installing Flatpak applications'
+flatpak install (cat flatpak.txt)

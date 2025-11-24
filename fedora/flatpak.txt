@@ -1,0 +1,17 @@
+com.bambulab.BambuStudio
+com.github.neithern.g4music
+com.github.tchx84.Flatseal
+com.mattjakeman.ExtensionManager
+io.github.celluloid_player.Celluloid
+io.github.vikdevelop.SaveDesktop
+org.gimp.GIMP
+org.gnome.Characters
+org.gnome.Connections
+org.gnome.Loupe
+org.gnome.NautilusPreviewer
+org.gnome.Papers
+org.gnome.baobab
+org.gnome.font-viewer
+org.gnome.gThumb
+org.mozilla.firefox
+org.signal.Signal
