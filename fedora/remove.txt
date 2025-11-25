@@ -2,6 +2,7 @@ decibels
 firefox
 gnome-boxes
 gnome-calendar
+gnome-clocks
 gnome-contacts
 gnome-maps
 gnome-software
