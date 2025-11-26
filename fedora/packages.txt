@@ -3,6 +3,7 @@ adwaita-icon-theme
 asciinema
 beets
 clang
+clang-tools-extra
 cmake
 fd-find
 fish
