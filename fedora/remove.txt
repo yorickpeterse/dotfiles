@@ -1,5 +1,6 @@
 decibels
 firefox
+gnome-abrt
 gnome-boxes
 gnome-calendar
 gnome-clocks
