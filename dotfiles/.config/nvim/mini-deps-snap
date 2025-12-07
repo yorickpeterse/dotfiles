@@ -1,15 +1,15 @@
 return {
-  ["conform.nvim"] = "fbcb4fa7f34bfea9be702ffff481a8e336ebf6ed",
-  ["flash.nvim"] = "2febce67ff9cf7638d2569d17c41af02c38401eb",
+  ["conform.nvim"] = "ffe26e8df8115c9665d24231f8a49fadb2d611ce",
+  ["flash.nvim"] = "fcea7ff883235d9024dc41e638f164a450c14ca2",
   ["inko.vim"] = "3126aee3c121a2d84e21f0c07a6a43087515609b",
-  ["mini.nvim"] = "57c16115a2af4af2e575942b469129ca4fcd9dbf",
+  ["mini.nvim"] = "dca98843fab66d080779cd973e7139e258ff164c",
   ["nvim-dd"] = "ebd9398271d3249fe97ffb52365fb6ace7605277",
-  ["nvim-grey"] = "bc4e473d48b06529ca81ef5ffbcc1d7362b1ff14",
-  ["nvim-lint"] = "9da1fb942dd0668d5182f9c8dee801b9c190e2bb",
-  ["nvim-lspconfig"] = "623bcf08d5f9ff4ee3ce2686fa1f1947a045b1a5",
+  ["nvim-grey"] = "62d268a3e582b846f5c20a895a07bd7d563e9db9",
+  ["nvim-lint"] = "ebe535956106c60405b02220246e135910f6853d",
+  ["nvim-lspconfig"] = "9c923997123ff9071198ea3b594d4c1931fab169",
   ["nvim-pqf"] = "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
   ["nvim-tree-pairs"] = "ca093d7d8eb5b51ae48769c10d797ba8f4f6dfc6",
-  ["nvim-treesitter"] = "de003000a287c501a6650a1ddd3be80ee34278d4",
+  ["nvim-treesitter"] = "20db421f5fba0c23f6a7629af96ba6d4fc531677",
   ["nvim-window"] = "a8d965f158cff222713a3b3ab341445d331e6e3a",
   ["rust.vim"] = "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb"
 }
