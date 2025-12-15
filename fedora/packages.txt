@@ -15,7 +15,7 @@ google-noto-serif-fonts
 heaptrack
 hotspot
 htop
-https://github.com/nkallen/plasticity/releases/download/v25.2.11/Plasticity-25.2.11-1.x86_64.rpm
+https://github.com/nkallen/plasticity/releases/download/v25.3.0/Plasticity-25.3.0-1.x86_64.rpm
 ivm
 jq
 libffi-devel
