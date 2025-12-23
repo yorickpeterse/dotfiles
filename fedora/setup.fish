@@ -20,10 +20,12 @@ sudo dnf install --assumeyes --quiet (cat packages.txt)
 
 if ! test -d ~/.rustup
     section 'Configuring Rust'
+    set rustup ~/.cargo/bin/rustup
+
     rustup-init --quiet -y --no-modify-path
-    rustup install stable
-    rustup default stable
-    rustup component add rust-src rust-analyzer clippy rustfmt
+    $rustup install stable
+    $rustup default stable
+    $rustup component add rust-src rust-analyzer clippy rustfmt
     cp cargo-config.toml ~/.cargo/config.toml
 end
 
