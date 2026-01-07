@@ -37,4 +37,4 @@ if ! test -f ~/.config/ivm/version
 end
 
 section 'Installing Flatpak applications'
-flatpak install (cat flatpak.txt)
+flatpak install --noninteractive (cat flatpak.txt)
