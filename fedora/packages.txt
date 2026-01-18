@@ -10,6 +10,8 @@ fish
 gdb
 ghostty
 google-noto-color-emoji-fonts
+google-noto-sans-fonts
+google-noto-serif-fonts
 heaptrack
 hotspot
 htop
