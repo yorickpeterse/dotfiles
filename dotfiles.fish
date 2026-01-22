@@ -19,7 +19,7 @@ ln -s -f $src/.local/share/icons ~/.local/share/icons
 mkdir -p ~/.local/share/applications
 ln -s -f $src/.local/share/applications/*.desktop ~/.local/share/applications
 
-for path in $src/dotfiles
+for path in $src/{*,.*}
     if test -f $path
         ln -s -f $path ~/
     end
