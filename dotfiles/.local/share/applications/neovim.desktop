@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=NeoVim
 Comment=The NeoVim text editor
-Exec=/var/home/yorickpeterse/bin/nvim-ptyxis '%F'
+Exec=/home/yorickpeterse/bin/nvim-ptyxis '%F'
 Icon=nvim
 Type=Application
 Terminal=false
