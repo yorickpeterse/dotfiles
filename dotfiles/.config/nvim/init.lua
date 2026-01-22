@@ -100,7 +100,7 @@ o.winborder = 'rounded'
 
 -- GUI
 do
-  local name = 'IosevkaFixedCustom Nerd Font'
+  local name = 'IosevkaCustom Nerd Font'
   local size = '8'
 
   o.linespace = 0
