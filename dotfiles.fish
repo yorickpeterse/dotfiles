@@ -14,6 +14,9 @@ ln -s -f $src/.config/* ~/.config/
 rm -f ~/.local/share/icons
 ln -s -f $src/.local/share/icons ~/.local/share/icons
 
+rm -f ~/.local/share/org.gnome.Ptyxis
+ln -s -f $src/.local/share/org.gnome.Ptyxis ~/.local/share/org.gnome.Ptyxis
+
 # This directory may have custom entries per host, so we only link the
 # individual files.
 mkdir -p ~/.local/share/applications
