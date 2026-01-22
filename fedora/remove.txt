@@ -1,4 +1,5 @@
 PackageKit-command-not-found
+abrt
 decibels
 firefox
 gnome-abrt

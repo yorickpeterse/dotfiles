@@ -4,6 +4,7 @@ com.github.tchx84.Flatseal
 com.mattjakeman.ExtensionManager
 io.github.celluloid_player.Celluloid
 io.github.vikdevelop.SaveDesktop
+net.displaycal.DisplayCAL
 org.gimp.GIMP
 org.gnome.Characters
 org.gnome.Connections
