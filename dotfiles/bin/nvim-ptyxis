@@ -1,0 +1,3 @@
+#!/usr/bin/env fish
+
+exec /usr/bin/ptyxis --new-window --title Neovim --maximize -- fish -c "nvim $argv"

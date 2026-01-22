@@ -13,4 +13,3 @@ gnome-tour
 gnome-weather
 httpd
 libreoffice-data
-ptyxis
