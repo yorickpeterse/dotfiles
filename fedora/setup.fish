@@ -38,3 +38,6 @@ end
 
 section 'Installing Flatpak applications'
 flatpak install --noninteractive (cat flatpak.txt)
+
+section 'Changing shell'
+chsh -s (which fish) $USER
