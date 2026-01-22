@@ -1,6 +1,7 @@
 [Palette]
 Name=Grey
 Background=#f2f2f2
+TitlebarBackground=#ffffff
 Foreground=#000000
 Cursor=#000000
 Color0=#000000
