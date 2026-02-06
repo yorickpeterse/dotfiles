@@ -1,4 +1,3 @@
-scottames/ghostty
 yorickpeterse/inko
 yorickpeterse/stylua
 yorickpeterse/vale
