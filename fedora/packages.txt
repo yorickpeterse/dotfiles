@@ -36,5 +36,6 @@ stylua
 tree-sitter-cli
 vale
 valgrind
+virt-manager
 wl-clipboard
 zlib-devel
