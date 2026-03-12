@@ -13,9 +13,11 @@ local HL = {
 }
 
 local function search(pattern, lines, start_line, matches)
+  local lower = pattern == pattern:lower()
+
   for idx, line in ipairs(lines) do
     local lnum = start_line + idx - 1
-    local line = line:lower()
+    local line = lower and line:lower() or line
 
     if #line > 0 then
       local col = 1
@@ -50,7 +52,7 @@ local function available_labels(lines, matches)
   -- that may be matched by the next input.
   for _, match in ipairs(matches) do
     local next_col = match.end_col + 1
-    local next_char = lines[match.line_index]:sub(next_col, next_col)
+    local next_char = lines[match.line_index]:sub(next_col, next_col):lower()
 
     avail[next_char] = false
   end
