@@ -39,6 +39,10 @@ local function on_init(client, _)
   -- I don't use (or see the point of) semantic tokens, and they can be very
   -- expensive to compute, so they're disabled.
   client.server_capabilities.semanticTokensProvider = false
+
+  -- Disable pull diagnostics as most LSPs use push-only, but those that support
+  -- both mess up NeoVim (https://github.com/neovim/neovim/issues/29927).
+  client.server_capabilities.diagnosticProvider = false
 end
 
 -- Markdown popup
