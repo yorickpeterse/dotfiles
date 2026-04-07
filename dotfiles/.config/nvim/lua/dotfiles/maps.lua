@@ -7,7 +7,6 @@ local loclist = require('dotfiles.location_list')
 local git_diff = require('dotfiles.git.diff')
 local pick = require('mini.pick')
 local files = require('mini.files')
-local jump = require('dotfiles.jump')
 local popup_visible = util.popup_visible
 local fn = vim.fn
 local api = vim.api
@@ -98,7 +97,7 @@ map('n', 'gd', function()
   end
 end)
 
-map({ 'n', 'x', 'o' }, 's', jump.start)
+map({ 'n', 'x', 'o' }, 's', require('jump').start)
 map('x', 'y', 'ygv<Esc>')
 
 -- Allow copy/pasting using Control-c and Control-v
