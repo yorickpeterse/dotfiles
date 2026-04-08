@@ -27,6 +27,9 @@ vim.cmd('color grey')
 require('pqf').setup()
 require('dd').setup()
 require('tree-pairs').setup()
+require('jump').setup({
+  labels = 'tnseriaogmplfuwyqbjdhvkzxc',
+})
 
 require('dotfiles.lsp')
 require('dotfiles.window')
