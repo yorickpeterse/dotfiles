@@ -116,16 +116,10 @@ local function git_undo(root, path)
   assert(vim.system({ 'git', 'restore', join(root, path) }):wait().code == 0)
 end
 
-local function git_diff(start, stop)
-  local res = vim
-    .system({ 'git', 'diff', '--no-renames', '--name-status', start .. '...' .. stop })
-    :wait()
-
-  assert(res.code == 0)
-
+local function parse_diff(lines)
   local paths = {}
 
-  for _, line in ipairs(vim.split(res.stdout, '\n', { trimempty = true })) do
+  for _, line in ipairs(vim.split(lines, '\n', { trimempty = true })) do
     local status, file = unpack(vim.split(line, '\t'))
 
     table.insert(paths, { status = status, name = file })
@@ -134,12 +128,32 @@ local function git_diff(start, stop)
   return paths
 end
 
+local function git_diff(start, stop)
+  local res = vim
+    .system({ 'git', 'diff', '--no-renames', '--name-status', start .. '...' .. stop })
+    :wait()
+
+  assert(res.code == 0)
+  return parse_diff(res.stdout)
+end
+
+local function git_diff_single_commit(commit)
+  local res = vim
+    .system({ 'git', 'show', '--no-renames', '--name-status', '--format=', commit })
+    :wait()
+
+  assert(res.code == 0)
+  return parse_diff(res.stdout)
+end
+
 local function git_parent(start)
   local res = vim.system({ 'git', 'rev-parse', start .. '^' }):wait()
 
-  assert(res.code == 0)
-
-  return vim.trim(res.stdout)
+  if res.code == 0 then
+    return vim.trim(res.stdout)
+  else
+    return
+  end
 end
 
 local function git_show(rev, file)
@@ -214,8 +228,17 @@ local function render_diffs(focus)
   vim.cmd('diffoff!')
 
   -- Show the window containing the old version.
-  local before = git_show(STATE.parent, path.name)
-  local before_name = 'diff://' .. STATE.parent .. '/' .. path.name
+  local before = nil
+  local before_name = nil
+
+  if STATE.parent then
+    before = git_show(STATE.parent, path.name)
+    before_name = 'diff://' .. STATE.parent .. '/' .. path.name
+  else
+    before = {}
+    before_name = 'diff://ROOT/' .. path.name
+  end
+
   local before_buf = api.nvim_create_buf(false, true)
   local before_win = api.nvim_open_win(
     before_buf,
@@ -530,7 +553,13 @@ function M.show(start, stop)
     paths = git_diff(start, stop)
   elseif start then
     parent = git_parent(start)
-    paths = git_diff(parent, start)
+
+    if parent then
+      paths = git_diff(parent, start)
+    else
+      paths = git_diff_single_commit(start)
+    end
+
     stop = start
   else
     parent = 'HEAD'
