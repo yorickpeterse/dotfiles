@@ -29,7 +29,7 @@
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "f9349d4d99e7d66403ae8bf4fbd357b154dca7a7",
+      "rev": "3de240997fc3208eb29df5e5c17ba4665961bd84",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-pqf": {
@@ -41,8 +41,8 @@
       "src": "https://github.com/yorickpeterse/nvim-tree-pairs"
     },
     "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
-      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "rev": "70118188570e0bc5bbdbb59050e832579978de2f",
+      "src": "https://github.com/yorickpeterse/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-window": {
