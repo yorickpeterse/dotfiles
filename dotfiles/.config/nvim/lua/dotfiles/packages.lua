@@ -1,45 +1,18 @@
--- Install and configure mini.deps
-
-local path_package = vim.fn.stdpath('data') .. '/site/'
-local mini_path = path_package .. 'pack/deps/start/mini.nvim'
-
-if not vim.loop.fs_stat(mini_path) then
-  local clone_cmd = {
-    'git',
-    'clone',
-    '--filter=blob:none',
-    'https://github.com/nvim-mini/mini.nvim',
-    mini_path,
-  }
-  vim.fn.system(clone_cmd)
-  vim.cmd('packadd mini.nvim | helptags ALL')
-end
-
-local deps = require('mini.deps')
-local add = deps.add
-
-deps.setup({ path = { package = path_package } })
-
--- Dependencies
-
-add('neovim/nvim-lspconfig')
-add({
-  source = 'nvim-treesitter/nvim-treesitter',
-  checkout = 'main',
-  hooks = {
-    post_checkout = function()
-      vim.cmd('TSUpdate')
-    end,
+vim.pack.add({
+  'https://github.com/neovim/nvim-lspconfig',
+  {
+    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+    version = 'main',
   },
+  'https://github.com/echasnovski/mini.nvim',
+  'https://github.com/inko-lang/inko.vim',
+  'https://github.com/mfussenegger/nvim-lint',
+  'https://github.com/stevearc/conform.nvim',
+  'https://github.com/yorickpeterse/nvim-dd',
+  'https://github.com/yorickpeterse/nvim-grey',
+  'https://github.com/yorickpeterse/nvim-jump',
+  'https://github.com/yorickpeterse/nvim-pqf',
+  'https://github.com/yorickpeterse/nvim-tree-pairs',
+  'https://github.com/yorickpeterse/nvim-window',
+  'https://github.com/yorickpeterse/rust.vim',
 })
-add({ source = 'echasnovski/mini.nvim' })
-add({ source = 'inko-lang/inko.vim' })
-add({ source = 'mfussenegger/nvim-lint' })
-add({ source = 'stevearc/conform.nvim' })
-add({ source = 'yorickpeterse/nvim-dd' })
-add({ source = 'yorickpeterse/nvim-grey' })
-add({ source = 'yorickpeterse/nvim-jump' })
-add({ source = 'yorickpeterse/nvim-pqf' })
-add({ source = 'yorickpeterse/nvim-tree-pairs' })
-add({ source = 'yorickpeterse/nvim-window' })
-add({ source = 'yorickpeterse/rust.vim' })

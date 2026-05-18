@@ -107,4 +107,8 @@ cmd('CloseBuffers', function()
   end
 end)
 
+cmd('PackUpdate', function()
+  vim.pack.update()
+end)
+
 return M

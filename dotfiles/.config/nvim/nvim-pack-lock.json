@@ -1,0 +1,57 @@
+{
+  "plugins": {
+    "conform.nvim": {
+      "rev": "18aeab3d63d350dcf44d64c462cc489a3412af40",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
+    "inko.vim": {
+      "rev": "3126aee3c121a2d84e21f0c07a6a43087515609b",
+      "src": "https://github.com/inko-lang/inko.vim"
+    },
+    "mini.nvim": {
+      "rev": "18797ed18f347d0d0da27fec28a67979b1207f70",
+      "src": "https://github.com/echasnovski/mini.nvim"
+    },
+    "nvim-dd": {
+      "rev": "ebd9398271d3249fe97ffb52365fb6ace7605277",
+      "src": "https://github.com/yorickpeterse/nvim-dd"
+    },
+    "nvim-grey": {
+      "rev": "62d268a3e582b846f5c20a895a07bd7d563e9db9",
+      "src": "https://github.com/yorickpeterse/nvim-grey"
+    },
+    "nvim-jump": {
+      "rev": "672204397c51507d7a821bc61ba9fad7dbed4303",
+      "src": "https://github.com/yorickpeterse/nvim-jump"
+    },
+    "nvim-lint": {
+      "rev": "665525810630701b84181e4d9eefd24b49845b29",
+      "src": "https://github.com/mfussenegger/nvim-lint"
+    },
+    "nvim-lspconfig": {
+      "rev": "f9349d4d99e7d66403ae8bf4fbd357b154dca7a7",
+      "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "nvim-pqf": {
+      "rev": "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
+      "src": "https://github.com/yorickpeterse/nvim-pqf"
+    },
+    "nvim-tree-pairs": {
+      "rev": "1370b02f62ac49be5c709474520f8f86c7a3504f",
+      "src": "https://github.com/yorickpeterse/nvim-tree-pairs"
+    },
+    "nvim-treesitter": {
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
+      "version": "'main'"
+    },
+    "nvim-window": {
+      "rev": "48e44d492d2adaf9aac72a0f4ff21d6caae1b6a2",
+      "src": "https://github.com/yorickpeterse/nvim-window"
+    },
+    "rust.vim": {
+      "rev": "fbc7fa865b5df7d574dd78b7e5c80d6071f722cb",
+      "src": "https://github.com/yorickpeterse/rust.vim"
+    }
+  }
+}
