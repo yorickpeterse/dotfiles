@@ -1,0 +1,10 @@
+[customizations.installer.kickstart]
+contents = """
+graphical
+rootpw --lock
+
+%post --erroronfail
+grep \"boot \" /etc/fstab > /etc/fstab-new
+mv /etc/fstab-new /etc/fstab
+%end
+"""

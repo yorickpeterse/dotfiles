@@ -1,0 +1,29 @@
+FROM quay.io/fedora/fedora-bootc:44
+
+# Enable hardware acceleration for containers.
+RUN setsebool -P container_use_dri_devices 1
+
+RUN --mount=type=cache,target=/var/cache,sharing=locked \
+    --mount=type=cache,target=/var/lib/dnf,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+    --mount=type=bind,source=dnf,target=/dnf,z \
+    dnf update --assumeyes --quiet >/dev/null && \
+    dnf install --assumeyes --quiet $(< /dnf/base.txt) >/dev/null
+
+RUN --mount=type=cache,target=/var/cache,sharing=locked \
+    --mount=type=cache,target=/var/lib/dnf,sharing=locked \
+    --mount=type=tmpfs,target=/var/log \
+    --mount=type=bind,source=dnf,target=/dnf,z \
+    --mount=type=bind,source=install.sh,target=/install.sh,z \
+    /install.sh
+
+RUN rm -rf /root/* /boot/* /var/lib /tmp/* /var/spool/* /var/account && \
+    (rm -rf /run/* || true)
+
+COPY overlay/ /
+
+RUN --mount=type=bind,source=systemd,target=/systemd,z \
+    systemctl disable $(< /systemd/disable.txt) && \
+    systemctl mask $(< /systemd/mask.txt)
+
+RUN bootc container lint

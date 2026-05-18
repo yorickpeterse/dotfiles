@@ -1,5 +1,4 @@
 adw-gtk3-theme
-adwaita-icon-theme
 asciinema
 beets
 clang
@@ -8,7 +7,6 @@ cmake
 fd-find
 fish
 gdb
-google-noto-color-emoji-fonts
 google-noto-sans-fonts
 google-noto-serif-fonts
 heaptrack
@@ -16,7 +14,6 @@ hotspot
 htop
 https://github.com/nkallen/plasticity/releases/download/v26.1.3/Plasticity-26.1.3-1.x86_64.rpm
 ivm
-jq
 libffi-devel
 libstdc++-devel
 libxml2-devel
@@ -36,5 +33,4 @@ tree-sitter-cli
 vale
 valgrind
 virt-manager
-wl-clipboard
 zlib-devel

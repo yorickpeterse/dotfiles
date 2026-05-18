@@ -2,21 +2,7 @@ function section
     echo -e "\n\e[1m$argv\e[0m"
 end
 
-cd fedora
-
-section 'Configuring DNF'
-sudo cp dnf.conf /etc/dnf/dnf.conf
-
-section 'Removing default applications'
-sudo dnf remove --assumeyes --quiet (cat remove.txt)
-
-section 'Configuring copr'
-for repo in (cat coprs.txt)
-    sudo dnf copr enable --assumeyes --quiet $repo
-end
-
-section 'Installing packages'
-sudo dnf install --assumeyes --quiet (cat packages.txt)
+cd fedora/post
 
 if ! test -d ~/.rustup
     section 'Configuring Rust'

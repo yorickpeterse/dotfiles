@@ -1,0 +1,2 @@
+bootc-fetch-apply-updates.service
+bootc-fetch-apply-updates.timer
