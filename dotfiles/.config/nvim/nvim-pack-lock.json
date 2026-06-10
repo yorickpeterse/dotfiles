@@ -33,7 +33,7 @@
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-pqf": {
-      "rev": "148ee2ca8b06d83fd9bf6f9b9497724ad39a07d6",
+      "rev": "0f11180718b861986ac06a2fef16c404a58b3645",
       "src": "https://github.com/yorickpeterse/nvim-pqf"
     },
     "nvim-tree-pairs": {
