@@ -13,7 +13,7 @@ local flags = {
 local float_width = 120
 local float_height = 20
 
-lsp.set_log_level('OFF')
+lsp.log.set_level('OFF')
 
 local capabilities = lsp.protocol.make_client_capabilities()
 
