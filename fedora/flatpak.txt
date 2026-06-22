@@ -1,10 +1,9 @@
-com.bambulab.BambuStudio
 com.github.neithern.g4music
 com.github.tchx84.Flatseal
 com.mattjakeman.ExtensionManager
+com.orcaslicer.OrcaSlicer
 io.github.celluloid_player.Celluloid
 io.github.vikdevelop.SaveDesktop
-net.displaycal.DisplayCAL
 org.gimp.GIMP
 org.gnome.Characters
 org.gnome.Connections
