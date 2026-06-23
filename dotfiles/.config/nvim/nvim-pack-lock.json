@@ -37,7 +37,7 @@
       "src": "https://github.com/yorickpeterse/nvim-pqf"
     },
     "nvim-tree-pairs": {
-      "rev": "1370b02f62ac49be5c709474520f8f86c7a3504f",
+      "rev": "5fce834773cb31087cb0c2814a3462d1428e67b5",
       "src": "https://github.com/yorickpeterse/nvim-tree-pairs"
     },
     "nvim-treesitter": {
