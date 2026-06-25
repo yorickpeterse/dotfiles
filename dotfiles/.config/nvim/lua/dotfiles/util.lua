@@ -87,7 +87,7 @@ function M.has_lsp_clients_supporting(bufnr, capability)
   local supported = false
 
   for _, client in pairs(lsp.get_clients({ bufnr = bufnr })) do
-    if client.supports_method(capability, bufnr) then
+    if client:supports_method(capability, bufnr) then
       supported = true
       break
     end

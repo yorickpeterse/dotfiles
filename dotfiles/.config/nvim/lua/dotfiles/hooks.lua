@@ -45,7 +45,7 @@ local function remove_trailing_whitespace()
 end
 
 local function yanked()
-  vim.highlight.on_yank({
+  vim.hl.on_yank({
     higroup = 'Visual',
     timeout = 150,
     on_visual = false,
