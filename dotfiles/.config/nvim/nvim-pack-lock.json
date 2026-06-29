@@ -41,7 +41,7 @@
       "src": "https://github.com/yorickpeterse/nvim-tree-pairs"
     },
     "nvim-treesitter": {
-      "rev": "70118188570e0bc5bbdbb59050e832579978de2f",
+      "rev": "a226844e42c45614a2985cba0932c10c09ed7267",
       "src": "https://github.com/yorickpeterse/nvim-treesitter",
       "version": "'main'"
     },
