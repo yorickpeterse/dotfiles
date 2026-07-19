@@ -5,11 +5,11 @@
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "inko.vim": {
-      "rev": "3126aee3c121a2d84e21f0c07a6a43087515609b",
+      "rev": "bb90b946477934024276d30ed30639973293037c",
       "src": "https://github.com/inko-lang/inko.vim"
     },
     "mini.nvim": {
-      "rev": "44657837c7338e52727facc85c1d95bec1f6bd7c",
+      "rev": "9459d7f41ae77d909579dab0aea2bdd3210fac9f",
       "src": "https://github.com/echasnovski/mini.nvim"
     },
     "nvim-dd": {
@@ -25,11 +25,11 @@
       "src": "https://github.com/yorickpeterse/nvim-jump"
     },
     "nvim-lint": {
-      "rev": "d48f3a76189d03b2239f6df1b2f7e3fa8353743b",
+      "rev": "a219b2c9e5b4765e5c845aba119dad55806fcaf1",
       "src": "https://github.com/mfussenegger/nvim-lint"
     },
     "nvim-lspconfig": {
-      "rev": "a4ed4e761c400849e8c9f8bda33e5083f890268c",
+      "rev": "e7ca2c95ba316a8b846d3f3546d407908c5c4ccb",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-pqf": {
@@ -41,8 +41,8 @@
       "src": "https://github.com/yorickpeterse/nvim-tree-pairs"
     },
     "nvim-treesitter": {
-      "rev": "a226844e42c45614a2985cba0932c10c09ed7267",
-      "src": "https://github.com/yorickpeterse/nvim-treesitter",
+      "rev": "24977147550d53589e53b874ec75e14e4fbc304e",
+      "src": "https://github.com/nvim-treesitter/nvim-treesitter",
       "version": "'main'"
     },
     "nvim-window": {
