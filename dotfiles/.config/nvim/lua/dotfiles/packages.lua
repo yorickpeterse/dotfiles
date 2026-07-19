@@ -1,9 +1,6 @@
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
-  {
-    src = 'https://github.com/yorickpeterse/nvim-treesitter',
-    version = 'main',
-  },
+  { src = 'nvim-treesitter/nvim-treesitter', version = 'main' },
   'https://github.com/echasnovski/mini.nvim',
   'https://github.com/inko-lang/inko.vim',
   'https://github.com/mfussenegger/nvim-lint',
