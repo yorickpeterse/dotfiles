@@ -6,5 +6,6 @@ require('conform').setup({
     python = { 'black' },
     zig = { 'zigfmt' },
     inko = { 'inko' },
+    just = { 'just' },
   },
 })
