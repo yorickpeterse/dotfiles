@@ -111,4 +111,8 @@ cmd('PackUpdate', function()
   vim.pack.update()
 end)
 
+cmd('PackSync', function()
+  vim.pack.update(nil, { target = 'lockfile' })
+end)
+
 return M
