@@ -17,7 +17,7 @@
       "src": "https://github.com/yorickpeterse/nvim-dd"
     },
     "nvim-grey": {
-      "rev": "62d268a3e582b846f5c20a895a07bd7d563e9db9",
+      "rev": "480dab4cb01226762fac2aef3413064559a54baa",
       "src": "https://github.com/yorickpeterse/nvim-grey"
     },
     "nvim-jump": {
